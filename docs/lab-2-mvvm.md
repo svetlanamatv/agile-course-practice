@@ -144,11 +144,6 @@ MVVM.
             compile project(':kornyakov-kirill-lab2-ViewModel')
         }
 
-        sourceSets {
-            main.java.srcDir 'src/main/java'
-            test.java.srcDir 'src/test/java'
-        }
-
   1. Затем необходимо добавить этот файл в общий проект. Снова идем в
      глобальный `settings.gradle` и добавляем две строки в вашей
      секции "регистрирующие" директорию `View` и соответствующий ей проект.
@@ -215,11 +210,6 @@ MVVM.
             compile project(':kornyakov-kirill-lab2-Model')
         }
 
-        sourceSets {
-            main.java.srcDir 'src/main/java'
-            test.java.srcDir 'src/test/java'
-        }
-
   1. Следующим шагом следует добавить созданный подпроект в систему сборки. Для
      этого снова открываем общий `settings.gradle` файл добавлем еще две строки
      в вашей секции. Как результат, вы теперь можете сгенерировать проект IDEA:
@@ -257,10 +247,6 @@ MVVM.
 
         dependencies {
             compile project(':kornyakov-kirill-lab2-ViewModel')
-        }
-
-        sourceSets {
-            main.java.srcDir 'src/main/java'
         }
 
   1. Затем перегенерируем IDEA проект (`gradle kornyakov-kirill-lab2-View:idea`) и

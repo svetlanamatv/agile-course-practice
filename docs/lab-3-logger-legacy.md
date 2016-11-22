@@ -114,19 +114,14 @@ $ gradle check
 файловый ввод-вывод.
 
   1. Первым делом создаем папку `Infrastructure` и в ней директории для
-     исходников `src/main` и `src/test`. Далее пишем `build.gradle` файл и
-     регистрируем его в общем `settings.gradle`, подобно тому как это делалось
+     исходников `src/main` и `src/test`. Далее пишем `build.gradle` файл. И
+     регистрируем проект в общем `settings.gradle`, подобно тому как это делалось
      в прошлой лабораторной работе. Нужно будет снова запустить команду
      `gradle idea` для генерации проекта. Ниже пример файла `build.gradle`:
 ```
 dependencies {
     compile project(':kirill-kornyakov-ViewModel')
     testCompile project(':kirill-kornyakov-ViewModel').sourceSets.test.output
-}
-
-sourceSets {
-    main.java.srcDir 'src/main'
-    test.java.srcDir 'src/test'
 }
 ```
   1. Когда окружение готово, можно приступать к реализации класса-логгера.
