@@ -21,7 +21,16 @@ public class ViewModel {
     static final String DEFAULT_DELTA = "0";
     static final Operation DEFAULT_OPERATION = Operation.VAR;
 
-    public ViewModel(FakeLogger logger) {
+    private ILogger logger;
+
+    public ViewModel(final ILogger logger) {
+        this.logger = logger;
+
+        init();
+    }
+
+    public List<String> getLog() {
+        return logger.getLog();
     }
 
 
@@ -42,6 +51,10 @@ public class ViewModel {
     }
 
     public ViewModel() {
+        init();
+    }
+
+    private void init() {
         values = new double[0];
         possibilities = new double[0];
         delta = DEFAULT_DELTA;
@@ -179,6 +192,7 @@ public class ViewModel {
         return operation;
     }
     public void setOperation(final Operation operation) {
+        logger.log("set operation");
         this.operation = operation;
         isMomentOrderEnabled = operation.is(ComputableWithMomentOrder.class);
         updateStatus();
