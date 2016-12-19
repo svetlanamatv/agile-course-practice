@@ -28,10 +28,19 @@ public class TodoAppViewModelLoggingTest {
 
     @Test
     public void setNewTaskDescriptionMentionedInTheLog()  {
-        viewModel.setNewTaskDescription("Test task");
+        viewModel.setNewTaskDescription("just a task");
         viewModel.onNewTaskDescriptionChanged(Boolean.TRUE, Boolean.FALSE);
         String lastLogMessage = viewModel.getLastLogMessage();
 
         assertTrue(lastLogMessage.matches(".*" + viewModel.getNewTaskDescription() + ".*"));
+    }
+
+    @Test
+    public void setNewTaskDueDateMentionedInTheLog()  {
+        viewModel.setNewTaskDueDate(TODAY);
+        viewModel.onTaskDueDateChanged(Boolean.TRUE, Boolean.FALSE);
+        String lastLogMessage = viewModel.getLastLogMessage();
+
+        assertTrue(lastLogMessage.matches(".*"+ TODAY.toString() +".*"));
     }
 }

@@ -108,4 +108,11 @@ public class TodoAppViewModel {
         }
         logger.addToLog("New task description changed to " + getNewTaskDescription());
     }
+
+    public void onTaskDueDateChanged(final Boolean oldValue, final Boolean newValue)  {
+        if (!oldValue && newValue) {
+            return;
+        }
+        logger.addToLog("New task dua date changed to " + getNewTaskDueDate().toString());;
+    }
 }
