@@ -22,14 +22,16 @@ public class TodoAppViewModelLoggingTest {
     @Test
     public void logIsEmptyAfterStart() {
         List<String> log = viewModel.getLog();
+
         assertEquals(true, log.isEmpty());
     }
 
     @Test
     public void setNewTaskDescriptionMentionedInTheLog()  {
         viewModel.setNewTaskDescription("Test task");
-        String lastLogMessage = viewModel.getLastLogString();
-        viewModel.onNewTaskDescriptinChanged();
+        viewModel.onNewTaskDescriptionChanged(Boolean.TRUE, Boolean.FALSE);
+        String lastLogMessage = viewModel.getLastLogMessage();
+
         assertTrue(lastLogMessage.matches(".*" + viewModel.getNewTaskDescription() + ".*"));
     }
 }

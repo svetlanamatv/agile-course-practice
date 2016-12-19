@@ -11,22 +11,28 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class TodoAppViewModel {
-    private final TaskList tasks;
-    private final StringProperty newTaskDescription;
-    private final ObjectProperty<LocalDate> newTaskDueDate;
-    private final BooleanProperty addNewTaskButtonDisable;
-    private final ObservableList<TaskViewModel> tasksViewModels;
-    private final SortedList<TaskViewModel> sortedTasksViewModels;
+    private final TaskList tasks = new TaskList();
+    private final StringProperty newTaskDescription =
+            new SimpleStringProperty("");
+    private final ObjectProperty<LocalDate> newTaskDueDate =
+            new SimpleObjectProperty<>(LocalDate.now());
+    private final BooleanProperty addNewTaskButtonDisable =
+            new SimpleBooleanProperty(true);
+    private final ObservableList<TaskViewModel> tasksViewModels =
+            FXCollections.observableArrayList(TaskViewModel::extractor);
+    private final SortedList<TaskViewModel> sortedTasksViewModels =
+            new SortedList<>(tasksViewModels, TaskViewModel::comparator);
+    private ILogger logger;
 
     public TodoAppViewModel() {
-        tasks = new TaskList();
-        newTaskDescription = new SimpleStringProperty("");
-        newTaskDueDate = new SimpleObjectProperty<>(LocalDate.now());
-        addNewTaskButtonDisable = new SimpleBooleanProperty(true);
-        tasksViewModels = FXCollections.observableArrayList(TaskViewModel::extractor);
-        sortedTasksViewModels = new SortedList<>(tasksViewModels,
-                TaskViewModel::comparator);
+        addNewTaskButtonDisable.bind(newTaskDescription.isEmpty());
+    }
 
+    public TodoAppViewModel(final ILogger logger) {
+        if (logger == null) {
+            throw new RuntimeException("Logger parameter can't be null");
+        }
+        this.logger = logger;
         addNewTaskButtonDisable.bind(newTaskDescription.isEmpty());
     }
 
@@ -86,5 +92,20 @@ public class TodoAppViewModel {
     public void pressDeleteButton(final TaskViewModel taskViewModel) {
         tasks.remove(taskViewModel.getTask());
         tasksViewModels.remove(taskViewModel);
+    }
+
+    public List<String> getLog()  {
+        return logger.getLog();
+    }
+
+    public String getLastLogMessage()  {
+        return logger.getLastLogMessage();
+    }
+
+    public void onNewTaskDescriptionChanged(final Boolean oldValue, final Boolean newValue)  {
+        if (!oldValue && newValue) {
+            return;
+        }
+        logger.addToLog("New task description changed to " + getNewTaskDescription());
     }
 }
