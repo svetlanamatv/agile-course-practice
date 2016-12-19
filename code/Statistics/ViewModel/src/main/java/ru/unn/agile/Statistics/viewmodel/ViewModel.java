@@ -2,6 +2,8 @@ package ru.unn.agile.Statistics.viewmodel;
 
 import ru.unn.agile.Statistics.model.Statistics;
 
+import java.util.List;
+
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
@@ -18,6 +20,9 @@ public class ViewModel {
 
     static final String DEFAULT_DELTA = "0";
     static final Operation DEFAULT_OPERATION = Operation.VAR;
+
+    public ViewModel(FakeLogger logger) {
+    }
 
 
     enum Status {
@@ -194,3 +199,4 @@ public class ViewModel {
         return isCalculateButtonEnabled;
     }
 }
+

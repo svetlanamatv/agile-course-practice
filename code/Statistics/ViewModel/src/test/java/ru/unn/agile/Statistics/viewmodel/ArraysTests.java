@@ -2,6 +2,7 @@ package ru.unn.agile.Statistics.viewmodel;
 
 import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ArraysTests extends Core {
     private static final double[]
@@ -49,3 +50,4 @@ public class ArraysTests extends Core {
         assertArraysAreEmpty();
     }
 }
+
