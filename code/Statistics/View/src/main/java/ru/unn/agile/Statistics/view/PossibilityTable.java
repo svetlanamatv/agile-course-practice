@@ -83,7 +83,7 @@ abstract class PossibilityTable implements ChangeListener {
 
         @Override
         public int getColumnCount() {
-            return 1 + viewModel.getValues().length;
+            return 1 + viewModel.getTableSize();
         }
 
         @Override
@@ -91,7 +91,7 @@ abstract class PossibilityTable implements ChangeListener {
             if (j == 0) {
                 return i == 0 ? RANDOM_VARIABLE_LABEL : POSSIBILITY_LABEL;
             }
-            return (i == 0 ? viewModel.getValues() : viewModel.getPossibilities())[j - 1];
+            return (i == 0 ? viewModel.getValue(j - 1) : viewModel.getPossibility(j - 1));
         }
 
         @Override
@@ -107,7 +107,11 @@ abstract class PossibilityTable implements ChangeListener {
             } catch (NumberFormatException e) {
                 return;
             }
-            (i == 0 ? viewModel.getValues() : viewModel.getPossibilities())[j - 1] = value;
+            if (i == 0) {
+                viewModel.setValue(j - 1, value);
+            } else {
+                viewModel.setPossibility(j - 1, value);
+            };
         }
     }
 

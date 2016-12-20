@@ -120,7 +120,7 @@ public class Calculator {
             momentOrderText.setText(viewModel.getMomentOrder());
         }
 
-        nSpinner.setValue(viewModel.getValues().length);
+        nSpinner.setValue(viewModel.getTableSize());
     }
 
     private void backBindResultAndStatus() {
