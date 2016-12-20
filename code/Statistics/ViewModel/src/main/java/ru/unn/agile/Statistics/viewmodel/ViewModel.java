@@ -26,7 +26,17 @@ public class ViewModel {
     public ViewModel(final ILogger logger) {
         this.logger = logger;
 
-        init();
+        values = new double[0];
+        possibilities = new double[0];
+        delta = DEFAULT_DELTA;
+        Statistics.setDelta(Double.valueOf(delta));
+        momentOrder = "";
+        operation = DEFAULT_OPERATION;
+        result = "";
+        status = Status.WAITING;
+
+        isMomentOrderEnabled = false;
+        isCalculateButtonEnabled = false;
     }
 
     public List<String> getLog() {
@@ -49,26 +59,6 @@ public class ViewModel {
             return name;
         }
     }
-
-    public ViewModel() {
-        init();
-    }
-
-    private void init() {
-        values = new double[0];
-        possibilities = new double[0];
-        delta = DEFAULT_DELTA;
-        Statistics.setDelta(Double.valueOf(delta));
-        momentOrder = "";
-        operation = DEFAULT_OPERATION;
-        result = "";
-        status = Status.WAITING;
-
-        isMomentOrderEnabled = false;
-        isCalculateButtonEnabled = false;
-    }
-
-
 
     private boolean isInputAvailable() {
         return !delta.isEmpty()
@@ -158,20 +148,27 @@ public class ViewModel {
 
     public void setArraysSize(final int arraysSize) {
         final int size = max(arraysSize, 0);
-        double[] v = new double[size];
-        double[] p = new double[size];
-        System.arraycopy(values, 0, v, 0, min(size, values.length));
-        System.arraycopy(possibilities, 0, p, 0, min(size, possibilities.length));
-        values = v;
-        possibilities = p;
+
+        if (values.length != size) {
+            logger.log("Count of samples was changed to " + Integer.toString(arraysSize));
+            double[] v = new double[size];
+            double[] p = new double[size];
+            System.arraycopy(values, 0, v, 0, min(size, values.length));
+            System.arraycopy(possibilities, 0, p, 0, min(size, possibilities.length));
+            values = v;
+            possibilities = p;
+        }
     }
 
     public String getDelta() {
         return delta;
     }
     public void setDelta(final String delta) {
-        this.delta = delta;
-        updateStatus();
+        if (this.delta != delta) {
+            logger.log("Delta was changed to " + delta);
+            this.delta = delta;
+            updateStatus();
+        }
     }
 
     public String getMomentOrder() {
@@ -192,10 +189,13 @@ public class ViewModel {
         return operation;
     }
     public void setOperation(final Operation operation) {
-        logger.log("set operation");
-        this.operation = operation;
-        isMomentOrderEnabled = operation.is(ComputableWithMomentOrder.class);
-        updateStatus();
+        if (this.operation != operation) {
+            logger.log("Operation was changed to " + operation.toString());
+
+            this.operation = operation;
+            isMomentOrderEnabled = operation.is(ComputableWithMomentOrder.class);
+            updateStatus();
+        }
     }
 
     public String getResult() {

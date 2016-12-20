@@ -20,7 +20,8 @@ abstract class Core {
 
     @Before
     public void before() {
-        vm = new ViewModel();
+        FakeLogger logger = new FakeLogger();
+        vm = new ViewModel(logger);
     }
 
     ViewModel vm() {
