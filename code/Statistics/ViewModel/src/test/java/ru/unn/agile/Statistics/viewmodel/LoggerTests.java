@@ -8,15 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class LoggerTests {
-    private ViewModel viewModel;
-
-    @Before
-    public void before() {
-        FakeLogger logger = new FakeLogger();
-        viewModel = new ViewModel(logger);
-    }
-
+public class LoggerTests extends Core {
     @Test
     public void canCreateViewModelWithLogger() {
         FakeLogger logger = new FakeLogger();
@@ -27,66 +19,67 @@ public class LoggerTests {
 
     @Test
     public void isLogEmptyInBeginning() {
-        List<String> log = viewModel.getLog();
+        List<String> log = vm().getLog();
         assertEquals(0, log.size());
     }
 
     @Test
     public void isLogContainingSomethingWhenOperationIsChanged() {
-        viewModel.setOperation(Operation.EV);
-        List<String> log = viewModel.getLog();
+        vm().setOperation(Operation.EV);
+        List<String> log = vm().getLog();
         assertNotEquals(0, log.size());
     }
 
     @Test
     public void isLogContainingProperMessageWhenOperationIsChanged() {
-        viewModel.setOperation(Operation.EV);
-        List<String> log = viewModel.getLog();
-        assertEquals(log.get(0), "Operation was changed to Expected value");
+        vm().setOperation(Operation.EV);
+        String message = vm().getLog().get(0);
+        assertTrue(message.matches(".*" + Operation.EV.toString() + ".*"));
 
-        viewModel.setOperation(Operation.VAR);
-        log = viewModel.getLog();
-        assertEquals(log.get(1), "Operation was changed to Variance");
+        vm().setOperation(Operation.VAR);
+        message = vm().getLog().get(1);
+        assertTrue(message.matches(".*" + Operation.VAR.toString() + ".*"));
 
-        viewModel.setOperation(Operation.IM);
-        log = viewModel.getLog();
-        assertEquals(log.get(2), "Operation was changed to Initial moment");
+        vm().setOperation(Operation.IM);
+        message = vm().getLog().get(2);
+        assertTrue(message.matches(".*" + Operation.IM.toString() + ".*"));
     }
 
     @Test
     public void isLogNotAddingNewlineWhenOperationAreNotChanged() {
-        viewModel.setOperation(Operation.EV);
-        viewModel.setOperation(Operation.EV);
+        vm().setOperation(Operation.EV);
+        vm().setOperation(Operation.EV);
 
-        List<String> log = viewModel.getLog();
+        List<String> log = vm().getLog();
         assertEquals(1, log.size());
     }
 
     @Test
     public void isLogContainingProperMessageWhenArrayOfValuesAreChanged() {
         int size = 10;
-        viewModel.setArraysSize(size);
+        vm().setArraysSize(size);
 
-        List<String> log = viewModel.getLog();
+        String message = vm().getLog().get(0);
 
-        assertEquals(log.get(0), "Count of samples was changed to " + Integer.toString(size));
+        assertTrue(message.matches(".*" + Integer.toString(size) + ".*"));
     }
 
     @Test
     public void isLogNotAddingNewlineWhenCountSamplesAreNotChanged() {
-        viewModel.setArraysSize(10);
-        viewModel.setArraysSize(10);
+        vm().setArraysSize(10);
+        vm().setArraysSize(10);
 
-        List<String> log = viewModel.getLog();
+        List<String> log = vm().getLog();
         assertEquals(1, log.size());
     }
 
     @Test
     public void isLogContainingProperMessageWhenDeltaAreChanged() {
         String delta = "0.01";
-        viewModel.setDelta("0.01");
+        vm().setDelta("0.01");
 
-        List<String> log = viewModel.getLog();
-        assertEquals(log.get(0), "Delta was changed to " + delta);
+        String message = vm().getLog().get(0);
+
+        assertTrue(message.matches(".*" + delta + ".*"));
     }
 }

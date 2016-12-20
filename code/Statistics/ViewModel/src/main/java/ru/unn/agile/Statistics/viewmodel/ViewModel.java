@@ -60,6 +60,14 @@ public class ViewModel {
         }
     }
 
+    public final class LogMessages {
+        public static final String OPERATION_WAS_CHANGED = "Operation was changed to ";
+        public static final String DELTA_WAS_CHANGED = "Delta was changed to ";
+        public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to ";
+
+        private LogMessages() { }
+    }
+
     private boolean isInputAvailable() {
         return !delta.isEmpty()
             && values.length != 0
@@ -150,7 +158,7 @@ public class ViewModel {
         final int size = max(arraysSize, 0);
 
         if (values.length != size) {
-            logger.log("Count of samples was changed to " + Integer.toString(arraysSize));
+            logger.log(LogMessages.COUNT_SAMPLES_WAS_CHANGED + Integer.toString(arraysSize));
             double[] v = new double[size];
             double[] p = new double[size];
             System.arraycopy(values, 0, v, 0, min(size, values.length));
@@ -165,7 +173,7 @@ public class ViewModel {
     }
     public void setDelta(final String delta) {
         if (this.delta != delta) {
-            logger.log("Delta was changed to " + delta);
+            logger.log(LogMessages.DELTA_WAS_CHANGED + delta);
             this.delta = delta;
             updateStatus();
         }
@@ -190,7 +198,7 @@ public class ViewModel {
     }
     public void setOperation(final Operation operation) {
         if (this.operation != operation) {
-            logger.log("Operation was changed to " + operation.toString());
+            logger.log(LogMessages.OPERATION_WAS_CHANGED + operation.toString());
 
             this.operation = operation;
             isMomentOrderEnabled = operation.is(ComputableWithMomentOrder.class);
