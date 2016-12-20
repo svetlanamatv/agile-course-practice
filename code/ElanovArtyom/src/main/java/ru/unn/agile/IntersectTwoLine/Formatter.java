@@ -19,15 +19,15 @@ public final class Formatter {
             throw new IllegalArgumentException("arguments A and B can not be null");
         }
             else {
-            double A = formatPositiveDouble(lineSegment.getA());
+            double coefficientA = formatPositiveDouble(lineSegment.getA());
             buffer.append(lineSegment.getA() < 0 ? "-" : "");
-            buffer.append(A + "*x");
-            double B = formatPositiveDouble(lineSegment.getB());
+            buffer.append(coefficientA + "*x");
+            double coefficientB = formatPositiveDouble(lineSegment.getB());
             buffer.append(lineSegment.getB() < 0 ? "-" : "+");
-            buffer.append(B + "*y");
-            double C = formatPositiveDouble(lineSegment.getC());
+            buffer.append(coefficientB + "*y");
+            double coefficientC = formatPositiveDouble(lineSegment.getC());
             buffer.append(lineSegment.getC() < 0 ? "-" : "+");
-            buffer.append(C);
+            buffer.append(coefficientC);
             buffer.append("=0");
             return buffer.toString();
         }
