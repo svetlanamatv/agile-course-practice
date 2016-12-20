@@ -12,7 +12,7 @@ public class NewtonRootAppViewModelTests {
 
     @Before
     public void setUp() {
-        viewModel = new NewtonRootAppViewModel();
+        viewModel = new NewtonRootAppViewModel(new FakeLogger());
     }
 
     @After

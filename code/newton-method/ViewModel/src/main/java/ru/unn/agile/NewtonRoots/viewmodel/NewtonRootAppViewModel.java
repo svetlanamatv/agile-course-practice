@@ -14,49 +14,42 @@ import ru.unn.agile.NewtonRoots.Model.MathFunction;
 import ru.unn.agile.NewtonRoots.Model.NewtonMethod.StoppingCriterion;
 
 public class NewtonRootAppViewModel  {
-    private final StringProperty leftPoint;
-    private final StringProperty rightPoint;
-    private final StringProperty derivativeStep;
-    private final StringProperty accuracy;
-    private final StringProperty function;
-    private final StringProperty solverReport;
-    private final BooleanProperty findRootButtonDisable;
-    private final StringProperty applicationStatus;
-    private final StringProperty startPoint;
+    private final StringProperty leftPoint = new SimpleStringProperty("");
+    private final StringProperty rightPoint = new SimpleStringProperty("");
+    private final StringProperty derivativeStep = new SimpleStringProperty("");
+    private final StringProperty accuracy = new SimpleStringProperty("");
+    private final StringProperty function = new SimpleStringProperty("");
+    private final StringProperty solverReport = new SimpleStringProperty("");
+    private final BooleanProperty findRootButtonDisable = new SimpleBooleanProperty(true);
+    private final StringProperty applicationStatus =
+            new SimpleStringProperty(ApplicationStatus.WAITING.toString());
+    private final StringProperty startPoint = new SimpleStringProperty("");
 
     private final ObjectProperty<ObservableList<StoppingCriterion>> stopCriterions =
             new SimpleObjectProperty<>(
                     FXCollections.observableArrayList(StoppingCriterion.values()));
-    private final ObjectProperty<StoppingCriterion> stopCriterion = new SimpleObjectProperty<>();
+    private final ObjectProperty<StoppingCriterion> stopCriterion =
+            new SimpleObjectProperty<>(StoppingCriterion.FunctionModule);
 
     private final List<ValueChangeListener> valueChangedListeners = new ArrayList<>();
 
-    public NewtonRootAppViewModel()  {
-        leftPoint = new SimpleStringProperty("");
-        rightPoint = new SimpleStringProperty("");
-        derivativeStep = new SimpleStringProperty("");
-        accuracy = new SimpleStringProperty("");
-        function = new SimpleStringProperty("");
-        findRootButtonDisable = new SimpleBooleanProperty(true);
-        solverReport = new SimpleStringProperty("");
-        startPoint = new SimpleStringProperty("");
-        applicationStatus = new SimpleStringProperty(ApplicationStatus.WAITING.toString());
-        stopCriterion.set(StoppingCriterion.FunctionModule);
+    private Logger logger;
 
-        final List<StringProperty> fields = new ArrayList<StringProperty>() { {
-            add(leftPoint);
-            add(rightPoint);
-            add(derivativeStep);
-            add(accuracy);
-            add(function);
-            add(startPoint);
-        } };
+    public NewtonRootAppViewModel() {
+        init();
+    }
 
-        for (StringProperty field : fields) {
-            final ValueChangeListener listener = new ValueChangeListener();
-            field.addListener(listener);
-            valueChangedListeners.add(listener);
-        }
+    public NewtonRootAppViewModel(Logger logger) {
+        this.logger = logger;
+        init();
+    }
+
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public void setLogger(final Logger logger) {
+        this.logger = logger;
     }
 
     public StringProperty leftPointProperty()  {
@@ -163,6 +156,23 @@ public class NewtonRootAppViewModel  {
         stopCriterion.set(value);
     }
 
+    private void init() {
+        final List<StringProperty> fields = new ArrayList<StringProperty>() { {
+            add(leftPoint);
+            add(rightPoint);
+            add(derivativeStep);
+            add(accuracy);
+            add(function);
+            add(startPoint);
+        } };
+
+        for (StringProperty field : fields) {
+            final ValueChangeListener listener = new ValueChangeListener();
+            field.addListener(listener);
+            valueChangedListeners.add(listener);
+        }
+    }
+
     private boolean checkInputFormat()  {
         try {
             Double.parseDouble(leftPoint.get());
@@ -181,7 +191,7 @@ public class NewtonRootAppViewModel  {
     }
 
     private boolean checkMonotonic()  {
-        MathFunction testFunction = null;
+        MathFunction testFunction;
         try {
              testFunction = new MathFunction(function.get());
         } catch (Exception e)  {
