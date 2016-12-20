@@ -15,37 +15,35 @@ public class GoodInputTests extends Core {
     @After
     public void checkPersistentParameters() {
         assertStatusIs(READY);
-        assertEquals("", vm().getResult());
-        assertTrue(vm().isCalculateButtonEnabled());
+        assertEquals("", vm.getResult());
+        assertTrue(vm.isCalculateButtonEnabled());
     }
 
     @Test
     public void whenFieldsAreFilled() {
-        fillInputFields();
+        setInputFields();
 
         assertArraysAreFromTest();
-        assertEquals(DEFAULT_DELTA, vm().getDelta());
-        assertOperationIs(DEFAULT_OPERATION);
     }
 
     @Test
     public void whenFieldsAreFilledAndDeltaSet() {
-        fillInputFields();
-        vm().setDelta("1.0");
+        setInputFields();
+        vm.setDelta("1.0");
 
         assertArraysAreFromTest();
-        assertEquals("1.0", vm().getDelta());
+        assertEquals("1.0", vm.getDelta());
         assertOperationIs(DEFAULT_OPERATION);
     }
 
     @Test
     public void whenIMAndFieldsAreFilledAndMomentOrderSet() {
-        fillInputFields();
-        vm().setOperation(IM);
-        vm().setMomentOrder("1");
+        setInputFields();
+        vm.setOperation(IM);
+        vm.setMomentOrder("1");
 
-        assertEquals("1", vm().getMomentOrder());
+        assertEquals("1", vm.getMomentOrder());
         assertOperationIs(IM);
-        assertEquals(DEFAULT_DELTA, vm().getDelta());
+        assertEquals(DEFAULT_DELTA, vm.getDelta());
     }
 }

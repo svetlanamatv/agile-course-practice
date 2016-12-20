@@ -15,27 +15,27 @@ import static ru.unn.agile.Statistics.viewmodel.ViewModel.Status.WAITING;
 public class OperationsWithDefaultDataTests extends Core {
     @After
     public void checkPersistentParameters() {
-        assertEquals(DEFAULT_DELTA, vm().getDelta());
-        assertArraysAreEmpty();
+        assertEquals(DEFAULT_DELTA, vm.getDelta());
+
         assertStatusIs(WAITING);
-        assertFalse(vm().isCalculateButtonEnabled());
+        assertFalse(vm.isCalculateButtonEnabled());
     }
 
     @Test
     public void canSetEVOperation() {
-        vm().setOperation(EV);
+        vm.setOperation(EV);
         assertOperationIs(EV);
     }
 
     @Test
     public void canSetVAROperation() {
-        vm().setOperation(VAR);
+        vm.setOperation(VAR);
         assertOperationIs(VAR);
     }
 
     @Test
     public void canSetIMOperation() {
-        vm().setOperation(IM);
+        vm.setOperation(IM);
         assertOperationIs(IM);
     }
 }

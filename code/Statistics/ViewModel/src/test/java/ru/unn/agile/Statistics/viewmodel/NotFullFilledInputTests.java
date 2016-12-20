@@ -16,60 +16,60 @@ public class NotFullFilledInputTests extends Core {
     @After
     public void checkPersistentParameters() {
         assertStatusIs(WAITING);
-        assertEquals("", vm().getResult());
-        assertFalse(vm().isCalculateButtonEnabled());
+        assertEquals("", vm.getResult());
+        assertFalse(vm.isCalculateButtonEnabled());
     }
 
     @Test
     public void whenCalculateWithEmptyFields() {
-        vm().calculate();
+        vm.calculate();
 
-        assertEquals(DEFAULT_DELTA, vm().getDelta());
+        assertEquals(DEFAULT_DELTA, vm.getDelta());
         assertOperationIs(DEFAULT_OPERATION);
     }
 
     @Test
     public void whenDeltaSet() {
-        vm().setDelta("1.0");
+        vm.setDelta("1.0");
 
-        assertEquals("1.0", vm().getDelta());
+        assertEquals("1.0", vm.getDelta());
         assertOperationIs(DEFAULT_OPERATION);
     }
 
     @Test
     public void canCleanStatusIfDeltaWasBadButNowIsOK() {
-        vm().setDelta("a");
-        vm().setDelta("1.0");
+        vm.setDelta("a");
+        vm.setDelta("1.0");
         assertOperationIs(DEFAULT_OPERATION);
     }
 
     @Test
     public void isMomentOrderDisabledAfterSelectIMThenEV() {
-        vm().setOperation(IM);
-        vm().setOperation(EV);
-        assertFalse(vm().isMomentOrderEnabled());
+        vm.setOperation(IM);
+        vm.setOperation(EV);
+        assertFalse(vm.isMomentOrderEnabled());
     }
 
     @Test(expected = IllegalStateException.class)
     public void cannotGetMomentOrderAfterSelectIMThenEV() {
-        vm().setOperation(IM);
-        vm().setMomentOrder("123");
-        vm().setOperation(EV);
-        assertEquals("123", vm().getMomentOrder());
+        vm.setOperation(IM);
+        vm.setMomentOrder("123");
+        vm.setOperation(EV);
+        assertEquals("123", vm.getMomentOrder());
     }
 
     @Test
     public void isMomentOrderSavedAfterSelectIMThanEVThanIM() {
-        vm().setOperation(IM);
-        vm().setMomentOrder("123");
-        vm().setOperation(EV);
-        vm().setOperation(IM);
-        assertEquals("123", vm().getMomentOrder());
+        vm.setOperation(IM);
+        vm.setMomentOrder("123");
+        vm.setOperation(EV);
+        vm.setOperation(IM);
+        assertEquals("123", vm.getMomentOrder());
     }
 
     @Test
     public void whenFilledButMomentOrderNotSet() {
-        fillInputFields();
-        vm().setOperation(IM);
+        setInputFields();
+        vm.setOperation(IM);
     }
 }

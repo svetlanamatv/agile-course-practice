@@ -43,6 +43,29 @@ public class ViewModel {
         return logger.getLog();
     }
 
+    public void setValue(int i, double value) {
+        logger.log("Set " + Double.toString(value) + " value at " + Integer.toString(i) + "position");
+        values[i] = value;
+        updateStatus();
+    }
+
+    public double getValue(int i) {
+        return values[i];
+    }
+
+    public void setPossibility(int i, double possibility) {
+        logger.log("Set " + Double.toString(possibility) + " possibility at " + Integer.toString(i) + " position");
+        possibilities[i] = possibility;
+        updateStatus();
+    }
+
+    public double getPossibility(int i) {
+        return possibilities[i];
+    }
+
+    public int getTableSize() {
+        return possibilities.length;
+    }
 
     enum Status {
         WAITING("Please provide input data"),
@@ -135,23 +158,6 @@ public class ViewModel {
         result = String.valueOf(res);
 
         status = Status.SUCCESS;
-    }
-
-
-    public double[] getValues() {
-        return values;
-    }
-    public void setValues(final double[] values) {
-        this.values = values;
-        updateStatus();
-    }
-
-    public double[] getPossibilities() {
-        return possibilities;
-    }
-    public void setPossibilities(final double[] possibilities) {
-        this.possibilities = possibilities;
-        updateStatus();
     }
 
     public void setArraysSize(final int arraysSize) {
