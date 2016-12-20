@@ -84,6 +84,8 @@ include "code/MortgageCalculator/ViewModel"
 project(":code/MortgageCalculator/ViewModel").name = "MortgageCalculatorViewModel"
 
 // Еланов Артем
+include "code/ElanovArtyom"
+project(":code/ElanovArtyom").name = "ElanovArtyom-Model"
 // Зайдуллова Алина
 include "code/zaydullova-alina"
 project(":code/zaydullova-alina").name = "zaydullova-alina-Model"

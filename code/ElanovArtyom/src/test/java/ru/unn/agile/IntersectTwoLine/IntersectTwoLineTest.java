@@ -3,8 +3,8 @@ package ru.unn.agile.IntersectTwoLine;
 
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
-import java.awt.geom.Point2D;
 
 public class IntersectTwoLineTest {
 
