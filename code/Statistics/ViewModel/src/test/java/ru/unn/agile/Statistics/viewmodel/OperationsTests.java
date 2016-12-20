@@ -22,7 +22,7 @@ public class OperationsTests extends Core {
         setInputFields();
         vm.calculate();
     }
-    
+
     @Test
     public void canCalculateExpectedValue() {
         setInputFields();

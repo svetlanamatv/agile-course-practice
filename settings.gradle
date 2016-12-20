@@ -75,6 +75,8 @@ include "code/Statistics/ViewModel"
 project(":code/Statistics/ViewModel").name = "Statistics-ViewModel"
 include "code/Statistics/View"
 project(":code/Statistics/View").name = "Statistics-View"
+include "code/Statistics/Infrastructure"
+project(":code/Statistics/Infrastructure").name = "Statistics-Infrastructure"
 
 // Добролюбова Евгения
 include "code/CurrencyConverter/Model"

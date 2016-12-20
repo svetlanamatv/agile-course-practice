@@ -1,0 +1,9 @@
+dependencies {
+    compile project(':Statistics-ViewModel')
+    testCompile project(':Statistics-ViewModel').sourceSets.test.output
+}
+
+sourceSets {
+    main.java.srcDir 'src/main/java'
+    test.java.srcDir 'src/test/java'
+}

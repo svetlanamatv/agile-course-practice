@@ -5,6 +5,7 @@ import javax.swing.event.*;
 import javax.swing.table.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import ru.unn.agile.Statistics.viewmodel.Operation;
 import ru.unn.agile.Statistics.viewmodel.ViewModel;
@@ -23,6 +24,7 @@ public class Calculator {
     private JTextField statusText;
     private JTextField deltaText;
     private JSpinner nSpinner;
+    private JList lstLog;
 
     private PossibilityTable possibilityTable;
 
@@ -121,6 +123,10 @@ public class Calculator {
         }
 
         nSpinner.setValue(viewModel.getTableSize());
+
+        List<String> log = viewModel.getLog();
+        String[] items = log.toArray(new String[log.size()]);
+        lstLog.setListData(items);
     }
 
     private void backBindResultAndStatus() {
