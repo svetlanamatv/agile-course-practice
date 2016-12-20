@@ -1,0 +1,25 @@
+<?import com.cathive.fonts.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:id="root"
+          fx:controller="ru.unn.agile.personalfinance.view.controllers.TransactionListCellController"
+          stylesheets="@style.css" styleClass="expense">
+
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS"/>
+        <ColumnConstraints minWidth="50" />
+    </columnConstraints>
+
+    <VBox spacing="5" maxWidth="Infinity" GridPane.columnIndex="0">
+        <Label fx:id="descriptionLabel" />
+        <HBox spacing="10">
+            <Label fx:id="amountLabel" styleClass="amount"/>
+            <FontAwesomeIconView fx:id="directionIcon" icon="ICON_ARROW_RIGHT" styleClass="direction"/>
+            <Label fx:id="counterpartyLabel" styleClass="counterparty"/>
+            <Label fx:id="deletedMarkerLabel" text="[deleted]" styleClass="deleted-marker" />
+        </HBox>
+    </VBox>
+
+    <Label fx:id="dateLabel" styleClass="date" GridPane.columnIndex="1" />
+
+</GridPane>

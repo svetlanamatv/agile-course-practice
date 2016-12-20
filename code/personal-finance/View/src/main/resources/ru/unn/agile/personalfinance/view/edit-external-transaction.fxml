@@ -1,0 +1,77 @@
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import ru.unn.agile.personalfinance.view.controls.CurrencyTextField?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css"
+            fx:controller="ru.unn.agile.personalfinance.view.controllers.EditExternalTransactionController">
+    <GridPane vgap="10"
+              AnchorPane.bottomAnchor="80"
+              AnchorPane.leftAnchor="10"
+              AnchorPane.rightAnchor="10"
+              AnchorPane.topAnchor="10">
+
+        <rowConstraints>
+            <RowConstraints vgrow="NEVER"/>
+            <RowConstraints vgrow="NEVER"/>
+            <RowConstraints vgrow="NEVER"/>
+            <RowConstraints vgrow="NEVER"/>
+            <RowConstraints vgrow="NEVER"/>
+            <RowConstraints vgrow="ALWAYS"/>
+        </rowConstraints>
+
+        <columnConstraints>
+            <ColumnConstraints hgrow="NEVER" minWidth="100"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <!-- Income or Expense -->
+        <HBox GridPane.rowIndex="0" GridPane.columnIndex="1" spacing="10">
+            <padding>
+                <Insets left="10" />
+            </padding>
+            <Label text="Expense" maxHeight="Infinity" alignment="CENTER" />
+            <JFXToggleButton fx:id="incomeToggleButton" />
+            <Label text="Income" maxHeight="Infinity" alignment="CENTER" />
+        </HBox>
+
+        <!-- Amount -->
+        <Label text="Amount" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <CurrencyTextField fx:id="transactionAmountField" maxWidth="Infinity"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <!-- Counterparty -->
+        <Label text="Counterparty" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <JFXTextField fx:id="counterpartyField" maxWidth="Infinity"
+                      GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+        <!-- Category -->
+        <Label text="Category" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <HBox maxWidth="Infinity" GridPane.rowIndex="3" GridPane.columnIndex="1">
+            <JFXComboBox fx:id="categoryComboBox" maxWidth="Infinity" HBox.hgrow="ALWAYS">
+                <HBox.margin>
+                    <Insets left="7" />
+                </HBox.margin>
+            </JFXComboBox>
+            <JFXButton text="Manage" onAction="#handleMangeButtonAction" />
+        </HBox>
+
+        <!-- Date -->
+        <Label text="Date" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <JFXDatePicker fx:id="datePicker"
+                       GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <!-- Description -->
+        <Label text="Description" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <JFXTextArea fx:id="descriptionTextArea"
+                     GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <!-- Buttons -->
+    <HBox AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="20" spacing="10">
+        <JFXButton fx:id="addButton" text="Save" styleClass="button-raised"
+                   onAction="#handleAddButtonAction" prefWidth="100"/>
+        <JFXButton text="Cancel" onAction="#handleCancelButtonAction" prefWidth="100"/>
+    </HBox>
+</AnchorPane>

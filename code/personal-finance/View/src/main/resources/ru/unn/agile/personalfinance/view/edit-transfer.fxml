@@ -1,0 +1,52 @@
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+
+<?import ru.unn.agile.personalfinance.view.controls.CurrencyTextField?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css"
+            fx:controller="ru.unn.agile.personalfinance.view.controllers.EditTransferController">
+    <GridPane vgap="10"
+              AnchorPane.bottomAnchor="50"
+              AnchorPane.leftAnchor="10"
+              AnchorPane.rightAnchor="10"
+              AnchorPane.topAnchor="10">
+
+        <rowConstraints>
+            <RowConstraints vgrow="NEVER"/>
+            <RowConstraints vgrow="NEVER"/>
+            <RowConstraints vgrow="NEVER"/>
+            <RowConstraints vgrow="NEVER"/>
+            <RowConstraints vgrow="NEVER"/>
+        </rowConstraints>
+        <columnConstraints>
+            <ColumnConstraints hgrow="NEVER" prefWidth="70"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+        </columnConstraints>
+
+        <!-- From -->
+        <Label text="From" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <JFXComboBox fx:id="accountFromComboBox" maxWidth="Infinity"
+                     GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <!-- To -->
+        <Label text="To" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <JFXComboBox fx:id="accountToComboBox" maxWidth="Infinity"
+                     GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <!-- Amount -->
+        <Label text="Amount" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <CurrencyTextField fx:id="amountField" GridPane.rowIndex="2" GridPane.columnIndex="1"
+                           maxWidth="Infinity"/>
+
+        <!-- Date -->
+        <Label text="Date" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <JFXDatePicker fx:id="datePicker" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+    </GridPane>
+
+    <!-- Buttons -->
+    <HBox AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="20" spacing="10">
+        <JFXButton fx:id="addButton" text="Save" styleClass="button-raised"
+                   onAction="#handleSaveTransferButtonAction" prefWidth="100"/>
+        <JFXButton text="Cancel" onAction="#handleCancelButtonAction" prefWidth="100" />
+    </HBox>
+</AnchorPane>

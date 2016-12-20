@@ -1,0 +1,87 @@
+<?language javascript?>
+
+<?import com.cathive.fonts.fontawesome.FontAwesomeIconView?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css"
+            fx:controller="ru.unn.agile.personalfinance.view.controllers.HomeScreenController">
+    <left>
+        <JFXListView fx:id="accountsList" prefWidth="200" maxHeight="Infinity"
+                     styleClass="accounts-list-view">
+            <contextMenu>
+                <ContextMenu prefWidth="200">
+                    <items>
+                        <MenuItem text="Rename" onAction="#handleEditAccountAction" />
+                        <MenuItem text="Delete" onAction="#handleDeleteAccountAction" />
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+        </JFXListView>
+    </left>
+    <center>
+        <StackPane maxWidth="Infinity" maxHeight="Infinity">
+            <JFXListView fx:id="transactionsList" maxWidth="Infinity" maxHeight="Infinity"
+                         styleClass="transactions-list-view">
+                <contextMenu>
+                    <ContextMenu>
+                        <items>
+                            <MenuItem text="Edit" onAction="#handleEditTransactionAction" />
+                            <MenuItem text="Delete" onAction="#handleDeleteTransactionAction" />
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </JFXListView>
+            <JFXNodesList fx:id="addButtonNode" spacing="10" rotate="90"
+                          StackPane.alignment="BOTTOM_RIGHT"
+                          styleClass="add-button-node">
+                <fx:define>
+                    <JFXButton fx:id="rootButton" buttonType="RAISED" rotate="-90"
+                               styleClass="animated-option-button">
+                        <graphic>
+                            <FontAwesomeIconView icon="ICON_PLUS" />
+                        </graphic>
+                    </JFXButton>
+                    <JFXButton fx:id="addAccountButton" buttonType="RAISED" rotate="-90"
+                               onAction="#handleAddAccountAction"
+                               styleClass="animated-option-button">
+                        <graphic>
+                            <FontAwesomeIconView icon="ICON_USER" />
+                        </graphic>
+                        <tooltip>
+                            <Tooltip text="Add new account" />
+                        </tooltip>
+                    </JFXButton>
+                    <JFXButton fx:id="addTransactionButton" buttonType="RAISED" rotate="-90"
+                               onAction="#handleAddTransactionAction"
+                               styleClass="animated-option-button">
+                        <graphic>
+                            <FontAwesomeIconView icon="ICON_USD" />
+                        </graphic>
+                        <tooltip>
+                            <Tooltip text="Add new transaction" />
+                        </tooltip>
+                    </JFXButton>
+                    <JFXButton fx:id="addTransferButton" buttonType="RAISED" rotate="-90"
+                               onAction="#handleAddTransferAction"
+                               styleClass="animated-option-button">
+                        <graphic>
+                            <FontAwesomeIconView icon="ICON_EXCHANGE" />
+                        </graphic>
+                        <tooltip>
+                            <Tooltip text="Add new transfer" />
+                        </tooltip>
+                    </JFXButton>
+                </fx:define>
+                <fx:script>
+                    addButtonNode.addAnimatedNode(rootButton);
+                    addButtonNode.addAnimatedNode(addAccountButton);
+                    addButtonNode.addAnimatedNode(addTransactionButton);
+                    addButtonNode.addAnimatedNode(addTransferButton);
+                </fx:script>
+            </JFXNodesList>
+        </StackPane>
+    </center>
+</BorderPane>

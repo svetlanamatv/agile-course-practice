@@ -1,0 +1,11 @@
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<GridPane xmlns:fx="http://javafx.com/fxml" vgap="5"
+          fx:controller="ru.unn.agile.personalfinance.view.controllers.AccountListCellController">
+    <Label fx:id="nameLabel" GridPane.rowIndex="0" />
+    <HBox GridPane.rowIndex="1">
+        <Label text="Balance: " />
+        <Label fx:id="balanceLabel" />
+    </HBox>
+</GridPane>

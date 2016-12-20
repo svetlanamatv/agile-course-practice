@@ -1,0 +1,16 @@
+apply from:   rootDir.getAbsolutePath() + '/code/config/scripts/javafx.plugin'
+
+dependencies {
+    compile project(':personal-finance-ViewModel')
+    compile group: 'com.cathive.fonts', name: 'fonts-fontawesome', version: '3.2.1.0'
+    compile 'com.jfoenix:jfoenix:1.0.0'
+}
+
+sourceSets {
+    main.java.srcDir 'src/main/java'
+    test.java.srcDir 'src/test/java'
+}
+
+javafx {
+    mainClass 'PersonalFinanceApp'
+}

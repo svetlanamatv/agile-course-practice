@@ -1,0 +1,42 @@
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+
+<?import ru.unn.agile.personalfinance.view.controls.CurrencyTextField?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css"
+            fx:controller="ru.unn.agile.personalfinance.view.controllers.EditAccountController">
+    <GridPane vgap="10"
+              AnchorPane.bottomAnchor="50"
+              AnchorPane.leftAnchor="10"
+              AnchorPane.rightAnchor="10"
+              AnchorPane.topAnchor="10">
+
+        <rowConstraints>
+            <RowConstraints vgrow="NEVER" />
+            <RowConstraints vgrow="NEVER" />
+        </rowConstraints>
+
+        <columnConstraints>
+            <ColumnConstraints hgrow="NEVER" prefWidth="70" />
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+
+        <!-- Name -->
+        <Label text="Name" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+        <JFXTextField fx:id="nameField" maxWidth="Infinity"
+                      GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+        <!-- Balance -->
+        <Label text="Balance" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+        <CurrencyTextField fx:id="balanceField" maxWidth="Infinity"
+                           GridPane.rowIndex="1" GridPane.columnIndex="1" />
+    </GridPane>
+
+    <!-- Buttons -->
+    <HBox AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="20" spacing="10">
+        <JFXButton fx:id="addButton" text="Save" styleClass="button-raised"
+                   onAction="#handleAddButton" prefWidth="100"/>
+        <JFXButton text="Cancel" onAction="#handleCancelButton" prefWidth="100" />
+    </HBox>
+</AnchorPane>

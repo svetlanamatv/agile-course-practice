@@ -60,6 +60,8 @@ include "code/quadratic-equation-solver/Model"
 project(":code/quadratic-equation-solver/Model").name = "quadratic-equation-solver-Model"
 
 // Воронин Дмитрий
+include "code/voronin-dmitry"
+project(":code/voronin-dmitry").name = "voronin-dmitry-Model1"
 // Грошева Людмила
 include "code/Statistics/Model"
 project(":code/Statistics/Model").name = "Statistics-Model"
@@ -87,8 +89,8 @@ project(":code/MortgageCalculator/ViewModel").name = "MortgageCalculatorViewMode
 include "code/ElanovArtyom"
 project(":code/ElanovArtyom").name = "ElanovArtyom-Model"
 // Зайдуллова Алина
-include "code/zaydullova-alina"
-project(":code/zaydullova-alina").name = "zaydullova-alina-Model"
+include "code/TreeSort/Model"
+project(":code/TreeSort/Model").name = "TreeSort-Model"
 
 // Зырин Илья
 // Ильин Иван
@@ -108,10 +110,16 @@ project(":code/matrix-operations/View").name = "matrix-operations-View"
 include "code/matrix-operations/ViewModel"
 project(":code/matrix-operations/ViewModel").name = "matrix-operations-ViewModel"
 // Кокошников Алексей
+
 // Колистратова Дарья
+include "code/CreditCalculator/View"
+project(":code/CreditCalculator/View").name = "credit-calculator-View"
+include "code/CreditCalculator/ViewModel"
+project(":code/CreditCalculator/ViewModel").name = "credit-calculator-ViewModel"
+include "code/CreditCalculator/Model"
+project(":code/CreditCalculator/Model").name = "credit-calculator-Model"
+
 // Кочетов Павел
-include "code/kochetov-pavel"
-project(":code/kochetov-pavel").name = "kochetov-pavel-Model"
 include "code/Stack/Model"
 project(":code/Stack/Model").name = "Stack-Model"
 include "code/Stack/ViewModel"
@@ -120,15 +128,28 @@ include "code/Stack/View"
 project(":code/Stack/View").name = "Stack-View"
 
 // Кудрявцев Никита
-include "code/kudriavtsev-nikita"
-project(":code/kudriavtsev-nikita").name = "kudriavtsev-nikita-lab1-Model"
+include "code/triangle/Model"
+project(":code/triangle/Model").name = "triangle-Model"
+include "code/triangle/View"
+project(":code/triangle/View").name = "triangle-View"
+include "code/triangle/ViewModel"
+project(":code/triangle/ViewModel").name = "triangle-ViewModel"
 
 // Кукушкин Даниил
-include "code/kukushkin-daniil"
-project(":code/kukushkin-daniil").name = "kukushkin-daniil-Model"
+include "code/newton-method/Model"
+project(":code/newton-method/Model").name = "newton-method-Model"
+include "code/newton-method/View"
+project(":code/newton-method/View").name = "newton-method-View"
+include "code/newton-method/ViewModel"
+project(":code/newton-method/ViewModel").name = "newton-method-viewmodel"
+
 // Ларин Антон
-include "code/larin-anton"
-project(":code/larin-anton").name = "larin-anton-Model"
+include  "code/personal-finance/Model"
+project(":code/personal-finance/Model").name = "personal-finance-Model"
+include  "code/personal-finance/ViewModel"
+project(":code/personal-finance/ViewModel").name = "personal-finance-ViewModel"
+include  "code/personal-finance/View"
+project(":code/personal-finance/View").name = "personal-finance-View"
 
 // Лачинов Дмитрий
 // Луковников Илья
@@ -148,15 +169,24 @@ project(":code/notation-converter/View").name = "notation-converter-View"
 // Пауль Эдуард
 // Песков Дмитрий
 // Поздеев Антон
-include "code/Pozdeev-Anton"
-project(":code/Pozdeev-Anton").name = "pozdeev-anton-model"
+include "code/color-converter/Model"
+project(":code/color-converter/Model").name = "color-converter-model"
+include "code/color-converter/View"
+project(":code/color-converter/View").name = "color-converter-view"
+include "code/color-converter/ViewModel"
+project(":code/color-converter/ViewModel").name = "color-converter-viewmodel"
 // Пономарев Георгий
 // Пономарев Никита
 include "code/ponomarev-nikita/Model"
 project(":code/ponomarev-nikita/Model").name = "ponomarev-nikita-Model"
 // Редькин Михаил
-include "code/Redkin-Michail"
-project(":code/Redkin-Michail").name = "Redkin-Michail-Model"
+include "code/Deque/Model"
+project(":code/Deque/Model").name = "Yevtushin-Valery-Model"
+include "code/Deque/ViewModel"
+project(":code/Deque/ViewModel").name = "Yevtushin-Valery-ViewModel"
+include "code/Deque/View"
+project(":code/Deque/View").name = "Yevtushin-Valery-View"
+
 // Рыбаков Антон
 // Рыбин Валентин
 include "code/Polynomial/Model"
@@ -172,8 +202,14 @@ project(":code/Vector3D/View").name = "Vector3D-View"
 include "code/sirotin-nikita"
 project(":code/sirotin-nikita").name = "sirotin-nikita-Model"
 // Скребков Артём
-include "code/skrebkov-artem"
-project(":code/skrebkov-artem").name = "skrebkov-artem-Model"
+include "code/TemperatureConverter/Model"
+project(":code/TemperatureConverter/Model").name = "Temperature-Converter-Model"
+include "code/TemperatureConverter/ViewModel"
+project(":code/TemperatureConverter/ViewModel").name = "Temperature-Converter-ViewModel"
+include "code/TemperatureConverter/View"
+project(":code/TemperatureConverter/View").name = "Temperature-Converter-View"
+include "code/TemperatureConverter/Infrastructure"
+project(":code/TemperatureConverter/Infrastructure").name = "Temperature-Converter-Infrastructure"
 
 // Соврасов Владислав
 include "code/sovrasov-vlad"
@@ -205,6 +241,8 @@ include "code/ComplexNumberCalculator/ViewModel"
 project(":code/ComplexNumberCalculator/ViewModel").name = "ComplexNumberCalculator-ViewModel"
 include "code/ComplexNumberCalculator/View"
 project(":code/ComplexNumberCalculator/View").name = "ComplexNumberCalculator-View"
+include "code/ComplexNumberCalculator/Infrastructure"
+project(":code/ComplexNumberCalculator/Infrastructure").name = "ComplexNumberCalculator-Infrastructure"
 // Федосов Александр
 include "code/MultisystemCalculator/Model"
 project(":code/MultisystemCalculator/Model").name = "MultiSystemCalculatorModel"
@@ -218,9 +256,14 @@ project(":code/MultisystemCalculator/View").name = "MultiSystemCalculatorView"
 // Чугунов Евгений
 // Шадрунов Артем
 
+// Ширяева Вера (lab1); Тарасенко Алексей (lab2)
+include "code/RomanArabicConverter/Model"
+project(":code/RomanArabicConverter/Model").name = "RomanArabicConverter-Model"
+include "code/RomanArabicConverter/View"
+project(":code/RomanArabicConverter/View").name = "RomanArabicConverter-View"
+include "code/RomanArabicConverter/ViewModel"
+project(":code/RomanArabicConverter/ViewModel").name = "RomanArabicConverter-ViewModel"
 // Ширяева Вера
-include "code/shiryaeva-vera"
-project(":code/shiryaeva-vera").name = "shiryaeva-vera-Model"
 include "code/MassConverter/Model"
 project(":code/MassConverter/Model").name = "shiryaeva-vera-lab2-Model"
 include "code/MassConverter/ViewModel"
@@ -238,5 +281,17 @@ include "code/Polynomial/ViewModel"
 project(":code/Polynomial/ViewModel").name = "Polynomial-ViewModel"
 
 // Шургалин Петр
-include "code/shurgalin-pyotr"
-project(":code/shurgalin-pyotr").name = "shurgalin-pyotr-lab1-BitField"
+include "code/BitField/Model"
+project(":code/BitField/Model").name = "BitField-Model"
+include "code/BitField/View"
+project(":code/BitField/View").name = "BitField-View"
+include "code/BitField/ViewModel"
+project(":code/BitField/ViewModel").name = "BitField-ViewModel"
+
+include "code/TreeSort/ViewModel"
+project(":code/TreeSort/ViewModel").name = "TreeSort-ViewModel"
+include "code/TreeSort/View"
+project(":code/TreeSort/View").name = "TreeSort-View"
+
+
+

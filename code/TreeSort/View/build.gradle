@@ -1,0 +1,12 @@
+apply from:   rootDir.getAbsolutePath() + '/code/config/scripts/javafx.plugin'
+
+compileJava.options.encoding = 'UTF-8'
+
+dependencies {
+    compile project(':TreeSort-ViewModel')
+}
+
+// For validation of FXML
+sourceSets.test {
+    resources.srcDirs = ["src/main/resources"]
+}

@@ -1,0 +1,9 @@
+apply from:   rootDir.getAbsolutePath() + '/code/config/scripts/javafx.plugin'
+
+javafx {
+    mainClass 'ru.unn.agile.RomanArabicConverter.viewmodel.ViewModel'
+}
+
+dependencies {
+    compile project(':RomanArabicConverter-Model')
+}

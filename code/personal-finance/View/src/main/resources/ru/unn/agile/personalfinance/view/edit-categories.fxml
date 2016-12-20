@@ -1,0 +1,43 @@
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" stylesheets="@style.css"
+            fx:controller="ru.unn.agile.personalfinance.view.controllers.EditCategoriesController">
+    <GridPane vgap="10"
+              AnchorPane.bottomAnchor="10"
+              AnchorPane.leftAnchor="10"
+              AnchorPane.rightAnchor="10"
+              AnchorPane.topAnchor="10">
+
+        <rowConstraints>
+            <RowConstraints vgrow="NEVER" />
+            <RowConstraints vgrow="ALWAYS" />
+        </rowConstraints>
+
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" />
+        </columnConstraints>
+
+        <!-- Name -->
+        <HBox GridPane.rowIndex="0" maxWidth="Infinity">
+            <JFXTextField fx:id="newCategoryField" maxWidth="Infinity" HBox.hgrow="ALWAYS" />
+            <JFXButton fx:id="addCategoryButton" onAction="#handleAddCategoryButton" text="Add" />
+        </HBox>
+
+        <!-- Categories -->
+        <JFXListView fx:id="categoriesList" styleClass="categories-list-view"
+                     GridPane.rowIndex="1">
+            <contextMenu>
+                <ContextMenu>
+                    <items>
+                        <MenuItem text="Delete" onAction="#handleDeleteCategoryAction" />
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+        </JFXListView>
+    </GridPane>
+</AnchorPane>

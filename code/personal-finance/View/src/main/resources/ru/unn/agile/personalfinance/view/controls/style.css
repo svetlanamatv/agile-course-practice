@@ -1,0 +1,30 @@
+.date {
+    -fx-padding: 0 10 0 0;
+}
+
+.date,
+.counterparty {
+    -fx-text-fill: gray;
+}
+
+.expense .amount,
+.expense .direction {
+    -fx-text-fill: red;
+}
+
+.income .amount,
+.income .direction {
+    -fx-text-fill: green;
+}
+
+.deleted-marker {
+    -fx-text-fill: gray;
+}
+
+.normal .deleted-marker {
+    visibility: hidden;
+}
+
+.deleted .deleted-marker {
+    visibility: visible;
+}

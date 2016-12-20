@@ -1,0 +1,9 @@
+apply from:   rootDir.getAbsolutePath() + '/code/config/scripts/javafx.plugin'
+
+javafx {
+    mainClass 'ru.unn.agile.NewtonRoots.viewmodel.NewtonRootAppViewModel'
+}
+
+dependencies {
+    compile project(':newton-method-Model')
+}

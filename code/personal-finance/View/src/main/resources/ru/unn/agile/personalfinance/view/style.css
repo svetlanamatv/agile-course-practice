@@ -1,0 +1,49 @@
+.root {
+    -fx-background-color: white;
+}
+
+.list-view {
+    -fx-background-insets: 0;
+}
+
+.accounts-list-view {
+    -fx-background-color: #cdcfd3, white;
+    -fx-background-insets: 0, 0 1 0 0;
+}
+
+.transactions-list-view .list-cell,
+.categories-list-view .list-cell,
+.accounts-list-view .list-cell {
+    -fx-background-color: white;
+    -fx-padding: 10 10 10 20;
+}
+
+.accounts-list-view .list-cell:filled:selected {
+    -fx-background-color: #71c4f7, white;
+    -fx-background-insets: 0, 0 0 0 7;
+}
+
+.animated-option-button {
+	-fx-pref-width: 45;
+	-fx-pref-height: 45;
+	-fx-background-color: #71c4f7;
+	-fx-background-radius: 45;
+	-fx-border-radius: 45;
+	-fx-border-width: 0;
+}
+
+.animated-option-button .font-awesome-icon-view {
+    -fx-text-fill: white;
+    -fx-font-size: 16pt;
+    -fx-alignment: center;
+}
+
+.add-button-node {
+    -fx-padding: 20 0 0 -20;
+}
+
+.button-raised {
+     -fx-button-type: RAISED;
+     -fx-background-color: #71c4f7;
+     -fx-text-fill: WHITE;
+ }
