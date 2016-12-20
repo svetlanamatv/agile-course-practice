@@ -19,67 +19,83 @@ public class LoggerTests extends Core {
 
     @Test
     public void isLogEmptyInBeginning() {
-        List<String> log = vm().getLog();
+        List<String> log = vm.getLog();
         assertEquals(0, log.size());
     }
 
     @Test
     public void isLogContainingSomethingWhenOperationIsChanged() {
-        vm().setOperation(Operation.EV);
-        List<String> log = vm().getLog();
+        vm.setOperation(Operation.EV);
+        List<String> log = vm.getLog();
         assertNotEquals(0, log.size());
     }
 
     @Test
     public void isLogContainingProperMessageWhenOperationIsChanged() {
-        vm().setOperation(Operation.EV);
-        String message = vm().getLog().get(0);
+        vm.setOperation(Operation.EV);
+        String message = vm.getLog().get(0);
         assertTrue(message.matches(".*" + Operation.EV.toString() + ".*"));
 
-        vm().setOperation(Operation.VAR);
-        message = vm().getLog().get(1);
+        vm.setOperation(Operation.VAR);
+        message = vm.getLog().get(1);
         assertTrue(message.matches(".*" + Operation.VAR.toString() + ".*"));
 
-        vm().setOperation(Operation.IM);
-        message = vm().getLog().get(2);
+        vm.setOperation(Operation.IM);
+        message = vm.getLog().get(2);
         assertTrue(message.matches(".*" + Operation.IM.toString() + ".*"));
     }
 
     @Test
     public void isLogNotAddingNewlineWhenOperationAreNotChanged() {
-        vm().setOperation(Operation.EV);
-        vm().setOperation(Operation.EV);
+        vm.setOperation(Operation.EV);
+        vm.setOperation(Operation.EV);
 
-        List<String> log = vm().getLog();
+        List<String> log = vm.getLog();
         assertEquals(1, log.size());
     }
 
     @Test
     public void isLogContainingProperMessageWhenArrayOfValuesAreChanged() {
         int size = 10;
-        vm().setArraysSize(size);
+        vm.setArraysSize(size);
 
-        String message = vm().getLog().get(0);
+        String message = vm.getLog().get(0);
 
         assertTrue(message.matches(".*" + Integer.toString(size) + ".*"));
     }
 
     @Test
     public void isLogNotAddingNewlineWhenCountSamplesAreNotChanged() {
-        vm().setArraysSize(10);
-        vm().setArraysSize(10);
+        vm.setArraysSize(10);
+        vm.setArraysSize(10);
 
-        List<String> log = vm().getLog();
+        List<String> log = vm.getLog();
         assertEquals(1, log.size());
     }
 
     @Test
     public void isLogContainingProperMessageWhenDeltaAreChanged() {
         String delta = "0.01";
-        vm().setDelta("0.01");
+        vm.setDelta("0.01");
 
-        String message = vm().getLog().get(0);
+        String message = vm.getLog().get(0);
 
         assertTrue(message.matches(".*" + delta + ".*"));
+    }
+
+    @Test
+    public void isLogContainingProperMessagesWhenTableAreChanged() {
+        setInputFields();
+        List<String> log = vm.getLog();
+
+        int logIndex = 0;
+        assertTrue(log.get(logIndex++).matches(".*" + Integer.toString(TEST_VALUES.length) + ".*"));
+
+        for (int i = 0; i < TEST_VALUES.length; i++) {
+            String setValuePattern = ".*" + Double.toString(TEST_VALUES[i]) + ".*" + Integer.toString(i) + ".*";
+            assertTrue(log.get(logIndex++).matches(setValuePattern));
+            String setPossibilityPattern = ".*" + Double.toString(TEST_POSSIBILITIES[i]) + ".*" + Integer.toString(i) + ".*";
+            assertTrue(log.get(logIndex++).matches(setPossibilityPattern));
+        }
     }
 }
