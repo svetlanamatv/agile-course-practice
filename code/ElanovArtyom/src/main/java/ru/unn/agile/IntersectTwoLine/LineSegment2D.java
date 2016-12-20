@@ -3,26 +3,26 @@ package ru.unn.agile.IntersectTwoLine;
 
 public class LineSegment2D {
 
-    public LineSegment2D (final double factor_A, final double factor_B, final double factor_C) {
-        this.A=factor_A;
-        this.B=factor_B;
-        this.C=factor_C;
+    public LineSegment2D(final double factorA, final double factorB, final double factorC) {
+        this.coefficientA = factorA;
+        this.coefficientB = factorB;
+        this.coefficientC = factorC;
     }
 
-    private double A;
-    private double B;
-    private double C;
+    private double coefficientA;
+    private double coefficientB;
+    private double coefficientC;
 
     public double getA() {
-        return A;
+        return coefficientA;
     }
 
     public double getB() {
-        return B;
+        return coefficientB;
     }
 
     public double getC() {
-        return C;
+        return coefficientC;
     }
 
     public String toFormula() {
@@ -30,16 +30,18 @@ public class LineSegment2D {
         return Formatter.getFormatted(this);
     }
 
-    public String CheckIntersection(final LineSegment2D LineSegment2) {
-        double x,y;
-        if (LineSegment2.getA()/getA()==LineSegment2.getB()/getB()&LineSegment2.getA()/getA()==LineSegment2.getC()/getC())
+    public String checkIntersection(final LineSegment2D lineSegment2) {
+        double x, y;
+        if (lineSegment2.getA() / getA() == lineSegment2.getB() / getB() & lineSegment2.getA() / getA() == lineSegment2.getC() / getC()) {
             return "Lines math";
-        else if (LineSegment2.getA()/getA()==LineSegment2.getB()/getB())
+            }
+        else if (lineSegment2.getA() / getA() == lineSegment2.getB() / getB()) {
             return "Lines are parallel";
+            }
             else {
-                x = (-1)*(getC()*LineSegment2.getB()-LineSegment2.getC()*getB())/(getA()*LineSegment2.getB()-getB()*LineSegment2.getA());
-                y = (-1)*(getA()*LineSegment2.getC()-LineSegment2.getA()*getC())/(getA()*LineSegment2.getB()-LineSegment2.getA()*getB());
-                return "Intersection point (" + x + ";" + y +")";
+                x = (-1) * (getC() * lineSegment2.getB() - lineSegment2.getC() * getB()) / (getA() * lineSegment2.getB() - getB() * lineSegment2.getA());
+                y = (-1) * (getA() * lineSegment2.getC() - lineSegment2.getA() * getC())/(getA() * lineSegment2.getB() - lineSegment2.getA() * getB());
+                return "Intersection point (" + x + ";" + y + ")";
                 }
     }
 }
