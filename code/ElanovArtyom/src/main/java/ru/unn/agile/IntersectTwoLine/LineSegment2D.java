@@ -3,15 +3,15 @@ package ru.unn.agile.IntersectTwoLine;
 
 public class LineSegment2D {
 
+    private final double coefficientA;
+    private final double coefficientB;
+    private final double coefficientC;
+
     public LineSegment2D(final double factorA, final double factorB, final double factorC) {
         this.coefficientA = factorA;
         this.coefficientB = factorB;
         this.coefficientC = factorC;
     }
-
-    private final double coefficientA;
-    private final double coefficientB;
-    private final double coefficientC;
 
     public double getA() {
         return coefficientA;
