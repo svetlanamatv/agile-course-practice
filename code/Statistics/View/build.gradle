@@ -1,4 +1,5 @@
 dependencies {
+    compile project(':Statistics-Infrastructure')
     compile project(':Statistics-ViewModel')
 }
 

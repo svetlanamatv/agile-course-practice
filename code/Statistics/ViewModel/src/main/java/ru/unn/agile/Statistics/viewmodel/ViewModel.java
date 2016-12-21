@@ -19,7 +19,7 @@ public class ViewModel {
     private boolean isCalculateButtonEnabled;
 
     static final String DEFAULT_DELTA = "0";
-    static final Operation DEFAULT_OPERATION = Operation.VAR;
+    static final Operation DEFAULT_OPERATION = Operation.EV;
 
     private ILogger logger;
 
@@ -44,7 +44,7 @@ public class ViewModel {
     }
 
     public void setValue(int i, double value) {
-        logger.log("Set " + Double.toString(value) + " value at " + Integer.toString(i) + "position");
+        logger.log("Set value = " + Double.toString(value) + " at " + Integer.toString(i) + "position");
         values[i] = value;
         updateStatus();
     }
@@ -54,7 +54,7 @@ public class ViewModel {
     }
 
     public void setPossibility(int i, double possibility) {
-        logger.log("Set " + Double.toString(possibility) + " possibility at " + Integer.toString(i) + " position");
+        logger.log("Set possibility = " + Double.toString(possibility) + " at " + Integer.toString(i) + " position");
         possibilities[i] = possibility;
         updateStatus();
     }
@@ -134,9 +134,7 @@ public class ViewModel {
             status = Status.WAITING;
         }
     }
-
-
-
+    
     public void calculate() {
         parseInput();
         if (!isCalculateButtonEnabled) {
@@ -178,7 +176,7 @@ public class ViewModel {
         return delta;
     }
     public void setDelta(final String delta) {
-        if (this.delta != delta) {
+        if (!this.delta.equals(delta)) {
             logger.log(LogMessages.DELTA_WAS_CHANGED + delta);
             this.delta = delta;
             updateStatus();

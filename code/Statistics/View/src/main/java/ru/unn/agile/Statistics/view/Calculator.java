@@ -10,10 +10,6 @@ import java.util.List;
 import ru.unn.agile.Statistics.viewmodel.Operation;
 import ru.unn.agile.Statistics.viewmodel.ViewModel;
 
-
-
-
-
 public class Calculator {
     private JPanel mainPanel;
     private JTable table;
@@ -35,7 +31,7 @@ public class Calculator {
         possibilityTable = new PossibilityTable(viewModel) {
             @Override
             public void stateChanged(final ChangeEvent e) {
-                updateStatus();
+                update();
             }
         };
 
@@ -46,21 +42,17 @@ public class Calculator {
     public Calculator(final ViewModel viewModel) {
         this.viewModel = viewModel;
 
-        backBindAll();
+        backBind();
         loadListOfOperations();
 
         DocumentListener updateOnTextChangedListener = new DocumentListener() {
             @Override
-            public void insertUpdate(final DocumentEvent e) {
-                updateStatus();
-            }
+            public void insertUpdate(final DocumentEvent e) { }
             @Override
-            public void removeUpdate(final DocumentEvent e) {
-                updateStatus();
-            }
+            public void removeUpdate(final DocumentEvent e) { }
             @Override
             public void changedUpdate(final DocumentEvent e) {
-                updateStatus();
+                bind();
             }
         };
         KeyAdapter calculateOnEnterReleasedListener = new KeyAdapter() {
@@ -72,7 +64,7 @@ public class Calculator {
             }
         };
 
-        nSpinner.addChangeListener(e -> updateTableSize());
+        nSpinner.addChangeListener(e -> update());
         nSpinner.addKeyListener(calculateOnEnterReleasedListener);
 
         deltaText.addActionListener(e -> calculate());
@@ -80,7 +72,7 @@ public class Calculator {
 
         table.addKeyListener(calculateOnEnterReleasedListener);
 
-        operationComboBox.addActionListener(e -> updateAll());
+        operationComboBox.addActionListener(e -> update());
         operationComboBox.addKeyListener(calculateOnEnterReleasedListener);
 
         momentOrderText.addActionListener(e -> calculate());
@@ -88,7 +80,6 @@ public class Calculator {
 
         computeButton.addActionListener(e -> calculate());
     }
-
 
     public void applyTo(final JFrame frame) {
         frame.setContentPane(mainPanel);
@@ -99,64 +90,44 @@ public class Calculator {
         operationComboBox.setModel(new JComboBox<>(operations).getModel());
     }
 
-
     private void bind() {
         viewModel.setDelta(deltaText.getText());
         if (viewModel.isMomentOrderEnabled()) {
             viewModel.setMomentOrder(momentOrderText.getText());
         }
         viewModel.setOperation((Operation) operationComboBox.getSelectedItem());
+
+        viewModel.setArraysSize((int)nSpinner.getValue());
+        ((AbstractTableModel) table.getModel()).fireTableStructureChanged();
+        possibilityTable.update();
     }
 
-    private void bindArraysSize(final int newSize) {
-        viewModel.setArraysSize(newSize);
-    }
-
-
-    private void backBindAll() {
+    private void backBind() {
         deltaText.setText(viewModel.getDelta());
-        backBindResultAndStatus();
 
         momentOrderText.setEnabled(viewModel.isMomentOrderEnabled());
         if (viewModel.isMomentOrderEnabled()) {
             momentOrderText.setText(viewModel.getMomentOrder());
         }
 
-        nSpinner.setValue(viewModel.getTableSize());
+        resultText.setText(viewModel.getResult());
+        statusText.setText(viewModel.getStatus());
+        computeButton.setEnabled(viewModel.isCalculateButtonEnabled());
 
+        nSpinner.setValue(viewModel.getTableSize());
         List<String> log = viewModel.getLog();
         String[] items = log.toArray(new String[log.size()]);
         lstLog.setListData(items);
     }
 
-    private void backBindResultAndStatus() {
-        resultText.setText(viewModel.getResult());
-        statusText.setText(viewModel.getStatus());
-        computeButton.setEnabled(viewModel.isCalculateButtonEnabled());
-    }
-
-
-    private void updateAll() {
+    private void update() {
         bind();
-        backBindAll();
+        backBind();
     }
-
-    private void updateStatus() {
-        bind();
-        backBindResultAndStatus();
-    }
-
-    private void updateTableSize() {
-        bindArraysSize((int) nSpinner.getValue());
-        ((AbstractTableModel) table.getModel()).fireTableStructureChanged();
-        possibilityTable.update();
-        backBindAll();
-    }
-
 
     private void calculate() {
         bind();
         viewModel.calculate();
-        backBindResultAndStatus();
+        backBind();
     }
 }
