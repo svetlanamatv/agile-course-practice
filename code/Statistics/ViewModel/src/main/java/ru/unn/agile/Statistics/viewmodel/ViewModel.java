@@ -44,7 +44,10 @@ public class ViewModel {
     }
 
     public void setValue(int i, double value) {
-        logger.log("Set value = " + Double.toString(value) + " at " + Integer.toString(i) + "position");
+        logger.log(String.format(LogMessages.VALUES_WERE_CHANGED,
+                   value,
+                   i));
+
         values[i] = value;
         updateStatus();
     }
@@ -54,9 +57,13 @@ public class ViewModel {
     }
 
     public void setPossibility(int i, double possibility) {
-        logger.log("Set possibility = " + Double.toString(possibility) + " at " + Integer.toString(i) + " position");
+        logger.log(String.format(LogMessages.POSSIBILITIES_WERE_CHANGED,
+                                 possibility,
+                                 i));
+
         possibilities[i] = possibility;
         updateStatus();
+
     }
 
     public double getPossibility(int i) {
@@ -84,9 +91,11 @@ public class ViewModel {
     }
 
     public final class LogMessages {
-        public static final String OPERATION_WAS_CHANGED = "Operation was changed to ";
-        public static final String DELTA_WAS_CHANGED = "Delta was changed to ";
-        public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to ";
+        public static final String OPERATION_WAS_CHANGED = "Operation was changed to %s";
+        public static final String DELTA_WAS_CHANGED = "Delta was changed to %s";
+        public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to %d";
+        public static final String VALUES_WERE_CHANGED = "Set value = %f at %d position";
+        public static final String POSSIBILITIES_WERE_CHANGED = "Set possibility = %f at %d position";
 
         private LogMessages() { }
     }
@@ -162,7 +171,8 @@ public class ViewModel {
         final int size = max(arraysSize, 0);
 
         if (values.length != size) {
-            logger.log(LogMessages.COUNT_SAMPLES_WAS_CHANGED + Integer.toString(arraysSize));
+            logger.log(String.format(LogMessages.COUNT_SAMPLES_WAS_CHANGED, arraysSize));
+
             double[] v = new double[size];
             double[] p = new double[size];
             System.arraycopy(values, 0, v, 0, min(size, values.length));
@@ -177,7 +187,8 @@ public class ViewModel {
     }
     public void setDelta(final String delta) {
         if (!this.delta.equals(delta)) {
-            logger.log(LogMessages.DELTA_WAS_CHANGED + delta);
+            logger.log(String.format(LogMessages.DELTA_WAS_CHANGED,
+                                     delta));
             this.delta = delta;
             updateStatus();
         }
@@ -202,7 +213,7 @@ public class ViewModel {
     }
     public void setOperation(final Operation operation) {
         if (this.operation != operation) {
-            logger.log(LogMessages.OPERATION_WAS_CHANGED + operation.toString());
+            logger.log(String.format(LogMessages.OPERATION_WAS_CHANGED, operation.toString()));
 
             this.operation = operation;
             isMomentOrderEnabled = operation.is(ComputableWithMomentOrder.class);
