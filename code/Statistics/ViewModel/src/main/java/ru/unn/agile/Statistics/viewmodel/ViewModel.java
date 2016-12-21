@@ -1,6 +1,7 @@
 package ru.unn.agile.Statistics.viewmodel;
 
 import ru.unn.agile.Statistics.model.Statistics;
+import sun.rmi.runtime.Log;
 
 import java.util.List;
 
@@ -91,12 +92,13 @@ public class ViewModel {
     }
 
     public final class LogMessages {
-        public static final String OPERATION_WAS_CHANGED = "Operation was changed to %s";
-        public static final String DELTA_WAS_CHANGED = "Delta was changed to %s";
-        public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to %d";
-        public static final String VALUES_WERE_CHANGED = "Set value = %f at %d position";
-        public static final String POSSIBILITIES_WERE_CHANGED = "Set possibility = %f at %d position";
-
+        public static final String OPERATION_WAS_CHANGED = "Operation was changed to %s.";
+        public static final String DELTA_WAS_CHANGED = "Delta was changed to %s.";
+        public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to %d.";
+        public static final String VALUES_WERE_CHANGED = "Set value = %f at %d position.";
+        public static final String POSSIBILITIES_WERE_CHANGED = "Set possibility = %f at %d position.";
+        public static final String RESULT_WAS_CALCULATED = "Result was calculated. It is equal %s.";
+        public static final String MOMENT_ORDER_WAS_CHANGED = "Moment order was changed to %s.";
         private LogMessages() { }
     }
 
@@ -130,7 +132,7 @@ public class ViewModel {
                 new Statistics(values, possibilities);
             }
         } catch (IllegalArgumentException e) {
-            status = Status.BAD_FORMAT;
+            status = Status.WAITING;
             isCalculateButtonEnabled = false;
             return;
         }
@@ -163,7 +165,8 @@ public class ViewModel {
             throw new IllegalStateException("unknown type of operation");
         }
         result = String.valueOf(res);
-
+        logger.log(String.format(LogMessages.RESULT_WAS_CALCULATED,
+                                 result));
         status = Status.SUCCESS;
     }
 
@@ -204,8 +207,11 @@ public class ViewModel {
         if (!isMomentOrderEnabled) {
             throw new IllegalStateException("attempting to set momentOrder when it is disabled");
         }
-        this.momentOrder = momentOrder;
-        updateStatus();
+        if (!this.momentOrder.equals(momentOrder)) {
+            logger.log(String.format(LogMessages.MOMENT_ORDER_WAS_CHANGED, momentOrder));
+            this.momentOrder = momentOrder;
+            updateStatus();
+        }
     }
 
     public Operation getOperation() {

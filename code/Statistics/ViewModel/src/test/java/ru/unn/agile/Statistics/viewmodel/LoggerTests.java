@@ -39,15 +39,15 @@ public class LoggerTests extends Core {
         assertEquals(0, log.size());
 
         vm.setOperation(Operation.VAR);
-        String message = log.get(0);
+        String message = vm.getLog().get(0);
         assertTrue(message.matches(".*" + Operation.VAR.toString() + ".*"));
 
         vm.setOperation(Operation.IM);
-        message = log.get(1);
+        message = vm.getLog().get(1);
         assertTrue(message.matches(".*" + Operation.IM.toString() + ".*"));
 
         vm.setOperation(Operation.EV);
-        message = log.get(2);
+        message = vm.getLog().get(2);
         assertTrue(message.matches(".*" + Operation.EV.toString() + ".*"));
     }
 
@@ -103,5 +103,30 @@ public class LoggerTests extends Core {
             String setPossibilityPattern = ".*" + Double.toString(TEST_POSSIBILITIES[i]) + ".*" + Integer.toString(i) + ".*";
             assertTrue(log.get(logIndex++).matches(setPossibilityPattern));
         }
+    }
+
+    @Test
+    public void isLogContainingProperMessageWhenResultAreCalculated() {
+        setInputFields();
+        vm.calculate();
+
+        List<String> log = vm.getLog();
+        //skip messages about input
+        String message = vm.getLog().get(7);
+        //and check message about result
+        assertTrue(message.matches(".*" + vm.getResult() + ".*"));
+    }
+
+    @Test
+    public void isLogContainingProperMessageWhenMomentOrderAreChanged() {
+        setInputFields();
+        vm.setOperation(Operation.IM);
+        vm.setMomentOrder("5");
+
+        List<String> log = vm.getLog();
+        //skip messages about input and setting operation
+        String message = vm.getLog().get(8);
+        //and check message about result
+        assertTrue(message.matches(".*" + vm.getMomentOrder() + ".*"));
     }
 }

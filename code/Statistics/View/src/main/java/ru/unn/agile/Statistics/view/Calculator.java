@@ -3,8 +3,12 @@ package ru.unn.agile.Statistics.view;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import ru.unn.agile.Statistics.viewmodel.Operation;
@@ -64,18 +68,28 @@ public class Calculator {
             }
         };
 
+        PropertyChangeListener propertyChange = new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent e) {
+                if ("tableCellEditor".equals(e.getPropertyName())) {
+                    backBind();
+                }
+            }
+        };
+
         nSpinner.addChangeListener(e -> update());
         nSpinner.addKeyListener(calculateOnEnterReleasedListener);
 
-        deltaText.addActionListener(e -> calculate());
+        deltaText.addActionListener(e -> update());
         deltaText.getDocument().addDocumentListener(updateOnTextChangedListener);
 
         table.addKeyListener(calculateOnEnterReleasedListener);
+        table.addPropertyChangeListener(propertyChange);
 
         operationComboBox.addActionListener(e -> update());
         operationComboBox.addKeyListener(calculateOnEnterReleasedListener);
 
-        momentOrderText.addActionListener(e -> calculate());
+        momentOrderText.addActionListener(e -> update());
         momentOrderText.getDocument().addDocumentListener(updateOnTextChangedListener);
 
         computeButton.addActionListener(e -> calculate());
