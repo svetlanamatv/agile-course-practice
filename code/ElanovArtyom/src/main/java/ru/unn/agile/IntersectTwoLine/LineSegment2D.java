@@ -38,10 +38,13 @@ public class LineSegment2D {
                     / (getA() * lineSegment2.getB() - getB() * lineSegment2.getA());
             coordinatesY = (-1) * (getA() * lineSegment2.getC() - lineSegment2.getA() * getC())
                     / (getA() * lineSegment2.getB() - lineSegment2.getA() * getB());
-            return "Intersection point (" + coordinatesX + ";" + coordinatesY + ")"; }
+            return "Intersection point (" + coordinatesX + ";" + coordinatesY + ")";
+        }
         else if (lineSegment2.getA() / getA() != lineSegment2.getC() / getC()) {
-            return "Lines are parallel"; }
+            return "Lines are parallel";
+        }
         else {
-            return "Lines math"; }
+            return "Lines math";
+        }
     }
 }
