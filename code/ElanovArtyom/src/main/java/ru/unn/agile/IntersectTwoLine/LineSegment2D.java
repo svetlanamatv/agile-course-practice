@@ -39,11 +39,9 @@ public class LineSegment2D {
             coordinatesY = (-1) * (getA() * lineSegment2.getC() - lineSegment2.getA() * getC())
                     / (getA() * lineSegment2.getB() - lineSegment2.getA() * getB());
             return "Intersection point (" + coordinatesX + ";" + coordinatesY + ")";
-        }
-        else if (lineSegment2.getA() / getA() != lineSegment2.getC() / getC()) {
+        } else if (lineSegment2.getA() / getA() != lineSegment2.getC() / getC()) {
             return "Lines are parallel";
-        }
-        else {
+        } else {
             return "Lines math";
         }
     }
