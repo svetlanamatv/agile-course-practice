@@ -35,20 +35,20 @@ public class IntersectTwoLineTest {
     public void canCreatePointIntersectTwoLineSegment() {
         LineSegment2D LineSegment1 = new LineSegment2D(3.1, -2.3, 3);
         LineSegment2D LineSegment2 = new LineSegment2D(-4.5, 5.6, -1);
-        assertNotNull(LineSegment1.CheckIntersection(LineSegment2));
+        assertNotNull(LineSegment1.checkIntersection(LineSegment2));
     }
 
     @Test
     public void showThatLinesAreParallel() {
         LineSegment2D LineSegment1 = new LineSegment2D(2.1, 3.1, -1);
         LineSegment2D LineSegment2 = new LineSegment2D(4.2, 6.2, 7);
-        assertEquals( "Lines are parallel", LineSegment1.CheckIntersection(LineSegment2));
+        assertEquals( "Lines are parallel", LineSegment1.checkIntersection(LineSegment2));
     }
     @Test
     public void showThatLinesMatch() {
         LineSegment2D LineSegment1 = new LineSegment2D(2.1, 3.1, -1);
         LineSegment2D LineSegment2 = new LineSegment2D(4.2, 6.2, -2);
-        assertEquals( "Lines math", LineSegment1.CheckIntersection(LineSegment2));
+        assertEquals( "Lines math", LineSegment1.checkIntersection(LineSegment2));
     }
 
 
