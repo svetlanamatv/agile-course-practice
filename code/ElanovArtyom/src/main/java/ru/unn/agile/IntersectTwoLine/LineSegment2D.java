@@ -31,15 +31,15 @@ public class LineSegment2D {
     }
 
     public String checkIntersection(final LineSegment2D lineSegment2) {
-        double coordinates_x, coordinates_y;
+        double coordinatesX, coordinatesY;
 
-        if (lineSegment2.getA() / getA() != lineSegment2.getB() / getB() ) {
-            coordinates_x = (-1) * (getC() * lineSegment2.getB() - lineSegment2.getC() * getB()) / (getA() * lineSegment2.getB() - getB() * lineSegment2.getA());
-            coordinates_y = (-1) * (getA() * lineSegment2.getC() - lineSegment2.getA() * getC()) / (getA() * lineSegment2.getB() - lineSegment2.getA() * getB());
-            return "Intersection point (" + coordinates_x + ";" + coordinates_y + ")";}
+        if (lineSegment2.getA() / getA() != lineSegment2.getB() / getB()) {
+            coordinatesX = (-1) * (getC() * lineSegment2.getB() - lineSegment2.getC() * getB()) / (getA() * lineSegment2.getB() - getB() * lineSegment2.getA());
+            coordinatesY = (-1) * (getA() * lineSegment2.getC() - lineSegment2.getA() * getC()) / (getA() * lineSegment2.getB() - lineSegment2.getA() * getB());
+            return "Intersection point (" + coordinatesX + ";" + coordinatesY + ")"; }
         else if (lineSegment2.getA() / getA() != lineSegment2.getC() / getC()) {
-            return "Lines are parallel";}
+            return "Lines are parallel"; }
         else {
-            return "Lines math";}
+            return "Lines math"; }
     }
 }

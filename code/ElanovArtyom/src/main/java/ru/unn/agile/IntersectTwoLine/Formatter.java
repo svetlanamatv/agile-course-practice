@@ -6,7 +6,7 @@ public final class Formatter {
 
     public static double formatPositiveDouble(final double value) {
         if (value < 0) {
-            return -value;}
+            return -value; }
         else {
             return value;
         }
@@ -15,7 +15,7 @@ public final class Formatter {
     public static String getFormatted(final LineSegment2D lineSegment) {
         StringBuffer buffer = new StringBuffer();
         if (lineSegment.getA() == 0.0 || lineSegment.getB() == 0.0) {
-            throw new IllegalArgumentException("arguments A and B can not be null");}
+            throw new IllegalArgumentException("arguments A and B can not be null"); }
             else {
             double coefficientA = formatPositiveDouble(lineSegment.getA());
             buffer.append(lineSegment.getA() < 0 ? "-" : "");
