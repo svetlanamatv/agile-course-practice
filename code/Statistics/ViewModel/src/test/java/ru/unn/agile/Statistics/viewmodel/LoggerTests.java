@@ -24,31 +24,37 @@ public class LoggerTests extends Core {
     }
 
     @Test
-    public void isLogContainingSomethingWhenOperationIsChanged() {
-        vm.setOperation(Operation.EV);
+    public void isLogContainingSomethingWhenNotDefaultOperationIsSet() {
+        vm.setOperation(Operation.VAR);
         List<String> log = vm.getLog();
         assertNotEquals(0, log.size());
     }
 
     @Test
     public void isLogContainingProperMessageWhenOperationIsChanged() {
+        //Operation.EV is default for viewModel, so a message isn't added to log
         vm.setOperation(Operation.EV);
-        String message = vm.getLog().get(0);
-        assertTrue(message.matches(".*" + Operation.EV.toString() + ".*"));
+
+        List<String> log = vm.getLog();
+        assertEquals(0, log.size());
 
         vm.setOperation(Operation.VAR);
-        message = vm.getLog().get(1);
+        String message = log.get(0);
         assertTrue(message.matches(".*" + Operation.VAR.toString() + ".*"));
 
         vm.setOperation(Operation.IM);
-        message = vm.getLog().get(2);
+        message = log.get(1);
         assertTrue(message.matches(".*" + Operation.IM.toString() + ".*"));
+
+        vm.setOperation(Operation.EV);
+        message = log.get(2);
+        assertTrue(message.matches(".*" + Operation.EV.toString() + ".*"));
     }
 
     @Test
     public void isLogNotAddingNewlineWhenOperationAreNotChanged() {
-        vm.setOperation(Operation.EV);
-        vm.setOperation(Operation.EV);
+        vm.setOperation(Operation.VAR);
+        vm.setOperation(Operation.VAR);
 
         List<String> log = vm.getLog();
         assertEquals(1, log.size());

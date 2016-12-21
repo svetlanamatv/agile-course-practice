@@ -134,7 +134,7 @@ public class ViewModel {
             status = Status.WAITING;
         }
     }
-    
+
     public void calculate() {
         parseInput();
         if (!isCalculateButtonEnabled) {
