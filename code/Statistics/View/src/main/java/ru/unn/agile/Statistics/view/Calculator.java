@@ -3,13 +3,12 @@ package ru.unn.agile.Statistics.view;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.Vector;
 
 import ru.unn.agile.Statistics.viewmodel.Operation;
 import ru.unn.agile.Statistics.viewmodel.ViewModel;
@@ -116,6 +115,7 @@ public class Calculator {
         possibilityTable.update();
     }
 
+    @SuppressWarnings("unchecked")
     private void backBind() {
         deltaText.setText(viewModel.getDelta());
 

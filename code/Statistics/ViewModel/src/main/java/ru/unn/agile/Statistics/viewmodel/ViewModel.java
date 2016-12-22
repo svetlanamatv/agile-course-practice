@@ -1,7 +1,6 @@
 package ru.unn.agile.Statistics.viewmodel;
 
 import ru.unn.agile.Statistics.model.Statistics;
-import sun.rmi.runtime.Log;
 
 import java.util.List;
 
