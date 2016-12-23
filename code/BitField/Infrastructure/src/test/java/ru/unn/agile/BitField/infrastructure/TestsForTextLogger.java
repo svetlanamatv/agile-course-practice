@@ -15,26 +15,26 @@ import java.util.List;
 
 public class TestsForTextLogger {
     private static final String FILENAME = "./TxtLogger_Tests-lab3.log";
-    private TxtLogger txtLogger;
+    private TextLog textingLog;
 
     @Before
     public void setOn() {
-        txtLogger = new TxtLogger(FILENAME);
+        textingLog = new TextLog(FILENAME);
     }
 
     @Test
     public void creatingLogWithNameofFile() {
-        assertNotNull(txtLogger);
+        assertNotNull(textingLog);
     }
 
     @Test
     public void canTextingNotOneMessage() {
         String[] mess = {"test 1", "test 2"};
 
-        txtLogger.log(mess[0]);
-        txtLogger.log(mess[1]);
+        textingLog.log(mess[0]);
+        textingLog.log(mess[1]);
 
-        List<String> actualMessages = txtLogger.getThisLog();
+        List<String> actualMessages = textingLog.getThisLog();
         for (int i = 0; i < actualMessages.size(); i++) {
             assertThat(actualMessages.get(i), matchesPattern(".*" + mess[i] + "$"));
         }
@@ -53,9 +53,9 @@ public class TestsForTextLogger {
     public void doesEstTimeAndDateInThisLog() {
         String test = "Some message";
 
-        txtLogger.log(test);
+        textingLog.log(test);
 
-        String message = txtLogger.getThisLog().get(0);
+        String message = textingLog.getThisLog().get(0);
         assertThat(message, matchesPattern("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} > .*"));
     }
 
@@ -63,9 +63,9 @@ public class TestsForTextLogger {
     public void canWriteInThisNiceLog() {
         String testMes = "Test message";
 
-        txtLogger.log(testMes);
+        textingLog.log(testMes);
 
-        String message = txtLogger.getThisLog().get(0);
+        String message = textingLog.getThisLog().get(0);
         assertThat(message, matchesPattern(".*" + testMes + "$"));
     }
 }

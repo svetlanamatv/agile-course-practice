@@ -6,8 +6,8 @@ import ru.unn.agile.BitField.viewmodel.ViewModelTests;
 public class TextLoggerTestsIncVModel extends ViewModelTests {
     @Override
     public void setUp() {
-        TxtLogger usedLogger =
-                new TxtLogger("#3lab.log");
+        TextLog usedLogger =
+                new TextLog("#3lab.log");
         super.setExternalViewModel(new ViewModel(usedLogger));
     }
 }

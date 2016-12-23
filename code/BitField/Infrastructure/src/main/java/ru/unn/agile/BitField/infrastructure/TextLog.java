@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class TxtLogger implements TheLog {
+public class TextLog implements TheLog {
     private static final String DATA = "yyyy-MM-dd HH:mm:ss";
     private final BufferedWriter writer;
     private final String name;
@@ -23,7 +23,7 @@ public class TxtLogger implements TheLog {
         return formatic.format(myCal.getTime());
     }
 
-    public TxtLogger(final String filename) {
+    public TextLog(final String filename) {
         this.name = filename;
 
         BufferedWriter writerForLog = null;

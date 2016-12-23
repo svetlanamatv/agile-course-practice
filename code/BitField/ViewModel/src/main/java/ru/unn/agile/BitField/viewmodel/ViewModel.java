@@ -294,6 +294,7 @@ public class ViewModel {
 
     private class ListenerForCachChangesInValue implements ChangeListener<String> {
         private String valueCurrent = new String();
+
         @Override
         public void changed(final ObservableValue<? extends String> obs,
                             final String valueolding, final String newState) {
@@ -308,8 +309,9 @@ public class ViewModel {
 final class Message {
     public static final String XOR_WAS_PRESSED = "Xor. ";
     public static final String OR_WAS_PRESSED = "Or. ";
-    public static final String AND_WAS_PRESSED = "Or. ";
+    public static final String AND_WAS_PRESSED = "And. ";
 
-    private Message() { }
+    private Message() {
+    }
 }
 
