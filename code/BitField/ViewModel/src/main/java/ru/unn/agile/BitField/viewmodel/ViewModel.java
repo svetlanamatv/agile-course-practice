@@ -29,11 +29,11 @@ public class ViewModel {
     private TheLog mainWindowLogger;
     private List<ListenerForCachChangesInValue> valueChangedListeners;
 
-    public final void setThisOneLog(final TheLog logger) {
-        if (logger == null) {
+    public final void setThisOneLog(final TheLog SomeLogger) {
+        if (SomeLogger == null) {
             throw new IllegalArgumentException("Logger parameter can't be null");
         }
-        this.mainWindowLogger = logger;
+        this.mainWindowLogger = SomeLogger;
     }
 
     public ViewModel() {
@@ -41,8 +41,8 @@ public class ViewModel {
         bitFieldStringB.set(bitFieldB.toString());
     }
 
-    public ViewModel(final TheLog logger) {
-        setThisOneLog(logger);
+    public ViewModel(final TheLog SomeOneLog) {
+        setThisOneLog(SomeOneLog);
         bitFieldStringA.set(bitFieldA.toString());
         bitFieldStringB.set(bitFieldB.toString());
     }
@@ -172,7 +172,7 @@ public class ViewModel {
 
         resultText.set(bitFieldResult.toString());
 
-        StringBuilder message = new StringBuilder(LogMessages.AND_WAS_PRESSED);
+        StringBuilder message = new StringBuilder(Message.AND_WAS_PRESSED);
         message.append("Arguments")
                 .append(": Field A = ").append(getBitFieldStringA())
                 .append("; Field B = ").append(getBitFieldStringB())
@@ -187,7 +187,7 @@ public class ViewModel {
 
         resultText.set(bitFieldResult.toString());
 
-        StringBuilder message = new StringBuilder(LogMessages.OR_WAS_PRESSED);
+        StringBuilder message = new StringBuilder(Message.OR_WAS_PRESSED);
         message.append("Arguments")
                 .append(": Field A = ").append(getBitFieldStringA())
                 .append("; Field B = ").append(getBitFieldStringB())
@@ -202,7 +202,7 @@ public class ViewModel {
 
         resultText.set(bitFieldResult.toString());
 
-        StringBuilder message = new StringBuilder(LogMessages.XOR_WAS_PRESSED);
+        StringBuilder message = new StringBuilder(Message.XOR_WAS_PRESSED);
         message.append("Arguments")
                 .append(": Field A = ").append(getBitFieldStringA())
                 .append("; Field B = ").append(getBitFieldStringB())
@@ -312,11 +312,11 @@ public class ViewModel {
     }
 }
 
-final class LogMessages {
+final class Message {
     public static final String XOR_WAS_PRESSED = "Xor. ";
     public static final String OR_WAS_PRESSED = "Or. ";
     public static final String AND_WAS_PRESSED = "Or. ";
 
-    private LogMessages() { }
+    private Message() { }
 }
 

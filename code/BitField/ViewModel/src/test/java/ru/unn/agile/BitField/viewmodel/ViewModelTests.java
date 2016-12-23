@@ -304,7 +304,7 @@ public class ViewModelTests {
         viewModel.logicAXorB();
         String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + LogMessages.XOR_WAS_PRESSED + ".*"));
+        assertTrue(message.matches(".*" + Message.XOR_WAS_PRESSED + ".*"));
     }
 
     @Test
@@ -313,7 +313,7 @@ public class ViewModelTests {
         viewModel.logicAOrB();
         String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + LogMessages.OR_WAS_PRESSED + ".*"));
+        assertTrue(message.matches(".*" + Message.OR_WAS_PRESSED + ".*"));
     }
 
     @Test
@@ -322,7 +322,7 @@ public class ViewModelTests {
         viewModel.logicAAndB();
         String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + LogMessages.AND_WAS_PRESSED + ".*"));
+        assertTrue(message.matches(".*" + Message.AND_WAS_PRESSED + ".*"));
     }
 
     @Test
