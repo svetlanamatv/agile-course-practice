@@ -74,33 +74,6 @@ public class ViewModel {
         return possibilities.length;
     }
 
-    enum Status {
-        WAITING("Please provide input data"),
-        READY("Press 'Calculate' or Enter"),
-        BAD_FORMAT("Bad format"),
-        SUCCESS("Success");
-
-        private final String name;
-        Status(final String name) {
-            this.name = name;
-        }
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
-
-    private final class LogMessages {
-        public static final String OPERATION_WAS_CHANGED = "Operation was changed to %s";
-        public static final String DELTA_WAS_CHANGED = "Delta was changed to %s";
-        public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to %d";
-        public static final String VALUES_WERE_CHANGED = "Set value =%f at %d position";
-        public static final String POSSIBILITIES_WERE_CHANGED = "Set possibility=%f at %d position";
-        public static final String RESULT_WAS_CALCULATED = "Result was calculated. It is equal %s";
-        public static final String MOMENT_ORDER_WAS_CHANGED = "Moment order was changed to %s";
-        private LogMessages() { }
-    }
-
     private boolean isInputAvailable() {
         return !delta.isEmpty()
             && values.length != 0
@@ -152,7 +125,7 @@ public class ViewModel {
         }
 
         Statistics statistics = new Statistics(values, possibilities);
-        double res;
+        double res = 0.0;
         if (operation.is(Computable.class)) {
             Computable op = operation.toComputable();
             res = op.compute(statistics);
@@ -160,8 +133,6 @@ public class ViewModel {
             ComputableWithMomentOrder op = operation.toComputableWithOrder();
             int order = Integer.valueOf(momentOrder);
             res = op.compute(statistics, order);
-        } else {
-            throw new IllegalStateException("unknown type of operation");
         }
         result = String.valueOf(res);
         logger.log(String.format(LogMessages.RESULT_WAS_CALCULATED,
@@ -239,6 +210,33 @@ public class ViewModel {
     }
     public boolean isCalculateButtonEnabled() {
         return isCalculateButtonEnabled;
+    }
+
+    public enum Status {
+        WAITING("Please provide input data"),
+        READY("Press 'Calculate' or Enter"),
+        BAD_FORMAT("Bad format"),
+        SUCCESS("Success");
+
+        private final String name;
+        Status(final String name) {
+            this.name = name;
+        }
+        @Override
+        public String toString() {
+            return name;
+        }
+    }
+
+    public final class LogMessages {
+        public static final String OPERATION_WAS_CHANGED = "Operation was changed to %s";
+        public static final String DELTA_WAS_CHANGED = "Delta was changed to %s";
+        public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to %d";
+        public static final String VALUES_WERE_CHANGED = "Set value =%f at %d position";
+        public static final String POSSIBILITIES_WERE_CHANGED = "Set possibility=%f at %d position";
+        public static final String RESULT_WAS_CALCULATED = "Result was calculated. It is equal %s";
+        public static final String MOMENT_ORDER_WAS_CHANGED = "Moment order was changed to %s";
+        private LogMessages() { }
     }
 }
 
