@@ -227,16 +227,17 @@ public class ViewModel {
             return name;
         }
     }
+}
 
-    public final class LogMessages {
-        public static final String OPERATION_WAS_CHANGED = "Operation was changed to %s";
-        public static final String DELTA_WAS_CHANGED = "Delta was changed to %s";
-        public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to %d";
-        public static final String VALUES_WERE_CHANGED = "Set value =%f at %d position";
-        public static final String POSSIBILITIES_WERE_CHANGED = "Set possibility=%f at %d position";
-        public static final String RESULT_WAS_CALCULATED = "Result was calculated. It is equal %s";
-        public static final String MOMENT_ORDER_WAS_CHANGED = "Moment order was changed to %s";
-        private LogMessages() { }
-    }
+final class LogMessages {
+    public static final String OPERATION_WAS_CHANGED = "Operation was changed to %s";
+    public static final String DELTA_WAS_CHANGED = "Delta was changed to %s";
+    public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to %d";
+    public static final String VALUES_WERE_CHANGED = "Set value =%f at %d position";
+    public static final String POSSIBILITIES_WERE_CHANGED = "Set possibility=%f at %d position";
+    public static final String RESULT_WAS_CALCULATED = "Result was calculated. It is equal %s";
+    public static final String MOMENT_ORDER_WAS_CHANGED = "Moment order was changed to %s";
+
+    private LogMessages() { }
 }
 
