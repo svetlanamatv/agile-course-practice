@@ -34,7 +34,7 @@ public class TestsForTextLogger {
         txtLogger.log(mess[0]);
         txtLogger.log(mess[1]);
 
-        List<String> actualMessages = txtLogger.getLog();
+        List<String> actualMessages = txtLogger.getThisLog();
         for (int i = 0; i < actualMessages.size(); i++) {
             assertThat(actualMessages.get(i), matchesPattern(".*" + mess[i] + "$"));
         }
@@ -55,7 +55,7 @@ public class TestsForTextLogger {
 
         txtLogger.log(test);
 
-        String message = txtLogger.getLog().get(0);
+        String message = txtLogger.getThisLog().get(0);
         assertThat(message, matchesPattern("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} > .*"));
     }
 
@@ -65,7 +65,7 @@ public class TestsForTextLogger {
 
         txtLogger.log(testMes);
 
-        String message = txtLogger.getLog().get(0);
+        String message = txtLogger.getThisLog().get(0);
         assertThat(message, matchesPattern(".*" + testMes + "$"));
     }
 }

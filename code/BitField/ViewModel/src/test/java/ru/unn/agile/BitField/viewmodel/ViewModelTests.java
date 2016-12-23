@@ -280,7 +280,7 @@ public class ViewModelTests {
     }
 
     @Test
-    public void viewModelConstructorThrowsExceptionWithNullLogger() {
+    public void NullLoggerIsItPossible() {
         try {
             new ViewModel(null);
             fail("Exception wasn't thrown");
@@ -292,14 +292,14 @@ public class ViewModelTests {
     }
 
     @Test
-    public void logIsEmptyInTheBeginning() {
+    public void logInTheBegin() {
         List<String> log = viewModel.getThisNiceLog();
 
         assertTrue(log.isEmpty());
     }
 
     @Test
-    public void logContainsProperMessageAfterXorOperation() {
+    public void logCanCreateMessAfterXorOperation() {
         setValues();
         viewModel.logicAXorB();
         String message = viewModel.getThisNiceLog().get(0);
@@ -308,7 +308,7 @@ public class ViewModelTests {
     }
 
     @Test
-    public void logContainsProperMessageAfterOrOperation() {
+    public void logCanCreateMessAfterOrOperation() {
         setValues();
         viewModel.logicAOrB();
         String message = viewModel.getThisNiceLog().get(0);
@@ -317,7 +317,7 @@ public class ViewModelTests {
     }
 
     @Test
-    public void logContainsProperMessageAfterAndOperation() {
+    public void logCanCreateMessAfterAndOperation() {
         setValues();
         viewModel.logicAAndB();
         String message = viewModel.getThisNiceLog().get(0);

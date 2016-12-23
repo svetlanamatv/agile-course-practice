@@ -47,7 +47,7 @@ public class TxtLogger implements TheLog {
     }
 
     @Override
-    public List<String> getLog() {
+    public List<String> getThisLog() {
         BufferedReader reader;
         ArrayList<String> logger = new ArrayList<String>();
         try {

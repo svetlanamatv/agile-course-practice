@@ -12,7 +12,7 @@ public class OneFakeLogger implements TheLog {
     }
 
     @Override
-    public List<String> getLog() {
+    public List<String> getThisLog() {
         return thisLog;
     }
 }

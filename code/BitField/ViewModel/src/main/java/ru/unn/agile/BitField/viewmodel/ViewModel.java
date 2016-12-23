@@ -212,7 +212,7 @@ public class ViewModel {
     }
 
     private void logUpdating() {
-        List<String> fullLog = logger.getLog();
+        List<String> fullLog = logger.getThisLog();
         String record = new String();
         for (String log : fullLog) {
             record += log + "\n";
@@ -285,7 +285,7 @@ public class ViewModel {
     }
 
     public final List<String> getThisNiceLog() {
-        return logger.getLog();
+        return logger.getThisLog();
     }
 
     public final String getLogs() {
