@@ -26,14 +26,14 @@ public class ViewModel {
     private final StringProperty resultText = new SimpleStringProperty();
     private final StringProperty myRealLogs = new SimpleStringProperty();
 
-    private TheLog logger;
+    private TheLog mainWindowLogger;
     private List<ListenerForCachChangesInValue> valueChangedListeners;
 
     public final void setThisOneLog(final TheLog logger) {
         if (logger == null) {
             throw new IllegalArgumentException("Logger parameter can't be null");
         }
-        this.logger = logger;
+        this.mainWindowLogger = logger;
     }
 
     public ViewModel() {
@@ -177,7 +177,7 @@ public class ViewModel {
                 .append(": Field A = ").append(getBitFieldStringA())
                 .append("; Field B = ").append(getBitFieldStringB())
                 .append(" Operation: ").append("AND").append(".");
-        logger.log(message.toString());
+        mainWindowLogger.log(message.toString());
         logUpdating();
     }
 
@@ -192,7 +192,7 @@ public class ViewModel {
                 .append(": Field A = ").append(getBitFieldStringA())
                 .append("; Field B = ").append(getBitFieldStringB())
                 .append(" Operation: ").append("OR").append(".");
-        logger.log(message.toString());
+        mainWindowLogger.log(message.toString());
         logUpdating();
     }
 
@@ -207,12 +207,12 @@ public class ViewModel {
                 .append(": Field A = ").append(getBitFieldStringA())
                 .append("; Field B = ").append(getBitFieldStringB())
                 .append(" Operation: ").append("XOR").append(".");
-        logger.log(message.toString());
+        mainWindowLogger.log(message.toString());
         logUpdating();
     }
 
     private void logUpdating() {
-        List<String> fullLog = logger.getThisLog();
+        List<String> fullLog = mainWindowLogger.getThisLog();
         String record = new String();
         for (String log : fullLog) {
             record += log + "\n";
@@ -285,7 +285,7 @@ public class ViewModel {
     }
 
     public final List<String> getThisNiceLog() {
-        return logger.getThisLog();
+        return mainWindowLogger.getThisLog();
     }
 
     public final String getMyRealLogs() {
