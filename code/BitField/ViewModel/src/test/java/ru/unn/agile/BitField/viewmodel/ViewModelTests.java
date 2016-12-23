@@ -280,7 +280,7 @@ public class ViewModelTests {
     }
 
     @Test
-    public void NullLoggerIsItPossible() {
+    public void nullLoggerIsItPossible() {
         try {
             new ViewModel(null);
             fail("Exception wasn't thrown");

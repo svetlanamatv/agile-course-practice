@@ -29,11 +29,11 @@ public class ViewModel {
     private TheLog mainWindowLogger;
     private List<ListenerForCachChangesInValue> valueChangedListeners;
 
-    public final void setThisOneLog(final TheLog SomeLogger) {
-        if (SomeLogger == null) {
+    public final void setThisOneLog(final TheLog someLogger) {
+        if (someLogger == null) {
             throw new IllegalArgumentException("Logger parameter can't be null");
         }
-        this.mainWindowLogger = SomeLogger;
+        this.mainWindowLogger = someLogger;
     }
 
     public ViewModel() {
@@ -41,8 +41,8 @@ public class ViewModel {
         bitFieldStringB.set(bitFieldB.toString());
     }
 
-    public ViewModel(final TheLog SomeOneLog) {
-        setThisOneLog(SomeOneLog);
+    public ViewModel(final TheLog someOneLog) {
+        setThisOneLog(someOneLog);
         bitFieldStringA.set(bitFieldA.toString());
         bitFieldStringB.set(bitFieldB.toString());
     }
