@@ -1,7 +1,11 @@
 package ru.unn.agile.BitField.viewmodel;
 
 import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import ru.unn.agile.BitField.model.BitField;
+
+import java.util.List;
 
 
 public class ViewModel {
@@ -20,8 +24,25 @@ public class ViewModel {
     private final StringProperty textErrorB = new SimpleStringProperty();
 
     private final StringProperty resultText = new SimpleStringProperty();
+    private final StringProperty logs = new SimpleStringProperty();
+
+    private ILogger logger;
+    private List<ValueCachingChangeListener> valueChangedListeners;
+
+    public final void setLogger(final ILogger logger) {
+        if (logger == null) {
+            throw new IllegalArgumentException("Logger parameter can't be null");
+        }
+        this.logger = logger;
+    }
 
     public ViewModel() {
+        bitFieldStringA.set(bitFieldA.toString());
+        bitFieldStringB.set(bitFieldB.toString());
+    }
+
+    public ViewModel(final ILogger logger) {
+        setLogger(logger);
         bitFieldStringA.set(bitFieldA.toString());
         bitFieldStringB.set(bitFieldB.toString());
     }
@@ -150,6 +171,14 @@ public class ViewModel {
         bitFieldResult = bitFieldA.and(bitFieldB);
 
         resultText.set(bitFieldResult.toString());
+
+        StringBuilder message = new StringBuilder(LogMessages.AND_WAS_PRESSED);
+        message.append("Arguments")
+                .append(": Field A = ").append(getBitFieldStringA())
+                .append("; Field B = ").append(getBitFieldStringB())
+                .append(" Operation: ").append("AND").append(".");
+        logger.log(message.toString());
+        updateLogs();
     }
 
     public void logicAOrB() {
@@ -157,6 +186,14 @@ public class ViewModel {
         bitFieldResult = bitFieldA.or(bitFieldB);
 
         resultText.set(bitFieldResult.toString());
+
+        StringBuilder message = new StringBuilder(LogMessages.OR_WAS_PRESSED);
+        message.append("Arguments")
+                .append(": Field A = ").append(getBitFieldStringA())
+                .append("; Field B = ").append(getBitFieldStringB())
+                .append(" Operation: ").append("OR").append(".");
+        logger.log(message.toString());
+        updateLogs();
     }
 
     public void logicAXorB() {
@@ -164,6 +201,23 @@ public class ViewModel {
         bitFieldResult = bitFieldA.xor(bitFieldB);
 
         resultText.set(bitFieldResult.toString());
+
+        StringBuilder message = new StringBuilder(LogMessages.XOR_WAS_PRESSED);
+        message.append("Arguments")
+                .append(": Field A = ").append(getBitFieldStringA())
+                .append("; Field B = ").append(getBitFieldStringB())
+                .append(" Operation: ").append("XOR").append(".");
+        logger.log(message.toString());
+        updateLogs();
+    }
+
+    private void updateLogs() {
+        List<String> fullLog = logger.getLog();
+        String record = new String();
+        for (String log : fullLog) {
+            record += log + "\n";
+        }
+        logs.set(record);
     }
 
     // Property Getters Fields
@@ -196,6 +250,10 @@ public class ViewModel {
         return resultText;
     }
 
+    public StringProperty logsProperty() {
+        return logs;
+    }
+
     // Getters Fields
 
     public final String getBitFieldStringA() {
@@ -225,5 +283,43 @@ public class ViewModel {
     public final String getResultText() {
         return resultText.get();
     }
+
+    public final List<String> getLog() {
+        return logger.getLog();
+    }
+
+    public final String getLogs() {
+        return logs.get();
+    }
+
+    private class ValueCachingChangeListener implements ChangeListener<String> {
+        private String prevValue = new String();
+        private String curValue = new String();
+        @Override
+        public void changed(final ObservableValue<? extends String> observable,
+                            final String oldValue, final String newValue) {
+            if (oldValue.equals(newValue)) {
+                return;
+            }
+            //status.set(getInputStatus().toString());
+            curValue = newValue;
+        }
+        public boolean isChanged() {
+            return !prevValue.equals(curValue);
+        }
+        public void cache() {
+            prevValue = curValue;
+        }
+    }
+}
+
+final class LogMessages {
+    public static final String XOR_WAS_PRESSED = "Xor. ";
+    public static final String OR_WAS_PRESSED = "Or. ";
+    public static final String AND_WAS_PRESSED = "Or. ";
+    public static final String OPERATION_WAS_CHANGED = "Operation was changed to ";
+    public static final String EDITING_FINISHED = "Updated input. ";
+
+    private LogMessages() { }
 }
 

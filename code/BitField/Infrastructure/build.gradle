@@ -1,8 +1,6 @@
-apply from:   rootDir.getAbsolutePath() + '/code/config/scripts/javafx.plugin'
-
 dependencies {
     compile project(':BitField-ViewModel')
-	compile project(':BitField-Infrastructure')
+    testCompile project(':BitField-ViewModel').sourceSets.test.output
 }
 
 sourceSets {

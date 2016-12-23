@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class ViewModelTests {
@@ -11,7 +13,9 @@ public class ViewModelTests {
 
     @Before
     public void setUp() {
-        viewModel = new ViewModel();
+        if (viewModel == null) {
+            viewModel = new ViewModel(new FakeLogger());
+        }
     }
 
     @After
@@ -268,5 +272,65 @@ public class ViewModelTests {
         viewModel.logicAXorB();
 
         assertEquals("11111111", viewModel.getResultText());
+    }
+
+    private void setValues() {
+        viewModel.setBitFieldStringA("11101010");
+        viewModel.setBitFieldStringB("01011101");
+    }
+
+    @Test
+    public void viewModelConstructorThrowsExceptionWithNullLogger() {
+        try {
+            new ViewModel(null);
+            fail("Exception wasn't thrown");
+        } catch (IllegalArgumentException ex) {
+            assertEquals("Logger parameter can't be null", ex.getMessage());
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
+    }
+
+    @Test
+    public void logIsEmptyInTheBeginning() {
+        List<String> log = viewModel.getLog();
+
+        assertTrue(log.isEmpty());
+    }
+
+    @Test
+    public void logContainsProperMessageAfterXorOperation() {
+        setValues();
+        viewModel.logicAXorB();
+        String message = viewModel.getLog().get(0);
+
+        assertTrue(message.matches(".*" + LogMessages.XOR_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void logContainsProperMessageAfterOrOperation() {
+        setValues();
+        viewModel.logicAOrB();
+        String message = viewModel.getLog().get(0);
+
+        assertTrue(message.matches(".*" + LogMessages.OR_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void logContainsProperMessageAfterAndOperation() {
+        setValues();
+        viewModel.logicAAndB();
+        String message = viewModel.getLog().get(0);
+
+        assertTrue(message.matches(".*" + LogMessages.AND_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void logContainsProperMessageAfterSetOperation() {
+
+    }
+
+    public void setExternalViewModel(final ViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 }

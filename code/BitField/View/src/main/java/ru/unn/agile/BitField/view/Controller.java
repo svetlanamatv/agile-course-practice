@@ -10,6 +10,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import ru.unn.agile.BitField.infrastructure.TxtLogger;
 import ru.unn.agile.BitField.viewmodel.ViewModel;
 
 public class Controller {
@@ -99,6 +100,8 @@ public class Controller {
 
     @FXML
     void initialize() {
+        viewModel.setLogger(new TxtLogger("./TxtLogger-lab3.log"));
+
         setBitAComboBox.setItems(numBitList);
         setBitBComboBox.setItems(numBitList);
 
