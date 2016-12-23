@@ -24,7 +24,7 @@ public class ViewModel {
     private final StringProperty textErrorB = new SimpleStringProperty();
 
     private final StringProperty resultText = new SimpleStringProperty();
-    private final StringProperty logs = new SimpleStringProperty();
+    private final StringProperty myRealLogs = new SimpleStringProperty();
 
     private TheLog logger;
     private List<ListenerForCachChangesInValue> valueChangedListeners;
@@ -217,7 +217,7 @@ public class ViewModel {
         for (String log : fullLog) {
             record += log + "\n";
         }
-        logs.set(record);
+        myRealLogs.set(record);
     }
 
     // Property Getters Fields
@@ -250,8 +250,8 @@ public class ViewModel {
         return resultText;
     }
 
-    public StringProperty logsProperty() {
-        return logs;
+    public StringProperty myRealLogsProperty() {
+        return myRealLogs;
     }
 
     // Getters Fields
@@ -288,8 +288,8 @@ public class ViewModel {
         return logger.getThisLog();
     }
 
-    public final String getLogs() {
-        return logs.get();
+    public final String getMyRealLogs() {
+        return myRealLogs.get();
     }
 
     private class ListenerForCachChangesInValue implements ChangeListener<String> {
