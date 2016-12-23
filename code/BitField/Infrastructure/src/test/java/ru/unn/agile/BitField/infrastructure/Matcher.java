@@ -2,12 +2,11 @@ package ru.unn.agile.BitField.infrastructure;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 
-public class RegexMatcher extends BaseMatcher {
+public class Matcher extends BaseMatcher {
     private final String regex;
 
-    public RegexMatcher(final String regex) {
+    public Matcher(final String regex) {
         this.regex = regex;
     }
 
@@ -20,11 +19,11 @@ public class RegexMatcher extends BaseMatcher {
         description.appendText(regex);
     }
 
-    public static Matcher<? super String> matchesPattern(final String regex) {
-        RegexMatcher matcher = new RegexMatcher(regex);
+    public static org.hamcrest.Matcher matchesPattern(final String regex) {
+        Matcher matcher = new Matcher(regex);
         //NOTE: this ugly cast is needed to workaround 'unchecked' Java warning
         @SuppressWarnings(value = "unchecked")
-        Matcher<? super String> castedMatcher = (Matcher<? super String>) matcher;
+        org.hamcrest.Matcher castedMatcher = (org.hamcrest.Matcher) matcher;
         return castedMatcher;
     }
 }

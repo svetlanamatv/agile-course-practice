@@ -6,14 +6,14 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
-import static ru.unn.agile.BitField.infrastructure.RegexMatcher.matchesPattern;
+import static ru.unn.agile.BitField.infrastructure.Matcher.matchesPattern;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 
-public class TxtLoggerTests {
+public class TestsForTextLogger {
     private static final String FILENAME = "./TxtLogger_Tests-lab3.log";
     private TxtLogger txtLogger;
 

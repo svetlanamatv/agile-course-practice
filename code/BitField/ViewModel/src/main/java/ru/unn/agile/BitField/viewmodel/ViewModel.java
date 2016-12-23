@@ -27,7 +27,7 @@ public class ViewModel {
     private final StringProperty logs = new SimpleStringProperty();
 
     private ILogger logger;
-    private List<ValueCachingChangeListener> valueChangedListeners;
+    private List<ListenerForCachChangesInValue> valueChangedListeners;
 
     public final void setLogger(final ILogger logger) {
         if (logger == null) {
@@ -292,23 +292,22 @@ public class ViewModel {
         return logs.get();
     }
 
-    private class ValueCachingChangeListener implements ChangeListener<String> {
-        private String prevValue = new String();
-        private String curValue = new String();
+    private class ListenerForCachChangesInValue implements ChangeListener<String> {
+        private String valuePrevious = new String();
+        private String valueCurrent = new String();
         @Override
         public void changed(final ObservableValue<? extends String> observable,
                             final String oldValue, final String newValue) {
             if (oldValue.equals(newValue)) {
                 return;
             }
-            //status.set(getInputStatus().toString());
-            curValue = newValue;
+            valueCurrent = newValue;
         }
         public boolean isChanged() {
-            return !prevValue.equals(curValue);
+            return !valuePrevious.equals(valueCurrent);
         }
         public void cache() {
-            prevValue = curValue;
+            valuePrevious = valueCurrent;
         }
     }
 }
@@ -317,8 +316,6 @@ final class LogMessages {
     public static final String XOR_WAS_PRESSED = "Xor. ";
     public static final String OR_WAS_PRESSED = "Or. ";
     public static final String AND_WAS_PRESSED = "Or. ";
-    public static final String OPERATION_WAS_CHANGED = "Operation was changed to ";
-    public static final String EDITING_FINISHED = "Updated input. ";
 
     private LogMessages() { }
 }
