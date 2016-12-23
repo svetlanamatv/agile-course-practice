@@ -293,21 +293,14 @@ public class ViewModel {
     }
 
     private class ListenerForCachChangesInValue implements ChangeListener<String> {
-        private String valuePrevious = new String();
         private String valueCurrent = new String();
         @Override
-        public void changed(final ObservableValue<? extends String> observable,
-                            final String oldValue, final String newValue) {
-            if (oldValue.equals(newValue)) {
+        public void changed(final ObservableValue<? extends String> obs,
+                            final String valueolding, final String newState) {
+            if (valueolding.equals(newState)) {
                 return;
             }
-            valueCurrent = newValue;
-        }
-        public boolean isChanged() {
-            return !valuePrevious.equals(valueCurrent);
-        }
-        public void cache() {
-            valuePrevious = valueCurrent;
+            valueCurrent = newState;
         }
     }
 }
