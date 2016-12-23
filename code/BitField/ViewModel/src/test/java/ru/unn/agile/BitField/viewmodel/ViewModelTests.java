@@ -293,7 +293,7 @@ public class ViewModelTests {
 
     @Test
     public void logIsEmptyInTheBeginning() {
-        List<String> log = viewModel.getLog();
+        List<String> log = viewModel.getThisNiceLog();
 
         assertTrue(log.isEmpty());
     }
@@ -302,7 +302,7 @@ public class ViewModelTests {
     public void logContainsProperMessageAfterXorOperation() {
         setValues();
         viewModel.logicAXorB();
-        String message = viewModel.getLog().get(0);
+        String message = viewModel.getThisNiceLog().get(0);
 
         assertTrue(message.matches(".*" + LogMessages.XOR_WAS_PRESSED + ".*"));
     }
@@ -311,7 +311,7 @@ public class ViewModelTests {
     public void logContainsProperMessageAfterOrOperation() {
         setValues();
         viewModel.logicAOrB();
-        String message = viewModel.getLog().get(0);
+        String message = viewModel.getThisNiceLog().get(0);
 
         assertTrue(message.matches(".*" + LogMessages.OR_WAS_PRESSED + ".*"));
     }
@@ -320,7 +320,7 @@ public class ViewModelTests {
     public void logContainsProperMessageAfterAndOperation() {
         setValues();
         viewModel.logicAAndB();
-        String message = viewModel.getLog().get(0);
+        String message = viewModel.getThisNiceLog().get(0);
 
         assertTrue(message.matches(".*" + LogMessages.AND_WAS_PRESSED + ".*"));
     }

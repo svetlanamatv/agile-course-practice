@@ -29,7 +29,7 @@ public class ViewModel {
     private ILogger logger;
     private List<ListenerForCachChangesInValue> valueChangedListeners;
 
-    public final void setLogger(final ILogger logger) {
+    public final void setThisOneLog(final ILogger logger) {
         if (logger == null) {
             throw new IllegalArgumentException("Logger parameter can't be null");
         }
@@ -42,7 +42,7 @@ public class ViewModel {
     }
 
     public ViewModel(final ILogger logger) {
-        setLogger(logger);
+        setThisOneLog(logger);
         bitFieldStringA.set(bitFieldA.toString());
         bitFieldStringB.set(bitFieldB.toString());
     }
@@ -178,7 +178,7 @@ public class ViewModel {
                 .append("; Field B = ").append(getBitFieldStringB())
                 .append(" Operation: ").append("AND").append(".");
         logger.log(message.toString());
-        updateLogs();
+        logUpdating();
     }
 
     public void logicAOrB() {
@@ -193,7 +193,7 @@ public class ViewModel {
                 .append("; Field B = ").append(getBitFieldStringB())
                 .append(" Operation: ").append("OR").append(".");
         logger.log(message.toString());
-        updateLogs();
+        logUpdating();
     }
 
     public void logicAXorB() {
@@ -208,10 +208,10 @@ public class ViewModel {
                 .append("; Field B = ").append(getBitFieldStringB())
                 .append(" Operation: ").append("XOR").append(".");
         logger.log(message.toString());
-        updateLogs();
+        logUpdating();
     }
 
-    private void updateLogs() {
+    private void logUpdating() {
         List<String> fullLog = logger.getLog();
         String record = new String();
         for (String log : fullLog) {
@@ -284,7 +284,7 @@ public class ViewModel {
         return resultText.get();
     }
 
-    public final List<String> getLog() {
+    public final List<String> getThisNiceLog() {
         return logger.getLog();
     }
 

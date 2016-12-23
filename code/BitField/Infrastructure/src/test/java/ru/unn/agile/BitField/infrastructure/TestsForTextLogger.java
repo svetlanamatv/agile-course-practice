@@ -28,25 +28,6 @@ public class TestsForTextLogger {
     }
 
     @Test
-    public void canCreateDiskLogger() {
-        try {
-            new BufferedReader(new FileReader(FILENAME));
-        } catch (FileNotFoundException e) {
-            fail("File " + FILENAME + " not found!");
-        }
-    }
-
-    @Test
-    public void canWriteInThisNiceLog() {
-        String testMes = "Test message";
-
-        txtLogger.log(testMes);
-
-        String message = txtLogger.getLog().get(0);
-        assertThat(message, matchesPattern(".*" + testMes + "$"));
-    }
-
-    @Test
     public void canTextingNotOneMessage() {
         String[] mess = {"test 1", "test 2"};
 
@@ -60,6 +41,15 @@ public class TestsForTextLogger {
     }
 
     @Test
+    public void canCreateDiskLogger() {
+        try {
+            new BufferedReader(new FileReader(FILENAME));
+        } catch (FileNotFoundException e) {
+            fail("File " + FILENAME + " not found!");
+        }
+    }
+
+    @Test
     public void doesEstTimeAndDateInThisLog() {
         String test = "Some message";
 
@@ -67,5 +57,15 @@ public class TestsForTextLogger {
 
         String message = txtLogger.getLog().get(0);
         assertThat(message, matchesPattern("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} > .*"));
+    }
+
+    @Test
+    public void canWriteInThisNiceLog() {
+        String testMes = "Test message";
+
+        txtLogger.log(testMes);
+
+        String message = txtLogger.getLog().get(0);
+        assertThat(message, matchesPattern(".*" + testMes + "$"));
     }
 }

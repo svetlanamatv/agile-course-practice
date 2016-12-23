@@ -100,7 +100,7 @@ public class Controller {
 
     @FXML
     void initialize() {
-        viewModel.setLogger(new TxtLogger("./TxtLogger-lab3.log"));
+        viewModel.setThisOneLog(new TxtLogger("./TxtLogger-lab3.log"));
 
         setBitAComboBox.setItems(numBitList);
         setBitBComboBox.setItems(numBitList);

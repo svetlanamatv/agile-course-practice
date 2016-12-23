@@ -14,9 +14,9 @@ public class Matcher extends BaseMatcher {
         return ((String) o).matches(reg);
     }
 
-    public void describeTo(final Description description) {
-        description.appendText("regexMatches = ");
-        description.appendText(reg);
+    public void describeTo(final Description gle) {
+        gle.appendText("regexMatches = ");
+        gle.appendText(reg);
     }
 
     public static org.hamcrest.Matcher matchesPattern(final String firstRegex) {
