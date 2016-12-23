@@ -1,6 +1,6 @@
 package ru.unn.agile.BitField.infrastructure;
 
-import ru.unn.agile.BitField.viewmodel.ILogger;
+import ru.unn.agile.BitField.viewmodel.TheLog;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class TxtLogger implements ILogger {
+public class TxtLogger implements TheLog {
     private static final String DATA = "yyyy-MM-dd HH:mm:ss";
     private final BufferedWriter writer;
     private final String name;

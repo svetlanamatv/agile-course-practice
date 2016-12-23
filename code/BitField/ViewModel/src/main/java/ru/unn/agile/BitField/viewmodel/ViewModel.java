@@ -26,10 +26,10 @@ public class ViewModel {
     private final StringProperty resultText = new SimpleStringProperty();
     private final StringProperty logs = new SimpleStringProperty();
 
-    private ILogger logger;
+    private TheLog logger;
     private List<ListenerForCachChangesInValue> valueChangedListeners;
 
-    public final void setThisOneLog(final ILogger logger) {
+    public final void setThisOneLog(final TheLog logger) {
         if (logger == null) {
             throw new IllegalArgumentException("Logger parameter can't be null");
         }
@@ -41,7 +41,7 @@ public class ViewModel {
         bitFieldStringB.set(bitFieldB.toString());
     }
 
-    public ViewModel(final ILogger logger) {
+    public ViewModel(final TheLog logger) {
         setThisOneLog(logger);
         bitFieldStringA.set(bitFieldA.toString());
         bitFieldStringB.set(bitFieldB.toString());
