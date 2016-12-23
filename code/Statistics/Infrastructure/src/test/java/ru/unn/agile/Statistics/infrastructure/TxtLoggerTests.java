@@ -2,8 +2,6 @@ package ru.unn.agile.Statistics.infrastructure;
 
 import org.junit.Before;
 import org.junit.Test;
-import ru.unn.agile.Statistics.infrastructure.TxtLogger;
-import ru.unn.agile.Statistics.viewmodel.FakeLogger;
 import ru.unn.agile.Statistics.viewmodel.LoggerTests;
 import ru.unn.agile.Statistics.viewmodel.ViewModel;
 
@@ -22,7 +20,8 @@ public class TxtLoggerTests extends LoggerTests {
     @Before
     public void before() {
         txtLogger = new TxtLogger(FILENAME);
-        vm = new ViewModel(txtLogger);
+        ViewModel vm = new ViewModel(txtLogger);
+        setVM(vm);
     }
 
     @Test

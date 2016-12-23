@@ -8,7 +8,6 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
-import java.util.Vector;
 
 import ru.unn.agile.Statistics.viewmodel.Operation;
 import ru.unn.agile.Statistics.viewmodel.ViewModel;
@@ -50,9 +49,13 @@ public class Calculator {
 
         DocumentListener updateOnTextChangedListener = new DocumentListener() {
             @Override
-            public void insertUpdate(final DocumentEvent e) { }
+            public void insertUpdate(final DocumentEvent e) {
+                // No implementation
+            }
             @Override
-            public void removeUpdate(final DocumentEvent e) { }
+            public void removeUpdate(final DocumentEvent e) {
+                // No implementation
+            }
             @Override
             public void changedUpdate(final DocumentEvent e) {
                 bind();
@@ -69,7 +72,7 @@ public class Calculator {
 
         PropertyChangeListener propertyChange = new PropertyChangeListener() {
             @Override
-            public void propertyChange(PropertyChangeEvent e) {
+            public void propertyChange(final PropertyChangeEvent e) {
                 if ("tableCellEditor".equals(e.getPropertyName())) {
                     backBind();
                 }
@@ -110,7 +113,7 @@ public class Calculator {
         }
         viewModel.setOperation((Operation) operationComboBox.getSelectedItem());
 
-        viewModel.setArraysSize((int)nSpinner.getValue());
+        viewModel.setArraysSize((int) nSpinner.getValue());
         ((AbstractTableModel) table.getModel()).fireTableStructureChanged();
         possibilityTable.update();
     }

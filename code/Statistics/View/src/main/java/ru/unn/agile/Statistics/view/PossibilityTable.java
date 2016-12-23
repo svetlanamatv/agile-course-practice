@@ -111,7 +111,7 @@ abstract class PossibilityTable implements ChangeListener {
                 viewModel.setValue(j - 1, value);
             } else {
                 viewModel.setPossibility(j - 1, value);
-            };
+            }
         }
     }
 

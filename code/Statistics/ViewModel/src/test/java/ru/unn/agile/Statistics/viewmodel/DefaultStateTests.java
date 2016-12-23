@@ -14,18 +14,18 @@ import static ru.unn.agile.Statistics.viewmodel.ViewModel.Status.WAITING;
 public class DefaultStateTests extends Core {
     @Test
     public void delta() {
-        assertEquals(DEFAULT_DELTA, vm.getDelta());
+        assertEquals(DEFAULT_DELTA, vm().getDelta());
         assertNotNull(Double.valueOf(DEFAULT_DELTA));
     }
 
     @Test
     public void arrays() {
-        assertEquals(0, vm.getTableSize());
+        assertEquals(0, vm().getTableSize());
     }
 
     @Test
     public void result() {
-        assertEquals("", vm.getResult());
+        assertEquals("", vm().getResult());
     }
 
     @Test
@@ -35,28 +35,28 @@ public class DefaultStateTests extends Core {
 
     @Test
     public void calculateButton() {
-        assertFalse(vm.isCalculateButtonEnabled());
+        assertFalse(vm().isCalculateButtonEnabled());
     }
 
     @Test
     public void momentOrderEnabled() {
-        assertFalse(vm.isMomentOrderEnabled());
+        assertFalse(vm().isMomentOrderEnabled());
     }
 
     @Test(expected = IllegalStateException.class)
     public void cannotGetMomentOrder() {
-        assertNotNull(vm.getMomentOrder());
+        assertNotNull(vm().getMomentOrder());
     }
 
     @Test(expected = IllegalStateException.class)
     public void cannotSetMomentOrder() {
-        vm.setMomentOrder("1");
+        vm().setMomentOrder("1");
     }
 
     @Test
     public void momentOrder() {
-        vm.setOperation(IM);
-        assertEquals("", vm.getMomentOrder());
+        vm().setOperation(IM);
+        assertEquals("", vm().getMomentOrder());
     }
 
     @Test

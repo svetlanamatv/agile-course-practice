@@ -43,7 +43,7 @@ public class ViewModel {
         return logger.getLog();
     }
 
-    public void setValue(int i, double value) {
+    public void setValue(final int i, final double value) {
         logger.log(String.format(LogMessages.VALUES_WERE_CHANGED,
                    value,
                    i));
@@ -52,11 +52,11 @@ public class ViewModel {
         updateStatus();
     }
 
-    public double getValue(int i) {
+    public double getValue(final int i) {
         return values[i];
     }
 
-    public void setPossibility(int i, double possibility) {
+    public void setPossibility(final int i, final double possibility) {
         logger.log(String.format(LogMessages.POSSIBILITIES_WERE_CHANGED,
                                  possibility,
                                  i));
@@ -66,7 +66,7 @@ public class ViewModel {
 
     }
 
-    public double getPossibility(int i) {
+    public double getPossibility(final int i) {
         return possibilities[i];
     }
 
@@ -91,13 +91,13 @@ public class ViewModel {
     }
 
     public final class LogMessages {
-        public static final String OPERATION_WAS_CHANGED = "Operation was changed to %s.";
-        public static final String DELTA_WAS_CHANGED = "Delta was changed to %s.";
-        public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to %d.";
-        public static final String VALUES_WERE_CHANGED = "Set value = %f at %d position.";
-        public static final String POSSIBILITIES_WERE_CHANGED = "Set possibility = %f at %d position.";
-        public static final String RESULT_WAS_CALCULATED = "Result was calculated. It is equal %s.";
-        public static final String MOMENT_ORDER_WAS_CHANGED = "Moment order was changed to %s.";
+        public static final String OPERATION_WAS_CHANGED = "Operation was changed to %s";
+        public static final String DELTA_WAS_CHANGED = "Delta was changed to %s";
+        public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to %d";
+        public static final String VALUES_WERE_CHANGED = "Set value =%f at %d position";
+        public static final String POSSIBILITIES_WERE_CHANGED = "Set possibility=%f at %d position";
+        public static final String RESULT_WAS_CALCULATED = "Result was calculated. It is equal %s";
+        public static final String MOMENT_ORDER_WAS_CHANGED = "Moment order was changed to %s";
         private LogMessages() { }
     }
 

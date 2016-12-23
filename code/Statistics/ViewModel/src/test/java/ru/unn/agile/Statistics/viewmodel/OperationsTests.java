@@ -12,52 +12,52 @@ import static ru.unn.agile.Statistics.viewmodel.ViewModel.Status.SUCCESS;
 public class OperationsTests extends Core {
     @After
     public void checkPersistentParameters() {
-        assertEquals(DEFAULT_DELTA, vm.getDelta());
+        assertEquals(DEFAULT_DELTA, vm().getDelta());
         assertStatusIs(SUCCESS);
-        assertTrue(vm.isCalculateButtonEnabled());
+        assertTrue(vm().isCalculateButtonEnabled());
     }
 
     @Test
     public void canCalculateDefaultOperation() {
         setInputFields();
-        vm.calculate();
+        vm().calculate();
     }
 
     @Test
     public void canCalculateExpectedValue() {
         setInputFields();
-        vm.setOperation(Operation.EV);
-        vm.calculate();
+        vm().setOperation(Operation.EV);
+        vm().calculate();
 
-        assertEquals(TEST_RESULT_EV, vm.getResult());
+        assertEquals(TEST_RESULT_EV, vm().getResult());
     }
 
     @Test
     public void canCalculateVariance() {
         setInputFields();
-        vm.setOperation(Operation.VAR);
-        vm.calculate();
+        vm().setOperation(Operation.VAR);
+        vm().calculate();
 
-        assertEquals(TEST_RESULT_VAR, vm.getResult());
+        assertEquals(TEST_RESULT_VAR, vm().getResult());
     }
 
     @Test
     public void canCalculateFirstInitialMoment() {
         setInputFields();
-        vm.setOperation(Operation.IM);
-        vm.setMomentOrder("1");
-        vm.calculate();
+        vm().setOperation(Operation.IM);
+        vm().setMomentOrder("1");
+        vm().calculate();
 
-        assertEquals(TEST_RESULT_IM1, vm.getResult());
+        assertEquals(TEST_RESULT_IM1, vm().getResult());
     }
 
     @Test
     public void canCalculateSecondInitialMoment() {
         setInputFields();
-        vm.setOperation(Operation.IM);
-        vm.setMomentOrder("2");
-        vm.calculate();
+        vm().setOperation(Operation.IM);
+        vm().setMomentOrder("2");
+        vm().calculate();
 
-        assertEquals(TEST_RESULT_IM2, vm.getResult());
+        assertEquals(TEST_RESULT_IM2, vm().getResult());
     }
 }
