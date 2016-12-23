@@ -13,18 +13,18 @@ import java.util.List;
 import java.util.Locale;
 
 public class TxtLogger implements ILogger {
-    private static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATA = "yyyy-MM-dd HH:mm:ss";
     private final BufferedWriter writer;
-    private final String filename;
+    private final String name;
 
     private static String now() {
         Calendar myCal = Calendar.getInstance();
-        SimpleDateFormat formatic = new SimpleDateFormat(DATE_FORMAT_NOW, Locale.ENGLISH);
+        SimpleDateFormat formatic = new SimpleDateFormat(DATA, Locale.ENGLISH);
         return formatic.format(myCal.getTime());
     }
 
     public TxtLogger(final String filename) {
-        this.filename = filename;
+        this.name = filename;
 
         BufferedWriter writerForLog = null;
         try {
@@ -51,12 +51,12 @@ public class TxtLogger implements ILogger {
         BufferedReader reader;
         ArrayList<String> logger = new ArrayList<String>();
         try {
-            reader = new BufferedReader(new FileReader(filename));
-            String lineInLog = reader.readLine();
+            reader = new BufferedReader(new FileReader(name));
+            String logline = reader.readLine();
 
-            while (lineInLog != null) {
-                logger.add(lineInLog);
-                lineInLog = reader.readLine();
+            while (logline != null) {
+                logger.add(logline);
+                logline = reader.readLine();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
