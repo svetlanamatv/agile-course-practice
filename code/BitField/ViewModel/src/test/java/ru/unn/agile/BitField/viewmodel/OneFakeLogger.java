@@ -3,7 +3,7 @@ package ru.unn.agile.BitField.viewmodel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FakeLogger implements ILogger {
+public class OneFakeLogger implements ILogger {
     private final ArrayList<String> thisLog = new ArrayList<>();
 
     @Override

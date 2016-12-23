@@ -18,52 +18,52 @@ public class TestsForTextLogger {
     private TxtLogger txtLogger;
 
     @Before
-    public void setUp() {
+    public void setOn() {
         txtLogger = new TxtLogger(FILENAME);
     }
 
     @Test
-    public void canCreateLoggerWithFileName() {
+    public void creatingLogWithNameofFile() {
         assertNotNull(txtLogger);
     }
 
     @Test
-    public void canCreateLogFileOnDisk() {
+    public void canCreateDiskLogger() {
         try {
             new BufferedReader(new FileReader(FILENAME));
         } catch (FileNotFoundException e) {
-            fail("File " + FILENAME + " wasn't found!");
+            fail("File " + FILENAME + " not found!");
         }
     }
 
     @Test
-    public void canWriteLogMessage() {
-        String testMessage = "Test message";
+    public void canWriteInThisNiceLog() {
+        String testMes = "Test message";
 
-        txtLogger.log(testMessage);
+        txtLogger.log(testMes);
 
         String message = txtLogger.getLog().get(0);
-        assertThat(message, matchesPattern(".*" + testMessage + "$"));
+        assertThat(message, matchesPattern(".*" + testMes + "$"));
     }
 
     @Test
-    public void canWriteSeveralLogMessage() {
-        String[] messages = {"Test message 1", "Test message 2"};
+    public void canTextingNotOneMessage() {
+        String[] mess = {"test 1", "test 2"};
 
-        txtLogger.log(messages[0]);
-        txtLogger.log(messages[1]);
+        txtLogger.log(mess[0]);
+        txtLogger.log(mess[1]);
 
         List<String> actualMessages = txtLogger.getLog();
         for (int i = 0; i < actualMessages.size(); i++) {
-            assertThat(actualMessages.get(i), matchesPattern(".*" + messages[i] + "$"));
+            assertThat(actualMessages.get(i), matchesPattern(".*" + mess[i] + "$"));
         }
     }
 
     @Test
-    public void doesLogContainDateAndTime() {
-        String testMessage = "Test message";
+    public void doesEstTimeAndDateInThisLog() {
+        String test = "Some message";
 
-        txtLogger.log(testMessage);
+        txtLogger.log(test);
 
         String message = txtLogger.getLog().get(0);
         assertThat(message, matchesPattern("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} > .*"));

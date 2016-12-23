@@ -4,26 +4,26 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 
 public class Matcher extends BaseMatcher {
-    private final String regex;
+    private final String reg;
 
     public Matcher(final String regex) {
-        this.regex = regex;
+        this.reg = regex;
     }
 
     public boolean matches(final Object o) {
-        return ((String) o).matches(regex);
+        return ((String) o).matches(reg);
     }
 
     public void describeTo(final Description description) {
-        description.appendText("matches regex = ");
-        description.appendText(regex);
+        description.appendText("regexMatches = ");
+        description.appendText(reg);
     }
 
-    public static org.hamcrest.Matcher matchesPattern(final String regex) {
-        Matcher matcher = new Matcher(regex);
-        //NOTE: this ugly cast is needed to workaround 'unchecked' Java warning
+    public static org.hamcrest.Matcher matchesPattern(final String firstRegex) {
+        Matcher matcher = new Matcher(firstRegex);
+
         @SuppressWarnings(value = "unchecked")
-        org.hamcrest.Matcher castedMatcher = (org.hamcrest.Matcher) matcher;
-        return castedMatcher;
+        org.hamcrest.Matcher casted = (org.hamcrest.Matcher) matcher;
+        return casted;
     }
 }
