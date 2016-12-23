@@ -90,7 +90,7 @@ public class ViewModel {
         }
     }
 
-    public final class LogMessages {
+    private final class LogMessages {
         public static final String OPERATION_WAS_CHANGED = "Operation was changed to %s";
         public static final String DELTA_WAS_CHANGED = "Delta was changed to %s";
         public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to %d";

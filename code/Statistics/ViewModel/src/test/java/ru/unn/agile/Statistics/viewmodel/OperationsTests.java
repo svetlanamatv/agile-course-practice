@@ -21,6 +21,7 @@ public class OperationsTests extends Core {
     public void canCalculateDefaultOperation() {
         setInputFields();
         vm().calculate();
+        assertStatusIs(SUCCESS);
     }
 
     @Test
