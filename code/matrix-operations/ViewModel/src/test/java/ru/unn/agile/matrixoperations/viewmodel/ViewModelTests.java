@@ -3,6 +3,7 @@ package ru.unn.agile.matrixoperations.viewmodel;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -387,6 +388,18 @@ public class ViewModelTests {
 
         assertTrue(getLastLog().endsWith(LogMessages.CHANGE_RIGHT_MATRIX_ELEMENT
                 + " " + "[" + 1 + "][" + 0 + "]" + " from " + 42.0f + " to " + 32.0f));
+    }
+
+    @Test
+    public void canGetLog() {
+        ObservableList<String> log = viewModel.getLog();
+        assertNotNull(log);
+    }
+
+    @Test
+    public void canGetLogProperty() {
+        ObjectProperty<ObservableList<String>> prop = viewModel.logProperty();
+        assertNotNull(prop);
     }
 
     private void doTestOperationGet(final Matrix.Operation op) {
