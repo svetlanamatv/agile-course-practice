@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static ru.unn.agile.queue.viewmodel.ViewModel.LogMessageCliche.ADD_BUTTON_PRESSED;
 import static ru.unn.agile.queue.viewmodel.ViewModel.LogMessageCliche.REMOVE_BUTTON_PRESSED;
@@ -185,6 +186,22 @@ public class ViewModelTest {
         viewModel.search();
         String messageRegexp = ".*" + SEARCH_BUTTON_PRESSED + "Queue is empty!.*";
         assertTrue(viewModel.getLogMessages().get(4).matches(messageRegexp));
+    }
+
+    @Test
+    public void testThatUserActionsProduceLog() {
+        assertFalse(viewModel.getLog().isEmpty());
+    }
+
+    @Test
+    public void testThatCanSetValue() {
+        viewModel.setValue("value");
+        assertEquals("value", viewModel.getValue());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testThatCanNotSetNullLogger() {
+        viewModel.setLogger(null);
     }
 
     private void deleteValuesFromQueue() {
