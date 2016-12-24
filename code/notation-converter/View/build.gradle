@@ -2,7 +2,6 @@ apply from:   rootDir.getAbsolutePath() + '/code/config/scripts/javafx.plugin'
 
 dependencies {
     compile project(':notation-converter-ViewModel')
-    compile project(':notation-converter-Infrastructure')
 }
 
 sourceSets {
