@@ -1,5 +1,7 @@
 package ru.unn.agile.triangle.model;
 
+import java.text.MessageFormat;
+
 public class Point2D {
     private final double x;
     private final double y;
@@ -15,5 +17,10 @@ public class Point2D {
 
     public double getY() {
         return y;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("[{0}, {1}]", x, y);
     }
 }

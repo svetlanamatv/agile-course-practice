@@ -1,5 +1,7 @@
 package ru.unn.agile.triangle.model;
 
+import java.text.MessageFormat;
+
 public class Circle {
     private final Point2D center;
     private final double radius;
@@ -15,5 +17,10 @@ public class Circle {
 
     public double getRadius() {
         return radius;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("{{0}, {1}}", center, radius);
     }
 }

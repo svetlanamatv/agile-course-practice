@@ -3,6 +3,7 @@ package ru.unn.agile.triangle.viewmodel.mock;
 import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.logging.LoggerRecord;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +19,7 @@ public class FakeLogger implements Logger {
 
     @Override
     public void print(final String pattern, final Object... args) {
-        String message = String.format(pattern, args);
+        String message = MessageFormat.format(pattern, args);
         print(message);
     }
 

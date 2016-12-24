@@ -277,7 +277,7 @@ public class ViewModel {
         }
 
         logger.print(LoggerMessages.INPUT_STATUS_SET +
-                " (value = '{0}')", inputStatus);
+                " (value = {0})", inputStatus);
         return inputStatus;
     }
 
