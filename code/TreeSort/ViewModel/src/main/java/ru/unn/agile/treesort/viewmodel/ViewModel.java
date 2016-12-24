@@ -6,8 +6,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import ru.unn.agile.treesort.model.Tree;
 
+import java.util.List;
+
 public final class ViewModel {
     private final StringProperty sourceText = new SimpleStringProperty();
+    private final BooleanProperty sourceTextChanged = new SimpleBooleanProperty(false);
+    private final BooleanProperty sourceTextFocused = new SimpleBooleanProperty(true);
+
     private final StringProperty resultText = new SimpleStringProperty();
     private final StringProperty statusText = new SimpleStringProperty();
     private final BooleanProperty buttonDisabled = new SimpleBooleanProperty();
@@ -38,6 +43,14 @@ public final class ViewModel {
         sourceText.addListener((observable, oldValue, newValue) -> {
             statusText.set(getStatus().toString());
             buttonDisabled.set(!canCalculate());
+            sourceTextChanged.set(true);
+        });
+
+        sourceTextFocused.addListener((observable, oldValue, newValue) -> {
+            if (!newValue && sourceTextChanged.get()) {
+                logger.log(Messages.SOURCE_CHANGED + " to \"" + sourceText.get() + "\"");
+                sourceTextChanged.set(false);
+            }
         });
 
         sourceText.set("");
@@ -51,8 +64,24 @@ public final class ViewModel {
         return logger;
     }
 
+    public List<String> getLog() {
+        return logger.getLog();
+    }
+
     public void setLogger(final ILogger logger) {
         this.logger = logger;
+    }
+
+    public boolean isSourceTextFocused() {
+        return sourceTextFocused.get();
+    }
+
+    public void setSourceTextFocused(final boolean focused) {
+        sourceTextFocused.set(focused);
+    }
+
+    public BooleanProperty sourceTextFocusedProperty() {
+        return sourceTextFocused;
     }
 
     public StringProperty sourceTextProperty() {
@@ -108,13 +137,24 @@ public final class ViewModel {
     }
 
     public void sort() {
-        String[] parts = getSourceText().split(" *, *");
-        Tree tree = new Tree();
-        for (String val : parts) {
-            tree.insert(Integer.parseInt(val));
+        logger.log(Messages.SORT_BUTTON_CLICKED);
+
+        if (canCalculate()) {
+            String[] parts = getSourceText().split(" *, *");
+            Tree tree = new Tree();
+            for (String val : parts) {
+                tree.insert(Integer.parseInt(val));
+            }
+            String result = tree.extractValues().toString();
+            result = result.substring(1, result.length() - 1);
+            resultText.set(result);
         }
-        String result = tree.extractValues().toString();
-        result = result.substring(1, result.length() - 1);
-        resultText.set(result);
     }
+}
+
+final class Messages {
+    static final String SOURCE_CHANGED = "Source text changed";
+    static final String SORT_BUTTON_CLICKED = "Sort button clicked";
+
+    private Messages() { };
 }

@@ -1,8 +1,11 @@
 package ru.unn.agile.treesort.viewmodel;
 
+import javafx.beans.property.BooleanProperty;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -120,6 +123,74 @@ public class ViewModelTest {
     @Test
     public void canGetLogger() {
         ILogger logger = viewModel.getLogger();
+
         assertNotNull(logger);
+    }
+
+    public void canGetSourceTextFocused() {
+        boolean focused = viewModel.isSourceTextFocused();
+
+        assertNotNull(focused);
+    }
+
+    @Test
+    public void isSourceTextFocusedOnStart() {
+        viewModel = new ViewModel();
+
+        assertTrue(viewModel.isSourceTextFocused());
+    }
+
+    @Test
+    public void canSetSourceTextFocused() {
+        viewModel.setSourceTextFocused(false);
+
+        assertFalse(viewModel.isSourceTextFocused());
+    }
+
+    @Test
+    public void canGetSourceTextFocusedProperty() {
+        BooleanProperty focused = viewModel.sourceTextFocusedProperty();
+
+        assertNotNull(focused);
+    }
+
+    @Test
+    public void canGetLog() {
+        List<String> logs = viewModel.getLog();
+
+        assertNotNull(logs);
+    }
+
+    @Test
+    public void canLogSortStarting() {
+        viewModel.sort();
+        String text = viewModel.getLog().get(0);
+
+        assertTrue(text.startsWith(Messages.SORT_BUTTON_CLICKED));
+    }
+
+    @Test
+    public void canLogSourceTextChanging() {
+        viewModel.setSourceText("new text");
+        viewModel.setSourceTextFocused(false);
+        String text = viewModel.getLog().get(0);
+
+        assertTrue(text.startsWith(Messages.SOURCE_CHANGED + " to \"new text\""));
+    }
+
+    @Test
+    public void canLogSourceTextMultipleChanging() {
+        viewModel.setSourceText("first text");
+        viewModel.setSourceText("second text");
+        viewModel.setSourceTextFocused(false);
+        viewModel.setSourceTextFocused(true);
+        viewModel.setSourceTextFocused(false);
+        viewModel.setSourceTextFocused(true);
+        viewModel.setSourceText("third text");
+        viewModel.setSourceTextFocused(false);
+        List<String> log = viewModel.getLog();
+
+        assertTrue(log.get(0).startsWith(Messages.SOURCE_CHANGED + " to \"second text\""));
+        assertTrue(log.get(1).startsWith(Messages.SOURCE_CHANGED + " to \"third text\""));
     }
 }

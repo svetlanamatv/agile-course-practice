@@ -1,16 +1,11 @@
 package ru.unn.agile.treesort.view;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import ru.unn.agile.treesort.viewmodel.ViewModel;
 
 public class Controller {
-    @FXML
-    private Label statusLabel;
     @FXML
     private ViewModel viewModel;
     @FXML
@@ -22,14 +17,18 @@ public class Controller {
 
     @FXML
     void initialize() {
-        calculateButton.setOnAction(
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(final ActionEvent event) {
-                        viewModel.sort();
-                    }
-                }
-        );
+        calculateButton.setOnAction(event -> viewModel.sort());
+
+        if (viewModel.isSourceTextFocused()) {
+            sourceTextField.requestFocus();
+        }
+
+        viewModel.sourceTextFocusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                sourceTextField.requestFocus();
+            }
+        });
+        viewModel.sourceTextFocusedProperty().bind(sourceTextField.focusedProperty());
 
         sourceTextField.textProperty()
                 .bindBidirectional(viewModel.sourceTextProperty());
