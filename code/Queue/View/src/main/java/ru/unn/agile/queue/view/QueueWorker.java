@@ -75,12 +75,14 @@ public final class QueueWorker<T> extends JDialog {
 
     public static void main(final String[] args) {
         QueueWorker dialog = new QueueWorker();
-        dialog.setContentPane(new QueueWorker<>(new ViewModel<>(new QueueLoggerImpl("./queworker.log"))).contentPane);
+        dialog.setContentPane(new QueueWorker<>(new ViewModel<>(new QueueLoggerImpl("./queworker"
+                + ".log"))).contentPane);
         dialog.setResizable(false);
         dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         dialog.pack();
         dialog.setVisible(true);
     }
+
     @SuppressWarnings("unchecked")
     private void bind() {
         viewModel.setValue((T) addTextField.getText());
@@ -101,9 +103,5 @@ public final class QueueWorker<T> extends JDialog {
                 dfm.addElement(o);
             }
         }
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 }

@@ -6,7 +6,7 @@ import ru.unn.agile.queue.viewmodel.ViewModelTest;
 
 public class ViewModelWithLoggerImplTest extends ViewModelTest {
     @Override
-    public void beforeTest() {
+    public void initBeforeTest() {
         QueueLoggerImpl loggerImpl =
                 new QueueLoggerImpl("./ViewModel_with_LoggerImpl_Test.log");
         super.setOuterViewModel(new ViewModel<String>(loggerImpl));

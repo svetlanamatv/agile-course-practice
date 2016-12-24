@@ -123,10 +123,17 @@ public class ViewModel<T> {
         return logger.getLog();
     }
 
-    public interface LogMessageCliche {
-        String ADD_BUTTON_PRESSED = "'ADD' button was pressed. Result message: ";
-        String REMOVE_BUTTON_PRESSED = "'REMOVE' button was pressed. Result message: ";
-        String SEARCH_BUTTON_PRESSED = "'SEARCH' button was pressed. Result message: ";
-        String SIZE_BUTTON_PRESSED = "'Get size' button was pressed. Result message: ";
+    final class LogMessageCliche {
+        public static final String ADD_BUTTON_PRESSED = "'ADD' button was pressed. Result "
+                + "message: ";
+        public static final String REMOVE_BUTTON_PRESSED = "'REMOVE' button was pressed. Result "
+                + "message: ";
+        public static final String SEARCH_BUTTON_PRESSED = "'SEARCH' button was pressed. Result "
+                + "message: ";
+        public static final String SIZE_BUTTON_PRESSED = "'Get size' button was pressed. Result "
+                + "message: ";
+
+        private LogMessageCliche() {
+        }
     }
 }
