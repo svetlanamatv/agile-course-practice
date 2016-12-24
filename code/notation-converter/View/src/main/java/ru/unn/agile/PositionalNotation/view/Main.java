@@ -1,4 +1,7 @@
 package ru.unn.agile.PositionalNotation.view;
+/**
+ * Created by Jane on 21.11.2016.
+ */
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

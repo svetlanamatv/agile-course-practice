@@ -165,16 +165,13 @@ project(":code/personal-finance/View").name = "personal-finance-View"
 // Лачинов Дмитрий
 // Луковников Илья
 // Максимов Максим
-// Малойкина Елена; Тарасенко Алексей (lab3)
+// Малойкина Елена
 include "code/notation-converter/Model"
 project(":code/notation-converter/Model").name = "notation-converter-Model"
 include "code/notation-converter/ViewModel"
 project(":code/notation-converter/ViewModel").name = "notation-converter-ViewModel"
 include "code/notation-converter/View"
 project(":code/notation-converter/View").name = "notation-converter-View"
-include "code/notation-converter/Infrastructure"
-project(":code/notation-converter/Infrastructure").name = "notation-converter-Infrastructure"
-
 // Матвеева Светлана
 // Метелёв Евгений
 // Михейкина Алёна
