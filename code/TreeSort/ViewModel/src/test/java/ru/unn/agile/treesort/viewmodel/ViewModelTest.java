@@ -15,6 +15,10 @@ public class ViewModelTest {
     private String invalidSourceString = "5,4, 3 ,2 , 1abc";
     private String resultString = "1, 2, 3, 4, 5";
 
+    public void setViewModel(final ViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
     @Before
     public void setUp() {
         viewModel = new ViewModel();
@@ -166,7 +170,7 @@ public class ViewModelTest {
         viewModel.sort();
         String text = viewModel.getLog().get(0);
 
-        assertTrue(text.startsWith(Messages.SORT_BUTTON_CLICKED));
+        assertTrue(text.endsWith(Messages.SORT_BUTTON_CLICKED));
     }
 
     @Test
@@ -175,7 +179,7 @@ public class ViewModelTest {
         viewModel.setSourceTextFocused(false);
         String text = viewModel.getLog().get(0);
 
-        assertTrue(text.startsWith(Messages.SOURCE_CHANGED + " to \"new text\""));
+        assertTrue(text.endsWith(Messages.SOURCE_CHANGED + " to \"new text\""));
     }
 
     @Test
@@ -190,7 +194,7 @@ public class ViewModelTest {
         viewModel.setSourceTextFocused(false);
         List<String> log = viewModel.getLog();
 
-        assertTrue(log.get(0).startsWith(Messages.SOURCE_CHANGED + " to \"second text\""));
-        assertTrue(log.get(1).startsWith(Messages.SOURCE_CHANGED + " to \"third text\""));
+        assertTrue(log.get(0).endsWith(Messages.SOURCE_CHANGED + " to \"second text\""));
+        assertTrue(log.get(1).endsWith(Messages.SOURCE_CHANGED + " to \"third text\""));
     }
 }

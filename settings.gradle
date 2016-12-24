@@ -315,6 +315,8 @@ include "code/Polynomial/View"
 project(":code/Polynomial/View").name = "Polynomial-View"
 include "code/Polynomial/ViewModel"
 project(":code/Polynomial/ViewModel").name = "Polynomial-ViewModel"
+include "code/TreeSort/Infrastructure"
+project(":code/TreeSort/Infrastructure").name = "TreeSort-Infrastructure"
 
 // Шургалин Петр
 include "code/BitField/Model"
