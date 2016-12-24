@@ -82,7 +82,7 @@ public class PlainTextFileLoggerTests {
     }
 
     @Test
-    public void recordsNumberNoMoreThanMaxRecords() throws Exception {
+    public void recordsNumberIsNotGreaterThanMaxRecords() throws Exception {
         List<String> messages = RandomStringGenerator.randomStrings(
                 2 * MAX_RECORDS_IN_MEMORY);
 
@@ -116,9 +116,17 @@ public class PlainTextFileLoggerTests {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void failIfWhenLogWasClosed() throws Exception {
+    public void failIfLoggerWasClosed() throws Exception {
         logger.close();
+
         logger.print("Some message");
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void failIfModifyLoggerRecords() throws Exception {
+        logger.print("Some message");
+
+        logger.getLastRecords(MAX_RECORDS_IN_MEMORY).remove(0);
     }
 
     private static List<String> readLoggerFile() throws IOException {
