@@ -38,6 +38,8 @@ public class ViewModel {
         this.loggerViewModel = new SimpleObjectProperty<>(
                 new LoggerViewModel(logger));
 
+        logger.print(LoggerMessages.VIEW_MODEL_OBJECT_CREATING_STARTED);
+
         ax.set("");
         ay.set("");
         bx.set("");
@@ -66,12 +68,19 @@ public class ViewModel {
         incircleRadius.set("");
         incircleCenterX.set("");
         incircleCenterY.set("");
+
+        logger.print(LoggerMessages.VIEW_MODEL_OBJECT_CREATING_FINISHED);
     }
 
     public void calculate() {
+        logger.print(LoggerMessages.CALCULATING_STARTED);
+
         Point2D a = new Point2D(Double.parseDouble(ax.get()), Double.parseDouble(ay.get()));
         Point2D b = new Point2D(Double.parseDouble(bx.get()), Double.parseDouble(by.get()));
         Point2D c = new Point2D(Double.parseDouble(cx.get()), Double.parseDouble(cy.get()));
+
+        logger.print(LoggerMessages.POINTS_COORDINATES_RECEIVED
+                + " (a = {0}, b = {1}, c = {2})", a, b, c);
 
         Triangle triangle = new Triangle(a, b, c);
 
@@ -81,27 +90,54 @@ public class ViewModel {
 
         double areaValue = triangle.area();
         area.set(df.format(areaValue));
-        perimeter.set(df.format(triangle.perimeter()));
+
+        logger.print(LoggerMessages.AREA_CALCULATED
+                + " (S = {0})", areaValue);
+
+        double perimeterValue = triangle.perimeter();
+        perimeter.set(df.format(perimeterValue));
+
+        logger.print(LoggerMessages.PERIMETER_CALCULATED
+                + " (P = {0})", perimeterValue);
 
         Circle incircle = triangle.getIncircle();
-        incircleRadius.set(df.format(incircle.getRadius()));
+
+        double incircleRadiusValue = incircle.getRadius();
+        incircleRadius.set(df.format(incircleRadiusValue));
+
+        logger.print(LoggerMessages.INCIRCLE_RADIUS_CALCULATED +
+                " (R = {0})", incircleRadiusValue);
 
         Point2D incircleCenter = incircle.getCenter();
         incircleCenterX.setValue(df.format(incircleCenter.getX()));
         incircleCenterY.setValue(df.format(incircleCenter.getY()));
 
+        logger.print(LoggerMessages.INCIRCLE_CENTER_CALCULATED +
+                " (C = {0})", incircleCenter);
+
         if (areaValue == 0) {
             circumcircleRadius.set("undefined");
             circumcircleCenterX.set("undefined");
             circumcircleCenterY.set("undefined");
+            logger.print(LoggerMessages.UNABLE_CALCULATE_CIRCUMCIRCLE_VALUES);
         } else {
             Circle circumcircle = triangle.getCircumcircle();
-            circumcircleRadius.set(df.format(circumcircle.getRadius()));
+
+            double circumcircleRadiusValue = circumcircle.getRadius();
+            circumcircleRadius.set(df.format(circumcircleRadiusValue));
+
+            logger.print(LoggerMessages.CIRCUMCIRCLE_RADIUS_CALCULATED +
+                    " (R = {0})", circumcircleRadiusValue);
 
             Point2D circumcircleCenter = circumcircle.getCenter();
             circumcircleCenterX.setValue(df.format(circumcircleCenter.getX()));
             circumcircleCenterY.setValue(df.format(circumcircleCenter.getY()));
+
+            logger.print(LoggerMessages.CIRCUMCIRCLE_CENTER_CALCULATED +
+                    " (C = {0})", circumcircleCenter);
         }
+        
+        logger.print(LoggerMessages.CALCULATING_FINISHED);
     }
 
     public StringProperty axProperty() {
@@ -209,6 +245,8 @@ public class ViewModel {
     }
 
     private Status getInputStatus() {
+        logger.print(LoggerMessages.CHECKING_INPUT_STATUS);
+        
         Status inputStatus = Status.READY;
         if (ax.get().isEmpty() || ay.get().isEmpty()
                 || bx.get().isEmpty() || by.get().isEmpty()
@@ -238,10 +276,54 @@ public class ViewModel {
             inputStatus = Status.BAD_FORMAT;
         }
 
+        logger.print(LoggerMessages.INPUT_STATUS_SET +
+                " (value = '{0}')", inputStatus);
         return inputStatus;
     }
 
     enum Status {
-        WAITING, READY, BAD_FORMAT
+        WAITING("Waiting"), READY("Ready"), BAD_FORMAT("Bad Format");
+
+        private final String statusMessage;
+
+        Status(final String message) {
+            this.statusMessage = message;
+        }
+
+        @Override
+        public String toString() {
+            return statusMessage;
+        }
+    }
+
+    final class LoggerMessages {
+        static final String VIEW_MODEL_OBJECT_CREATING_STARTED =
+                "Constructing new ViewModel object";
+        static final String VIEW_MODEL_OBJECT_CREATING_FINISHED =
+                "ViewModel object created";
+        static final String CALCULATING_STARTED =
+                "Calculating started";
+        static final String POINTS_COORDINATES_RECEIVED =
+                "Points coordinates received";
+        static final String AREA_CALCULATED =
+                "Area calculated";
+        static final String PERIMETER_CALCULATED =
+                "Perimeter calculated";
+        static final String INCIRCLE_RADIUS_CALCULATED =
+                "Incircle radius calculated";
+        static final String INCIRCLE_CENTER_CALCULATED =
+                "Incircle center calculated";
+        static final String CIRCUMCIRCLE_RADIUS_CALCULATED =
+                "Circumcircle radius calculated";
+        static final String CIRCUMCIRCLE_CENTER_CALCULATED =
+                "Circumcircle center calculated";
+        static final String UNABLE_CALCULATE_CIRCUMCIRCLE_VALUES =
+                "Unable to calculate circumcircle values";
+        static final String CALCULATING_FINISHED =
+                "Calculating finished";
+        static final String CHECKING_INPUT_STATUS =
+                "Checking input status";
+        static final String INPUT_STATUS_SET =
+                "Input status set to";
     }
 }

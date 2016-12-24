@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.unn.agile.triangle.logging.Logger;
-import ru.unn.agile.triangle.viewmodel.fake.FakeLogger;
+import ru.unn.agile.triangle.viewmodel.mock.FakeLogger;
 
 import java.util.Locale;
 
@@ -117,6 +117,16 @@ public class ViewModelTests {
         viewModel.calculate();
 
         assertEquals("0.5", viewModel.areaProperty().get());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void creatingFailsIfLoggerIsNull() throws Exception {
+        new ViewModel(null);
+    }
+
+    @Test
+    public void loggerViewModelIsNotNullByDefault() throws Exception {
+        assertNotEquals(null, viewModel.getLoggerViewModel());
     }
 
     private void setInputData() {

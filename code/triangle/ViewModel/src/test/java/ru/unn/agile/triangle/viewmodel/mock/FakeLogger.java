@@ -1,4 +1,4 @@
-package ru.unn.agile.triangle.viewmodel.fake;
+package ru.unn.agile.triangle.viewmodel.mock;
 
 import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.logging.LoggerRecord;
@@ -33,9 +33,9 @@ public class FakeLogger implements Logger {
             return Collections.unmodifiableList(records);
         }
 
-        int lastIndex = records.size() - 1;
+        int recordsSize = records.size();
         List<LoggerRecord> lastRecords =
-                records.subList(lastIndex - recordsNumber, lastIndex);
+                records.subList(recordsSize - recordsNumber, recordsSize);
         return Collections.unmodifiableList(lastRecords);
     }
 }
