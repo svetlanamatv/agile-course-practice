@@ -11,9 +11,6 @@ import ru.unn.agile.PositionalNotation.model.Converter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Jane on 21.11.2016.
- */
 public class ViewModel {
     private final ObjectProperty<ObservableList<Notation>> notations =
             new SimpleObjectProperty<>(FXCollections.observableArrayList(Notation.values()));
@@ -26,9 +23,24 @@ public class ViewModel {
     private final StringProperty result = new SimpleStringProperty();
     private final StringProperty status = new SimpleStringProperty();
 
-    private final List<StatusChangeListener> valueChangedListeners = new ArrayList<>();
+    private final List<ValueCachingChangeListener> valueChangedListeners = new ArrayList<>();
+    private ILogger positionalNotationLogger;
 
-    public ViewModel() {
+    private final StringProperty logs = new SimpleStringProperty();
+
+    public ViewModel(final ILogger positionalNotationLogger) {
+        setPositionalNotationLogger(positionalNotationLogger);
+        init();
+    }
+
+    public final void setPositionalNotationLogger(final ILogger positionalNotationLogger) {
+        if (positionalNotationLogger == null) {
+            throw new IllegalArgumentException("Logger parameter can't be null");
+        }
+        this.positionalNotationLogger = positionalNotationLogger;
+    }
+
+    private void init() {
         number.set("");
         result.set("");
         fromNotation.set(Notation.DECIMAL);
@@ -53,7 +65,7 @@ public class ViewModel {
         } };
 
         for (StringProperty field : fields) {
-            final StatusChangeListener listener = new StatusChangeListener();
+            final ValueCachingChangeListener listener = new ValueCachingChangeListener();
             field.addListener(listener);
             valueChangedListeners.add(listener);
         }
@@ -66,13 +78,18 @@ public class ViewModel {
         result.set(Converter.convert(number.get(),
                 fromNotation.get().name(), toNotation.get().name()));
         status.set(Status.SUCCESS.toString());
+        StringBuilder message = new StringBuilder("Calculate. ");
+        message.append("Arguments")
+                .append(": Number = ").append(number.get())
+                .append("; From notaition = ").append(fromNotation.get().name())
+                .append("; To notaition = ").append(toNotation.get().name());
+
+        positionalNotationLogger.writeLog(message.toString());
+        updatePositionalNotationLogs();
     }
 
     public BooleanProperty converterDisabledProperty() {
         return converterDisabled;
-    }
-    public final boolean getConverterDisabled() {
-        return converterDisabled.get();
     }
 
     public StringProperty numberProperty() {
@@ -81,15 +98,13 @@ public class ViewModel {
     public StringProperty resultProperty() {
         return result;
     }
+
     public StringProperty statusProperty() {
         return status;
     }
-    public final String getStatus() {
-        return status.get();
-    }
 
-    public ObjectProperty<ObservableList<Notation>> notationsProperty() {
-        return notations;
+    public StringProperty logsProperty() {
+        return logs;
     }
 
     public final ObservableList<Notation> getNotations() {
@@ -128,14 +143,77 @@ public class ViewModel {
         return inputStatus;
     }
 
-    private class StatusChangeListener implements ChangeListener<String> {
+    private class ValueCachingChangeListener implements ChangeListener<String> {
+        private String previusValue = "";
+        private String currentValue = "";
         @Override
         public void changed(final ObservableValue<? extends String> observable,
-                            final String oldValue, final String newValue) {
+                            final String valueOld, final String valueNew) {
+            if (valueOld.equals(valueNew)) {
+                return;
+            }
             status.set(getInputStatus().toString());
+            currentValue = valueNew;
+        }
+        public boolean isChanged() {
+            return !previusValue.equals(currentValue);
+        }
+        public void cache() {
+            previusValue = currentValue;
         }
     }
 
+    public final List<String> getLog() {
+        return positionalNotationLogger.readLogs();
+    }
+
+    public void fromNotationChanged(final Notation oldValue, final Notation newValue) {
+        if (oldValue.equals(newValue)) {
+            return;
+        }
+        StringBuilder message = new StringBuilder("From notation was changed to ");
+        message.append(newValue.toString());
+        positionalNotationLogger.writeLog(message.toString());
+        updatePositionalNotationLogs();
+    }
+
+    public void toNotationChanged(final Notation oldValue, final Notation newValue) {
+        if (oldValue.equals(newValue)) {
+            return;
+        }
+        StringBuilder message = new StringBuilder("To notation was changed to ");
+        message.append(newValue.toString());
+        positionalNotationLogger.writeLog(message.toString());
+        updatePositionalNotationLogs();
+    }
+
+    public void onFocusChanged(final Boolean oldValue, final Boolean newValue) {
+        if (!oldValue && newValue) {
+            return;
+        }
+
+        for (ValueCachingChangeListener listener : valueChangedListeners) {
+            if (listener.isChanged()) {
+                StringBuilder messageLog = new StringBuilder("Updated input. ");
+                messageLog.append("Input argument are: [")
+                        .append(number.get()).append("]");
+                positionalNotationLogger.writeLog(messageLog.toString());
+                updatePositionalNotationLogs();
+
+                listener.cache();
+                break;
+            }
+        }
+    }
+
+    private void updatePositionalNotationLogs() {
+        List<String> fullLog = positionalNotationLogger.readLogs();
+        String record = new String();
+        for (String log : fullLog) {
+            record += log + "\n";
+        }
+        logs.set(record);
+    }
 }
 
 enum Status {
@@ -151,7 +229,4 @@ enum Status {
     public String toString() {
         return name;
     }
-
-
 }
-
