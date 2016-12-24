@@ -6,6 +6,7 @@ import ru.unn.agile.queue.viewmodel.ViewModel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 
 public final class QueueWorker<T> extends JDialog {
@@ -29,7 +30,7 @@ public final class QueueWorker<T> extends JDialog {
 
     }
 
-    private QueueWorker(final ViewModel<T> viewModel) {
+    private QueueWorker(final ViewModel<T> viewModel) throws IOException {
         this.viewModel = viewModel;
         dfm = new DefaultListModel<>();
         queueList.setModel(dfm);
@@ -39,27 +40,39 @@ public final class QueueWorker<T> extends JDialog {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                bind();
-                QueueWorker.this.viewModel.add();
-                backBind();
+                try {
+                    bind();
+                    QueueWorker.this.viewModel.add();
+                    backBind();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                bind();
-                QueueWorker.this.viewModel.remove();
-                backBind();
+                try {
+                    bind();
+                    QueueWorker.this.viewModel.remove();
+                    backBind();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                bind();
-                QueueWorker.this.viewModel.search();
-                backBind();
+                try {
+                    bind();
+                    QueueWorker.this.viewModel.search();
+                    backBind();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -67,16 +80,24 @@ public final class QueueWorker<T> extends JDialog {
             @Override
             public void actionPerformed(final ActionEvent e) {
                 bind();
-                QueueWorker.this.viewModel.getSize();
-                backBind();
+                try {
+                    QueueWorker.this.viewModel.getSize();
+                    backBind();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
     }
 
     public static void main(final String[] args) {
         QueueWorker dialog = new QueueWorker();
-        dialog.setContentPane(new QueueWorker<>(new ViewModel<>(new QueueLoggerImpl("./queworker"
-                + ".log"))).contentPane);
+        try {
+            dialog.setContentPane(new QueueWorker<>(new ViewModel<>(new QueueLoggerImpl(""
+                    + "./queworker.log"))).contentPane);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         dialog.setResizable(false);
         dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         dialog.pack();
@@ -88,7 +109,7 @@ public final class QueueWorker<T> extends JDialog {
         viewModel.setValue((T) addTextField.getText());
     }
 
-    private void backBind() {
+    private void backBind() throws IOException {
         addTextField.setText("");
         updateList();
         resultTextField.setText(viewModel.getResult());

@@ -3,10 +3,7 @@ package ru.unn.agile.queue.infrastructure;
 
 import ru.unn.agile.queue.viewmodel.QueueLogger;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,34 +21,22 @@ public class QueueLoggerImpl implements QueueLogger {
         return format.format(cal.getTime());
     }
 
-    public QueueLoggerImpl(final String logFileName) {
+    public QueueLoggerImpl(final String logFileName) throws IOException {
         this.logFileName = logFileName;
-
-        BufferedWriter logWriter = null;
-        try {
-            logWriter = new BufferedWriter(new FileWriter(logFileName));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        fileWriter = logWriter;
+        fileWriter = new BufferedWriter(new FileWriter(logFileName));
     }
 
     @Override
-    public void log(final String s) {
-        try {
-            fileWriter.write(getCurrentTime() + " --- " + s);
-            fileWriter.newLine();
-            fileWriter.flush();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    public void log(final String s) throws IOException {
+        fileWriter.write(getCurrentTime() + " --- " + s);
+        fileWriter.newLine();
+        fileWriter.flush();
     }
 
     @Override
-    public List<String> getLog() {
+    public List<String> getLog() throws IOException {
         BufferedReader logReader;
         ArrayList<String> log = new ArrayList<String>();
-        try {
             logReader = new BufferedReader(new FileReader(logFileName));
             String line = logReader.readLine();
 
@@ -59,10 +44,6 @@ public class QueueLoggerImpl implements QueueLogger {
                 log.add(line);
                 line = logReader.readLine();
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
         return log;
     }
 

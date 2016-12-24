@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 import static junit.framework.TestCase.assertNotNull;
@@ -20,7 +21,11 @@ public class LoggerImplementationTest {
 
     @Before
     public void setUp() {
-        queueLoggerImpl = new QueueLoggerImpl(LOG_FILE_NAME);
+        try {
+            queueLoggerImpl = new QueueLoggerImpl(LOG_FILE_NAME);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -41,22 +46,29 @@ public class LoggerImplementationTest {
     public void testThatCanLogOneMessage() {
         String testMessage = "Test message";
 
-        queueLoggerImpl.log(testMessage);
-
-        String message = queueLoggerImpl.getLog().get(0);
-        assertThat(message, matchesPattern(".*" + testMessage + "$"));
+        try {
+            queueLoggerImpl.log(testMessage);
+            String message = queueLoggerImpl.getLog().get(0);
+            assertThat(message, matchesPattern(".*" + testMessage + "$"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testThatCanLogMoreMessages() {
         String[] messages = {"Test message 1", "Test message 2"};
 
-        queueLoggerImpl.log(messages[0]);
-        queueLoggerImpl.log(messages[1]);
+        try {
+            queueLoggerImpl.log(messages[0]);
+            queueLoggerImpl.log(messages[1]);
 
-        List<String> actualMessages = queueLoggerImpl.getLog();
-        for (int i = 0; i < actualMessages.size(); i++) {
-            assertThat(actualMessages.get(i), matchesPattern(".*" + messages[i] + "$"));
+            List<String> actualMessages = queueLoggerImpl.getLog();
+            for (int i = 0; i < actualMessages.size(); i++) {
+                assertThat(actualMessages.get(i), matchesPattern(".*" + messages[i] + "$"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -64,9 +76,13 @@ public class LoggerImplementationTest {
     public void testTestThatLogContainsDateAndTime() {
         String testMessage = "Test message";
 
-        queueLoggerImpl.log(testMessage);
-
-        String message = queueLoggerImpl.getLog().get(0);
-        assertThat(message, matchesPattern("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} --- .*"));
+        try {
+            queueLoggerImpl.log(testMessage);
+            String message = queueLoggerImpl.getLog().get(0);
+            assertThat(message, matchesPattern("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} --- "
+                    + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

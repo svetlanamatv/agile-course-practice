@@ -4,13 +4,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static ru.unn.agile.queue.viewmodel.ViewModel.LogMessageCliche.ADD_BUTTON_PRESSED;
 import static ru.unn.agile.queue.viewmodel.ViewModel.LogMessageCliche.REMOVE_BUTTON_PRESSED;
 import static ru.unn.agile.queue.viewmodel.ViewModel.LogMessageCliche.SEARCH_BUTTON_PRESSED;
@@ -37,10 +36,14 @@ public class ViewModelTest {
     }
 
     protected void setInitialData() {
-        viewModel.setValue("123aaa");
-        viewModel.add();
-        viewModel.setValue("qwe");
-        viewModel.add();
+        try {
+            viewModel.setValue("123aaa");
+            viewModel.add();
+            viewModel.setValue("qwe");
+            viewModel.add();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -152,45 +155,69 @@ public class ViewModelTest {
     @Test
     public void testThatAddingEmptyValueProducesCorrectLogs() {
         viewModel.setValue("");
-        viewModel.add();
-        String messageRegexp = ".*" + ADD_BUTTON_PRESSED + "Value is empty!.*";
-        assertTrue(viewModel.getLogMessages().get(2).matches(messageRegexp));
+        try {
+            viewModel.add();
+            String messageRegexp = ".*" + ADD_BUTTON_PRESSED + "Value is empty!.*";
+            assertTrue(viewModel.getLogMessages().get(2).matches(messageRegexp));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testThatAddingValidValueProducesCorrectLogs() {
 
         String messageRegexp = ".*" + ADD_BUTTON_PRESSED + "'qwe' was added successfully.*";
-        assertTrue(viewModel.getLogMessages().get(1).matches(messageRegexp));
+        try {
+            assertTrue(viewModel.getLogMessages().get(1).matches(messageRegexp));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testThatRemovingEmptyValueProducesCorrectLogs() {
         viewModel.setValue("");
-        viewModel.remove();
-        String messageRegexp = ".*" + REMOVE_BUTTON_PRESSED + "Value is empty!.*";
-        assertTrue(viewModel.getLogMessages().get(2).matches(messageRegexp));
+        try {
+            viewModel.remove();
+            String messageRegexp = ".*" + REMOVE_BUTTON_PRESSED + "Value is empty!.*";
+            assertTrue(viewModel.getLogMessages().get(2).matches(messageRegexp));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testThatSearchingEmptyValueProducesCorrectLogs() {
         viewModel.setValue("");
-        viewModel.search();
-        String messageRegexp = ".*" + SEARCH_BUTTON_PRESSED + "Value is empty!.*";
-        assertTrue(viewModel.getLogMessages().get(2).matches(messageRegexp));
+        try {
+            viewModel.search();
+            String messageRegexp = ".*" + SEARCH_BUTTON_PRESSED + "Value is empty!.*";
+            assertTrue(viewModel.getLogMessages().get(2).matches(messageRegexp));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testThatSearchingInEmptyQueueProducesCorrectLogs() {
         deleteValuesFromQueue();
-        viewModel.search();
-        String messageRegexp = ".*" + SEARCH_BUTTON_PRESSED + "Queue is empty!.*";
-        assertTrue(viewModel.getLogMessages().get(4).matches(messageRegexp));
+        try {
+            viewModel.search();
+            String messageRegexp = ".*" + SEARCH_BUTTON_PRESSED + "Queue is empty!.*";
+            assertTrue(viewModel.getLogMessages().get(4).matches(messageRegexp));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testThatUserActionsProduceLog() {
-        assertFalse(viewModel.getLog().isEmpty());
+        try {
+            assertFalse(viewModel.getLog().isEmpty());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -204,9 +231,19 @@ public class ViewModelTest {
         viewModel.setLogger(null);
     }
 
+    @Test
+    public void testThatDefaultConstructorWorks() {
+        assertNotNull(new ViewModel<String>());
+    }
+
+
     private void deleteValuesFromQueue() {
-        viewModel.remove();
-        viewModel.setValue("123aaa");
-        viewModel.remove();
+        try {
+            viewModel.remove();
+            viewModel.setValue("123aaa");
+            viewModel.remove();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

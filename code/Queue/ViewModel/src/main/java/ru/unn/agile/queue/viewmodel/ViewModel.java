@@ -2,6 +2,7 @@ package ru.unn.agile.queue.viewmodel;
 
 import ru.unn.agile.queue.model.Queue;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -29,7 +30,7 @@ public class ViewModel<T> {
         queue = new Queue<>();
     }
 
-    public void add() {
+    public void add() throws IOException {
         if (isEmptyValue()) {
             result = "Value is empty!";
             logger.log(LogMessageCliche.ADD_BUTTON_PRESSED + result);
@@ -40,7 +41,7 @@ public class ViewModel<T> {
         logger.log(LogMessageCliche.ADD_BUTTON_PRESSED + result);
     }
 
-    public void remove() {
+    public void remove() throws IOException {
         if (queue.isEmpty()) {
             result = "Queue is empty! You don't delete value from empty queue!";
             logger.log(LogMessageCliche.REMOVE_BUTTON_PRESSED + result);
@@ -63,7 +64,7 @@ public class ViewModel<T> {
         return value.toString().isEmpty();
     }
 
-    public void search() {
+    public void search() throws IOException {
         if (queue.isEmpty()) {
             result = "Queue is empty!";
             logger.log(LogMessageCliche.SEARCH_BUTTON_PRESSED + result);
@@ -85,7 +86,7 @@ public class ViewModel<T> {
         }
     }
 
-    public void getSize() {
+    public void getSize() throws IOException {
         if (queue.isEmpty()) {
             result = "Queue is empty!";
         } else {
@@ -110,7 +111,7 @@ public class ViewModel<T> {
         return result;
     }
 
-    public String getLog() {
+    public String getLog() throws IOException {
         List<String> logs = logger.getLog();
         StringBuilder output = new StringBuilder();
         for (String line : logs) {
@@ -119,7 +120,7 @@ public class ViewModel<T> {
         return output.toString();
     }
 
-    public List<String> getLogMessages() {
+    public List<String> getLogMessages() throws IOException {
         return logger.getLog();
     }
 
