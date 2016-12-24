@@ -10,10 +10,14 @@ public abstract class ViewModelLoggingTestsBase {
     private ViewModel viewModel;
     private LoggerWrapper logger;
 
-    protected abstract Logger constructLogger();
+    protected abstract Logger constructLogger() throws Exception;
+
+    protected final ViewModel getViewModel() {
+        return viewModel;
+    }
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         logger = new LoggerWrapper(constructLogger());
         viewModel = new ViewModel(logger);
     }
@@ -146,7 +150,7 @@ public abstract class ViewModelLoggingTestsBase {
                 ViewModel.LoggerMessages.INPUT_STATUS_SET));
     }
 
-    private void setViewModelValidParameters() {
+    protected void setViewModelValidParameters() {
         viewModel.axProperty().set("0.0");
         viewModel.bxProperty().set("1.0");
         viewModel.ayProperty().set("0.0");
@@ -155,7 +159,7 @@ public abstract class ViewModelLoggingTestsBase {
         viewModel.cyProperty().set("1.0");
     }
 
-    private void setViewModelParametersWhenCircumcircleUndefined() {
+    protected void setViewModelParametersWhenCircumcircleUndefined() {
         viewModel.cyProperty().set("0.0");
         viewModel.cxProperty().set("0.0");
         viewModel.byProperty().set("0.0");

@@ -41,6 +41,10 @@ public class PlainTextFileLogger implements Logger {
         return inmemoryLogger.getLastRecords(recordsNumber);
     }
 
+    public void close() throws IOException {
+        logWriter.close();
+    }
+
     private void openLogFile(final String pathToLogFile) throws IOException {
         File logFile = new File(pathToLogFile);
         if (!logFile.exists()) {
