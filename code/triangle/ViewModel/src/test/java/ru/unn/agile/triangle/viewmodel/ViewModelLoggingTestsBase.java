@@ -148,20 +148,20 @@ public abstract class ViewModelLoggingTestsBase {
 
     private void setViewModelValidParameters() {
         viewModel.axProperty().set("0.0");
-        viewModel.ayProperty().set("0.0");
         viewModel.bxProperty().set("1.0");
-        viewModel.byProperty().set("0.0");
+        viewModel.ayProperty().set("0.0");
         viewModel.cxProperty().set("0.0");
+        viewModel.byProperty().set("0.0");
         viewModel.cyProperty().set("1.0");
     }
 
     private void setViewModelParametersWhenCircumcircleUndefined() {
-        viewModel.axProperty().set("2.0");
-        viewModel.ayProperty().set("0.0");
-        viewModel.bxProperty().set("2.0");
-        viewModel.byProperty().set("0.0");
-        viewModel.cxProperty().set("0.0");
         viewModel.cyProperty().set("0.0");
+        viewModel.cxProperty().set("0.0");
+        viewModel.byProperty().set("0.0");
+        viewModel.bxProperty().set("2.0");
+        viewModel.ayProperty().set("0.0");
+        viewModel.axProperty().set("2.0");
     }
 
 }

@@ -105,15 +105,15 @@ public class ViewModel {
         double incircleRadiusValue = incircle.getRadius();
         incircleRadius.set(df.format(incircleRadiusValue));
 
-        logger.print(LoggerMessages.INCIRCLE_RADIUS_CALCULATED +
-                " (R = {0})", incircleRadiusValue);
+        logger.print(LoggerMessages.INCIRCLE_RADIUS_CALCULATED
+                + " (R = {0})", incircleRadiusValue);
 
         Point2D incircleCenter = incircle.getCenter();
         incircleCenterX.setValue(df.format(incircleCenter.getX()));
         incircleCenterY.setValue(df.format(incircleCenter.getY()));
 
-        logger.print(LoggerMessages.INCIRCLE_CENTER_CALCULATED +
-                " (C = {0})", incircleCenter);
+        logger.print(LoggerMessages.INCIRCLE_CENTER_CALCULATED
+                + " (C = {0})", incircleCenter);
 
         if (areaValue == 0) {
             circumcircleRadius.set("undefined");
@@ -126,17 +126,17 @@ public class ViewModel {
             double circumcircleRadiusValue = circumcircle.getRadius();
             circumcircleRadius.set(df.format(circumcircleRadiusValue));
 
-            logger.print(LoggerMessages.CIRCUMCIRCLE_RADIUS_CALCULATED +
-                    " (R = {0})", circumcircleRadiusValue);
+            logger.print(LoggerMessages.CIRCUMCIRCLE_RADIUS_CALCULATED
+                    + " (R = {0})", circumcircleRadiusValue);
 
             Point2D circumcircleCenter = circumcircle.getCenter();
             circumcircleCenterX.setValue(df.format(circumcircleCenter.getX()));
             circumcircleCenterY.setValue(df.format(circumcircleCenter.getY()));
 
-            logger.print(LoggerMessages.CIRCUMCIRCLE_CENTER_CALCULATED +
-                    " (C = {0})", circumcircleCenter);
+            logger.print(LoggerMessages.CIRCUMCIRCLE_CENTER_CALCULATED
+                    + " (C = {0})", circumcircleCenter);
         }
-        
+
         logger.print(LoggerMessages.CALCULATING_FINISHED);
     }
 
@@ -246,7 +246,7 @@ public class ViewModel {
 
     private Status getInputStatus() {
         logger.print(LoggerMessages.CHECKING_INPUT_STATUS);
-        
+
         Status inputStatus = Status.READY;
         if (ax.get().isEmpty() || ay.get().isEmpty()
                 || bx.get().isEmpty() || by.get().isEmpty()
@@ -276,8 +276,8 @@ public class ViewModel {
             inputStatus = Status.BAD_FORMAT;
         }
 
-        logger.print(LoggerMessages.INPUT_STATUS_SET +
-                " (value = {0})", inputStatus);
+        logger.print(LoggerMessages.INPUT_STATUS_SET
+                + " (value = {0})", inputStatus);
         return inputStatus;
     }
 
@@ -325,5 +325,8 @@ public class ViewModel {
                 "Checking input status";
         static final String INPUT_STATUS_SET =
                 "Input status set to";
+
+        private LoggerMessages() {
+        }
     }
 }

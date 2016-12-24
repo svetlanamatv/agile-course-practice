@@ -15,12 +15,12 @@ public class LoggerWrapper implements Logger {
     }
 
     @Override
-    public void print(String message) {
+    public void print(final String message) {
         logger.print(message);
     }
 
     @Override
-    public void print(String pattern, Object... args) {
+    public void print(final String pattern, final Object... args) {
         logger.print(pattern, args);
     }
 
@@ -30,7 +30,7 @@ public class LoggerWrapper implements Logger {
     }
 
     @Override
-    public List<LoggerRecord> getLastRecords(int recordsNumber) {
+    public List<LoggerRecord> getLastRecords(final int recordsNumber) {
         return logger.getLastRecords(recordsNumber);
     }
 
