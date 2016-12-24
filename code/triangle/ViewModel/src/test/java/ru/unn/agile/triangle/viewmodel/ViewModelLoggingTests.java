@@ -5,6 +5,8 @@ import org.junit.Test;
 import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.viewmodel.fake.FakeLogger;
 
+import static org.junit.Assert.assertNotEquals;
+
 public class ViewModelLoggingTests {
     private ViewModel viewModel;
     private Logger logger;
@@ -16,7 +18,12 @@ public class ViewModelLoggingTests {
     }
 
     @Test(expected = NullPointerException.class)
-    public void viewModelCreatingFailsIfLoggerIsNull() throws Exception {
+    public void creatingFailsIfLoggerIsNull() throws Exception {
         new ViewModel(null);
+    }
+
+    @Test
+    public void loggerViewModelIsNotNullByDefault() throws Exception {
+        assertNotEquals(null, viewModel.getLoggerViewModel());
     }
 }

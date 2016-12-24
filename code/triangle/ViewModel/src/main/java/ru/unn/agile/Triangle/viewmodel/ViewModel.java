@@ -1,10 +1,7 @@
 package ru.unn.agile.triangle.viewmodel;
 
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.model.Circle;
 import ru.unn.agile.triangle.model.Point2D;
@@ -31,12 +28,15 @@ public class ViewModel {
     private final StringProperty incircleRadius = new SimpleStringProperty();
     private final StringProperty incircleCenterX = new SimpleStringProperty();
     private final StringProperty incircleCenterY = new SimpleStringProperty();
+    private final ObjectProperty<LoggerViewModel> loggerViewModel;
 
     private final Logger logger;
 
     public ViewModel(final Logger logger) {
         Objects.requireNonNull(logger);
         this.logger = logger;
+        this.loggerViewModel = new SimpleObjectProperty<>(
+                new LoggerViewModel(logger));
 
         ax.set("");
         ay.set("");
@@ -198,6 +198,14 @@ public class ViewModel {
 
     public String getIncircleCenterY() {
         return incircleCenterY.get();
+    }
+
+    public final ReadOnlyObjectProperty<LoggerViewModel> loggerViewModelProperty() {
+        return loggerViewModel;
+    }
+
+    public final LoggerViewModel getLoggerViewModel() {
+        return loggerViewModel.get();
     }
 
     private Status getInputStatus() {
