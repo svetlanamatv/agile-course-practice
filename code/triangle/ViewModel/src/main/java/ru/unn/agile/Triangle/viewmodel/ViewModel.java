@@ -1,16 +1,18 @@
-package ru.unn.agile.Triangle.viewmodel;
+package ru.unn.agile.triangle.viewmodel;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import ru.unn.agile.Triangle.model.Circle;
-import ru.unn.agile.Triangle.model.Point2D;
-import ru.unn.agile.Triangle.model.Triangle;
+import ru.unn.agile.triangle.logging.Logger;
+import ru.unn.agile.triangle.model.Circle;
+import ru.unn.agile.triangle.model.Point2D;
+import ru.unn.agile.triangle.model.Triangle;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.Objects;
 
 public class ViewModel {
     private final StringProperty ax = new SimpleStringProperty();
@@ -30,7 +32,12 @@ public class ViewModel {
     private final StringProperty incircleCenterX = new SimpleStringProperty();
     private final StringProperty incircleCenterY = new SimpleStringProperty();
 
-    public ViewModel() {
+    private final Logger logger;
+
+    public ViewModel(final Logger logger) {
+        Objects.requireNonNull(logger);
+        this.logger = logger;
+
         ax.set("");
         ay.set("");
         bx.set("");

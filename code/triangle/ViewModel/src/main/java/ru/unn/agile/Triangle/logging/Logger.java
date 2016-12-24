@@ -1,4 +1,4 @@
-package ru.unn.agile.Triangle.logging;
+package ru.unn.agile.triangle.logging;
 
 import java.util.List;
 

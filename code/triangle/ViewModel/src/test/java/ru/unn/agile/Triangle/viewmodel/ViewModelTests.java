@@ -1,8 +1,10 @@
-package ru.unn.agile.Triangle.viewmodel;
+package ru.unn.agile.triangle.viewmodel;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ru.unn.agile.triangle.logging.Logger;
+import ru.unn.agile.triangle.viewmodel.fake.FakeLogger;
 
 import java.util.Locale;
 
@@ -13,7 +15,8 @@ public class ViewModelTests {
 
     @Before
     public void setUp() {
-        viewModel = new ViewModel();
+        Logger logger = new FakeLogger();
+        viewModel = new ViewModel(logger);
     }
 
     @After

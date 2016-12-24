@@ -1,4 +1,4 @@
-package ru.unn.agile.Triangle.model;
+package ru.unn.agile.triangle.model;
 
 public class Point2D {
     private final double x;

@@ -1,4 +1,4 @@
-package ru.unn.agile.Triangle.view;
+package ru.unn.agile.triangle.view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

@@ -1,15 +1,15 @@
-package ru.unn.agile.Triangle.view;
+package ru.unn.agile.triangle.view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import ru.unn.agile.Triangle.viewmodel.ViewModel;
+import ru.unn.agile.triangle.viewmodel.ViewModel;
 
 public class Triangle {
     @FXML
-    private ViewModel viewModel;
+    private ViewModelProvider viewModelProvider;
     @FXML
     private TextField txtAx;
     @FXML
@@ -27,6 +27,8 @@ public class Triangle {
 
     @FXML
     void initialize() {
+        ViewModel viewModel = viewModelProvider.getViewModel();
+
         txtAx.textProperty().bindBidirectional(viewModel.axProperty());
         txtAy.textProperty().bindBidirectional(viewModel.ayProperty());
         txtBx.textProperty().bindBidirectional(viewModel.bxProperty());
