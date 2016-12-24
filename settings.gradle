@@ -198,6 +198,8 @@ include "code/Queue/View"
 project(":code/Queue/View").name = "Queue-View"
 include "code/Queue/ViewModel"
 project(":code/Queue/ViewModel").name = "Queue-ViewModel"
+include "code/Queue/Infrastructure"
+project(":code/Queue/Infrastructure").name = "Queue-Infrastructure"
 // Пономарев Георгий
 // Пономарев Никита
 include "code/ponomarev-nikita/Model"

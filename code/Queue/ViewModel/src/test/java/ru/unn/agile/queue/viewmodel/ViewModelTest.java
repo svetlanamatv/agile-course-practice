@@ -1,5 +1,6 @@
 package ru.unn.agile.queue.viewmodel;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,19 +9,39 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static ru.unn.agile.queue.viewmodel.ViewModel.LogMessageCliche.ADD_BUTTON_PRESSED;
+import static ru.unn.agile.queue.viewmodel.ViewModel.LogMessageCliche.REMOVE_BUTTON_PRESSED;
+import static ru.unn.agile.queue.viewmodel.ViewModel.LogMessageCliche.SEARCH_BUTTON_PRESSED;
 
 public class ViewModelTest {
 
     private ViewModel<String> viewModel;
 
+    public void setOuterViewModel(final ViewModel<String> viewModel) {
+        this.viewModel = viewModel;
+    }
+
     @Before
-    public void beforeTest() {
-        viewModel = new ViewModel<>();
+    public void initBeforeTest() {
+        if (viewModel == null) {
+            viewModel = new ViewModel<String>(new QueueLoggerStub());
+            setInitialData();
+        }
+    }
+
+    @After
+    public void cleanUpTest() {
+        viewModel = null;
+    }
+
+    protected void setInitialData() {
         viewModel.setValue("123aaa");
         viewModel.add();
         viewModel.setValue("qwe");
         viewModel.add();
     }
+
     @Test
     public void addEmptyValue() throws Exception {
         viewModel.setValue("");
@@ -125,6 +146,45 @@ public class ViewModelTest {
     @Test
     public void getQueue() throws Exception {
         assertEquals(new LinkedList<>(Arrays.asList("123aaa", "qwe")), viewModel.getQueue());
+    }
+
+    @Test
+    public void testThatAddingEmptyValueProducesCorrectLogs() {
+        viewModel.setValue("");
+        viewModel.add();
+        String messageRegexp = ".*" + ADD_BUTTON_PRESSED + "Value is empty!.*";
+        assertTrue(viewModel.getLogMessages().get(2).matches(messageRegexp));
+    }
+
+    @Test
+    public void testThatAddingValidValueProducesCorrectLogs() {
+
+        String messageRegexp = ".*" + ADD_BUTTON_PRESSED + "'qwe' was added successfully.*";
+        assertTrue(viewModel.getLogMessages().get(1).matches(messageRegexp));
+    }
+
+    @Test
+    public void testThatRemovingEmptyValueProducesCorrectLogs() {
+        viewModel.setValue("");
+        viewModel.remove();
+        String messageRegexp = ".*" + REMOVE_BUTTON_PRESSED + "Value is empty!.*";
+        assertTrue(viewModel.getLogMessages().get(2).matches(messageRegexp));
+    }
+
+    @Test
+    public void testThatSearchingEmptyValueProducesCorrectLogs() {
+        viewModel.setValue("");
+        viewModel.search();
+        String messageRegexp = ".*" + SEARCH_BUTTON_PRESSED + "Value is empty!.*";
+        assertTrue(viewModel.getLogMessages().get(2).matches(messageRegexp));
+    }
+
+    @Test
+    public void testThatSearchingInEmptyQueueProducesCorrectLogs() {
+        deleteValuesFromQueue();
+        viewModel.search();
+        String messageRegexp = ".*" + SEARCH_BUTTON_PRESSED + "Queue is empty!.*";
+        assertTrue(viewModel.getLogMessages().get(4).matches(messageRegexp));
     }
 
     private void deleteValuesFromQueue() {

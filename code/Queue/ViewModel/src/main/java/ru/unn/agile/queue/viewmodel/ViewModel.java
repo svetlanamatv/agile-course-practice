@@ -11,6 +11,19 @@ public class ViewModel<T> {
 
     private T value;
     private String result;
+    private QueueLogger logger;
+
+    public ViewModel(final QueueLogger logger) {
+        queue = new Queue<>();
+        setLogger(logger);
+    }
+
+    public final void setLogger(final QueueLogger logger) {
+        if (logger == null) {
+            throw new IllegalArgumentException("Logger parameter can't be null");
+        }
+        this.logger = logger;
+    }
 
     public ViewModel() {
         queue = new Queue<>();
@@ -19,19 +32,23 @@ public class ViewModel<T> {
     public void add() {
         if (isEmptyValue()) {
             result = "Value is empty!";
+            logger.log(LogMessageCliche.ADD_BUTTON_PRESSED + result);
             return;
         }
         queue.enqueue(value);
         result = "'" + value + "' was added successfully";
+        logger.log(LogMessageCliche.ADD_BUTTON_PRESSED + result);
     }
 
     public void remove() {
         if (queue.isEmpty()) {
             result = "Queue is empty! You don't delete value from empty queue!";
+            logger.log(LogMessageCliche.REMOVE_BUTTON_PRESSED + result);
             return;
         }
         if (isEmptyValue()) {
             result = "Value is empty!";
+            logger.log(LogMessageCliche.REMOVE_BUTTON_PRESSED + result);
             return;
         }
         if (queue.remove(value)) {
@@ -39,6 +56,7 @@ public class ViewModel<T> {
         } else {
             result = "Value '" + value + "' is absent in the queue!";
         }
+        logger.log(LogMessageCliche.REMOVE_BUTTON_PRESSED + result);
     }
 
     private boolean isEmptyValue() {
@@ -48,10 +66,12 @@ public class ViewModel<T> {
     public void search() {
         if (queue.isEmpty()) {
             result = "Queue is empty!";
+            logger.log(LogMessageCliche.SEARCH_BUTTON_PRESSED + result);
             return;
         }
         if (isEmptyValue()) {
             result = "Value is empty!";
+            logger.log(LogMessageCliche.SEARCH_BUTTON_PRESSED + result);
             return;
         }
         try {
@@ -60,6 +80,8 @@ public class ViewModel<T> {
         } catch (NoSuchElementException nsex) {
             nsex.getCause();
             result = "The value '" + value + "' is not found in queue";
+        } finally {
+            logger.log(LogMessageCliche.SEARCH_BUTTON_PRESSED + result);
         }
     }
 
@@ -69,6 +91,7 @@ public class ViewModel<T> {
         } else {
             result = "The size of queue is " + queue.getSize();
         }
+        logger.log(LogMessageCliche.SIZE_BUTTON_PRESSED + result);
     }
 
     public T getValue() {
@@ -85,5 +108,25 @@ public class ViewModel<T> {
 
     public String getResult() {
         return result;
+    }
+
+    public String getLog() {
+        List<String> logs = logger.getLog();
+        StringBuilder output = new StringBuilder();
+        for (String line : logs) {
+            output.append(line).append("\n");
+        }
+        return output.toString();
+    }
+
+    public List<String> getLogMessages() {
+        return logger.getLog();
+    }
+
+    public interface LogMessageCliche {
+        String ADD_BUTTON_PRESSED = "'ADD' button was pressed. Result message: ";
+        String REMOVE_BUTTON_PRESSED = "'REMOVE' button was pressed. Result message: ";
+        String SEARCH_BUTTON_PRESSED = "'SEARCH' button was pressed. Result message: ";
+        String SIZE_BUTTON_PRESSED = "'Get size' button was pressed. Result message: ";
     }
 }

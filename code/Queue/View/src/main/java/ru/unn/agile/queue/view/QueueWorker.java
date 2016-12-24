@@ -1,5 +1,6 @@
 package ru.unn.agile.queue.view;
 
+import ru.unn.agile.queue.infrastructure.QueueLoggerImpl;
 import ru.unn.agile.queue.viewmodel.ViewModel;
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ public final class QueueWorker<T> extends JDialog {
 
     private JTextField addTextField;
     private JTextField resultTextField;
+    private JTextField logTextField;
 
     private QueueWorker() {
 
@@ -73,7 +75,7 @@ public final class QueueWorker<T> extends JDialog {
 
     public static void main(final String[] args) {
         QueueWorker dialog = new QueueWorker();
-        dialog.setContentPane(new QueueWorker<>(new ViewModel<>()).contentPane);
+        dialog.setContentPane(new QueueWorker<>(new ViewModel<>(new QueueLoggerImpl("./queworker.log"))).contentPane);
         dialog.setResizable(false);
         dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         dialog.pack();
@@ -88,6 +90,7 @@ public final class QueueWorker<T> extends JDialog {
         addTextField.setText("");
         updateList();
         resultTextField.setText(viewModel.getResult());
+        logTextField.setText(viewModel.getLog());
     }
 
     private void updateList() {
@@ -98,5 +101,9 @@ public final class QueueWorker<T> extends JDialog {
                 dfm.addElement(o);
             }
         }
+    }
+
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
     }
 }

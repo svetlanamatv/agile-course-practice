@@ -1,7 +1,8 @@
 dependencies {
     compile project(':Queue-ViewModel')
-    compile project(':Queue-Infrastructure')
+    testCompile project(':Queue-ViewModel').sourceSets.test.output
 }
+
 sourceSets {
     main.java.srcDir 'src/main/java'
     test.java.srcDir 'src/test/java'
