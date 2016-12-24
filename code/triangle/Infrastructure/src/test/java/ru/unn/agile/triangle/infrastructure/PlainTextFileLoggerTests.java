@@ -78,13 +78,7 @@ public class PlainTextFileLoggerTests {
 
         printMessagesToLogger(messages);
 
-        List<String> logLines = readLoggerFile();
-        assertEquals(messages.size(), logLines.size());
-        for (Pair<String, String> pair : CollectionsHelper.zip(logLines, messages)) {
-            String logLine = pair.getKey();
-            String message = pair.getValue();
-            assertTrue(logLine.contains(message));
-        }
+        compareLogFileContentWithRealMessages(messages);
     }
 
     @Test
@@ -108,6 +102,19 @@ public class PlainTextFileLoggerTests {
         assertEquals(logger.getRecordsNumber(), records.size());
     }
 
+    @Test
+    public void doesLoggerAddNewRecordsToTheExistingFile() throws Exception {
+        List<String> messages = RandomStringGenerator.randomStrings(2);
+
+        logger.print(messages.get(0));
+        logger.close();
+
+        logger = new PlainTextFileLogger(TEXT_LOGGER_FILE, MAX_RECORDS_IN_MEMORY);
+        logger.print(messages.get(1));
+
+        compareLogFileContentWithRealMessages(messages);
+    }
+
     private static List<String> readLoggerFile() throws IOException {
         FileInputStream logStream = new FileInputStream(TEXT_LOGGER_FILE);
         InputStreamReader reader = new InputStreamReader(logStream);
@@ -126,6 +133,17 @@ public class PlainTextFileLoggerTests {
     private void printMessagesToLogger(final List<String> messages) {
         for (String message : messages) {
             logger.print(message);
+        }
+    }
+
+    private void compareLogFileContentWithRealMessages(final List<String> messages)
+            throws Exception {
+        List<String> logLines = readLoggerFile();
+        assertEquals(messages.size(), logLines.size());
+        for (Pair<String, String> pair : CollectionsHelper.zip(logLines, messages)) {
+            String logLine = pair.getKey();
+            String message = pair.getValue();
+            assertTrue(logLine.contains(message));
         }
     }
 }
