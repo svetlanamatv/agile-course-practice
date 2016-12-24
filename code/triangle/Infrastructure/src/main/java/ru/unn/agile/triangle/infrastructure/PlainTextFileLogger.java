@@ -70,6 +70,6 @@ public class PlainTextFileLogger implements Logger {
             logFile.createNewFile();
         }
 
-        logWriter = new FileWriter(logFile);
+        logWriter = new FileWriter(logFile, true);
     }
 }
