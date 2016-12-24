@@ -6,7 +6,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static ru.unn.agile.MassConverter.Model.MassConverter.*;
 import static ru.unn.agile.MassConverter.ViewModel.ViewModel.Status.*;
 
@@ -15,7 +18,8 @@ public class ViewModelTest {
 
     @Before
     public void start() {
-        viewModel = new ViewModel();
+        FakeLogger logger = new FakeLogger();
+        viewModel = new ViewModel(logger);
     }
 
     @After
@@ -128,5 +132,91 @@ public class ViewModelTest {
     public void convertNegative() {
         viewModel.inputProperty().set("-1");
         assertEquals(WRONG_INPUT.toString(), viewModel.statusProperty().get());
+    }
+
+    @Test
+    public void logMustBeEmptyInTheBeginning() {
+        List<String> log = viewModel.getLog();
+
+        assertEquals(0, log.size());
+    }
+
+    @Test
+    public void logMustContainsSomethingAfterInputValue() {
+        viewModel.inputProperty().set("23");
+        List<String> log = viewModel.getLog();
+
+        assertEquals(1, log.size());
+    }
+
+    @Test
+    public void logMustContainsPropertyOfLogMessagesAfterInputValue() {
+        viewModel.inputProperty().set("23");
+        List<String> log = viewModel.getLog();
+        String message = log.get(0);
+
+        assertTrue(message.contains(ViewModel.LogMessages.EDITING_FINISHED));
+    }
+
+    @Test
+    public void logMustContainsInputValue() {
+        String inputValue = "23";
+        viewModel.inputProperty().set(inputValue);
+        List<String> log = viewModel.getLog();
+        String message = log.get(0);
+
+        assertTrue(message.contains(inputValue));
+    }
+
+    @Test
+    public void logMustContainsSomethingAfterInputFirstSystem() {
+        viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
+        List<String> log = viewModel.getLog();
+
+        assertEquals(1, log.size());
+    }
+
+    @Test
+    public void logMustContainsPropertyOfLogMessagesAfterFirstSystem() {
+        viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
+        List<String> log = viewModel.getLog();
+        String message = log.get(0);
+
+        assertTrue(message.contains(ViewModel.LogMessages.FIRST_SYSTEM_WAS_CHANGED));
+    }
+
+    @Test
+    public void logMustContainsFirstSystem() {
+        viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
+        List<String> log = viewModel.getLog();
+        String message = log.get(0);
+
+        assertTrue(message.contains(ConversionSystem.CENTNER.toString()));
+    }
+
+    @Test
+    public void logMustContainsSomethingAfterInputSecondSystem() {
+        viewModel.systemToConvertProperty().set(ConversionSystem.POUND);
+        List<String> log = viewModel.getLog();
+
+        assertEquals(1, log.size());
+    }
+
+    @Test
+    public void logMustContainsPropertyOfLogMessagesAfterSecondSystem() {
+        viewModel.systemToConvertProperty().set(ConversionSystem.MILLIGRAM);
+        List<String> log = viewModel.getLog();
+        String message = log.get(0);
+
+        assertTrue(message.contains(ViewModel.LogMessages.SECOND_SYSTEM_WAS_CHANGED));
+    }
+
+    @Test
+    public void logMustContainsSecondSystem() {
+        viewModel.systemToConvertProperty().set(ConversionSystem.POUND);
+        List<String> log = viewModel.getLog();
+        String message = log.get(0);
+
+        assertTrue(message.contains(ConversionSystem.POUND.toString()));
     }
 }

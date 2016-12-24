@@ -10,8 +10,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ru.unn.agile.MassConverter.Model.MassConverter.ConversionSystem;
 
+import java.util.List;
+
 public class ViewModel {
 
+    private final ILogger logger;
     private final StringProperty input = new SimpleStringProperty();
     private final StringProperty result = new SimpleStringProperty();
     private final StringProperty status = new SimpleStringProperty();
@@ -37,7 +40,17 @@ public class ViewModel {
         }
     }
 
-    public ViewModel() {
+    enum NumberOfSistem {
+        FirstSystem,
+        SecondSystem
+    }
+
+    public ViewModel(final ILogger logger) {
+        if (logger == null) {
+            throw new IllegalArgumentException("Logger parameter can't be null");
+        }
+
+        this.logger = logger;
         input.set("");
         result.set("");
         status.set(Status.WAITING.toString());
@@ -49,6 +62,7 @@ public class ViewModel {
             public void changed(final ObservableValue<? extends String> observable,
                                 final String oldValue, final String newValue) {
                 changedValue();
+                logInputValue();
             }
         });
 
@@ -58,6 +72,7 @@ public class ViewModel {
                                 final ConversionSystem oldValue,
                                 final ConversionSystem newValue) {
                 changedValue();
+                logChangeSecondSystem();
             }
         });
 
@@ -67,8 +82,41 @@ public class ViewModel {
                                 final ConversionSystem oldValue,
                                 final ConversionSystem newValue) {
                 changedValue();
+                logChangeFirstSystem();
             }
         });
+    }
+
+    private void logChangeSecondSystem() {
+        logger.log(changeLogMessage(NumberOfSistem.SecondSystem));
+    }
+
+    private void logChangeFirstSystem() {
+        logger.log(changeLogMessage(NumberOfSistem.FirstSystem));
+    }
+
+    private void logInputValue() {
+        logger.log(editingFinishedLogMessage());
+    }
+
+    private String editingFinishedLogMessage() {
+        String messageLog = LogMessages.EDITING_FINISHED
+                + "Input value are: "
+                + input.get();
+
+        return messageLog;
+    }
+
+    private String changeLogMessage(final NumberOfSistem numberOfSystem) {
+        String messageLog;
+
+        if (numberOfSystem == NumberOfSistem.FirstSystem) {
+            messageLog = LogMessages.FIRST_SYSTEM_WAS_CHANGED + systemFromConvert.get();
+        } else {
+            messageLog = LogMessages.SECOND_SYSTEM_WAS_CHANGED + systemToConvert.get();
+        }
+
+        return messageLog;
     }
 
     private void changedValue() {
@@ -89,6 +137,10 @@ public class ViewModel {
                 result.set("");
             }
         }
+    }
+
+    public List<String> getLog() {
+        return logger.getLog();
     }
 
     public StringProperty inputProperty() {
@@ -121,5 +173,13 @@ public class ViewModel {
 
     public final ObservableList<ConversionSystem> getConversionSystems() {
         return conversionSystems.get();
+    }
+
+    public final class LogMessages {
+        public static final String FIRST_SYSTEM_WAS_CHANGED = "First system was changed to ";
+        public static final String SECOND_SYSTEM_WAS_CHANGED = "Second system was changed to ";
+        public static final String EDITING_FINISHED = "Updated input. ";
+
+        private LogMessages() { }
     }
 }

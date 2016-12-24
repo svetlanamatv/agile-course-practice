@@ -258,12 +258,14 @@ project(":code/RomanArabicConverter/View").name = "RomanArabicConverter-View"
 include "code/RomanArabicConverter/ViewModel"
 project(":code/RomanArabicConverter/ViewModel").name = "RomanArabicConverter-ViewModel"
 // Ширяева Вера
+include "code/MassConverter/Infrastructure"
+project(":code/MassConverter/Infrastructure").name = "MassConverter-Infrastructure"
 include "code/MassConverter/Model"
-project(":code/MassConverter/Model").name = "shiryaeva-vera-lab2-Model"
+project(":code/MassConverter/Model").name = "MassConverter-Model"
 include "code/MassConverter/ViewModel"
-project(":code/MassConverter/ViewModel").name = "shiryaeva-vera-lab2-ViewModel"
+project(":code/MassConverter/ViewModel").name = "MassConverter-ViewModel"
 include "code/MassConverter/View"
-project(":code/MassConverter/View").name = "shiryaeva-vera-lab2-View"
+project(":code/MassConverter/View").name = "MassConverter-View"
 
 // Шишкин Владислав
 // Шочин Александр
