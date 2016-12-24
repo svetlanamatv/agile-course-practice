@@ -1,15 +1,12 @@
 package ru.unn.agile.triangle.infrastructure;
 
-import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.logging.LoggerRecord;
 
-import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class InMemoryLogger implements Logger {
+public class InMemoryLogger extends ObservableLogger {
     private final LinkedList<LoggerRecord> records = new LinkedList<>();
     private final int maxRecords;
 
@@ -18,15 +15,9 @@ public class InMemoryLogger implements Logger {
     }
 
     @Override
-    public void print(final String message) {
+    protected void addRecord(final LoggerRecord record) {
         compactRecordsList();
-        records.addLast(new LoggerRecord(message, LocalDateTime.now()));
-    }
-
-    @Override
-    public void print(final String pattern, final Object... args) {
-        String message = MessageFormat.format(pattern, args);
-        print(message);
+        records.addLast(record);
     }
 
     @Override

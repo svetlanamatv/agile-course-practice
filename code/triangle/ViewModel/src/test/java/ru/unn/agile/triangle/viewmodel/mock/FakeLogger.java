@@ -8,13 +8,20 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class FakeLogger implements Logger {
     private final ArrayList<LoggerRecord> records = new ArrayList<>();
+    private final ArrayList<Consumer<LoggerRecord>> listeners = new ArrayList<>();
 
     @Override
     public void print(final String message) {
-        records.add(new LoggerRecord(message, LocalDateTime.now()));
+        LoggerRecord record = new LoggerRecord(message, LocalDateTime.now());
+        records.add(record);
+
+        for (Consumer<LoggerRecord> listener : listeners) {
+            listener.accept(record);
+        }
     }
 
     @Override
@@ -38,5 +45,12 @@ public class FakeLogger implements Logger {
         List<LoggerRecord> lastRecords =
                 records.subList(recordsSize - recordsNumber, recordsSize);
         return Collections.unmodifiableList(lastRecords);
+    }
+
+    @Override
+    public void addListener(final Consumer<LoggerRecord> listener) {
+        if (listener != null) {
+            listeners.add(listener);
+        }
     }
 }

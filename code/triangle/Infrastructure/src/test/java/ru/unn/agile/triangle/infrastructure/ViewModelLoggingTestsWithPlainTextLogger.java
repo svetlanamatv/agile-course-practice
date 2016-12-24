@@ -4,7 +4,7 @@ import org.junit.After;
 import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.viewmodel.ViewModelLoggingTestsBase;
 
-import java.io.*;
+import java.io.File;
 
 public class ViewModelLoggingTestsWithPlainTextLogger extends ViewModelLoggingTestsBase {
     private static final int MAX_RECORDS_IN_MEMORY = 100;

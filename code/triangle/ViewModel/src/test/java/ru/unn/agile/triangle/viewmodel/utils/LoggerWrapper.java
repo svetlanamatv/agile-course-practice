@@ -5,6 +5,7 @@ import ru.unn.agile.triangle.logging.LoggerRecord;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public class LoggerWrapper implements Logger {
     private final Logger logger;
@@ -32,6 +33,11 @@ public class LoggerWrapper implements Logger {
     @Override
     public List<LoggerRecord> getLastRecords(final int recordsNumber) {
         return logger.getLastRecords(recordsNumber);
+    }
+
+    @Override
+    public void addListener(final Consumer<LoggerRecord> listener) {
+        logger.addListener(listener);
     }
 
     public boolean hasRecordWithMessage(final String message) {

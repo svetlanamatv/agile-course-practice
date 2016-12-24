@@ -5,6 +5,7 @@ import ru.unn.agile.triangle.logging.LoggerRecord;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 class StubLogger implements Logger {
     @Override
@@ -25,5 +26,10 @@ class StubLogger implements Logger {
     @Override
     public List<LoggerRecord> getLastRecords(final int recordsNumber) {
         return new ArrayList<>();
+    }
+
+    @Override
+    public void addListener(Consumer<LoggerRecord> listener) {
+        // Stub
     }
 }

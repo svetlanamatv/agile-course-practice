@@ -1,6 +1,5 @@
 package ru.unn.agile.triangle.infrastructure;
 
-import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.logging.LoggerRecord;
 
 import java.io.File;
@@ -11,11 +10,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class PlainTextFileLogger implements Logger {
+public class PlainTextFileLogger extends ObservableLogger {
     private static final DateTimeFormatter TIMESTAMP_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy, hh:mm:ss.SSS");
 
-    private final Logger inmemoryLogger;
+    private final ObservableLogger inmemoryLogger;
     private final String outputFile;
     private FileWriter logWriter;
 
@@ -27,16 +26,16 @@ public class PlainTextFileLogger implements Logger {
     }
 
     @Override
-    public void print(final String message) {
+    protected void addRecord(final LoggerRecord record) {
         if (logWriter == null) {
             throw new UnsupportedOperationException("Logger has already been closed");
         }
 
-        inmemoryLogger.print(message);
+        inmemoryLogger.addRecord(record);
 
         String timestampFormatted = LocalDateTime.now().format(TIMESTAMP_FORMATTER);
         String logLine = MessageFormat.format("[{0}]: {1}",
-                timestampFormatted, message);
+                timestampFormatted, record.getMessage());
 
         try {
             logWriter.write(logLine + "\n");
@@ -46,11 +45,6 @@ public class PlainTextFileLogger implements Logger {
                     + " can't write log line to file " + outputFile);
             ioex.printStackTrace();
         }
-    }
-
-    @Override
-    public void print(final String pattern, final Object... args) {
-        print(MessageFormat.format(pattern, args));
     }
 
     @Override
