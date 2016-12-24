@@ -115,6 +115,12 @@ public class PlainTextFileLoggerTests {
         compareLogFileContentWithRealMessages(messages);
     }
 
+    @Test(expected = UnsupportedOperationException.class)
+    public void failIfWhenLogWasClosed() throws Exception {
+        logger.close();
+        logger.print("Some message");
+    }
+
     private static List<String> readLoggerFile() throws IOException {
         FileInputStream logStream = new FileInputStream(TEXT_LOGGER_FILE);
         InputStreamReader reader = new InputStreamReader(logStream);

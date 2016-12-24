@@ -28,6 +28,10 @@ public class PlainTextFileLogger implements Logger {
 
     @Override
     public void print(final String message) {
+        if (logWriter == null) {
+            throw new UnsupportedOperationException("Logger has already been closed");
+        }
+
         inmemoryLogger.print(message);
 
         String timestampFormatted = LocalDateTime.now().format(TIMESTAMP_FORMATTER);
@@ -46,7 +50,6 @@ public class PlainTextFileLogger implements Logger {
 
     @Override
     public void print(final String pattern, final Object... args) {
-        inmemoryLogger.print(pattern, args);
         print(MessageFormat.format(pattern, args));
     }
 
@@ -61,7 +64,10 @@ public class PlainTextFileLogger implements Logger {
     }
 
     public void close() throws IOException {
-        logWriter.close();
+        if (logWriter != null) {
+            logWriter.close();
+            logWriter = null;
+        }
     }
 
     private void openLogFile(final String pathToLogFile) throws IOException {
