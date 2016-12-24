@@ -10,5 +10,5 @@ public interface Logger {
     int getRecordsNumber();
     List<LoggerRecord> getLastRecords(int recordsNumber);
 
-    void addListener(Consumer<LoggerRecord> listener);
+    void addListenerForNewRecord(Consumer<LoggerRecord> listener);
 }

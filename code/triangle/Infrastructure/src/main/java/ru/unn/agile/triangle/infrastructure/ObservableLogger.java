@@ -26,7 +26,7 @@ public abstract class ObservableLogger implements Logger {
     }
 
     @Override
-    public void addListener(final Consumer<LoggerRecord> listener) {
+    public void addListenerForNewRecord(final Consumer<LoggerRecord> listener) {
         if (listener != null) {
             listeners.add(listener);
         }

@@ -29,7 +29,7 @@ class StubLogger implements Logger {
     }
 
     @Override
-    public void addListener(Consumer<LoggerRecord> listener) {
+    public void addListenerForNewRecord(Consumer<LoggerRecord> listener) {
         // Stub
     }
 }

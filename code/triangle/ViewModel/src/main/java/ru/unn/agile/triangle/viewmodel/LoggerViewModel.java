@@ -18,8 +18,7 @@ public class LoggerViewModel {
     public LoggerViewModel(final Logger logger) {
         Objects.requireNonNull(logger);
         this.logger = logger;
-        logger.addListener((record) -> {
-
+        logger.addListenerForNewRecord((record) -> {
         });
     }
 

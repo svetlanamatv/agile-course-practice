@@ -36,8 +36,8 @@ public class LoggerWrapper implements Logger {
     }
 
     @Override
-    public void addListener(final Consumer<LoggerRecord> listener) {
-        logger.addListener(listener);
+    public void addListenerForNewRecord(final Consumer<LoggerRecord> listener) {
+        logger.addListenerForNewRecord(listener);
     }
 
     public boolean hasRecordWithMessage(final String message) {

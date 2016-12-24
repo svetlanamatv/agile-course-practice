@@ -33,7 +33,7 @@ public class ObservableLoggerTests {
 
     @Test
     public void printWasCalledAndListenerWasFired() throws Exception {
-        observableLogger.addListener((record) ->
+        observableLogger.addListenerForNewRecord((record) ->
             assertEquals(TEST_MESSAGE, record.getMessage())
         );
 
@@ -42,7 +42,7 @@ public class ObservableLoggerTests {
 
     @Test
     public void printWithPatternWasCalledAndListenerWasFired() throws Exception {
-        observableLogger.addListener((record) ->
+        observableLogger.addListenerForNewRecord((record) ->
             assertEquals(TEST_FORMATTED, record.getMessage())
         );
 
