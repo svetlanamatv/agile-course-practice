@@ -8,14 +8,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class PlainTextFileLogger implements Logger {
+    private static final DateTimeFormatter TIMESTAMP_FORMATTER =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy, hh:mm:ss.SSS");
+
     private final Logger inmemoryLogger;
+    private final String outputFile;
     private FileWriter logWriter;
 
     public PlainTextFileLogger(final String pathToLogFile,
                                final int maxRecordsInMemory) throws IOException {
+        outputFile = pathToLogFile;
         inmemoryLogger = new InMemoryLogger(maxRecordsInMemory);
         openLogFile(pathToLogFile);
     }
@@ -23,6 +29,19 @@ public class PlainTextFileLogger implements Logger {
     @Override
     public void print(final String message) {
         inmemoryLogger.print(message);
+
+        String timestampFormatted = LocalDateTime.now().format(TIMESTAMP_FORMATTER);
+        String logLine = MessageFormat.format("[{0}]: {1}",
+                timestampFormatted, message);
+
+        try {
+            logWriter.write(logLine + "\n");
+            logWriter.flush();
+        } catch (final IOException ioex) {
+            System.out.print(PlainTextFileLogger.class.getName()
+                    + " can't write log line to file " + outputFile);
+            ioex.printStackTrace();
+        }
     }
 
     @Override
