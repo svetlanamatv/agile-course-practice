@@ -1,0 +1,9 @@
+dependencies {
+    compile project(':triangle-ViewModel')
+    testCompile project(':triangle-ViewModel').sourceSets.test.output
+}
+
+sourceSets {
+    main.java.srcDir 'src/main/java'
+    test.java.srcDir 'src/test/java'
+}

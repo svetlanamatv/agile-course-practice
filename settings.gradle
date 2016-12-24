@@ -145,6 +145,8 @@ include "code/triangle/View"
 project(":code/triangle/View").name = "triangle-View"
 include "code/triangle/ViewModel"
 project(":code/triangle/ViewModel").name = "triangle-ViewModel"
+include "code/triangle/Infrastructure"
+project(":code/triangle/Infrastructure").name = "triangle-Infrastructure"
 
 // Кукушкин Даниил
 include "code/newton-method/Model"
