@@ -3,16 +3,18 @@ package ru.unn.agile.triangle.viewmodel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ru.unn.agile.triangle.viewmodel.mock.FakeLogger;
+import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.viewmodel.utils.LoggerWrapper;
 
-public class ViewModelLoggingTests {
+public abstract class ViewModelLoggingTestsBase {
     private ViewModel viewModel;
     private LoggerWrapper logger;
 
+    protected abstract Logger constructLogger();
+
     @Before
     public void setUp() {
-        logger = new LoggerWrapper(new FakeLogger());
+        logger = new LoggerWrapper(constructLogger());
         viewModel = new ViewModel(logger);
     }
 
@@ -161,4 +163,5 @@ public class ViewModelLoggingTests {
         viewModel.cxProperty().set("0.0");
         viewModel.cyProperty().set("0.0");
     }
+
 }
