@@ -2,8 +2,6 @@ package ru.unn.agile.matrixoperations.viewmodel;
 
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ru.unn.agile.matrixoperations.model.Matrix;
@@ -24,18 +22,13 @@ public class MatrixViewModel {
             for (int i = 0; i < sourceMatrix.getColumns(); i++) {
                 final int colIndex = i;
                 FloatProperty fp = new SimpleFloatProperty(sourceMatrix.getElement(rowIndex, i));
-                fp.addListener(new ChangeListener<Number>() {
-                    @Override
-                    public void changed(final ObservableValue<? extends Number> observable,
-                                        final Number oldValue, final Number newValue) {
-                        sourceMatrix.setElement(rowIndex, colIndex, newValue.floatValue());
-                    }
-                });
+                fp.addListener((observable, oldValue, newValue) ->
+                        sourceMatrix.setElement(rowIndex, colIndex, newValue.floatValue()));
                 rowProperties.add(fp);
             }
         }
 
-        public FloatProperty getCellValue(final int colIndex) {
+        public FloatProperty elementProperty(final int colIndex) {
             return rowProperties.get(colIndex);
         }
 
@@ -66,5 +59,9 @@ public class MatrixViewModel {
         for (int row = 0; row < sourceMatrix.getRows(); row++) {
             rows.add(new MatrixRow(row));
         }
+    }
+
+    public FloatProperty elementProperty(final int rowIndex, final int colIndex) {
+        return rows.get(rowIndex).elementProperty(colIndex);
     }
 }

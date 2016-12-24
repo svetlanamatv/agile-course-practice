@@ -1,9 +1,15 @@
 package ru.unn.agile.matrixoperations.viewmodel;
 
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.unn.agile.matrixoperations.model.Matrix;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -36,6 +42,16 @@ public class ViewModelTests {
     private Matrix rightMultMatrix;
 
     private ViewModel viewModel;
+
+    private ILogger logger;
+
+    public void setViewModel(final ViewModel vm) {
+        viewModel = vm;
+    }
+
+    public void setLogger(final ILogger lgr) {
+        logger = lgr;
+    }
 
     @Before
     public void setUp() {
@@ -259,6 +275,133 @@ public class ViewModelTests {
         }
     }
 
+    @Test
+    public void canSetLogger() {
+        viewModel.setLogger(new TestingLogger());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void cantSetNullLogger() {
+        viewModel.setLogger(null);
+    }
+
+    @Test
+    public void canCreateViewModelWithLogger() {
+        ILogger logger = new TestingLogger();
+        viewModel = new ViewModel(logger);
+        assertNotNull(viewModel);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void cantCreateViewModelWithNullLogger() {
+        viewModel = new ViewModel(null);
+    }
+
+    @Test
+    public void canLogCalculation() {
+        setUpLogger();
+
+        viewModel.calculate();
+
+        assertTrue(getLastLog().endsWith(LogMessages.CALCULATE));
+    }
+
+    @Test
+    public void canLogOperationChanging() {
+        setUpLogger();
+        ObjectProperty<Matrix.Operation> operation = viewModel.operationProperty();
+
+        operation.set(Matrix.Operation.ADD);
+        operation.set(Matrix.Operation.MULTIPLY);
+
+        assertTrue(getLastLog().endsWith(LogMessages.CHANGE_OPERATION
+               + " from " + Matrix.Operation.ADD.toString() + " to " + operation.get().toString()));
+    }
+
+    @Test
+    public void canLogLeftMatrixColsCountChanging() {
+        setUpLogger();
+        IntegerProperty leftMatrixCols = viewModel.leftMatrixColumnsProperty();
+
+        leftMatrixCols.set(5);
+        leftMatrixCols.set(7);
+
+        assertTrue(getLastLog().endsWith(LogMessages.CHANGE_LEFT_MATRIX_COLS
+                                            + " from " + 5 + " to " + 7));
+    }
+
+    @Test
+    public void canLogLeftMatrixRowsCountChanging() {
+        setUpLogger();
+        IntegerProperty leftMatrixRows = viewModel.leftMatrixRowsProperty();
+
+        leftMatrixRows.set(1);
+        leftMatrixRows.set(3);
+
+        assertTrue(getLastLog().endsWith(LogMessages.CHANGE_LEFT_MATRIX_ROWS
+                                         + " from " + 1 + " to " + 3));
+    }
+
+    @Test
+    public void canLogRightMatrixColsCountChanging() {
+        setUpLogger();
+        IntegerProperty rightMatrixCols = viewModel.rightMatrixColumnsProperty();
+
+        rightMatrixCols.set(8);
+        rightMatrixCols.set(9);
+
+        assertTrue(getLastLog().endsWith(LogMessages.CHANGE_RIGHT_MATRIX_COLS
+                                         + " from " + 8 + " to " + 9));
+    }
+
+    @Test
+    public void canLogRightMatrixRowsCountChanging() {
+        setUpLogger();
+        IntegerProperty rightMatrixRows = viewModel.rightMatrixRowsProperty();
+
+        rightMatrixRows.set(4);
+        rightMatrixRows.set(6);
+
+        assertTrue(getLastLog().endsWith(LogMessages.CHANGE_RIGHT_MATRIX_ROWS
+                                         + " from " + 4 + " to " + 6));
+    }
+
+    @Test
+    public void canLogLeftMatrixElementChanging() {
+        setUpLogger();
+        FloatProperty leftMatrixEl = viewModel.leftMatrix().elementProperty(0, 1);
+
+        leftMatrixEl.set(2.718f);
+        leftMatrixEl.set(3.141f);
+
+        assertTrue(getLastLog().endsWith(LogMessages.CHANGE_LEFT_MATRIX_ELEMENT
+                + " " + "[" + 0 + "][" + 1 + "]" + " from " + 2.718f + " to " + 3.141f));
+    }
+
+    @Test
+    public void canLogRightMatrixElementChanging() {
+        setUpLogger();
+        FloatProperty rightMatrixEl = viewModel.rightMatrix().elementProperty(1, 0);
+
+        rightMatrixEl.set(42.0f);
+        rightMatrixEl.set(32.0f);
+
+        assertTrue(getLastLog().endsWith(LogMessages.CHANGE_RIGHT_MATRIX_ELEMENT
+                + " " + "[" + 1 + "][" + 0 + "]" + " from " + 42.0f + " to " + 32.0f));
+    }
+
+    @Test
+    public void canGetLog() {
+        ObservableList<String> log = viewModel.getLog();
+        assertNotNull(log);
+    }
+
+    @Test
+    public void canGetLogProperty() {
+        ObjectProperty<ObservableList<String>> prop = viewModel.logProperty();
+        assertNotNull(prop);
+    }
+
     private void doTestOperationGet(final Matrix.Operation op) {
         viewModel.operationProperty().set(op);
         assertEquals(op, viewModel.getOperation());
@@ -314,6 +457,20 @@ public class ViewModelTests {
         viewModel.rightMatrix().getMatrix().updateDimensions(m.getRows(), m.getColumns());
         for (int i = 0; i < m.getSize(); i++) {
             viewModel.rightMatrix().getMatrix().setElement(i, m.getElement(i));
+        }
+    }
+
+    protected void setUpLogger() {
+        logger = new TestingLogger();
+        viewModel.setLogger(logger);
+    }
+
+    private String getLastLog() {
+        List<String> messages = logger.getLog();
+        if (messages.size() > 0) {
+            return messages.get(messages.size() - 1);
+        } else {
+            return null;
         }
     }
 }

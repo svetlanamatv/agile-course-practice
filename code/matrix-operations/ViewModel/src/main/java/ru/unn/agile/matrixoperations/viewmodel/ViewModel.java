@@ -14,7 +14,8 @@ import ru.unn.agile.matrixoperations.model.Matrix;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewModel {
+public final class ViewModel {
+    private ILogger logger;
     private static final int DEFAULT_ROWS_COUNT = 2;
     private static final int DEFAULT_COLUMNS_COUNT = 2;
 
@@ -47,6 +48,9 @@ public class ViewModel {
             new SimpleObjectProperty<>(
                     FXCollections.observableArrayList(Matrix.Operation.values()));
 
+    private final ObjectProperty<ObservableList<String>> log = new SimpleObjectProperty<>(
+            FXCollections.observableArrayList());
+
     public enum Status {
         INVALID_LEFT_MATRIX_ROWS("Left matrix has invalid rows count."),
         INVALID_LEFT_MATRIX_COLS("Left matrix has invalid columns count."),
@@ -76,18 +80,36 @@ public class ViewModel {
         }
     }
 
+    public void setLogger(final ILogger logger) {
+        if (logger == null) {
+            throw new IllegalArgumentException("Logger can not be null");
+        }
+        this.logger = logger;
+        log.get().setAll(logger.getLog());
+    }
+
     // FXML needs default c-tor for binding
     public ViewModel() {
         setDefaultDimensions();
         setDefaultOperations();
         setCalculationBinding();
         setValuesListeners();
+
+        setLogger(new FakeLogger());
+    }
+
+    public ViewModel(final ILogger logger) {
+        this();
+        setLogger(logger);
     }
 
     public void calculate() {
         if (calculationDisabled.get()) {
             return;
         }
+
+        logger.log(LogMessages.CALCULATE);
+        log.get().setAll(logger.getLog());
 
         resultMatrix = operation.get().apply(leftMatrix, rightMatrix);
 
@@ -97,6 +119,14 @@ public class ViewModel {
         resultMatrixViewModel.setMatrix(resultMatrix);
 
         status.set(Status.SUCCESS);
+    }
+
+    public ObjectProperty<ObservableList<String>> logProperty() {
+        return log;
+    }
+
+    public ObservableList<String> getLog() {
+        return log.get();
     }
 
     public Integer getDefaultRowsCount() {
@@ -161,7 +191,7 @@ public class ViewModel {
         return operations;
     }
 
-    public final ObservableList<Matrix.Operation> getOperations() {
+    public ObservableList<Matrix.Operation> getOperations() {
         return operations.get();
     }
 
@@ -169,7 +199,7 @@ public class ViewModel {
         return calculationDisabled;
     }
 
-    public final boolean getCalculationDisabled() {
+    public boolean getCalculationDisabled() {
         return calculationDisabled.get();
     }
 
@@ -192,6 +222,7 @@ public class ViewModel {
         m.updateDimensions(rows, cols);
         mvm.setMatrix(m);
         status.set(getInputStatus());
+        setMatrixListeners();
         matrixUpdated.set(true);
     }
 
@@ -229,14 +260,72 @@ public class ViewModel {
         calculationDisabled.bind(couldCalculate.not());
     }
 
-    private void setValuesListeners() {
-        operation.addListener(new ChangeListener<Matrix.Operation>() {
-            @Override
-            public void changed(final ObservableValue<? extends Matrix.Operation> observable,
-                                final Matrix.Operation oldValue, final Matrix.Operation newValue) {
-                status.set(getInputStatus());
+    private String buildMessage(final String message, final Object oldValue,
+                                final Object newValue) {
+        return message + " from " + oldValue.toString() + " to " + newValue.toString();
+    }
+
+    private String buildMessage(final String message, final Object oldValue,
+                                final Object newValue, final int ... indexes) {
+        StringBuilder indexStrBldr = new StringBuilder();
+        for (int index : indexes) {
+            indexStrBldr.append("[" + index + "]");
+        }
+        return message + " " + indexStrBldr.toString()
+                + " from " + oldValue.toString() + " to " + newValue.toString();
+    }
+
+    private void setMatrixListeners() {
+        for (int r = 0; r < leftMatrixRows.get(); r++) {
+            for (int c = 0; c < leftMatrixColumns.get(); c++) {
+                final int rowIndex = r;
+                final int colIndex = c;
+                leftMatrixViewModel.elementProperty(r, c).addListener((ov, oldValue, newValue) -> {
+                    logger.log(buildMessage(LogMessages.CHANGE_LEFT_MATRIX_ELEMENT,
+                            oldValue, newValue, rowIndex, colIndex));
+                    log.get().setAll(logger.getLog());
+                });
             }
+        }
+
+        for (int r = 0; r < rightMatrixRows.get(); r++) {
+            for (int c = 0; c < rightMatrixColumns.get(); c++) {
+                final int rowIndex = r;
+                final int colIndex = c;
+                rightMatrixViewModel.elementProperty(r, c).addListener((ov, oldValue, newValue) -> {
+                    logger.log(buildMessage(LogMessages.CHANGE_RIGHT_MATRIX_ELEMENT,
+                            oldValue, newValue, rowIndex, colIndex));
+                    log.get().setAll(logger.getLog());
+                });
+            }
+        }
+    }
+
+    private void setValuesListeners() {
+        operation.addListener((observable, oldValue, newValue) -> {
+            status.set(getInputStatus());
+            logger.log(buildMessage(LogMessages.CHANGE_OPERATION, oldValue, newValue));
+            log.get().setAll(logger.getLog());
         });
+
+        leftMatrixColumns.addListener((observable, oldValue, newValue) -> {
+            logger.log(buildMessage(LogMessages.CHANGE_LEFT_MATRIX_COLS, oldValue, newValue));
+            log.get().setAll(logger.getLog());
+        });
+        leftMatrixRows.addListener((observable, oldValue, newValue) -> {
+            logger.log(buildMessage(LogMessages.CHANGE_LEFT_MATRIX_ROWS, oldValue, newValue));
+            log.get().setAll(logger.getLog());
+        });
+        rightMatrixColumns.addListener((observable, oldValue, newValue) -> {
+            logger.log(buildMessage(LogMessages.CHANGE_RIGHT_MATRIX_COLS, oldValue, newValue));
+            log.get().setAll(logger.getLog());
+        });
+        rightMatrixRows.addListener((observable, oldValue, newValue) -> {
+            logger.log(buildMessage(LogMessages.CHANGE_RIGHT_MATRIX_ROWS, oldValue, newValue));
+            log.get().setAll(logger.getLog());
+        });
+
+        setMatrixListeners();
 
         final List<IntegerProperty> fields = new ArrayList<IntegerProperty>() {
             {
@@ -280,5 +369,17 @@ public class ViewModel {
 
         return Status.INVALID_MATRIX_SIZE;
     }
+}
 
+final class LogMessages {
+    static final String CALCULATE = "Calculate";
+    static final String CHANGE_OPERATION = "Change operation";
+    static final String CHANGE_LEFT_MATRIX_COLS = "Change columns of left matrix count";
+    static final String CHANGE_LEFT_MATRIX_ROWS = "Change rows of left matrix count";
+    static final String CHANGE_RIGHT_MATRIX_COLS = "Change columns of right matrix count";
+    static final String CHANGE_RIGHT_MATRIX_ROWS = "Change rows of right matrix count";
+    static final String CHANGE_LEFT_MATRIX_ELEMENT = "Change element of left matrix";
+    static final String CHANGE_RIGHT_MATRIX_ELEMENT = "Change element of right matrix";
+
+    private LogMessages() { }
 }
