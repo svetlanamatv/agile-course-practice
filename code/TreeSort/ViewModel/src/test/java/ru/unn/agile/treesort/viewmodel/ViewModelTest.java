@@ -104,4 +104,22 @@ public class ViewModelTest {
         viewModel.sort();
         assertEquals(resultString, viewModel.resultTextProperty().get());
     }
+
+    @Test
+    public void canCreateViewModelWithLoggerParam() {
+        viewModel = new ViewModel(new FakeLogger());
+
+        assertNotNull(viewModel);
+    }
+
+    @Test
+    public void canSetLogger() {
+        viewModel.setLogger(new FakeLogger());
+    }
+
+    @Test
+    public void canGetLogger() {
+        ILogger logger = viewModel.getLogger();
+        assertNotNull(logger);
+    }
 }

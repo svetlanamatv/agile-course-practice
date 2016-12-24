@@ -12,6 +12,8 @@ public final class ViewModel {
     private final StringProperty statusText = new SimpleStringProperty();
     private final BooleanProperty buttonDisabled = new SimpleBooleanProperty();
 
+    private ILogger logger;
+
 
     public enum Status {
         WAITING("Please insert array of integers"),
@@ -30,13 +32,27 @@ public final class ViewModel {
         }
     }
 
-    public ViewModel() {
+    public ViewModel(final ILogger logger) {
+        this.logger = logger;
+
         sourceText.addListener((observable, oldValue, newValue) -> {
             statusText.set(getStatus().toString());
             buttonDisabled.set(!canCalculate());
         });
 
         sourceText.set("");
+    }
+
+    public ViewModel() {
+        this(new FakeLogger());
+    }
+
+    public ILogger getLogger() {
+        return logger;
+    }
+
+    public void setLogger(final ILogger logger) {
+        this.logger = logger;
     }
 
     public StringProperty sourceTextProperty() {
