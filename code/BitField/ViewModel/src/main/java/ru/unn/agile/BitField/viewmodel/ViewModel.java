@@ -293,7 +293,7 @@ public class ViewModel {
     }
 
     private class ListenerForCachChangesInValue implements ChangeListener<String> {
-        private String valueCurrent = new String();
+        private String curVal = new String();
 
         @Override
         public void changed(final ObservableValue<? extends String> obs,
@@ -301,7 +301,7 @@ public class ViewModel {
             if (valueolding.equals(newState)) {
                 return;
             }
-            valueCurrent = newState;
+            curVal = newState;
         }
     }
 }
