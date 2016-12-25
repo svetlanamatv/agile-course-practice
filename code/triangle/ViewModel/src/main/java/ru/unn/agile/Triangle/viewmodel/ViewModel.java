@@ -1,5 +1,6 @@
 package ru.unn.agile.triangle.viewmodel;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.*;
 import ru.unn.agile.triangle.logging.Logger;
@@ -28,9 +29,11 @@ public class ViewModel {
     private final StringProperty incircleRadius = new SimpleStringProperty();
     private final StringProperty incircleCenterX = new SimpleStringProperty();
     private final StringProperty incircleCenterY = new SimpleStringProperty();
-    private final ObjectProperty<LoggerViewModel> loggerViewModel;
 
     private final Logger logger;
+    private final ObjectProperty<LoggerViewModel> loggerViewModel;
+
+    private DecimalFormat decimalFormatter;
 
     public ViewModel(final Logger logger) {
         Objects.requireNonNull(logger);
@@ -40,34 +43,12 @@ public class ViewModel {
 
         logger.print(LoggerMessages.VIEW_MODEL_OBJECT_CREATING_STARTED);
 
-        ax.set("");
-        ay.set("");
-        bx.set("");
-        by.set("");
-        cx.set("");
-        cy.set("");
+        setInitialPropertiesValue();
 
         calculationDisabled.setValue(true);
-        BooleanBinding couldCalculate = new BooleanBinding() {
-            {
-                super.bind(ax, ay, bx, by, cx, cy);
-            }
-
-            @Override
-            protected boolean computeValue() {
-                return getInputStatus() == Status.READY;
-            }
-        };
+        BooleanBinding couldCalculate = Bindings.createBooleanBinding(() ->
+                getInputStatus() == Status.READY, ax, ay, bx, by, cx, cy);
         calculationDisabled.bind(couldCalculate.not());
-
-        area.set("");
-        perimeter.set("");
-        circumcircleRadius.set("");
-        circumcircleCenterX.set("");
-        circumcircleCenterY.set("");
-        incircleRadius.set("");
-        incircleCenterX.set("");
-        incircleCenterY.set("");
 
         logger.print(LoggerMessages.VIEW_MODEL_OBJECT_CREATING_FINISHED);
     }
@@ -75,70 +56,15 @@ public class ViewModel {
     public void calculate() {
         logger.print(LoggerMessages.CALCULATING_STARTED);
 
-        Point2D a = new Point2D(Double.parseDouble(ax.get()), Double.parseDouble(ay.get()));
-        Point2D b = new Point2D(Double.parseDouble(bx.get()), Double.parseDouble(by.get()));
-        Point2D c = new Point2D(Double.parseDouble(cx.get()), Double.parseDouble(cy.get()));
-
-        logger.print(LoggerMessages.POINTS_COORDINATES_RECEIVED
-                + " (a = {0}, b = {1}, c = {2})", a, b, c);
-
-        Triangle triangle = new Triangle(a, b, c);
-
-        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
-        dfs.setDecimalSeparator('.');
-        DecimalFormat df = new DecimalFormat("###.###", dfs);
-
-        double areaValue = triangle.area();
-        area.set(df.format(areaValue));
-
-        logger.print(LoggerMessages.AREA_CALCULATED
-                + " (S = {0})", areaValue);
-
-        double perimeterValue = triangle.perimeter();
-        perimeter.set(df.format(perimeterValue));
-
-        logger.print(LoggerMessages.PERIMETER_CALCULATED
-                + " (P = {0})", perimeterValue);
-
-        Circle incircle = triangle.getIncircle();
-
-        double incircleRadiusValue = incircle.getRadius();
-        incircleRadius.set(df.format(incircleRadiusValue));
-
-        logger.print(LoggerMessages.INCIRCLE_RADIUS_CALCULATED
-                + " (R = {0})", incircleRadiusValue);
-
-        Point2D incircleCenter = incircle.getCenter();
-        incircleCenterX.setValue(df.format(incircleCenter.getX()));
-        incircleCenterY.setValue(df.format(incircleCenter.getY()));
-
-        logger.print(LoggerMessages.INCIRCLE_CENTER_CALCULATED
-                + " (C = {0})", incircleCenter);
-
-        if (areaValue == 0) {
-            circumcircleRadius.set("undefined");
-            circumcircleCenterX.set("undefined");
-            circumcircleCenterY.set("undefined");
-            logger.print(LoggerMessages.UNABLE_CALCULATE_CIRCUMCIRCLE_VALUES);
-        } else {
-            Circle circumcircle = triangle.getCircumcircle();
-
-            double circumcircleRadiusValue = circumcircle.getRadius();
-            circumcircleRadius.set(df.format(circumcircleRadiusValue));
-
-            logger.print(LoggerMessages.CIRCUMCIRCLE_RADIUS_CALCULATED
-                    + " (R = {0})", circumcircleRadiusValue);
-
-            Point2D circumcircleCenter = circumcircle.getCenter();
-            circumcircleCenterX.setValue(df.format(circumcircleCenter.getX()));
-            circumcircleCenterY.setValue(df.format(circumcircleCenter.getY()));
-
-            logger.print(LoggerMessages.CIRCUMCIRCLE_CENTER_CALCULATED
-                    + " (C = {0})", circumcircleCenter);
-        }
+        Triangle triangle = makeTriangleFromParameters();
+        calculateTriangleValues(triangle);
+        calculateIncircleValues(triangle);
+        calculateCircumcircleValues(triangle);
 
         logger.print(LoggerMessages.CALCULATING_FINISHED);
     }
+
+    // region Properties
 
     public StringProperty axProperty() {
         return ax;
@@ -242,6 +168,106 @@ public class ViewModel {
 
     public final LoggerViewModel getLoggerViewModel() {
         return loggerViewModel.get();
+    }
+
+    // endregion
+
+    private Triangle makeTriangleFromParameters() {
+        Point2D a = new Point2D(Double.parseDouble(ax.get()), Double.parseDouble(ay.get()));
+        Point2D b = new Point2D(Double.parseDouble(bx.get()), Double.parseDouble(by.get()));
+        Point2D c = new Point2D(Double.parseDouble(cx.get()), Double.parseDouble(cy.get()));
+
+        logger.print(LoggerMessages.POINTS_COORDINATES_RECEIVED
+                + " (a = {0}, b = {1}, c = {2})", a, b, c);
+
+        return new Triangle(a, b, c);
+    }
+
+    private void calculateTriangleValues(final Triangle triangle) {
+        double areaValue = triangle.area();
+        area.set(formatFloatingPoint(areaValue));
+
+        logger.print(LoggerMessages.AREA_CALCULATED
+                + " (S = {0})", areaValue);
+
+        double perimeterValue = triangle.perimeter();
+        perimeter.set(formatFloatingPoint(perimeterValue));
+
+        logger.print(LoggerMessages.PERIMETER_CALCULATED
+                + " (P = {0})", perimeterValue);
+    }
+
+    private void calculateIncircleValues(final Triangle triangle) {
+        Circle incircle = triangle.getIncircle();
+
+        double incircleRadiusValue = incircle.getRadius();
+        incircleRadius.set(formatFloatingPoint(incircleRadiusValue));
+
+        logger.print(LoggerMessages.INCIRCLE_RADIUS_CALCULATED
+                + " (R = {0})", incircleRadiusValue);
+
+        Point2D incircleCenter = incircle.getCenter();
+        incircleCenterX.setValue(formatFloatingPoint(incircleCenter.getX()));
+        incircleCenterY.setValue(formatFloatingPoint(incircleCenter.getY()));
+
+        logger.print(LoggerMessages.INCIRCLE_CENTER_CALCULATED
+                + " (C = {0})", incircleCenter);
+    }
+
+    private void calculateCircumcircleValues(final Triangle triangle) {
+        if (triangle.area() == 0) {
+            circumcircleRadius.set("undefined");
+            circumcircleCenterX.set("undefined");
+            circumcircleCenterY.set("undefined");
+            logger.print(LoggerMessages.UNABLE_CALCULATE_CIRCUMCIRCLE_VALUES);
+        } else {
+            Circle circumcircle = triangle.getCircumcircle();
+
+            double circumcircleRadiusValue = circumcircle.getRadius();
+            circumcircleRadius.set(formatFloatingPoint(circumcircleRadiusValue));
+
+            logger.print(LoggerMessages.CIRCUMCIRCLE_RADIUS_CALCULATED
+                    + " (R = {0})", circumcircleRadiusValue);
+
+            Point2D circumcircleCenter = circumcircle.getCenter();
+            circumcircleCenterX.setValue(formatFloatingPoint(circumcircleCenter.getX()));
+            circumcircleCenterY.setValue(formatFloatingPoint(circumcircleCenter.getY()));
+
+            logger.print(LoggerMessages.CIRCUMCIRCLE_CENTER_CALCULATED
+                    + " (C = {0})", circumcircleCenter);
+        }
+    }
+
+    private String formatFloatingPoint(final double fp) {
+        DecimalFormat df = getDecimalFormat();
+        return df.format(fp);
+    }
+
+    private DecimalFormat getDecimalFormat() {
+        if (decimalFormatter == null) {
+            DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+            dfs.setDecimalSeparator('.');
+            decimalFormatter = new DecimalFormat("###.###", dfs);
+        }
+        return decimalFormatter;
+    }
+
+    private void setInitialPropertiesValue() {
+        ax.set("");
+        ay.set("");
+        bx.set("");
+        by.set("");
+        cx.set("");
+        cy.set("");
+
+        area.set("");
+        perimeter.set("");
+        circumcircleRadius.set("");
+        circumcircleCenterX.set("");
+        circumcircleCenterY.set("");
+        incircleRadius.set("");
+        incircleCenterX.set("");
+        incircleCenterY.set("");
     }
 
     private Status getInputStatus() {
