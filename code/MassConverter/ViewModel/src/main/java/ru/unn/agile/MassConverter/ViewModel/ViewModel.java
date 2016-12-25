@@ -15,6 +15,7 @@ public class ViewModel {
     private final StringProperty input = new SimpleStringProperty();
     private final StringProperty result = new SimpleStringProperty();
     private final StringProperty status = new SimpleStringProperty();
+    private final StringProperty lastLogMessage = new SimpleStringProperty();
     private final ListProperty<String> listMessagesProperty = new SimpleListProperty<>();
     private final ObjectProperty<ConversionSystem> systemToConvert = new SimpleObjectProperty<>();
     private final ObjectProperty<ObservableList<ConversionSystem>> conversionSystems
@@ -63,6 +64,7 @@ public class ViewModel {
     private void initialize() {
         input.set("");
         result.set("");
+        lastLogMessage.set("");
         status.set(Status.WAITING.toString());
         systemToConvert.set(ConversionSystem.GRAM);
         systemFromConvert.set(ConversionSystem.KILOGRAM);
@@ -99,6 +101,7 @@ public class ViewModel {
 
     private void updateListMessages() {
         listMessagesProperty.set(FXCollections.observableArrayList(getLog()));
+        lastLogMessage.set(logger.getLastMessage());
     }
 
     private void logChangeSecondSystem() {
@@ -182,6 +185,10 @@ public class ViewModel {
 
     public StringProperty statusProperty() {
         return status;
+    }
+
+    public StringProperty lasLogMessageProperty() {
+        return lastLogMessage;
     }
 
     public ListProperty<String> logMessagesProperty() {

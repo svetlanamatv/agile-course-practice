@@ -20,6 +20,8 @@ public class MassConverter {
     @FXML
     private Label lbStatus;
     @FXML
+    private Label lbLastMessage;
+    @FXML
     private ListView<String> listLog;
     @FXML
     private ComboBox<ConversionSystem> cmbSystemToConvert;
@@ -33,6 +35,7 @@ public class MassConverter {
         txtInput.textProperty().bindBidirectional(viewModel.inputProperty());
         lbResult.textProperty().bindBidirectional(viewModel.resultProperty());
         lbStatus.textProperty().bindBidirectional(viewModel.statusProperty());
+        lbLastMessage.textProperty().bindBidirectional(viewModel.lasLogMessageProperty());
         listLog.itemsProperty().bindBidirectional(viewModel.logMessagesProperty());
         cmbSystemToConvert.valueProperty()
                 .bindBidirectional(viewModel.systemToConvertProperty());

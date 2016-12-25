@@ -145,6 +145,7 @@ public class ViewModelTest {
         assertEquals(0, log.size());
     }
 
+
     @Test
     public void logMustContainsSomethingAfterInputValue() {
         viewModel.inputProperty().set("23");
@@ -222,5 +223,34 @@ public class ViewModelTest {
         String message = log.get(0);
 
         assertTrue(message.contains(ConversionSystem.POUND.toString()));
+    }
+
+    @Test
+    public void lastLogMessageMustBeEmptyInTheBeginning() {
+        String actualMessage = viewModel.lasLogMessageProperty().get();
+
+        assertEquals("", actualMessage);
+    }
+
+    @Test
+    public void lastLogMessageMustContainsFirstSystem() {
+        viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
+
+        String actualMessage = viewModel.lasLogMessageProperty().get();
+
+        assertTrue(actualMessage.contains(ConversionSystem.CENTNER.toString()));
+    }
+
+    @Test
+    public void lastLogMessageMustContainsCorectlyValueOfInput() {
+        String inputValue = "51";
+
+        viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
+        viewModel.systemToConvertProperty().set(ConversionSystem.POUND);
+        viewModel.inputProperty().set(inputValue);
+
+        String actualMessage = viewModel.lasLogMessageProperty().get();
+
+        assertTrue(actualMessage.contains(inputValue));
     }
 }
