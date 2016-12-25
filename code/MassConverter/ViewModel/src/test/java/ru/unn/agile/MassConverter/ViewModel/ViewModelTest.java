@@ -229,7 +229,7 @@ public class ViewModelTest {
     }
 
     @Test
-    public void logMustContainsPropertyOfLogMessagesAfterFirstSystem() {
+    public void logMustContainsPropertyOfLogMessagesAfterSetFirstSystem() {
         viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
         List<String> log = viewModel.getLog();
         String message = log.get(0);
@@ -332,5 +332,30 @@ public class ViewModelTest {
         } catch (Exception e) {
             fail(e.getMessage());
         }
+    }
+
+    @Test
+    public void lisMessagePropertyMustContainsInputValue() {
+        String inputValue = "23";
+        viewModel.inputProperty().set(inputValue);
+        List<String> log = viewModel.logMessagesProperty();
+        String message = log.get(0);
+
+        assertTrue(message.contains(inputValue));
+    }
+
+    @Test
+    public void lisMessagePropMustContainsSomethingAfterInputFirstSystem() {
+        viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
+        List<String> log = viewModel.logMessagesProperty();
+
+        assertEquals(1, log.size());
+    }
+
+    @Test
+    public void lisMessagePropMustBeEnptyInTheBeginning() {
+        List<String> log = viewModel.logMessagesProperty();
+
+        assertEquals(0, log.size());
     }
 }
