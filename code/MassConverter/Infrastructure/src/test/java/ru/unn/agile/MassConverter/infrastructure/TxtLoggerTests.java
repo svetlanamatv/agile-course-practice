@@ -70,6 +70,17 @@ public class TxtLoggerTests {
     }
 
     @Test
+    public void canReturnCorrectlyLastMessage() {
+        String message = "Test message";
+
+        txtLogger.log(message);
+
+        String actualMessage = txtLogger.getLastMessage();
+
+        assertTrue(actualMessage.matches(".*" + message + ".*"));
+    }
+
+    @Test
     public void canReturnCorrectlyLastMessageFromSeveralLogMessages() {
         String[] messages = {"First message", "Second message"};
 

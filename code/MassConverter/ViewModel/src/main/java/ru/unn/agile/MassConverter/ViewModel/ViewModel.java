@@ -12,6 +12,7 @@ import java.util.List;
 public class ViewModel {
 
     private ILogger logger;
+    private static final int  MAX_LENGHT_OF_INPUT = 10;
     private final StringProperty input = new SimpleStringProperty();
     private final StringProperty result = new SimpleStringProperty();
     private final StringProperty status = new SimpleStringProperty();
@@ -177,7 +178,7 @@ public class ViewModel {
     private void checkSizeInput() {
         String inputValue = input.get();
         String[] splittingInput = new String[2];
-        if(inputValue.contains(".")) {
+        if (inputValue.contains(".")) {
             splittingInput = inputValue.split("\\.");
         } else {
             splittingInput[0] = inputValue;
@@ -187,9 +188,9 @@ public class ViewModel {
         int integerSize = splittingInput[0].length();
         int fractSize = splittingInput[1].length();
         int sumInputSize = integerSize + fractSize;
-        if(integerSize > 10 ||
-           fractSize > 10 ||
-           sumInputSize > 10) {
+        if (integerSize > MAX_LENGHT_OF_INPUT
+           || fractSize > MAX_LENGHT_OF_INPUT
+           || sumInputSize > MAX_LENGHT_OF_INPUT) {
             throw new NumberFormatException();
         }
     }
