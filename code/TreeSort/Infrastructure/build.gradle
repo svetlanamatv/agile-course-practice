@@ -2,3 +2,7 @@ dependencies {
     compile project(':TreeSort-ViewModel')
     testCompile project(':TreeSort-ViewModel').sourceSets.test.output
 }
+
+tasks.withType(Test)  {
+  maxParallelForks = 1
+}

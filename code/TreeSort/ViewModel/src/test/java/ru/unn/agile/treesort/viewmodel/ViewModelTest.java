@@ -1,6 +1,8 @@
 package ru.unn.agile.treesort.viewmodel;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -131,6 +133,7 @@ public class ViewModelTest {
         assertNotNull(logger);
     }
 
+    @Test
     public void canGetSourceTextFocused() {
         boolean focused = viewModel.isSourceTextFocused();
 
@@ -168,7 +171,7 @@ public class ViewModelTest {
     @Test
     public void canLogSortStarting() {
         viewModel.sort();
-        String text = viewModel.getLog().get(0);
+        String text = viewModel.getLog().get(1);
 
         assertTrue(text.endsWith(Messages.SORT_BUTTON_CLICKED));
     }
@@ -196,5 +199,12 @@ public class ViewModelTest {
 
         assertTrue(log.get(0).endsWith(Messages.SOURCE_CHANGED + " to \"second text\""));
         assertTrue(log.get(1).endsWith(Messages.SOURCE_CHANGED + " to \"third text\""));
+    }
+
+    @Test
+    public void canGetLogProperty() {
+        ObjectProperty<ObservableList<String>> logProperty = viewModel.logProperty();
+
+        assertNotNull(logProperty);
     }
 }

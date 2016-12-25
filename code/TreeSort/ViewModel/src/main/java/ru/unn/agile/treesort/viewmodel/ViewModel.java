@@ -1,12 +1,9 @@
 package ru.unn.agile.treesort.viewmodel;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import ru.unn.agile.treesort.model.Tree;
-
-import java.util.List;
 
 public final class ViewModel {
     private final StringProperty sourceText = new SimpleStringProperty();
@@ -16,6 +13,9 @@ public final class ViewModel {
     private final StringProperty resultText = new SimpleStringProperty();
     private final StringProperty statusText = new SimpleStringProperty();
     private final BooleanProperty buttonDisabled = new SimpleBooleanProperty();
+
+    private final ObjectProperty<ObservableList<String>> log = new SimpleObjectProperty<>(
+            FXCollections.observableArrayList());
 
     private ILogger logger;
 
@@ -46,13 +46,8 @@ public final class ViewModel {
             sourceTextChanged.set(true);
         });
 
-        sourceTextFocused.addListener((observable, oldValue, newValue) -> {
-            if (!newValue && sourceTextChanged.get()) {
-                logger.log(Messages.SOURCE_CHANGED + " to \"" + sourceText.get() + "\"");
-                sourceTextChanged.set(false);
-            }
-        });
-
+        sourceTextFocused.addListener((observable, oldValue, newValue) ->
+                logSourceChange(newValue));
         sourceText.set("");
     }
 
@@ -64,12 +59,16 @@ public final class ViewModel {
         return logger;
     }
 
-    public List<String> getLog() {
-        return logger.getLog();
-    }
-
     public void setLogger(final ILogger logger) {
         this.logger = logger;
+    }
+
+    public ObservableList<String> getLog() {
+        return log.get();
+    }
+
+    public ObjectProperty<ObservableList<String>> logProperty() {
+        return log;
     }
 
     public boolean isSourceTextFocused() {
@@ -137,7 +136,8 @@ public final class ViewModel {
     }
 
     public void sort() {
-        logger.log(Messages.SORT_BUTTON_CLICKED);
+        logSourceChange(false);
+        log(Messages.SORT_BUTTON_CLICKED);
 
         if (canCalculate()) {
             String[] parts = getSourceText().split(" *, *");
@@ -148,6 +148,18 @@ public final class ViewModel {
             String result = tree.extractValues().toString();
             result = result.substring(1, result.length() - 1);
             resultText.set(result);
+        }
+    }
+
+    private void log(final String text) {
+        logger.log(text);
+        log.get().setAll(logger.getLog());
+    }
+
+    private void logSourceChange(final boolean focused) {
+        if (!focused && sourceTextChanged.get()) {
+            log(Messages.SOURCE_CHANGED + " to \"" + sourceText.get() + "\"");
+            sourceTextChanged.set(false);
         }
     }
 }
