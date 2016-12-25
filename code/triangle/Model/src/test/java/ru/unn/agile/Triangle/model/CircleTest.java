@@ -2,6 +2,8 @@ package ru.unn.agile.triangle.model;
 
 import org.junit.Test;
 
+import java.text.MessageFormat;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -26,5 +28,19 @@ public class CircleTest {
 
         assertEquals(expectRadius, circle.getRadius(), DELTA);
         assertEquals(expectPoint, circle.getCenter());
+    }
+
+    @Test
+    public void rightFormatOfToStringMethod() throws Exception {
+        double x = 0.4;
+        double y = 3.6;
+        double expectRadius = 2.5;
+        Point2D expectPoint = new Point2D(x, y);
+        Circle circle = new Circle(expectPoint, expectRadius);
+
+        String circleStr = circle.toString();
+
+        assertEquals(circleStr, MessageFormat.format(
+                "<{0}, {1}>", expectPoint, expectRadius));
     }
 }

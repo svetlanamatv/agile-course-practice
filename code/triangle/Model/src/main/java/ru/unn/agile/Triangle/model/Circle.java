@@ -21,6 +21,6 @@ public class Circle {
 
     @Override
     public String toString() {
-        return MessageFormat.format("{{0}, {1}}", center, radius);
+        return MessageFormat.format("<{0}, {1}>", center, radius);
     }
 }
