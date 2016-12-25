@@ -16,8 +16,12 @@ import static ru.unn.agile.MassConverter.ViewModel.ViewModel.Status.*;
 public class ViewModelTest {
     private ViewModel viewModel;
 
+    public void setViewModel(final ViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
     @Before
-    public void start() {
+    public void setUp() {
         FakeLogger logger = new FakeLogger();
         viewModel = new ViewModel(logger);
     }
