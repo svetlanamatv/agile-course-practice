@@ -53,7 +53,7 @@ public class PlainTextFileLogger extends ObservableLogger {
     }
 
     @Override
-    public List<LoggerRecord> getLastRecords(int recordsNumber) {
+    public List<LoggerRecord> getLastRecords(final int recordsNumber) {
         return inmemoryLogger.getLastRecords(recordsNumber);
     }
 

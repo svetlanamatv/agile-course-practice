@@ -1,6 +1,5 @@
 package ru.unn.agile.triangle.viewmodel;
 
-import com.sun.javafx.collections.ImmutableObservableList;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -8,9 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ru.unn.agile.triangle.logging.Logger;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 
 public class LoggerViewModel {

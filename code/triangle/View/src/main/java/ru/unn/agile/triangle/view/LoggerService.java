@@ -5,7 +5,7 @@ import ru.unn.agile.triangle.logging.Logger;
 
 import java.io.IOException;
 
-class LoggerService {
+final class LoggerService {
     private static final String LOGGER_FILE_NAME = "./triangle-app.log";
     private static final int MAX_RECORDS_IN_MEMORY = 100;
 
@@ -20,5 +20,8 @@ class LoggerService {
                     LOGGER_FILE_NAME);
             return new StubLogger();
         }
+    }
+
+    private LoggerService() {
     }
 }

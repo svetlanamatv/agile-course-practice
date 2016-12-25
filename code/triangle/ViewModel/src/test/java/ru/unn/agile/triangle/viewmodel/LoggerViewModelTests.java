@@ -1,13 +1,10 @@
 package ru.unn.agile.triangle.viewmodel;
 
-import com.sun.javafx.collections.ImmutableObservableList;
 import javafx.collections.ObservableList;
 import org.junit.Before;
 import org.junit.Test;
 import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.viewmodel.mock.FakeLogger;
-
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
