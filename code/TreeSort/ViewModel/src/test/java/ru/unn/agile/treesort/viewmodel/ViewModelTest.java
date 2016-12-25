@@ -171,7 +171,8 @@ public class ViewModelTest {
     @Test
     public void canLogSortStarting() {
         viewModel.sort();
-        String text = viewModel.getLog().get(1);
+        List<String> log = viewModel.getLog();
+        String text = log.get(log.size() - 1);
 
         assertTrue(text.endsWith(Messages.SORT_BUTTON_CLICKED));
     }

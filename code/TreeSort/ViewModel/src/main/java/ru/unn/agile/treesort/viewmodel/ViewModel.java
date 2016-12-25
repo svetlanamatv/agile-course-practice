@@ -19,6 +19,7 @@ public final class ViewModel {
 
     private ILogger logger;
 
+    private boolean initialized = false;
 
     public enum Status {
         WAITING("Please insert array of integers"),
@@ -48,7 +49,10 @@ public final class ViewModel {
 
         sourceTextFocused.addListener((observable, oldValue, newValue) ->
                 logSourceChange(newValue));
+
         sourceText.set("");
+
+        initialized = true;
     }
 
     public ViewModel() {
@@ -157,7 +161,7 @@ public final class ViewModel {
     }
 
     private void logSourceChange(final boolean focused) {
-        if (!focused && sourceTextChanged.get()) {
+        if (initialized && !focused && sourceTextChanged.get()) {
             log(Messages.SOURCE_CHANGED + " to \"" + sourceText.get() + "\"");
             sourceTextChanged.set(false);
         }
