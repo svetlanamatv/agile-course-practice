@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import ru.unn.agile.treesort.viewmodel.ViewModel;
+import ru.unn.agile.treesort.infrastructure.TxtLogger;
 
 public class Controller {
     @FXML
@@ -17,6 +18,8 @@ public class Controller {
 
     @FXML
     void initialize() {
+        viewModel.setLogger(new TxtLogger("treesort.log"));
+
         calculateButton.setOnAction(event -> viewModel.sort());
 
         if (viewModel.isSourceTextFocused()) {
