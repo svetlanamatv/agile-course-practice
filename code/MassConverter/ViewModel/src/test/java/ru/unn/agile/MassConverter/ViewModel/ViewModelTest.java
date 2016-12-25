@@ -10,6 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static ru.unn.agile.MassConverter.Model.MassConverter.*;
 import static ru.unn.agile.MassConverter.ViewModel.ViewModel.Status.*;
 
@@ -29,6 +30,25 @@ public class ViewModelTest {
     @After
     public void finish() {
         viewModel = null;
+    }
+
+    @Test
+    public void viewModelConstructorThrowsExceptionWhenLoggerIsNull() {
+        try {
+            FakeLogger logger = null;
+            viewModel = new ViewModel(logger);
+        } catch (IllegalArgumentException ex) {
+                assertEquals("Logger parameter can't be null", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void canCreateViewModelWithoutLogger() {
+        try {
+            ViewModel viewModel = new ViewModel();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
     @Test
@@ -279,5 +299,38 @@ public class ViewModelTest {
         String actualMessage = viewModel.lasLogMessageProperty().get();
 
         assertTrue(actualMessage.contains(inputValue));
+    }
+
+    @Test
+    public void viewModelWithoutLoggerMustSuccesedSetInputValue() {
+        try {
+            ViewModel empVieModel = new ViewModel();
+
+            empVieModel.inputProperty().set("23");
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void viewModelWithoutLoggerMustSuccesedSetFirstSystemName() {
+        try {
+            ViewModel empVieModel = new ViewModel();
+
+            empVieModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void viewModelWithoutLoggerMustSuccesedSetSecondSystemName() {
+        try {
+            ViewModel empVieModel = new ViewModel();
+
+            empVieModel.systemToConvertProperty().set(ConversionSystem.KILOGRAM);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 }
