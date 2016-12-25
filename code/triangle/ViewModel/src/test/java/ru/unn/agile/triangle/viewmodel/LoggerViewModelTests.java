@@ -7,6 +7,7 @@ import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.viewmodel.mock.FakeLogger;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class LoggerViewModelTests {
@@ -26,6 +27,11 @@ public class LoggerViewModelTests {
     @Test
     public void recordsListIsEmptyIfLoggerWasNotCalled() throws Exception {
         assertTrue(loggerViewModel.getRecords().isEmpty());
+    }
+
+    @Test
+    public void recordsPropertyIsNotNull() throws Exception {
+        assertNotEquals(loggerViewModel.recordsProperty(), null);
     }
 
     @Test

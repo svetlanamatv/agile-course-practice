@@ -80,7 +80,7 @@ public class ViewModelTests {
         assertEquals("3.414", viewModel.perimeterProperty().get());
         assertEquals("0.707", viewModel.circumcircleRadiusProperty().get());
         assertEquals("0.5", viewModel.circumcircleCenterXProperty().get());
-        assertEquals("0.5", viewModel.circumcircleCenterYProperty().get());
+        assertEquals("0.5", viewModel.getCircumcircleCenterY());
         assertEquals("0.293", viewModel.incircleRadiusProperty().get());
         assertEquals("0.293", viewModel.incircleCenterXProperty().get());
         assertEquals("0.293", viewModel.incircleCenterYProperty().get());

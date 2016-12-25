@@ -162,10 +162,6 @@ public class ViewModel {
         return incircleCenterY.get();
     }
 
-    public final ReadOnlyObjectProperty<LoggerViewModel> loggerViewModelProperty() {
-        return loggerViewModel;
-    }
-
     public final LoggerViewModel getLoggerViewModel() {
         return loggerViewModel.get();
     }

@@ -4,8 +4,10 @@ import javafx.util.Pair;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ru.unn.agile.triangle.infrastructure.mock.AlwaysThrowsIOExceptionFileWriter;
 import ru.unn.agile.triangle.infrastructure.utils.CollectionsHelper;
 import ru.unn.agile.triangle.infrastructure.utils.RandomStringGenerator;
+import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.logging.LoggerRecord;
 
 import java.io.*;
@@ -114,17 +116,31 @@ public class PlainTextFileLoggerTests {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void failIfLoggerWasClosed() throws Exception {
+    public void failsIfLoggerWasClosed() throws Exception {
         logger.close();
 
         logger.print("Some message");
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void failIfModifyLoggerRecords() throws Exception {
+    public void failsIfModifyLoggerRecords() throws Exception {
         logger.print("Some message");
 
         logger.getLastRecords(MAX_RECORDS_IN_MEMORY).remove(0);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void failsIfUnableToWriteToLogFile() throws Exception {
+        Logger logger = new PlainTextFileLogger(
+                new AlwaysThrowsIOExceptionFileWriter(TEXT_LOGGER_FILE),
+                MAX_RECORDS_IN_MEMORY);
+
+        logger.print("Some message");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void failsIfNullFileWriterIsPassed() throws Exception {
+        new PlainTextFileLogger((FileWriter) null, MAX_RECORDS_IN_MEMORY);
     }
 
     private static List<String> readLoggerFile() throws IOException {

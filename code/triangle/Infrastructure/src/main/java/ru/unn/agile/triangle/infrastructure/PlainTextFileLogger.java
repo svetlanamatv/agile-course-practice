@@ -9,6 +9,7 @@ import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 
 public class PlainTextFileLogger extends ObservableLogger {
     private static final DateTimeFormatter TIMESTAMP_FORMATTER =
@@ -23,6 +24,14 @@ public class PlainTextFileLogger extends ObservableLogger {
         outputFile = pathToLogFile;
         inmemoryLogger = new InMemoryLogger(maxRecordsInMemory);
         openLogFile(pathToLogFile);
+    }
+
+    public PlainTextFileLogger(final FileWriter logWriter,
+                               final int maxRecordsInMemory) {
+        Objects.requireNonNull(logWriter);
+        this.logWriter = logWriter;
+        this.outputFile = "unknown";
+        inmemoryLogger = new InMemoryLogger(maxRecordsInMemory);
     }
 
     @Override
