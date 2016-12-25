@@ -207,7 +207,7 @@ public class ViewModelTest {
         List<String> log = viewModel.getLog();
         String message = log.get(0);
 
-        assertTrue(message.contains(ViewModel.LogMessages.EDITING_FINISHED));
+        assertTrue(message.contains(LogMessages.EDITING_FINISHED));
     }
 
     @Test
@@ -234,7 +234,7 @@ public class ViewModelTest {
         List<String> log = viewModel.getLog();
         String message = log.get(0);
 
-        assertTrue(message.contains(ViewModel.LogMessages.FIRST_SYSTEM_WAS_CHANGED));
+        assertTrue(message.contains(LogMessages.FIRST_SYSTEM_WAS_CHANGED));
     }
 
     @Test
@@ -260,7 +260,7 @@ public class ViewModelTest {
         List<String> log = viewModel.getLog();
         String message = log.get(0);
 
-        assertTrue(message.contains(ViewModel.LogMessages.SECOND_SYSTEM_WAS_CHANGED));
+        assertTrue(message.contains(LogMessages.SECOND_SYSTEM_WAS_CHANGED));
     }
 
     @Test

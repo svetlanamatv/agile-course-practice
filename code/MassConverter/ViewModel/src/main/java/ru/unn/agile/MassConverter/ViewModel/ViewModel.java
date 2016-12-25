@@ -239,11 +239,12 @@ public class ViewModel {
         return conversionSystems.get();
     }
 
-    final class LogMessages {
-        public static final String FIRST_SYSTEM_WAS_CHANGED = "First system was changed to ";
-        public static final String SECOND_SYSTEM_WAS_CHANGED = "Second system was changed to ";
-        public static final String EDITING_FINISHED = "Updated input. ";
+}
 
-        private LogMessages() { }
-    }
+final class LogMessages {
+    public static final String FIRST_SYSTEM_WAS_CHANGED = "First system was changed to ";
+    public static final String SECOND_SYSTEM_WAS_CHANGED = "Second system was changed to ";
+    public static final String EDITING_FINISHED = "Updated input. ";
+
+    private LogMessages() { }
 }
