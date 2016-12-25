@@ -3,7 +3,6 @@ package ru.unn.agile.triangle.view.services;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import ru.unn.agile.triangle.view.services.LoggerService;
 import ru.unn.agile.triangle.viewmodel.ViewModel;
 
 public class ViewModelProvider {

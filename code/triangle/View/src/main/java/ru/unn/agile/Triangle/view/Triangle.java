@@ -8,13 +8,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import ru.unn.agile.triangle.view.controls.LoggerRecordListCell;
 import ru.unn.agile.triangle.view.services.ViewModelProvider;
 import ru.unn.agile.triangle.viewmodel.LoggerRecordViewModel;
 import ru.unn.agile.triangle.viewmodel.ViewModel;
 
 public class Triangle {
     @FXML
-    private ListView logList;
+    private ListView<LoggerRecordViewModel> logList;
     @FXML
     private ViewModelProvider viewModelProvider;
     @FXML
@@ -50,11 +51,13 @@ public class Triangle {
             }
         });
 
+        logList.setCellFactory((list) -> new LoggerRecordListCell());
+
         ReadOnlyListProperty<LoggerRecordViewModel> records =
                 viewModel.getLoggerViewModel().recordsProperty();
         records.addListener(new ListChangeListener<LoggerRecordViewModel>() {
             @Override
-            public void onChanged(Change<? extends LoggerRecordViewModel> change) {
+            public void onChanged(final Change<? extends LoggerRecordViewModel> change) {
                 logList.scrollTo(logList.getItems().size() - 1);
             }
         });
