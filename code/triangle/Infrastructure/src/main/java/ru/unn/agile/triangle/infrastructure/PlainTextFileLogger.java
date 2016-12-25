@@ -41,9 +41,7 @@ public class PlainTextFileLogger extends ObservableLogger {
             logWriter.write(logLine + "\n");
             logWriter.flush();
         } catch (final IOException ioex) {
-            System.out.print(PlainTextFileLogger.class.getName()
-                    + " can't write log line to file " + outputFile);
-            ioex.printStackTrace();
+            throw new RuntimeException("Can't write log line to file " + outputFile, ioex);
         }
     }
 
