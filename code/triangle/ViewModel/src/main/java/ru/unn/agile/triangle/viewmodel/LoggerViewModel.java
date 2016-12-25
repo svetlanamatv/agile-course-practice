@@ -27,7 +27,8 @@ public class LoggerViewModel {
         recordsProperty.set(observableLoggerRecords);
 
         logger.addListenerForNewRecord((record) -> {
-
+            observableLoggerRecords.add(new LoggerRecordViewModel(record));
+            removeOutOfBoundsLoggerRecords(observableLoggerRecords);
         });
     }
 
@@ -45,6 +46,9 @@ public class LoggerViewModel {
 
     private void removeOutOfBoundsLoggerRecords(
             final ObservableList<LoggerRecordViewModel> records) {
+        if (records.size() > MAX_LOGGER_RECORDS) {
+            records.remove(0);
+        }
     }
 
 
