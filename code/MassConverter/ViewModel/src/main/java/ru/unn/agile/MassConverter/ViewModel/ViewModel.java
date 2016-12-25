@@ -11,6 +11,10 @@ import java.util.List;
 
 public class ViewModel {
 
+    public static final String FIRST_SYSTEM_WAS_CHANGED = "First system was changed to ";
+    public static final String SECOND_SYSTEM_WAS_CHANGED = "Second system was changed to ";
+    public static final String EDITING_FINISHED = "Updated input. ";
+
     private ILogger logger;
     private static final int  MAX_LENGHT_OF_INPUT = 10;
     private final StringProperty input = new SimpleStringProperty();
@@ -133,7 +137,7 @@ public class ViewModel {
     }
 
     private String editingFinishedLogMessage() {
-        String messageLog = LogMessages.EDITING_FINISHED
+        String messageLog = EDITING_FINISHED
                 + "Input value are: "
                 + input.get();
 
@@ -144,9 +148,9 @@ public class ViewModel {
         String messageLog;
 
         if (numberOfSystem == NumberOfSistem.FirstSystem) {
-            messageLog = LogMessages.FIRST_SYSTEM_WAS_CHANGED + systemFromConvert.get();
+            messageLog = FIRST_SYSTEM_WAS_CHANGED + systemFromConvert.get();
         } else {
-            messageLog = LogMessages.SECOND_SYSTEM_WAS_CHANGED + systemToConvert.get();
+            messageLog = SECOND_SYSTEM_WAS_CHANGED + systemToConvert.get();
         }
 
         return messageLog;
@@ -241,10 +245,3 @@ public class ViewModel {
 
 }
 
-final class LogMessages {
-    public static final String FIRST_SYSTEM_WAS_CHANGED = "First system was changed to ";
-    public static final String SECOND_SYSTEM_WAS_CHANGED = "Second system was changed to ";
-    public static final String EDITING_FINISHED = "Updated input. ";
-
-    private LogMessages() { }
-}
