@@ -1,15 +1,15 @@
-package ru.unn.agile.triangle.view;
+package ru.unn.agile.triangle.view.services;
 
 import ru.unn.agile.triangle.infrastructure.PlainTextFileLogger;
 import ru.unn.agile.triangle.logging.Logger;
 
 import java.io.IOException;
 
-final class LoggerService {
+public final class LoggerService {
     private static final String LOGGER_FILE_NAME = "./triangle-app.log";
     private static final int MAX_RECORDS_IN_MEMORY = 100;
 
-    static Logger getLogger() {
+    public static Logger getLogger() {
         try {
             return new PlainTextFileLogger(
                     LOGGER_FILE_NAME,

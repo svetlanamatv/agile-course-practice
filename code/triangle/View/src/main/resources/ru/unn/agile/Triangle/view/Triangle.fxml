@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import ru.unn.agile.triangle.view.ViewModelProvider?>
+<?import ru.unn.agile.triangle.view.services.ViewModelProvider?>
 
 <?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx/8"

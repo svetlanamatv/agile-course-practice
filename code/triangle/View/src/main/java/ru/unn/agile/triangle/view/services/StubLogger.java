@@ -1,4 +1,4 @@
-package ru.unn.agile.triangle.view;
+package ru.unn.agile.triangle.view.services;
 
 import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.logging.LoggerRecord;
