@@ -1,5 +1,6 @@
 package ru.unn.agile.triangle.viewmodel;
 
+import com.sun.javafx.collections.ImmutableObservableList;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -8,17 +9,25 @@ import javafx.collections.ObservableList;
 import ru.unn.agile.triangle.logging.Logger;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class LoggerViewModel {
-    private final Logger logger;
+    private static final int MAX_LOGGER_RECORDS = 50;
+
     private final ListProperty<LoggerRecordViewModel> recordsProperty =
-            new SimpleListProperty<>(FXCollections.observableList(new ArrayList<>()));
+            new SimpleListProperty<>();
 
     public LoggerViewModel(final Logger logger) {
         Objects.requireNonNull(logger);
-        this.logger = logger;
+
+        ObservableList<LoggerRecordViewModel> observableLoggerRecords =
+                FXCollections.observableList(new LinkedList<>());
+        recordsProperty.set(observableLoggerRecords);
+
         logger.addListenerForNewRecord((record) -> {
+
         });
     }
 
@@ -27,6 +36,16 @@ public class LoggerViewModel {
     }
 
     public final ObservableList<LoggerRecordViewModel> getRecords() {
-        return recordsProperty.get();
+        return FXCollections.unmodifiableObservableList(recordsProperty.get());
     }
+
+    public final int getMaxNumberOfRecords() {
+        return MAX_LOGGER_RECORDS;
+    }
+
+    private void removeOutOfBoundsLoggerRecords(
+            final ObservableList<LoggerRecordViewModel> records) {
+    }
+
+
 }
