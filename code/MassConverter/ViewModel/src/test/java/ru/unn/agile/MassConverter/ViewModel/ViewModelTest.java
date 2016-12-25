@@ -194,7 +194,7 @@ public class ViewModelTest {
     }
 
     @Test
-    public void logMustContainsSomethingAfterInputValue() {
+    public void logMustContainsSomethingAfterSetInputValue() {
         viewModel.inputProperty().set("23");
         List<String> log = viewModel.getLog();
 
@@ -202,7 +202,7 @@ public class ViewModelTest {
     }
 
     @Test
-    public void logMustContainsPropertyOfLogMessagesAfterInputValue() {
+    public void logMustContainsPropertyOfLogMessagesAfterSetInputValue() {
         viewModel.inputProperty().set("23");
         List<String> log = viewModel.getLog();
         String message = log.get(0);
@@ -221,7 +221,7 @@ public class ViewModelTest {
     }
 
     @Test
-    public void logMustContainsSomethingAfterInputFirstSystem() {
+    public void logMustContainsSomethingAfterSetFirstSystem() {
         viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
         List<String> log = viewModel.getLog();
 
@@ -247,7 +247,7 @@ public class ViewModelTest {
     }
 
     @Test
-    public void logMustContainsSomethingAfterInputSecondSystem() {
+    public void logMustContainsSomethingAfterSetSecondSystem() {
         viewModel.systemToConvertProperty().set(ConversionSystem.POUND);
         List<String> log = viewModel.getLog();
 
@@ -255,7 +255,7 @@ public class ViewModelTest {
     }
 
     @Test
-    public void logMustContainsPropertyOfLogMessagesAfterSecondSystem() {
+    public void logMustContainsPropertyOfLogMessagesAfterSetSecondSystem() {
         viewModel.systemToConvertProperty().set(ConversionSystem.MILLIGRAM);
         List<String> log = viewModel.getLog();
         String message = log.get(0);
@@ -302,7 +302,7 @@ public class ViewModelTest {
     }
 
     @Test
-    public void viewModelWithoutLoggerMustSuccesedSetInputValue() {
+    public void setInputValueMustSuccesedWhenViewModelWithoutLogger() {
         try {
             ViewModel empVieModel = new ViewModel();
 
@@ -313,7 +313,7 @@ public class ViewModelTest {
     }
 
     @Test
-    public void viewModelWithoutLoggerMustSuccesedSetFirstSystemName() {
+    public void setFirstSystemMustSuccesedWhenViewModelWithoutLogger() {
         try {
             ViewModel empVieModel = new ViewModel();
 
@@ -324,7 +324,7 @@ public class ViewModelTest {
     }
 
     @Test
-    public void viewModelWithoutLoggerMustSuccesedSetSecondSystemName() {
+    public void viewModelWithoutLoggerMustSuccesedSetSecondSystem() {
         try {
             ViewModel empVieModel = new ViewModel();
 
@@ -335,7 +335,7 @@ public class ViewModelTest {
     }
 
     @Test
-    public void lisMessagePropertyMustContainsInputValue() {
+    public void listMessagesPropertyMustContainsInputValue() {
         String inputValue = "23";
         viewModel.inputProperty().set(inputValue);
         List<String> log = viewModel.logMessagesProperty();
@@ -345,7 +345,7 @@ public class ViewModelTest {
     }
 
     @Test
-    public void lisMessagePropMustContainsSomethingAfterInputFirstSystem() {
+    public void listMessagesPropertyMustContainsSomethingAfterInputFirstSystem() {
         viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
         List<String> log = viewModel.logMessagesProperty();
 
@@ -353,7 +353,15 @@ public class ViewModelTest {
     }
 
     @Test
-    public void lisMessagePropMustBeEnptyInTheBeginning() {
+    public void listMessagesPropertyMustContainsSomethingAfterInputSecondSystem() {
+        viewModel.systemToConvertProperty().set(ConversionSystem.CENTNER);
+        List<String> log = viewModel.logMessagesProperty();
+
+        assertEquals(1, log.size());
+    }
+
+    @Test
+    public void listMessagesPropertyMustBeEmptyInTheBeginning() {
         List<String> log = viewModel.logMessagesProperty();
 
         assertEquals(0, log.size());
