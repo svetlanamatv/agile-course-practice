@@ -1,5 +1,3 @@
 dependencies {
     compile project(':TreeSort-Model')
 }
-
-compileJava.options.encoding = 'UTF-8'

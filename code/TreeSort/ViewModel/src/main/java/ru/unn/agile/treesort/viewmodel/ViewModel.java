@@ -1,17 +1,25 @@
 package ru.unn.agile.treesort.viewmodel;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import ru.unn.agile.treesort.model.Tree;
 
 public final class ViewModel {
     private final StringProperty sourceText = new SimpleStringProperty();
+    private final BooleanProperty sourceTextChanged = new SimpleBooleanProperty(false);
+    private final BooleanProperty sourceTextFocused = new SimpleBooleanProperty(true);
+
     private final StringProperty resultText = new SimpleStringProperty();
     private final StringProperty statusText = new SimpleStringProperty();
     private final BooleanProperty buttonDisabled = new SimpleBooleanProperty();
 
+    private final ObjectProperty<ObservableList<String>> log = new SimpleObjectProperty<>(
+            FXCollections.observableArrayList());
+
+    private ILogger logger;
+
+    private boolean initialized = false;
 
     public enum Status {
         WAITING("Please insert array of integers"),
@@ -30,13 +38,55 @@ public final class ViewModel {
         }
     }
 
-    public ViewModel() {
+    public ViewModel(final ILogger logger) {
+        this.logger = logger;
+
         sourceText.addListener((observable, oldValue, newValue) -> {
             statusText.set(getStatus().toString());
             buttonDisabled.set(!canCalculate());
+            if (initialized) {
+                sourceTextChanged.set(true);
+            }
         });
 
+        sourceTextFocused.addListener((observable, oldValue, newValue) ->
+                logSourceChange(newValue));
+
         sourceText.set("");
+
+        initialized = true;
+    }
+
+    public ViewModel() {
+        this(new FakeLogger());
+    }
+
+    public ILogger getLogger() {
+        return logger;
+    }
+
+    public void setLogger(final ILogger logger) {
+        this.logger = logger;
+    }
+
+    public ObservableList<String> getLog() {
+        return log.get();
+    }
+
+    public ObjectProperty<ObservableList<String>> logProperty() {
+        return log;
+    }
+
+    public boolean isSourceTextFocused() {
+        return sourceTextFocused.get();
+    }
+
+    public void setSourceTextFocused(final boolean focused) {
+        sourceTextFocused.set(focused);
+    }
+
+    public BooleanProperty sourceTextFocusedProperty() {
+        return sourceTextFocused;
     }
 
     public StringProperty sourceTextProperty() {
@@ -92,13 +142,37 @@ public final class ViewModel {
     }
 
     public void sort() {
-        String[] parts = getSourceText().split(" *, *");
-        Tree tree = new Tree();
-        for (String val : parts) {
-            tree.insert(Integer.parseInt(val));
+        logSourceChange(false);
+        log(Messages.SORT_BUTTON_CLICKED);
+
+        if (canCalculate()) {
+            String[] parts = getSourceText().split(" *, *");
+            Tree tree = new Tree();
+            for (String val : parts) {
+                tree.insert(Integer.parseInt(val));
+            }
+            String result = tree.extractValues().toString();
+            result = result.substring(1, result.length() - 1);
+            resultText.set(result);
         }
-        String result = tree.extractValues().toString();
-        result = result.substring(1, result.length() - 1);
-        resultText.set(result);
     }
+
+    private void log(final String text) {
+        logger.log(text);
+        log.get().setAll(logger.getLog());
+    }
+
+    private void logSourceChange(final boolean focused) {
+        if (!focused && sourceTextChanged.get()) {
+            log(Messages.SOURCE_CHANGED + " to \"" + sourceText.get() + "\"");
+            sourceTextChanged.set(false);
+        }
+    }
+}
+
+final class Messages {
+    static final String SOURCE_CHANGED = "Source text changed";
+    static final String SORT_BUTTON_CLICKED = "Sort button clicked";
+
+    private Messages() { };
 }
