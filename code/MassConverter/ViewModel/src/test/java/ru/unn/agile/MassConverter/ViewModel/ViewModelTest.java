@@ -139,12 +139,39 @@ public class ViewModelTest {
     }
 
     @Test
+    public void canNotConvertNumberMoreThanTeenSigns() {
+        viewModel.inputProperty().set("467586788986789761");
+
+        assertEquals(WRONG_INPUT.toString(), viewModel.statusProperty().get());
+    }
+
+    @Test
+    public void canNotConvertInputValueWhenIntegerPartMoreThanTeenSigns() {
+        viewModel.inputProperty().set("467586788986789.761");
+
+        assertEquals(WRONG_INPUT.toString(), viewModel.statusProperty().get());
+    }
+
+    @Test
+    public void canNotConvertInputValueWhenFractionalPartMoreThanTeenSigns() {
+        viewModel.inputProperty().set("4675.86788986789761");
+
+        assertEquals(WRONG_INPUT.toString(), viewModel.statusProperty().get());
+    }
+
+    @Test
+    public void canNotConvertIncorrectInputValue() {
+        viewModel.inputProperty().set("4675.86788986.789761");
+
+        assertEquals(WRONG_INPUT.toString(), viewModel.statusProperty().get());
+    }
+
+    @Test
     public void logMustBeEmptyInTheBeginning() {
         List<String> log = viewModel.getLog();
 
         assertEquals(0, log.size());
     }
-
 
     @Test
     public void logMustContainsSomethingAfterInputValue() {

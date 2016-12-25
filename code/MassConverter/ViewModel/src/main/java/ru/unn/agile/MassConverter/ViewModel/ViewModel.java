@@ -158,6 +158,9 @@ public class ViewModel {
             result.set("");
         } else {
             try {
+
+                checkSizeInput();
+
                 result.set(String.valueOf(systemToConvert.get()
                         .convertTo(systemFromConvert.get()
                                 .convertFrom(Double.parseDouble(input.get())))));
@@ -168,6 +171,26 @@ public class ViewModel {
                 status.set(Status.WRONG_INPUT.toString());
                 result.set("");
             }
+        }
+    }
+
+    private void checkSizeInput() {
+        String inputValue = input.get();
+        String[] splittingInput = new String[2];
+        if(inputValue.contains(".")) {
+            splittingInput = inputValue.split("\\.");
+        } else {
+            splittingInput[0] = inputValue;
+            splittingInput[1] = "";
+        }
+
+        int integerSize = splittingInput[0].length();
+        int fractSize = splittingInput[1].length();
+        int sumInputSize = integerSize + fractSize;
+        if(integerSize > 10 ||
+           fractSize > 10 ||
+           sumInputSize > 10) {
+            throw new NumberFormatException();
         }
     }
 
