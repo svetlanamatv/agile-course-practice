@@ -44,7 +44,9 @@ public final class ViewModel {
         sourceText.addListener((observable, oldValue, newValue) -> {
             statusText.set(getStatus().toString());
             buttonDisabled.set(!canCalculate());
-            sourceTextChanged.set(true);
+            if (initialized) {
+                sourceTextChanged.set(true);
+            }
         });
 
         sourceTextFocused.addListener((observable, oldValue, newValue) ->
@@ -161,7 +163,7 @@ public final class ViewModel {
     }
 
     private void logSourceChange(final boolean focused) {
-        if (initialized && !focused && sourceTextChanged.get()) {
+        if (!focused && sourceTextChanged.get()) {
             log(Messages.SOURCE_CHANGED + " to \"" + sourceText.get() + "\"");
             sourceTextChanged.set(false);
         }
