@@ -46,7 +46,7 @@ public class TxtLogger implements ILogger {
 
                 Files.createFile(path);
             } catch (IOException e) {
-                e.printStackTrace();
+                // do nothing
             }
         }
         if (file.isFile()) {
@@ -57,7 +57,7 @@ public class TxtLogger implements ILogger {
                 fileWriter.flush();
                 fileWriter.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                // do nothing
             }
         }
     }
@@ -69,7 +69,7 @@ public class TxtLogger implements ILogger {
             try {
                 logList = Files.readAllLines(path);
             } catch (IOException e) {
-                e.printStackTrace();
+                // do nothing
             }
         }
         return logList;
