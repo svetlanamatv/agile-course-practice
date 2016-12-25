@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import ru.unn.agile.triangle.view.ViewModelProvider?>
 
+<?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1"
             stylesheets="@styles.css"
@@ -21,6 +22,7 @@
             <RowConstraints />
             <RowConstraints minHeight="70" />
             <RowConstraints />
+            <RowConstraints maxHeight="180" />
         </rowConstraints>
 
         <GridPane hgap="5" vgap="10" maxWidth="Infinity"
@@ -118,6 +120,17 @@
                     <Label text="${viewModelProvider.viewModel.circumcircleCenterY}" />
                 </HBox>
             </VBox>
+        </GridPane>
+
+        <GridPane GridPane.rowIndex="3">
+            <padding>
+                <Insets top="15" />
+            </padding>
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+            <ListView fx:id="logList"
+                      items="${viewModelProvider.viewModel.loggerViewModel.records}" />
         </GridPane>
 
     </GridPane>
