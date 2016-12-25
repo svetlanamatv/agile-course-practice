@@ -14,11 +14,11 @@ import java.util.List;
 import static junit.framework.TestCase.assertNotNull;
 
 public class TxtLoggerTests {
-    private static final String FILENAME = "./TxtLoggerTests-lab3.log";
+    private static final String FILENAME = "./TxtLoggerTests.log";
     private TxtLogger txtLogger;
 
     @Before
-    public void setUp() {
+    public void start() {
         txtLogger = new TxtLogger(FILENAME);
     }
 
@@ -28,12 +28,22 @@ public class TxtLoggerTests {
     }
 
     @Test
-    public void canCreateLogFileOnDisk() {
+    public void canCreateLogFile() {
         try {
             new BufferedReader(new FileReader(FILENAME));
         } catch (FileNotFoundException e) {
             fail("File " + FILENAME + " wasn't found!");
         }
+    }
+
+    @Test
+    public void doesLogContainDateAndTime() {
+        String testMessage = "Test message";
+
+        txtLogger.log(testMessage);
+
+        String message = txtLogger.getLog().get(0);
+        assertTrue(message.matches("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} > .*"));
     }
 
     @Test
@@ -47,25 +57,34 @@ public class TxtLoggerTests {
     }
 
     @Test
-    public void canWriteSeveralLogMessage() {
-        String[] messages = {"Test message 1", "Test message 2"};
+    public void canWriteSeveralLogMessages() {
+        String[] messages = {"First message", "Second message"};
 
         txtLogger.log(messages[0]);
         txtLogger.log(messages[1]);
 
         List<String> actualMessages = txtLogger.getLog();
-        for (int i = 0; i < actualMessages.size(); i++) {
-            assertTrue(actualMessages.get(i).matches(".*" + messages[i] + ".*"));
-        }
+
+        assertTrue(actualMessages.get(0).matches(".*" + messages[0] + ".*"));
+        assertTrue(actualMessages.get(1).matches(".*" + messages[1] + ".*"));
     }
 
     @Test
-    public void doesLogContainDateAndTime() {
-        String testMessage = "Test message";
+    public void canReturnCorrectlyLastMessageFromSeveralLogMessages() {
+        String[] messages = {"First message", "Second message"};
 
-        txtLogger.log(testMessage);
+        txtLogger.log(messages[0]);
+        txtLogger.log(messages[1]);
 
-        String message = txtLogger.getLog().get(0);
-        assertTrue(message.matches("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} > .*"));
+        String actualMessage = txtLogger.getLastMessage();
+
+        assertTrue(actualMessage.matches(".*" + messages[1] + ".*"));
+    }
+
+    @Test
+    public void canReturnCorrectlyLastMessageWhenLogIsEmpty() {
+        String actualMessage = txtLogger.getLastMessage();
+
+        assertTrue(actualMessage.matches(""));
     }
 }

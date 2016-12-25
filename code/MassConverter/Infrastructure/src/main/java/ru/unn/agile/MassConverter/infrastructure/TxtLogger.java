@@ -17,12 +17,6 @@ public class TxtLogger implements ILogger {
     private final BufferedWriter writer;
     private final String filename;
 
-    private static String now() {
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW, Locale.ENGLISH);
-        return sdf.format(cal.getTime());
-    }
-
     public TxtLogger(final String filename) {
         this.filename = filename;
 
@@ -30,20 +24,10 @@ public class TxtLogger implements ILogger {
         try {
             logWriter = new BufferedWriter(new FileWriter(filename));
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-        writer = logWriter;
-    }
-
-    @Override
-    public void log(final String s) {
-        try {
-            writer.write(now() + " > " + s);
-            writer.newLine();
-            writer.flush();
-        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+        writer = logWriter;
     }
 
     @Override
@@ -52,17 +36,44 @@ public class TxtLogger implements ILogger {
         ArrayList<String> log = new ArrayList<String>();
         try {
             reader = new BufferedReader(new FileReader(filename));
-            String line = reader.readLine();
+            String message = reader.readLine();
 
-            while (line != null) {
-                log.add(line);
-                line = reader.readLine();
+            while (message != null) {
+                log.add(message);
+                message = reader.readLine();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
         return log;
     }
 
+    @Override
+    public String getLastMessage() {
+        List<String> log = getLog();
+        String lastMessage;
+        if (log.isEmpty()) {
+            lastMessage = "";
+        } else {
+            lastMessage = log.get(log.size() - 1);
+        }
+        return lastMessage;
+    }
+
+    @Override
+    public void log(final String message) {
+        try {
+            writer.write(time() + " > " + message);
+            writer.newLine();
+            writer.flush();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static String time() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW, Locale.ENGLISH);
+        return sdf.format(calendar.getTime());
+    }
 }

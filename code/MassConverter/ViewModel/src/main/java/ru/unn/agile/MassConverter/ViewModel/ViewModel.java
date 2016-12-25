@@ -1,9 +1,6 @@
 package ru.unn.agile.MassConverter.ViewModel;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -14,10 +11,11 @@ import java.util.List;
 
 public class ViewModel {
 
-    private final ILogger logger;
+    private ILogger logger;
     private final StringProperty input = new SimpleStringProperty();
     private final StringProperty result = new SimpleStringProperty();
     private final StringProperty status = new SimpleStringProperty();
+    private final ListProperty<String> listMessagesProperty = new SimpleListProperty<>();
     private final ObjectProperty<ConversionSystem> systemToConvert = new SimpleObjectProperty<>();
     private final ObjectProperty<ObservableList<ConversionSystem>> conversionSystems
             = new SimpleObjectProperty<>(FXCollections
@@ -45,12 +43,24 @@ public class ViewModel {
         SecondSystem
     }
 
-    public ViewModel(final ILogger logger) {
+    public final void setLogger(final ILogger logger) {
         if (logger == null) {
             throw new IllegalArgumentException("Logger parameter can't be null");
         }
 
         this.logger = logger;
+    }
+
+    public ViewModel(final ILogger logger) {
+        initialize();
+        setLogger(logger);
+    }
+
+    public ViewModel() {
+        initialize();
+    }
+
+    private void initialize() {
         input.set("");
         result.set("");
         status.set(Status.WAITING.toString());
@@ -87,16 +97,35 @@ public class ViewModel {
         });
     }
 
+    private void updateListMessages() {
+        listMessagesProperty.set(FXCollections.observableArrayList(getLog()));
+    }
+
     private void logChangeSecondSystem() {
+        if (logger == null) {
+            return;
+        }
+
         logger.log(changeLogMessage(NumberOfSistem.SecondSystem));
+        updateListMessages();
     }
 
     private void logChangeFirstSystem() {
+        if (logger == null) {
+            return;
+        }
+
         logger.log(changeLogMessage(NumberOfSistem.FirstSystem));
+        updateListMessages();
     }
 
     private void logInputValue() {
+        if (logger == null) {
+            return;
+        }
+
         logger.log(editingFinishedLogMessage());
+        updateListMessages();
     }
 
     private String editingFinishedLogMessage() {
@@ -153,6 +182,10 @@ public class ViewModel {
 
     public StringProperty statusProperty() {
         return status;
+    }
+
+    public ListProperty<String> logMessagesProperty() {
+        return listMessagesProperty;
     }
 
     public ObjectProperty<ConversionSystem> systemToConvertProperty() {
