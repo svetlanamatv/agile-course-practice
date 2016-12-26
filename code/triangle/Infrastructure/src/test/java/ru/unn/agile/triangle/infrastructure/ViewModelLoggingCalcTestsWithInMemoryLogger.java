@@ -4,7 +4,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.viewmodel.ViewModelLoggingCalcTestsBase;
-import ru.unn.agile.triangle.viewmodel.mock.FakeLogger;
 
 @RunWith(Parameterized.class)
 public class ViewModelLoggingCalcTestsWithInMemoryLogger

@@ -28,7 +28,7 @@ public abstract class ViewModelLoggingCalcTestsBase {
                 ViewModel.LoggerMessages.CIRCUMCIRCLE_CENTER_CALCULATED
         );
         return messages.stream()
-                .map((x) -> new String[] { x })
+                .map((x) -> new String[] {x})
                 .collect(Collectors.toList());
     }
 

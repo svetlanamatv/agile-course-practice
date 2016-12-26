@@ -6,9 +6,7 @@ import org.junit.Test;
 import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.viewmodel.mock.FakeLogger;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class LoggerViewModelTests {
     private static final String TEST_MESSAGE = "Test message";

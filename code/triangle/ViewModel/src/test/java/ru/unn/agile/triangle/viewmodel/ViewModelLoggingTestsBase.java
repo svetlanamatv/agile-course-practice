@@ -3,8 +3,6 @@ package ru.unn.agile.triangle.viewmodel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import ru.unn.agile.triangle.logging.Logger;
 import ru.unn.agile.triangle.viewmodel.utils.LoggerWrapper;
 
