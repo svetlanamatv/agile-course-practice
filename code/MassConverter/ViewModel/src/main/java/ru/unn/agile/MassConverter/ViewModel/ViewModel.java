@@ -212,7 +212,7 @@ public class ViewModel {
         return status;
     }
 
-    public StringProperty lasLogMessageProperty() {
+    public StringProperty lastLogMessageProperty() {
         return lastLogMessage;
     }
 
@@ -228,12 +228,28 @@ public class ViewModel {
         return systemFromConvert;
     }
 
+    public void setSystemFromConvertProperty(final ConversionSystem system) {
+        systemFromConvert.set(system);
+    }
+
+    public void setSystemToConvertProperty(final ConversionSystem system) {
+        systemToConvert.set(system);
+    }
+
+    public void setInput(final String inputStr) {
+        input.set(inputStr);
+    }
+
     public final String getResult() {
         return result.get();
     }
 
     public final String getStatus() {
         return status.get();
+    }
+
+    public final String getLastLogMessage() {
+        return lastLogMessage.get();
     }
 
     public final ObservableList<ConversionSystem> getConversionSystems() {

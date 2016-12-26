@@ -35,7 +35,7 @@ public class MassConverter {
         txtInput.textProperty().bindBidirectional(viewModel.inputProperty());
         lbResult.textProperty().bindBidirectional(viewModel.resultProperty());
         lbStatus.textProperty().bindBidirectional(viewModel.statusProperty());
-        lbLastMessage.textProperty().bindBidirectional(viewModel.lasLogMessageProperty());
+        lbLastMessage.textProperty().bindBidirectional(viewModel.lastLogMessageProperty());
         listLog.itemsProperty().bindBidirectional(viewModel.logMessagesProperty());
         cmbSystemToConvert.valueProperty()
                 .bindBidirectional(viewModel.systemToConvertProperty());

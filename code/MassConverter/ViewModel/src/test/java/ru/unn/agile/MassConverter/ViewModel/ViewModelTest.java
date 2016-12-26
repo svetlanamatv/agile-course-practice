@@ -62,58 +62,58 @@ public class ViewModelTest {
 
     @Test
     public void invalidInput() {
-        viewModel.inputProperty().set("a");
-        assertEquals(WRONG_INPUT.toString(), viewModel.statusProperty().get());
+        viewModel.setInput("a");
+        assertEquals(WRONG_INPUT.toString(), viewModel.getStatus());
     }
 
     @Test
     public void emptyInput() {
-        viewModel.inputProperty().set("");
-        assertEquals(WAITING.toString(), viewModel.statusProperty().get());
+        viewModel.setInput("");
+        assertEquals(WAITING.toString(), viewModel.getStatus());
     }
 
     @Test
     public void validInput() {
-        viewModel.inputProperty().set("1");
-        assertEquals(SUCCESS.toString(), viewModel.statusProperty().get());
+        viewModel.setInput("1");
+        assertEquals(SUCCESS.toString(), viewModel.getStatus());
     }
 
     @Test
     public void convert1kgTo1000Gram() {
-        viewModel.inputProperty().set("1");
-        assertEquals("1000.0", viewModel.resultProperty().get());
+        viewModel.setInput("1");
+        assertEquals("1000.0", viewModel.getResult());
     }
 
     @Test
     public void convert1kgToTonne() {
-        viewModel.systemToConvertProperty().set(ConversionSystem.TONNE);
-        viewModel.inputProperty().set("1");
-        assertEquals("0.001", viewModel.resultProperty().get());
+        viewModel.setSystemToConvertProperty(ConversionSystem.TONNE);
+        viewModel.setInput("1");
+        assertEquals("0.001", viewModel.getResult());
     }
 
     @Test
     public void convert1kgToTonneAfterChangeSystem() {
-        viewModel.inputProperty().set("1");
-        viewModel.systemToConvertProperty().set(ConversionSystem.TONNE);
-        assertEquals("0.001", viewModel.resultProperty().get());
+        viewModel.setInput("1");
+        viewModel.setSystemToConvertProperty(ConversionSystem.TONNE);
+        assertEquals("0.001", viewModel.getResult());
     }
 
     @Test
     public void convertEmptyInputAfterChangeSystem() {
-        viewModel.systemToConvertProperty().set(ConversionSystem.TONNE);
-        assertEquals(WAITING.toString(), viewModel.statusProperty().get());
+        viewModel.setSystemToConvertProperty(ConversionSystem.TONNE);
+        assertEquals(WAITING.toString(), viewModel.getStatus());
     }
 
     @Test
     public void convertInvalidInputAfterChangeSystem() {
-        viewModel.inputProperty().set("a");
-        viewModel.systemToConvertProperty().set(ConversionSystem.TONNE);
-        assertEquals(WRONG_INPUT.toString(), viewModel.statusProperty().get());
+        viewModel.setInput("a");
+        viewModel.setSystemToConvertProperty(ConversionSystem.TONNE);
+        assertEquals(WRONG_INPUT.toString(), viewModel.getStatus());
     }
 
     @Test
     public void testGetStringResult() {
-        viewModel.inputProperty().set("1");
+        viewModel.setInput("1");
         assertEquals("1000.0", viewModel.getResult());
     }
 
@@ -131,59 +131,59 @@ public class ViewModelTest {
 
     @Test
     public void emptyResultWhenInvalidInput() {
-        viewModel.inputProperty().set("1");
-        assertEquals("1000.0", viewModel.resultProperty().get());
-        viewModel.inputProperty().set("a");
-        assertEquals("", viewModel.resultProperty().get());
+        viewModel.setInput("1");
+        assertEquals("1000.0", viewModel.getResult());
+        viewModel.setInput("a");
+        assertEquals("", viewModel.getResult());
     }
 
     @Test
     public void emptyResultWhenEmptyInput() {
-        viewModel.inputProperty().set("1");
-        assertEquals("1000.0", viewModel.resultProperty().get());
-        viewModel.inputProperty().set("");
-        assertEquals("", viewModel.resultProperty().get());
+        viewModel.setInput("1");
+        assertEquals("1000.0", viewModel.getResult());
+        viewModel.setInput("");
+        assertEquals("", viewModel.getResult());
     }
 
     @Test
     public void convert1CentnerTo100000Gram() {
-        viewModel.inputProperty().set("1");
+        viewModel.setInput("1");
         viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
-        assertEquals("100000.0", viewModel.resultProperty().get());
+        assertEquals("100000.0", viewModel.getResult());
     }
 
     @Test
     public void convertNegative() {
-        viewModel.inputProperty().set("-1");
-        assertEquals(WRONG_INPUT.toString(), viewModel.statusProperty().get());
+        viewModel.setInput("-1");
+        assertEquals(WRONG_INPUT.toString(), viewModel.getStatus());
     }
 
     @Test
     public void canNotConvertNumberMoreThanTeenSigns() {
-        viewModel.inputProperty().set("467586788986789761");
+        viewModel.setInput("467586788986789761");
 
-        assertEquals(WRONG_INPUT.toString(), viewModel.statusProperty().get());
+        assertEquals(WRONG_INPUT.toString(), viewModel.getStatus());
     }
 
     @Test
     public void canNotConvertInputValueWhenIntegerPartMoreThanTeenSigns() {
-        viewModel.inputProperty().set("467586788986789.761");
+        viewModel.setInput("467586788986789.761");
 
-        assertEquals(WRONG_INPUT.toString(), viewModel.statusProperty().get());
+        assertEquals(WRONG_INPUT.toString(), viewModel.getStatus());
     }
 
     @Test
     public void canNotConvertInputValueWhenFractionalPartMoreThanTeenSigns() {
-        viewModel.inputProperty().set("4675.86788986789761");
+        viewModel.setInput("4675.86788986789761");
 
-        assertEquals(WRONG_INPUT.toString(), viewModel.statusProperty().get());
+        assertEquals(WRONG_INPUT.toString(), viewModel.getStatus());
     }
 
     @Test
     public void canNotConvertIncorrectInputValue() {
-        viewModel.inputProperty().set("4675.86788986.789761");
+        viewModel.setInput("4675.86788986.789761");
 
-        assertEquals(WRONG_INPUT.toString(), viewModel.statusProperty().get());
+        assertEquals(WRONG_INPUT.toString(), viewModel.getStatus());
     }
 
     @Test
@@ -195,7 +195,7 @@ public class ViewModelTest {
 
     @Test
     public void logMustContainsSomethingAfterSetInputValue() {
-        viewModel.inputProperty().set("23");
+        viewModel.setInput("23");
         List<String> log = viewModel.logMessagesProperty();
 
         assertEquals(1, log.size());
@@ -203,7 +203,7 @@ public class ViewModelTest {
 
     @Test
     public void logMustContainsPropertyOfLogMessagesAfterSetInputValue() {
-        viewModel.inputProperty().set("23");
+        viewModel.setInput("23");
         List<String> log = viewModel.logMessagesProperty();
         String message = log.get(0);
 
@@ -213,7 +213,7 @@ public class ViewModelTest {
     @Test
     public void logMustContainsInputValue() {
         String inputValue = "23";
-        viewModel.inputProperty().set(inputValue);
+        viewModel.setInput(inputValue);
         List<String> log = viewModel.logMessagesProperty();
         String message = log.get(0);
 
@@ -222,7 +222,7 @@ public class ViewModelTest {
 
     @Test
     public void logMustContainsSomethingAfterSetFirstSystem() {
-        viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
+        viewModel.setSystemFromConvertProperty(ConversionSystem.CENTNER);
         List<String> log = viewModel.logMessagesProperty();
 
         assertEquals(1, log.size());
@@ -230,7 +230,7 @@ public class ViewModelTest {
 
     @Test
     public void logMustContainsPropertyOfLogMessagesAfterSetFirstSystem() {
-        viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
+        viewModel.setSystemFromConvertProperty(ConversionSystem.CENTNER);
         List<String> log = viewModel.logMessagesProperty();
         String message = log.get(0);
 
@@ -239,7 +239,7 @@ public class ViewModelTest {
 
     @Test
     public void logMustContainsFirstSystem() {
-        viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
+        viewModel.setSystemFromConvertProperty(ConversionSystem.CENTNER);
         List<String> log = viewModel.logMessagesProperty();
         String message = log.get(0);
 
@@ -248,7 +248,7 @@ public class ViewModelTest {
 
     @Test
     public void logMustContainsSomethingAfterSetSecondSystem() {
-        viewModel.systemToConvertProperty().set(ConversionSystem.POUND);
+        viewModel.setSystemToConvertProperty(ConversionSystem.POUND);
         List<String> log = viewModel.logMessagesProperty();
 
         assertEquals(1, log.size());
@@ -256,7 +256,7 @@ public class ViewModelTest {
 
     @Test
     public void logMustContainsPropertyOfLogMessagesAfterSetSecondSystem() {
-        viewModel.systemToConvertProperty().set(ConversionSystem.MILLIGRAM);
+        viewModel.setSystemToConvertProperty(ConversionSystem.MILLIGRAM);
         List<String> log = viewModel.logMessagesProperty();
         String message = log.get(0);
 
@@ -265,7 +265,7 @@ public class ViewModelTest {
 
     @Test
     public void logMustContainsSecondSystem() {
-        viewModel.systemToConvertProperty().set(ConversionSystem.POUND);
+        viewModel.setSystemToConvertProperty(ConversionSystem.POUND);
         List<String> log = viewModel.logMessagesProperty();
         String message = log.get(0);
 
@@ -274,16 +274,16 @@ public class ViewModelTest {
 
     @Test
     public void lastLogMessageMustBeEmptyInTheBeginning() {
-        String actualMessage = viewModel.lasLogMessageProperty().get();
+        String actualMessage = viewModel.lastLogMessageProperty().get();
 
         assertEquals("", actualMessage);
     }
 
     @Test
     public void lastLogMessageMustContainsFirstSystem() {
-        viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
+        viewModel.setSystemFromConvertProperty(ConversionSystem.CENTNER);
 
-        String actualMessage = viewModel.lasLogMessageProperty().get();
+        String actualMessage = viewModel.getLastLogMessage();
 
         assertTrue(actualMessage.contains(ConversionSystem.CENTNER.toString()));
     }
@@ -292,11 +292,11 @@ public class ViewModelTest {
     public void lastLogMessageMustContainsCorectlyValueOfInput() {
         String inputValue = "51";
 
-        viewModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
-        viewModel.systemToConvertProperty().set(ConversionSystem.POUND);
-        viewModel.inputProperty().set(inputValue);
+        viewModel.setSystemFromConvertProperty(ConversionSystem.CENTNER);
+        viewModel.setSystemToConvertProperty(ConversionSystem.POUND);
+        viewModel.setInput(inputValue);
 
-        String actualMessage = viewModel.lasLogMessageProperty().get();
+        String actualMessage = viewModel.getLastLogMessage();
 
         assertTrue(actualMessage.contains(inputValue));
     }
@@ -306,7 +306,7 @@ public class ViewModelTest {
         try {
             ViewModel empVieModel = new ViewModel();
 
-            empVieModel.inputProperty().set("23");
+            empVieModel.setInput("23");
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -317,7 +317,7 @@ public class ViewModelTest {
         try {
             ViewModel empVieModel = new ViewModel();
 
-            empVieModel.systemFromConvertProperty().set(ConversionSystem.CENTNER);
+            empVieModel.setSystemFromConvertProperty(ConversionSystem.CENTNER);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -328,7 +328,7 @@ public class ViewModelTest {
         try {
             ViewModel empVieModel = new ViewModel();
 
-            empVieModel.systemToConvertProperty().set(ConversionSystem.KILOGRAM);
+            empVieModel.setSystemToConvertProperty(ConversionSystem.KILOGRAM);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -337,7 +337,7 @@ public class ViewModelTest {
     @Test
     public void listMessagesPropertyMustContainsInputValue() {
         String inputValue = "23";
-        viewModel.inputProperty().set(inputValue);
+        viewModel.setInput(inputValue);
         List<String> log = viewModel.logMessagesProperty();
         String message = log.get(0);
 
