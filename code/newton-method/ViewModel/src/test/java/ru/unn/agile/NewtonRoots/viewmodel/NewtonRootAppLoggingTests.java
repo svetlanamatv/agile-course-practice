@@ -2,17 +2,17 @@ package ru.unn.agile.NewtonRoots.viewmodel;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import ru.unn.agile.NewtonRoots.Model.NewtonMethod.StoppingCriterion;
 import ru.unn.agile.NewtonRoots.viewmodel.NewtonRootAppViewModel.LogMessages;
 
 import static org.junit.Assert.*;
+import static ru.unn.agile.NewtonRoots.viewmodel.testutil.RegexMatcher.matchesPattern;
 
 public class NewtonRootAppLoggingTests {
-    private NewtonRootAppViewModel viewModel;
     private static String ROOT_SEARCH_PATTERN = "Root search finished. Parameters: " +
             "leftEnd: %s  rightEnd: %s  derivativeStep: %s  accuracy: %s  " +
             "function: \\Q\"%s\"\\E  startPoint: %s  stopCriterion: %s. ";
+    private NewtonRootAppViewModel viewModel;
 
     @Before
     public void setUp() {
@@ -22,15 +22,6 @@ public class NewtonRootAppLoggingTests {
     @Test
     public void canCreateViewModelWithLogger() {
         assertNotNull(viewModel.getLogger());
-    }
-
-    @Test
-    public void canSetLoggerOnAlreadyCreatedViewModel() {
-        NewtonRootAppViewModel viewModelWithoutLogger = new NewtonRootAppViewModel();
-
-        viewModelWithoutLogger.setLogger(new FakeLogger());
-
-        assertNotNull(viewModelWithoutLogger.getLogger());
     }
 
     @Test
@@ -110,7 +101,7 @@ public class NewtonRootAppLoggingTests {
                 viewModel.getStartPoint(),
                 viewModel.getStopCriterion()) +
                 "Root was found. Results: x=\\d+\\.\\d+  accuracy=\\d+\\.\\d+  iterations=\\d+";
-        assertTrue(lastMessage.matches(expectedPattern));
+        assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
     @Test
@@ -133,6 +124,6 @@ public class NewtonRootAppLoggingTests {
                 viewModel.getFunction(),
                 viewModel.getStartPoint(),
                 viewModel.getStopCriterion()) + "Root wasn't found";
-        assertTrue(lastMessage.matches(expectedPattern));
+        assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 }

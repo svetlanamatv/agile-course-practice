@@ -32,23 +32,28 @@ public class NewtonRootAppViewModel  {
 
     private final List<ValueChangeListener> valueChangedListeners = new ArrayList<>();
 
-    private Logger logger;
-
-    public NewtonRootAppViewModel() {
-        init();
-    }
+    private final Logger logger;
 
     public NewtonRootAppViewModel(Logger logger) {
+        final List<StringProperty> fields = new ArrayList<StringProperty>() { {
+            add(leftPoint);
+            add(rightPoint);
+            add(derivativeStep);
+            add(accuracy);
+            add(function);
+            add(startPoint);
+        } };
+
+        for (StringProperty field : fields) {
+            final ValueChangeListener listener = new ValueChangeListener();
+            field.addListener(listener);
+            valueChangedListeners.add(listener);
+        }
         this.logger = logger;
-        init();
     }
 
     public Logger getLogger() {
         return logger;
-    }
-
-    public void setLogger(final Logger logger) {
-        this.logger = logger;
     }
 
     public StringProperty leftPointProperty()  {
@@ -163,23 +168,6 @@ public class NewtonRootAppViewModel  {
     public void setStopCriterion(final StoppingCriterion value) {
         stopCriterion.set(value);
         logger.appendMessage(LogMessages.getStopCriterionChangeMessage(value));
-    }
-
-    private void init() {
-        final List<StringProperty> fields = new ArrayList<StringProperty>() { {
-            add(leftPoint);
-            add(rightPoint);
-            add(derivativeStep);
-            add(accuracy);
-            add(function);
-            add(startPoint);
-        } };
-
-        for (StringProperty field : fields) {
-            final ValueChangeListener listener = new ValueChangeListener();
-            field.addListener(listener);
-            valueChangedListeners.add(listener);
-        }
     }
 
     private boolean checkInputFormat()  {
@@ -387,7 +375,7 @@ public class NewtonRootAppViewModel  {
                             root, finalAccuracy, iterationsCounter);
         }
 
-        public static String getFailedRunMessage(
+        static String getFailedRunMessage(
                 String leftPoint,
                 String rightPoint,
                 String derivativeStep,
