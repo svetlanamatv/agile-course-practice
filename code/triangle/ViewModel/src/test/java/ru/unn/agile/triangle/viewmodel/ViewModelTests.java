@@ -52,7 +52,7 @@ public class ViewModelTests {
     public void whenInputIsEnteredCalculateButtonIsEnabled() {
         setInputData();
 
-        assertFalse(viewModel.calculationDisabledProperty().get());
+        assertFalse(viewModel.getCalculationDisabled());
     }
 
     @Test
@@ -60,7 +60,7 @@ public class ViewModelTests {
         setInputData();
         viewModel.axProperty().set("");
 
-        assertTrue(viewModel.calculationDisabledProperty().get());
+        assertTrue(viewModel.getCalculationDisabled());
     }
 
     @Test
@@ -68,7 +68,7 @@ public class ViewModelTests {
         setInputData();
         viewModel.axProperty().set("atata");
 
-        assertTrue(viewModel.calculationDisabledProperty().get());
+        assertTrue(viewModel.getCalculationDisabled());
     }
 
     @Test
@@ -76,14 +76,14 @@ public class ViewModelTests {
         setInputData();
         viewModel.calculate();
 
-        assertEquals("0.5", viewModel.areaProperty().get());
-        assertEquals("3.414", viewModel.perimeterProperty().get());
-        assertEquals("0.707", viewModel.circumcircleRadiusProperty().get());
-        assertEquals("0.5", viewModel.circumcircleCenterXProperty().get());
+        assertEquals("0.5", viewModel.getArea());
+        assertEquals("3.414", viewModel.getPerimeter());
+        assertEquals("0.707", viewModel.getCircumcircleRadius());
+        assertEquals("0.5", viewModel.getCircumcircleCenterX());
         assertEquals("0.5", viewModel.getCircumcircleCenterY());
-        assertEquals("0.293", viewModel.incircleRadiusProperty().get());
-        assertEquals("0.293", viewModel.incircleCenterXProperty().get());
-        assertEquals("0.293", viewModel.incircleCenterYProperty().get());
+        assertEquals("0.293", viewModel.getIncircleRadius());
+        assertEquals("0.293", viewModel.getIncircleCenterX());
+        assertEquals("0.293", viewModel.getIncircleCenterY());
     }
 
     @Test
@@ -97,14 +97,14 @@ public class ViewModelTests {
 
         viewModel.calculate();
 
-        assertEquals("0", viewModel.areaProperty().get());
-        assertEquals("4", viewModel.perimeterProperty().get());
-        assertEquals("0", viewModel.incircleRadiusProperty().get());
-        assertEquals("2", viewModel.incircleCenterXProperty().get());
-        assertEquals("0", viewModel.incircleCenterYProperty().get());
-        assertEquals("undefined", viewModel.circumcircleRadiusProperty().get());
-        assertEquals("undefined", viewModel.circumcircleCenterXProperty().get());
-        assertEquals("undefined", viewModel.circumcircleCenterYProperty().get());
+        assertEquals("0", viewModel.getArea());
+        assertEquals("4", viewModel.getPerimeter());
+        assertEquals("0", viewModel.getIncircleRadius());
+        assertEquals("2", viewModel.getIncircleCenterX());
+        assertEquals("0", viewModel.getIncircleCenterY());
+        assertEquals("undefined", viewModel.getCircumcircleRadius());
+        assertEquals("undefined", viewModel.getCircumcircleCenterX());
+        assertEquals("undefined", viewModel.getCircumcircleCenterY());
     }
 
     @Test
@@ -116,7 +116,7 @@ public class ViewModelTests {
 
         viewModel.calculate();
 
-        assertEquals("0.5", viewModel.areaProperty().get());
+        assertEquals("0.5", viewModel.getArea());
     }
 
     @Test(expected = NullPointerException.class)
@@ -127,6 +127,51 @@ public class ViewModelTests {
     @Test
     public void loggerViewModelIsNotNullByDefault() throws Exception {
         assertNotEquals(null, viewModel.getLoggerViewModel());
+    }
+
+    @Test
+    public void calculationDisabledPropertyIsNotNull() throws Exception {
+        assertNotNull(viewModel.calculationDisabledProperty());
+    }
+
+    @Test
+    public void areaPropertyIsNotNull() throws Exception {
+        assertNotNull(viewModel.areaProperty());
+    }
+
+    @Test
+    public void perimeterPropertyIsNotNull() throws Exception {
+        assertNotNull(viewModel.perimeterProperty());
+    }
+
+    @Test
+    public void circumcircleRadiusPropertyIsNotNull() throws Exception {
+        assertNotNull(viewModel.circumcircleRadiusProperty());
+    }
+
+    @Test
+    public void circumcircleCenterXPropertyIsNotNull() throws Exception {
+        assertNotNull(viewModel.circumcircleCenterXProperty());
+    }
+
+    @Test
+    public void circumcircleCenterYPropertyIsNotNull() throws Exception {
+        assertNotNull(viewModel.circumcircleCenterYProperty());
+    }
+
+    @Test
+    public void incircleRadiusPropertyIsNotNull() throws Exception {
+        assertNotNull(viewModel.incircleRadiusProperty());
+    }
+
+    @Test
+    public void incircleCenterXPropertyIsNotNull() throws Exception {
+        assertNotNull(viewModel.incircleCenterXProperty());
+    }
+
+    @Test
+    public void incircleCenterYPropertyIsNotNull() throws Exception {
+        assertNotNull(viewModel.incircleCenterYProperty());
     }
 
     private void setInputData() {

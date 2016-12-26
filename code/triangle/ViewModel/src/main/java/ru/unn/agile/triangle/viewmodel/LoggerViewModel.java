@@ -47,6 +47,4 @@ public class LoggerViewModel {
             records.remove(0);
         }
     }
-
-
 }
