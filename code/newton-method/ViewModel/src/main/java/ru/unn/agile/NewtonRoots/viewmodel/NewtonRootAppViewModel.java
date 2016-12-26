@@ -3,15 +3,14 @@ package ru.unn.agile.NewtonRoots.viewmodel;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import ru.unn.agile.NewtonRoots.Model.MathFunction;
+import ru.unn.agile.NewtonRoots.Model.NewtonMethod;
+import ru.unn.agile.NewtonRoots.Model.NewtonMethod.StoppingCriterion;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import ru.unn.agile.NewtonRoots.Model.NewtonMethod;
-import ru.unn.agile.NewtonRoots.Model.MathFunction;
-import ru.unn.agile.NewtonRoots.Model.NewtonMethod.StoppingCriterion;
 
 public class NewtonRootAppViewModel  {
     private final StringProperty leftPoint = new SimpleStringProperty("");
@@ -60,6 +59,7 @@ public class NewtonRootAppViewModel  {
     }
     public void setLeftPoint(final String value) {
         leftPoint.set(value);
+        logger.appendMessage(LogMessages.getLeftPointChangeMessage(value));
     }
 
     public StringProperty rightPointProperty()  {
@@ -70,6 +70,7 @@ public class NewtonRootAppViewModel  {
     }
     public void setRightPoint(final String value) {
         rightPoint.set(value);
+        logger.appendMessage(LogMessages.getRightPointChangeMessage(value));
     }
 
     public StringProperty derivativeStepProperty()  {
@@ -80,6 +81,7 @@ public class NewtonRootAppViewModel  {
     }
     public void setDerivativeStep(final String value) {
         derivativeStep.set(value);
+        logger.appendMessage(LogMessages.getDerivativeStepChangeMessage(value));
     }
 
     public StringProperty accuracyProperty()  {
@@ -90,6 +92,7 @@ public class NewtonRootAppViewModel  {
     }
     public void setAccuracy(final String value) {
         accuracy.set(value);
+        logger.appendMessage(LogMessages.getAccuracyChangeMessage(value));
     }
 
     public StringProperty functionProperty()  {
@@ -100,6 +103,7 @@ public class NewtonRootAppViewModel  {
     }
     public void setFunction(final String value) {
         function.set(value);
+        logger.appendMessage(LogMessages.getFunctionExpressionChangeMessage(value));
     }
 
     public BooleanProperty findRootButtonDisableProperty()  {
@@ -140,6 +144,7 @@ public class NewtonRootAppViewModel  {
     }
     public void setStartPoint(final String value) {
         startPoint.set(value);
+        logger.appendMessage(LogMessages.getStartPointChangeMessage(value));
     }
 
 
@@ -245,6 +250,10 @@ public class NewtonRootAppViewModel  {
         return ApplicationStatus.READY;
     }
 
+    public List<String> getLog() {
+        return logger.getLog();
+    }
+
     private class ValueChangeListener implements ChangeListener<String> {
         @Override
         public void changed(final ObservableValue<? extends String> observable,
@@ -280,6 +289,42 @@ public class NewtonRootAppViewModel  {
             }
         } catch (Exception e)  {
             applicationStatus.set(ApplicationStatus.FAILED.toString());
+        }
+    }
+
+    static final class LogMessages {
+        static final String LEFT_END_TEXT = "Left segment end changed to ";
+        static final String RIGHT_END_TEXT = "Right segment end changed to ";
+        static final String DERIVATIVE_STEP_TEXT = "Derivative step changed to ";
+        static final String ACCURACY_TEXT = "Accuracy changed to ";
+        static final String FUNCTION_EXPR_TEXT = "Function expression changed to ";
+        static final String START_POINT_TEXT = "Start point changed to ";
+
+        private LogMessages() {
+        }
+
+        static String getLeftPointChangeMessage(String value) {
+            return String.format("%s%s", LEFT_END_TEXT, value);
+        }
+
+        static String getRightPointChangeMessage(String value) {
+            return String.format("%s%s", RIGHT_END_TEXT, value);
+        }
+
+        static String getDerivativeStepChangeMessage(String value) {
+            return String.format("%s%s", DERIVATIVE_STEP_TEXT, value);
+        }
+
+        static String getAccuracyChangeMessage(String value) {
+            return String.format("%s%s", ACCURACY_TEXT, value);
+        }
+
+        static String getFunctionExpressionChangeMessage(String value) {
+            return String.format("%s%s", FUNCTION_EXPR_TEXT, value);
+        }
+
+        static String getStartPointChangeMessage(String value) {
+            return String.format("%s%s", START_POINT_TEXT, value);
         }
     }
 }
