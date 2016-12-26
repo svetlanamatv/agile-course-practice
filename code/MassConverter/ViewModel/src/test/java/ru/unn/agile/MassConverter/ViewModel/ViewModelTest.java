@@ -2,7 +2,6 @@ package ru.unn.agile.MassConverter.ViewModel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,7 +9,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static ru.unn.agile.MassConverter.Model.MassConverter.*;
 import static ru.unn.agile.MassConverter.ViewModel.ViewModel.Status.*;
 
@@ -27,11 +25,6 @@ public class ViewModelTest {
         viewModel = new ViewModel(logger);
     }
 
-    @After
-    public void finish() {
-        viewModel = null;
-    }
-
     @Test
     public void viewModelConstructorThrowsExceptionWhenLoggerIsNull() {
         try {
@@ -44,11 +37,7 @@ public class ViewModelTest {
 
     @Test
     public void canCreateViewModelWithoutLogger() {
-        try {
-            ViewModel viewModel = new ViewModel();
-        } catch (Exception ex) {
-            fail(ex.getMessage());
-        }
+        ViewModel viewModel = new ViewModel();
     }
 
     @Test
@@ -303,35 +292,20 @@ public class ViewModelTest {
 
     @Test
     public void setInputValueMustSuccesedWhenViewModelWithoutLogger() {
-        try {
-            ViewModel empVieModel = new ViewModel();
-
-            empVieModel.setInput("23");
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+        ViewModel empVieModel = new ViewModel();
+        empVieModel.setInput("23");
     }
 
     @Test
     public void setFirstSystemMustSuccesedWhenViewModelWithoutLogger() {
-        try {
-            ViewModel empVieModel = new ViewModel();
-
-            empVieModel.setSystemFromConvertProperty(ConversionSystem.CENTNER);
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+        ViewModel empVieModel = new ViewModel();
+        empVieModel.setSystemFromConvertProperty(ConversionSystem.CENTNER);
     }
 
     @Test
     public void viewModelWithoutLoggerMustSuccesedSetSecondSystem() {
-        try {
-            ViewModel empVieModel = new ViewModel();
-
-            empVieModel.setSystemToConvertProperty(ConversionSystem.KILOGRAM);
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+        ViewModel empVieModel = new ViewModel();
+        empVieModel.setSystemToConvertProperty(ConversionSystem.KILOGRAM);
     }
 
     @Test

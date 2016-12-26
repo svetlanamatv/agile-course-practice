@@ -1,17 +1,13 @@
 package ru.unn.agile.MassConverter.infrastructure;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.List;
-
-import static junit.framework.TestCase.assertNotNull;
 
 public class TxtLoggerTests {
     private static final String FILENAME = "./TxtLoggerTests.log";
@@ -22,18 +18,9 @@ public class TxtLoggerTests {
         txtLogger = new TxtLogger(FILENAME);
     }
 
-    @Test
-    public void canCreateLoggerWithFileName() {
-        assertNotNull(txtLogger);
-    }
-
-    @Test
-    public void canCreateLogFile() {
-        try {
-            new BufferedReader(new FileReader(FILENAME));
-        } catch (FileNotFoundException e) {
-            fail("File " + FILENAME + " wasn't found!");
-        }
+    @After
+    public void deleteLog() {
+        new File(FILENAME).delete();
     }
 
     @Test

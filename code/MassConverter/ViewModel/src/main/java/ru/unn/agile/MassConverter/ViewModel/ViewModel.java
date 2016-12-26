@@ -44,7 +44,7 @@ public class ViewModel {
         }
     }
 
-    enum NumberOfSistem {
+    enum NumberOfSystem {
         FirstSystem,
         SecondSystem
     }
@@ -115,7 +115,7 @@ public class ViewModel {
             return;
         }
 
-        logger.log(changeLogMessage(NumberOfSistem.SecondSystem));
+        logger.log(changeLogMessage(NumberOfSystem.SecondSystem));
         updateListMessages();
     }
 
@@ -124,7 +124,7 @@ public class ViewModel {
             return;
         }
 
-        logger.log(changeLogMessage(NumberOfSistem.FirstSystem));
+        logger.log(changeLogMessage(NumberOfSystem.FirstSystem));
         updateListMessages();
     }
 
@@ -145,10 +145,10 @@ public class ViewModel {
         return messageLog;
     }
 
-    private String changeLogMessage(final NumberOfSistem numberOfSystem) {
+    private String changeLogMessage(final NumberOfSystem numberOfSystem) {
         String messageLog;
 
-        if (numberOfSystem == NumberOfSistem.FirstSystem) {
+        if (numberOfSystem == NumberOfSystem.FirstSystem) {
             messageLog = FIRST_SYSTEM_WAS_CHANGED + systemFromConvert.get();
         } else {
             messageLog = SECOND_SYSTEM_WAS_CHANGED + systemToConvert.get();
