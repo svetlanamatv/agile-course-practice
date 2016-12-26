@@ -28,7 +28,7 @@ public class TodoAppViewModelLoggingTest {
 
     @Test
     public void setNewTaskDescriptionMentionedInTheLog()  {
-        viewModel.setNewTaskDescription("just a task");
+        viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
         viewModel.onNewTaskDescriptionChanged(Boolean.TRUE, Boolean.FALSE);
         String lastLogMessage = viewModel.getLastLogMessage();
 
@@ -42,5 +42,33 @@ public class TodoAppViewModelLoggingTest {
         String lastLogMessage = viewModel.getLastLogMessage();
 
         assertTrue(lastLogMessage.matches(".*"+ TODAY.toString() +".*"));
+    }
+
+    @Test
+    public void logTheSameChangesOnlyOnce()  {
+        viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
+        viewModel.onNewTaskDescriptionChanged(Boolean.TRUE, Boolean.FALSE);
+        viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
+        viewModel.onNewTaskDescriptionChanged(Boolean.TRUE, Boolean.FALSE);
+
+        assertEquals(1, viewModel.getLog().size());
+    }
+
+    @Test
+    public void addNewTaskEventIsMentionedInTheLog()  {
+        viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
+        viewModel.pressAddNewTaskButton();
+        String lastLogMessage = viewModel.getLastLogMessage();
+        assertTrue(lastLogMessage.matches("Pressed new task button"));
+    }
+
+    @Test
+    public void taskDoneEventIsLogged()  {
+        viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
+        viewModel.pressAddNewTaskButton();
+        viewModel.getSortedTasksViewModels().get(0).clickIsDoneCheckBox();
+
+        String lastLogMessage = viewModel.getLastLogMessage();
+        assertTrue(lastLogMessage.matches("Task is done: " + TEST_TASK_DESCRIPTION));
     }
 }
