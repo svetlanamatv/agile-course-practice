@@ -24,7 +24,7 @@ public class NewtonRootAppViewModel  {
             new SimpleStringProperty(ApplicationStatus.WAITING.toString());
     private final StringProperty startPoint = new SimpleStringProperty("");
 
-    private final ObjectProperty<ObservableList<StoppingCriterion>> stopCriterions =
+    private final ObjectProperty<ObservableList<StoppingCriterion>> stopCriteria =
             new SimpleObjectProperty<>(
                     FXCollections.observableArrayList(StoppingCriterion.values()));
     private final ObjectProperty<StoppingCriterion> stopCriterion =
@@ -148,11 +148,11 @@ public class NewtonRootAppViewModel  {
     }
 
 
-    public ObjectProperty<ObservableList<StoppingCriterion>> stopCriterionsProperty() {
-        return stopCriterions;
+    public ObjectProperty<ObservableList<StoppingCriterion>> stopCriteriaProperty() {
+        return stopCriteria;
     }
-    public final ObservableList<StoppingCriterion> getStopCriterions() {
-        return stopCriterions.get();
+    public final ObservableList<StoppingCriterion> getStopCriteria() {
+        return stopCriteria.get();
     }
     public ObjectProperty<StoppingCriterion> stopCriterionProperty() {
         return stopCriterion;

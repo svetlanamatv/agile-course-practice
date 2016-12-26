@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FakeLogger implements Logger {
-    private ArrayList<String> messageList = new ArrayList<>();
+    private final ArrayList<String> messageList = new ArrayList<>();
 
     @Override
     public List<String> getLog() {
