@@ -36,8 +36,11 @@ public class TodoAppViewModel {
         addNewTaskButtonDisable.bind(newTaskDescription.isEmpty());
     }
 
-    private static TaskViewModel wrapTaskInListCellViewModel(final Task task) {
-        return new TaskViewModel(task);
+    private TaskViewModel wrapTaskInListCellViewModel(final Task task) {
+        if (logger == null) {
+            return new TaskViewModel(task);
+        }
+        return new TaskViewModel(task, logger);
     }
 
     public ObjectProperty<LocalDate> newTaskDueDateProperty() {
@@ -86,12 +89,16 @@ public class TodoAppViewModel {
         tasksViewModels.add(wrapTaskInListCellViewModel(newTask));
 
         newTaskDescription.set("");
+        newTaskDescription.addListener((observable, oldValue, newValue) ->
+                        onNewTaskDescriptionChanged(Boolean.TRUE, oldValue.equals(newValue)));
         newTaskDueDate.set(LocalDate.now());
+        logger.addToLog("Pressed new task button");
     }
 
     public void pressDeleteButton(final TaskViewModel taskViewModel) {
         tasks.remove(taskViewModel.getTask());
         tasksViewModels.remove(taskViewModel);
+        logger.addToLog("Task deleted: " + taskViewModel.getTask().getDescription());
     }
 
     public List<String> getLog()  {
@@ -103,7 +110,7 @@ public class TodoAppViewModel {
     }
 
     public void onNewTaskDescriptionChanged(final Boolean oldValue, final Boolean newValue)  {
-        if (!oldValue && newValue) {
+        if (oldValue == newValue) {
             return;
         }
         logger.addToLog("New task description changed to " + getNewTaskDescription());

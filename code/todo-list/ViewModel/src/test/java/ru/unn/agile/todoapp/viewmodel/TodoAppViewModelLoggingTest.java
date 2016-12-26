@@ -66,7 +66,8 @@ public class TodoAppViewModelLoggingTest {
     public void taskDoneEventIsLogged()  {
         viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
         viewModel.pressAddNewTaskButton();
-        viewModel.getSortedTasksViewModels().get(0).clickIsDoneCheckBox();
+        viewModel.getTasksViewModels().get(0).clickIsDoneCheckBox();
+        assertTrue(viewModel.getTasksViewModels().get(0).getDoneCheckboxChecked());
 
         String lastLogMessage = viewModel.getLastLogMessage();
         assertTrue(lastLogMessage.matches("Task is done: " + TEST_TASK_DESCRIPTION));

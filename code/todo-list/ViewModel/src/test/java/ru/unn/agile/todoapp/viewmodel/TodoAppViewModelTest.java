@@ -22,7 +22,7 @@ public class TodoAppViewModelTest {
 
     @Before
     public void setUp() {
-        viewModel = new TodoAppViewModel();
+        viewModel = new TodoAppViewModel(new TestLogger());
     }
 
     @Test

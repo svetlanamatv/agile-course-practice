@@ -18,6 +18,6 @@ public class TestLogger implements ILogger {
 
     @Override
     public String getLastLogMessage()  {
-        return log.get(0);
+        return log.get(log.size() - 1);
     }
 }
