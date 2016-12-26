@@ -11,8 +11,8 @@ import ru.unn.agile.NewtonRoots.Model.NewtonMethod.StoppingCriterion;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class NewtonRootAppViewModel  {
     private final StringProperty leftPoint = new SimpleStringProperty("");
@@ -32,25 +32,28 @@ public class NewtonRootAppViewModel  {
     private final ObjectProperty<StoppingCriterion> stopCriterion =
             new SimpleObjectProperty<>(StoppingCriterion.FunctionModule);
 
-    private final List<ValueChangeListener> valueChangedListeners = new ArrayList<>();
-
     private final Logger logger;
 
     public NewtonRootAppViewModel(Logger logger) {
-        final List<StringProperty> fields = new ArrayList<StringProperty>() { {
-            add(leftPoint);
-            add(rightPoint);
-            add(derivativeStep);
-            add(accuracy);
-            add(function);
-            add(startPoint);
-        } };
+        leftPoint.addListener(
+                new StringValueChangeListener(LogMessages::getLeftPointChangeMessage));
+        rightPoint.addListener(
+                new StringValueChangeListener(LogMessages::getRightPointChangeMessage));
+        derivativeStep.addListener(
+                new StringValueChangeListener(LogMessages::getDerivativeStepChangeMessage));
+        accuracy.addListener(
+                new StringValueChangeListener(LogMessages::getAccuracyChangeMessage));
+        function.addListener(
+                new StringValueChangeListener(LogMessages::getFunctionExpressionChangeMessage));
+        startPoint.addListener(
+                new StringValueChangeListener(LogMessages::getStartPointChangeMessage));
 
-        for (StringProperty field : fields) {
-            final ValueChangeListener listener = new ValueChangeListener();
-            field.addListener(listener);
-            valueChangedListeners.add(listener);
-        }
+        stopCriterion.addListener((observable, oldValue, newValue) ->  {
+                if (!oldValue.equals(newValue)) {
+                    logger.appendMessage(LogMessages.getStopCriterionChangeMessage(newValue));
+                }
+        });
+
         this.logger = logger;
     }
 
@@ -66,7 +69,6 @@ public class NewtonRootAppViewModel  {
     }
     public void setLeftPoint(final String value) {
         leftPoint.set(value);
-        logger.appendMessage(LogMessages.getLeftPointChangeMessage(value));
     }
 
     public StringProperty rightPointProperty()  {
@@ -77,7 +79,6 @@ public class NewtonRootAppViewModel  {
     }
     public void setRightPoint(final String value) {
         rightPoint.set(value);
-        logger.appendMessage(LogMessages.getRightPointChangeMessage(value));
     }
 
     public StringProperty derivativeStepProperty()  {
@@ -88,7 +89,6 @@ public class NewtonRootAppViewModel  {
     }
     public void setDerivativeStep(final String value) {
         derivativeStep.set(value);
-        logger.appendMessage(LogMessages.getDerivativeStepChangeMessage(value));
     }
 
     public StringProperty accuracyProperty()  {
@@ -99,7 +99,6 @@ public class NewtonRootAppViewModel  {
     }
     public void setAccuracy(final String value) {
         accuracy.set(value);
-        logger.appendMessage(LogMessages.getAccuracyChangeMessage(value));
     }
 
     public StringProperty functionProperty()  {
@@ -110,7 +109,6 @@ public class NewtonRootAppViewModel  {
     }
     public void setFunction(final String value) {
         function.set(value);
-        logger.appendMessage(LogMessages.getFunctionExpressionChangeMessage(value));
     }
 
     public BooleanProperty findRootButtonDisableProperty()  {
@@ -151,7 +149,6 @@ public class NewtonRootAppViewModel  {
     }
     public void setStartPoint(final String value) {
         startPoint.set(value);
-        logger.appendMessage(LogMessages.getStartPointChangeMessage(value));
     }
 
 
@@ -169,7 +166,6 @@ public class NewtonRootAppViewModel  {
     }
     public void setStopCriterion(final StoppingCriterion value) {
         stopCriterion.set(value);
-        logger.appendMessage(LogMessages.getStopCriterionChangeMessage(value));
     }
 
     private boolean checkInputFormat()  {
@@ -252,14 +248,22 @@ public class NewtonRootAppViewModel  {
         return logger.getLastMessage();
     }
 
-    private class ValueChangeListener implements ChangeListener<String> {
+    private class StringValueChangeListener implements ChangeListener<String> {
+        private final Function<String, String> logMessageProducer;
+
+        StringValueChangeListener(final Function<String, String> logMessageProducer) {
+            this.logMessageProducer = logMessageProducer;
+        }
+
         @Override
         public void changed(final ObservableValue<? extends String> observable,
                             final String oldValue, final String newValue) {
-            applicationStatus.set(checkInput().toString());
             ApplicationStatus status = checkInput();
             applicationStatus.set(status.toString());
             findRootButtonDisable.set(status != ApplicationStatus.READY);
+            if (!newValue.equals(oldValue)) {
+                logger.appendMessage(logMessageProducer.apply(newValue));
+            }
         }
     }
 

@@ -36,6 +36,16 @@ public class NewtonRootAppLoggingTests {
     }
 
     @Test
+    public void changeOfLeftSegmentThroughPropertyIsLogged() {
+        viewModel.leftPointProperty().set("-2.0");
+
+        String lastMessage = viewModel.getLastLogMessage();
+        String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
+                LogMessages.LEFT_END_TEXT, viewModel.getLeftPoint());
+        assertThat(lastMessage, matchesPattern(expectedPattern));
+    }
+
+    @Test
     public void changeOfRightSegmentPointIsLogged() {
         viewModel.setRightPoint("1.0");
 
