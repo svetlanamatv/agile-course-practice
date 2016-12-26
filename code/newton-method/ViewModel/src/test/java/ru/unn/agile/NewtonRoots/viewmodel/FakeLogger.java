@@ -7,8 +7,17 @@ public class FakeLogger implements Logger {
     private final ArrayList<String> messageList = new ArrayList<>();
 
     @Override
-    public List<String> getLog() {
+    public List<String> getMessageList() {
         return messageList;
+    }
+
+    @Override
+    public String getLastMessage() {
+        if (messageList.isEmpty()) {
+            return null;
+        }
+
+        return messageList.get(messageList.size() - 1);
     }
 
     @Override

@@ -255,7 +255,11 @@ public class NewtonRootAppViewModel  {
     }
 
     public List<String> getLog() {
-        return logger.getLog();
+        return logger.getMessageList();
+    }
+
+    public String getLastLogMessage() {
+        return logger.getLastMessage();
     }
 
     private class ValueChangeListener implements ChangeListener<String> {
@@ -290,9 +294,32 @@ public class NewtonRootAppViewModel  {
                 + "\nIterations performed: " + Integer.toString(method.getIterationsCounter())
                 + "\nReached accuracy: " + Double.toString(method.getFinalAccuracy()));
                 applicationStatus.set(ApplicationStatus.SUCCESS.toString());
+
+                logger.appendMessage(LogMessages.getSuccessfulRunMessage(
+                        getLeftPoint(),
+                        getRightPoint(),
+                        getDerivativeStep(),
+                        getAccuracy(),
+                        getFunction(),
+                        getStartPoint(),
+                        getStopCriterion(),
+                        root,
+                        method.getFinalAccuracy(),
+                        method.getIterationsCounter()
+                ));
             }
         } catch (Exception e)  {
             applicationStatus.set(ApplicationStatus.FAILED.toString());
+
+            logger.appendMessage(LogMessages.getFailedRunMessage(
+                    getLeftPoint(),
+                    getRightPoint(),
+                    getDerivativeStep(),
+                    getAccuracy(),
+                    getFunction(),
+                    getStartPoint(),
+                    getStopCriterion()
+            ));
         }
     }
 
@@ -304,6 +331,10 @@ public class NewtonRootAppViewModel  {
         static final String FUNCTION_EXPR_TEXT = "Function expression changed to ";
         static final String START_POINT_TEXT = "Start point changed to ";
         static final String STOP_CRITERION_TEXT = "Stop criterion changed to ";
+        static final String ROOT_SEARCH_TEXT = "Root search finished. Parameters: " +
+                "leftEnd: %s  rightEnd: %s  derivativeStep: %s  accuracy: %s  " +
+                "function: \"%s\"  startPoint: %s  stopCriterion: %s. ";
+
 
         private LogMessages() {
         }
@@ -334,6 +365,40 @@ public class NewtonRootAppViewModel  {
 
         static String getStopCriterionChangeMessage(StoppingCriterion value) {
             return String.format("%s%s", STOP_CRITERION_TEXT, value);
+        }
+
+        static String getSuccessfulRunMessage(
+                String leftPoint,
+                String rightPoint,
+                String derivativeStep,
+                String accuracy,
+                String function,
+                String startPoint,
+                StoppingCriterion stopCriterion,
+                double root,
+                double finalAccuracy,
+                int iterationsCounter) {
+
+            return String.format(ROOT_SEARCH_TEXT,
+                    leftPoint, rightPoint, derivativeStep, accuracy,
+                    function, startPoint, stopCriterion,
+                    root, finalAccuracy, iterationsCounter) +
+                    String.format("Root was found. Results: x=%f  accuracy=%f  iterations=%d",
+                            root, finalAccuracy, iterationsCounter);
+        }
+
+        public static String getFailedRunMessage(
+                String leftPoint,
+                String rightPoint,
+                String derivativeStep,
+                String accuracy,
+                String function,
+                String startPoint,
+                StoppingCriterion stopCriterion) {
+            return String.format(ROOT_SEARCH_TEXT,
+                    leftPoint, rightPoint, derivativeStep, accuracy,
+                    function, startPoint, stopCriterion) +
+                    "Root wasn't found";
         }
     }
 }
