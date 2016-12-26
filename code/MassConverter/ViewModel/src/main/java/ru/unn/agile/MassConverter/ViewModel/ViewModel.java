@@ -105,7 +105,8 @@ public class ViewModel {
     }
 
     private void updateListMessages() {
-        listMessagesProperty.set(FXCollections.observableArrayList(getLog()));
+        List<String> listMessages = logger.getLog();
+        listMessagesProperty.set(FXCollections.observableArrayList(listMessages));
         lastLogMessage.set(logger.getLastMessage());
     }
 
@@ -197,10 +198,6 @@ public class ViewModel {
            || sumInputSize > MAX_LENGHT_OF_INPUT) {
             throw new NumberFormatException();
         }
-    }
-
-    public List<String> getLog() {
-        return logger.getLog();
     }
 
     public StringProperty inputProperty() {
