@@ -12,6 +12,7 @@ public class NewtonRootAppLoggingTests {
     private static String ROOT_SEARCH_PATTERN = "Root search finished. Parameters: " +
             "leftEnd: %s  rightEnd: %s  derivativeStep: %s  accuracy: %s  " +
             "function: \\Q\"%s\"\\E  startPoint: %s  stopCriterion: %s. ";
+    private static String TIMESTAMP_PATTERN = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}";
     private NewtonRootAppViewModel viewModel;
 
     @Before
@@ -29,7 +30,9 @@ public class NewtonRootAppLoggingTests {
         viewModel.setLeftPoint("-1.0");
 
         String lastMessage = viewModel.getLastLogMessage();
-        assertEquals(LogMessages.LEFT_END_TEXT + viewModel.getLeftPoint(), lastMessage);
+        String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
+                LogMessages.LEFT_END_TEXT, viewModel.getLeftPoint());
+        assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
     @Test
@@ -37,7 +40,9 @@ public class NewtonRootAppLoggingTests {
         viewModel.setRightPoint("1.0");
 
         String lastMessage = viewModel.getLastLogMessage();
-        assertEquals(LogMessages.RIGHT_END_TEXT + viewModel.getRightPoint(), lastMessage);
+        String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
+                LogMessages.RIGHT_END_TEXT, viewModel.getRightPoint());
+        assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
     @Test
@@ -45,7 +50,9 @@ public class NewtonRootAppLoggingTests {
         viewModel.setDerivativeStep("1e-4");
 
         String lastMessage = viewModel.getLastLogMessage();
-        assertEquals(LogMessages.DERIVATIVE_STEP_TEXT + viewModel.getDerivativeStep(), lastMessage);
+        String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
+                LogMessages.DERIVATIVE_STEP_TEXT, viewModel.getDerivativeStep());
+        assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
     @Test
@@ -53,7 +60,9 @@ public class NewtonRootAppLoggingTests {
         viewModel.setAccuracy("1e-8");
 
         String lastMessage = viewModel.getLastLogMessage();
-        assertEquals(LogMessages.ACCURACY_TEXT + viewModel.getAccuracy(), lastMessage);
+        String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
+                LogMessages.ACCURACY_TEXT, viewModel.getAccuracy());
+        assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
     @Test
@@ -61,7 +70,9 @@ public class NewtonRootAppLoggingTests {
         viewModel.setFunction("e^(x^2) - 0.5");
 
         String lastMessage = viewModel.getLastLogMessage();
-        assertEquals(LogMessages.FUNCTION_EXPR_TEXT + viewModel.getFunction(), lastMessage);
+        String expectedPattern = String.format("%s %s\\Q%s\\E", TIMESTAMP_PATTERN,
+                LogMessages.FUNCTION_EXPR_TEXT, viewModel.getFunction());
+        assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
     @Test
@@ -69,7 +80,9 @@ public class NewtonRootAppLoggingTests {
         viewModel.setStartPoint("0.1");
 
         String lastMessage = viewModel.getLastLogMessage();
-        assertEquals(LogMessages.START_POINT_TEXT + viewModel.getStartPoint(), lastMessage);
+        String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
+                LogMessages.START_POINT_TEXT, viewModel.getStartPoint());
+        assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
     @Test
@@ -77,7 +90,9 @@ public class NewtonRootAppLoggingTests {
         viewModel.setStopCriterion(StoppingCriterion.DifferenceBetweenApproximates);
 
         String lastMessage = viewModel.getLastLogMessage();
-        assertEquals(LogMessages.STOP_CRITERION_TEXT + viewModel.getStopCriterion(), lastMessage);
+        String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
+                LogMessages.STOP_CRITERION_TEXT, viewModel.getStopCriterion());
+        assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
     @Test
@@ -92,7 +107,8 @@ public class NewtonRootAppLoggingTests {
         viewModel.findRoot();
 
         String lastMessage = viewModel.getLastLogMessage();
-        String expectedPattern = String.format(ROOT_SEARCH_PATTERN,
+        String expectedPattern = String.format(
+                TIMESTAMP_PATTERN + " " + ROOT_SEARCH_PATTERN,
                 viewModel.getLeftPoint(),
                 viewModel.getRightPoint(),
                 viewModel.getDerivativeStep(),
@@ -116,7 +132,8 @@ public class NewtonRootAppLoggingTests {
         viewModel.findRoot();
 
         String lastMessage = viewModel.getLastLogMessage();
-        String expectedPattern = String.format(ROOT_SEARCH_PATTERN,
+        String expectedPattern = String.format(
+                TIMESTAMP_PATTERN + " " + ROOT_SEARCH_PATTERN,
                 viewModel.getLeftPoint(),
                 viewModel.getRightPoint(),
                 viewModel.getDerivativeStep(),
