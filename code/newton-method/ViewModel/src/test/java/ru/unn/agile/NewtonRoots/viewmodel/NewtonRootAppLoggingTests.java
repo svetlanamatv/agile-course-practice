@@ -6,6 +6,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import ru.unn.agile.NewtonRoots.Model.NewtonMethod.StoppingCriterion;
 import ru.unn.agile.NewtonRoots.viewmodel.NewtonRootAppViewModel.LogMessages;
 
 public class NewtonRootAppLoggingTests {
@@ -76,5 +77,13 @@ public class NewtonRootAppLoggingTests {
 
         String lastMessage = viewModel.getLog().get(0);
         assertEquals(lastMessage, LogMessages.START_POINT_TEXT + viewModel.getStartPoint());
+    }
+
+    @Test
+    public void changeOfStopCriterionIsLogged() {
+        viewModel.setStopCriterion(StoppingCriterion.DifferenceBetweenApproximates);
+
+        String lastMessage = viewModel.getLog().get(0);
+        assertEquals(lastMessage, LogMessages.STOP_CRITERION_TEXT + viewModel.getStopCriterion());
     }
 }

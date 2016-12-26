@@ -157,8 +157,12 @@ public class NewtonRootAppViewModel  {
     public ObjectProperty<StoppingCriterion> stopCriterionProperty() {
         return stopCriterion;
     }
+    public StoppingCriterion getStopCriterion() {
+        return stopCriterion.get();
+    }
     public void setStopCriterion(final StoppingCriterion value) {
         stopCriterion.set(value);
+        logger.appendMessage(LogMessages.getStopCriterionChangeMessage(value));
     }
 
     private void init() {
@@ -299,6 +303,7 @@ public class NewtonRootAppViewModel  {
         static final String ACCURACY_TEXT = "Accuracy changed to ";
         static final String FUNCTION_EXPR_TEXT = "Function expression changed to ";
         static final String START_POINT_TEXT = "Start point changed to ";
+        static final String STOP_CRITERION_TEXT = "Stop criterion changed to ";
 
         private LogMessages() {
         }
@@ -325,6 +330,10 @@ public class NewtonRootAppViewModel  {
 
         static String getStartPointChangeMessage(String value) {
             return String.format("%s%s", START_POINT_TEXT, value);
+        }
+
+        static String getStopCriterionChangeMessage(StoppingCriterion value) {
+            return String.format("%s%s", STOP_CRITERION_TEXT, value);
         }
     }
 }
