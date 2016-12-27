@@ -147,12 +147,14 @@ include "code/triangle/ViewModel"
 project(":code/triangle/ViewModel").name = "triangle-ViewModel"
 
 // Кукушкин Даниил
+include "code/newton-method/Infrastructure"
+project(":code/newton-method/Infrastructure").name = "newton-method-Infrastructure"
 include "code/newton-method/Model"
 project(":code/newton-method/Model").name = "newton-method-Model"
 include "code/newton-method/View"
 project(":code/newton-method/View").name = "newton-method-View"
 include "code/newton-method/ViewModel"
-project(":code/newton-method/ViewModel").name = "newton-method-viewmodel"
+project(":code/newton-method/ViewModel").name = "newton-method-ViewModel"
 
 // Ларин Антон
 include  "code/personal-finance/Model"
