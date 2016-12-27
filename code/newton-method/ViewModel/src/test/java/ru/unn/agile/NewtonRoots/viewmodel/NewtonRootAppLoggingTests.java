@@ -13,7 +13,7 @@ public class NewtonRootAppLoggingTests {
             "leftEnd: %s  rightEnd: %s  derivativeStep: %s  accuracy: %s  " +
             "function: \\Q\"%s\"\\E  startPoint: %s  stopCriterion: %s. ";
     private static String TIMESTAMP_PATTERN = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}";
-    private NewtonRootAppViewModel viewModel;
+    protected NewtonRootAppViewModel viewModel;
 
     @Before
     public void setUp() {
