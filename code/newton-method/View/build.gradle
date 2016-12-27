@@ -2,6 +2,7 @@ apply from:   rootDir.getAbsolutePath() + '/code/config/scripts/javafx.plugin'
 
 dependencies {
     compile project(':newton-method-ViewModel')
+    compile project(':newton-method-Infrastructure')
 }
 
 sourceSets {
