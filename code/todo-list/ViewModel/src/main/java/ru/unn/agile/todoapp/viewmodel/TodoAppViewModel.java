@@ -92,13 +92,13 @@ public class TodoAppViewModel {
         newTaskDescription.addListener((observable, oldValue, newValue) ->
                         onNewTaskDescriptionChanged(Boolean.TRUE, oldValue.equals(newValue)));
         newTaskDueDate.set(LocalDate.now());
-        logger.addToLog("Pressed new task button");
+        logger.addToLog(LogMessages.NEW_TASK_PRESSED);
     }
 
     public void pressDeleteButton(final TaskViewModel taskViewModel) {
         tasks.remove(taskViewModel.getTask());
         tasksViewModels.remove(taskViewModel);
-        logger.addToLog("Task deleted: " + taskViewModel.getTask().getDescription());
+        logger.addToLog(LogMessages.TASK_DELETED + taskViewModel.getTask().getDescription());
     }
 
     public List<String> getLog()  {
@@ -113,13 +113,24 @@ public class TodoAppViewModel {
         if (oldValue == newValue) {
             return;
         }
-        logger.addToLog("New task description changed to " + getNewTaskDescription());
+        logger.addToLog(LogMessages.TASK_DESCRIPTION_CHANGED + getNewTaskDescription());
     }
 
     public void onTaskDueDateChanged(final Boolean oldValue, final Boolean newValue)  {
         if (!oldValue && newValue) {
             return;
         }
-        logger.addToLog("New task dua date changed to " + getNewTaskDueDate().toString());;
+        logger.addToLog(LogMessages.TASK_DUE_DATE_CHANGED + getNewTaskDueDate().toString());
     }
 }
+
+final class LogMessages {
+    public static final String NEW_TASK_PRESSED = "New task was pressed button.";
+    public static final String TASK_DESCRIPTION_CHANGED = "Operation was changed to ";
+    public static final String TASK_DUE_DATE_CHANGED = "New task dua date changed to ";
+    public static final String TASK_FINISHED = "Task is done: ";
+    public static final String TASK_DELETED = "Task deleted: ";
+
+    private LogMessages() { }
+}
+

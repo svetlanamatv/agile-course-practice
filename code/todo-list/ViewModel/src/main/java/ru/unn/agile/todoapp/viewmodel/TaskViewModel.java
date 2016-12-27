@@ -91,6 +91,6 @@ public class TaskViewModel {
         task.markAsDone();
         doneCheckboxChecked.set(true);
         doneCheckboxDisable.set(true);
-        logger.addToLog("Task is done: " + task.getDescription());
+        logger.addToLog(LogMessages.TASK_FINISHED + task.getDescription());
     }
 }
