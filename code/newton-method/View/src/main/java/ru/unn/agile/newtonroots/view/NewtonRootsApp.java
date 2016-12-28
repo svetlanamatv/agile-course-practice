@@ -19,8 +19,6 @@ public class NewtonRootsApp  {
     @FXML
     private TextField functionText;
     @FXML
-    private TextArea reportTextField;
-    @FXML
     private Button findRootButton;
     @FXML
     private TextField startPointText;
@@ -36,7 +34,6 @@ public class NewtonRootsApp  {
         derivativeStepText.textProperty().bindBidirectional(viewModel.derivativeStepProperty());
         accuracyText.textProperty().bindBidirectional(viewModel.accuracyProperty());
         functionText.textProperty().bindBidirectional(viewModel.functionProperty());
-        reportTextField.textProperty().bindBidirectional(viewModel.solverReportProperty());
         startPointText.textProperty().bindBidirectional(viewModel.startPointProperty());
 
         stopCriterionSelector.valueProperty().bindBidirectional(viewModel.stopCriterionProperty());

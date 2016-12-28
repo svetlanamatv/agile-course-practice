@@ -7,7 +7,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
 <?import ru.unn.agile.newtonroots.view.NewtonRootAppViewModelProvider?>
+
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="420.0" prefWidth="418.0" xmlns="http://javafx.com/javafx/8"
@@ -31,20 +34,31 @@
                   <Label layoutX="20.0" layoutY="124.0" text="Function:" />
                   <TextField fx:id="functionText" layoutX="132.0" layoutY="118.0" prefHeight="26.0" prefWidth="176.0" />
                   <Label layoutX="20.0" layoutY="152.0" text="Start point:" />
-                  <TextField fx:id="startPointText" layoutX="132.0" layoutY="147.0" prefHeight="26.0" prefWidth="88.0" />
+                  <TextField fx:id="startPointText" layoutX="132.0" layoutY="147.0"
+                             prefHeight="26.0" prefWidth="88.0" />
                   <Label layoutX="20.0" layoutY="182.0" text="Stop criterion:" />
                   <ChoiceBox fx:id="stopCriterionSelector"
                              items="${viewModelProvider.viewModel.stopCriteria}"
                              layoutX="132.0" layoutY="177.0" prefWidth="150.0" />
             </AnchorPane>
     </TitledPane>
-    <TitledPane collapsible="false" animated="false" layoutX="11.0" layoutY="301.0"
-                  prefHeight="106.0"
-                   prefWidth="404.0" text="Solver report">
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="402.0">
-                  <TextArea fx:id="reportTextField" editable="false" prefHeight="80.0" prefWidth="404.0" />
-          </AnchorPane>
-    </TitledPane>
-    <Label fx:id="statusLabel" layoutX="102.0" layoutY="270.0"
+    <TabPane tabClosingPolicy="UNAVAILABLE" layoutX="11.0" layoutY="301.0"
+             prefHeight="106.0"
+             prefWidth="404.0">
+        <Tab text="Solver report">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="402.0">
+                <TextArea id="reportTextArea" editable="false" prefHeight="80.0"
+                          prefWidth="404.0" text="${viewModelProvider.viewModel.solverReport}"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Log" >
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="77.0" prefWidth="402.0">
+                <TextArea id="logTextArea" editable="false" prefHeight="80.0"
+                          prefWidth="404.0" wrapText="true"
+                          text="${viewModelProvider.viewModel.logLines}" />
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+    <Label id="statusLabel" layoutX="102.0" layoutY="270.0"
            text="${viewModelProvider.viewModel.applicationStatus}" />
 </AnchorPane>

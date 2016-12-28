@@ -11,7 +11,6 @@ import ru.unn.agile.newtonroots.model.NewtonMethod.StoppingCriterion;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.function.Function;
 
 public class NewtonRootAppViewModel  {
@@ -32,6 +31,8 @@ public class NewtonRootAppViewModel  {
     private final ObjectProperty<StoppingCriterion> stopCriterion =
             new SimpleObjectProperty<>(StoppingCriterion.FunctionModule);
 
+    private final StringProperty logLines = new SimpleStringProperty("");
+
     private final Logger logger;
 
     public NewtonRootAppViewModel(Logger logger) {
@@ -50,15 +51,11 @@ public class NewtonRootAppViewModel  {
 
         stopCriterion.addListener((observable, oldValue, newValue) ->  {
                 if (!oldValue.equals(newValue)) {
-                    logger.appendMessage(LogMessages.getStopCriterionChangeMessage(newValue));
+                    logMessage(LogMessages.getStopCriterionChangeMessage(newValue));
                 }
         });
 
         this.logger = logger;
-    }
-
-    public Logger getLogger() {
-        return logger;
     }
 
     public StringProperty leftPointProperty()  {
@@ -168,6 +165,23 @@ public class NewtonRootAppViewModel  {
         stopCriterion.set(value);
     }
 
+
+    public StringProperty logLinesProperty() {
+        return logLines;
+    }
+
+    public String getLogLines() {
+        return logLines.get();
+    }
+
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public String getLastLogMessage() {
+        return logger.getLastMessage();
+    }
+
     private boolean checkInputFormat()  {
         try {
             Double.parseDouble(leftPoint.get());
@@ -240,14 +254,6 @@ public class NewtonRootAppViewModel  {
         return ApplicationStatus.READY;
     }
 
-    public List<String> getLog() {
-        return logger.getMessageList();
-    }
-
-    public String getLastLogMessage() {
-        return logger.getLastMessage();
-    }
-
     private class StringValueChangeListener implements ChangeListener<String> {
         private final Function<String, String> logMessageProducer;
 
@@ -262,7 +268,7 @@ public class NewtonRootAppViewModel  {
             applicationStatus.set(status.toString());
             findRootButtonDisable.set(status != ApplicationStatus.READY);
             if (!newValue.equals(oldValue)) {
-                logger.appendMessage(logMessageProducer.apply(newValue));
+                logMessage(logMessageProducer.apply(newValue));
             }
         }
     }
@@ -289,7 +295,7 @@ public class NewtonRootAppViewModel  {
                 + "\nReached accuracy: " + Double.toString(method.getFinalAccuracy()));
                 applicationStatus.set(ApplicationStatus.SUCCESS.toString());
 
-                logger.appendMessage(LogMessages.getSuccessfulRunMessage(
+                logMessage(LogMessages.getSuccessfulRunMessage(
                         getLeftPoint(),
                         getRightPoint(),
                         getDerivativeStep(),
@@ -305,7 +311,7 @@ public class NewtonRootAppViewModel  {
         } catch (Exception e)  {
             applicationStatus.set(ApplicationStatus.FAILED.toString());
 
-            logger.appendMessage(LogMessages.getFailedRunMessage(
+            logMessage(LogMessages.getFailedRunMessage(
                     getLeftPoint(),
                     getRightPoint(),
                     getDerivativeStep(),
@@ -315,6 +321,11 @@ public class NewtonRootAppViewModel  {
                     getStopCriterion()
             ));
         }
+    }
+
+    private void logMessage(String message) {
+        logger.appendMessage(message);
+        logLines.set(String.join("\n", logger.getMessageList()));
     }
 
     static final class LogMessages {
