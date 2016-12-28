@@ -14,6 +14,10 @@ public class TodoAppViewModelLoggingTest {
     private static final String TEST_TASK_DESCRIPTION = "Test task";
     private TodoAppViewModel viewModel;
 
+    public void setViewModel(TodoAppViewModel viewModel)  {
+        this.viewModel = viewModel;
+    }
+
     @Before
     public void setUp() {
         viewModel = new TodoAppViewModel(new TestLogger());
