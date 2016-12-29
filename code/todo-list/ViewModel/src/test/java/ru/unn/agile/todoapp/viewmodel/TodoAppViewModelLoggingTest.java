@@ -33,7 +33,7 @@ public class TodoAppViewModelLoggingTest {
     @Test
     public void setNewTaskDescriptionMentionedInTheLog()  {
         viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
-        viewModel.onNewTaskDescriptionChanged(Boolean.TRUE, Boolean.FALSE);
+        viewModel.onNewTaskDescriptionfocusChanged();
         String lastLogMessage = viewModel.getLastLogMessage();
 
         assertTrue(lastLogMessage.matches(".*" + viewModel.getNewTaskDescription() + ".*"));
@@ -46,16 +46,6 @@ public class TodoAppViewModelLoggingTest {
         String lastLogMessage = viewModel.getLastLogMessage();
 
         assertTrue(lastLogMessage.matches(".*" + TODAY.toString() + ".*"));
-    }
-
-    @Test
-    public void logTheSameChangesOnlyOnce()  {
-        viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
-        viewModel.onNewTaskDescriptionChanged(Boolean.TRUE, Boolean.FALSE);
-        viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
-        viewModel.onNewTaskDescriptionChanged(Boolean.TRUE, Boolean.FALSE);
-
-        assertEquals(1, viewModel.getLog().size());
     }
 
     @Test

@@ -100,8 +100,6 @@ public class TodoAppViewModel {
         tasksViewModels.add(wrapTaskInListCellViewModel(newTask));
 
         newTaskDescription.set("");
-        newTaskDescription.addListener((observable, oldValue, newValue) ->
-                        onNewTaskDescriptionChanged(Boolean.TRUE, oldValue.equals(newValue)));
         newTaskDueDate.set(LocalDate.now());
         logger.addToLog(LogMessages.NEW_TASK_PRESSED);
     }
@@ -120,10 +118,7 @@ public class TodoAppViewModel {
         return logger.getLastLogMessage();
     }
 
-    public void onNewTaskDescriptionChanged(final Boolean oldValue, final Boolean newValue)  {
-        if (!oldValue && newValue) {
-            return;
-        }
+    public void onNewTaskDescriptionfocusChanged()  {
         logger.addToLog(LogMessages.TASK_DESCRIPTION_CHANGED + getNewTaskDescription());
     }
 
