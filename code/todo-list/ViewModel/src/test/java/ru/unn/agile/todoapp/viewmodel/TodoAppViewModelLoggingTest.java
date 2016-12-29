@@ -14,7 +14,7 @@ public class TodoAppViewModelLoggingTest {
     private static final String TEST_TASK_DESCRIPTION = "Test task";
     private TodoAppViewModel viewModel;
 
-    public void setViewModel(TodoAppViewModel viewModel)  {
+    public void setViewModel(final TodoAppViewModel viewModel)  {
         this.viewModel = viewModel;
     }
 
@@ -42,10 +42,10 @@ public class TodoAppViewModelLoggingTest {
     @Test
     public void setNewTaskDueDateMentionedInTheLog()  {
         viewModel.setNewTaskDueDate(TODAY);
-        viewModel.onTaskDueDateChanged(Boolean.TRUE, Boolean.FALSE);
+        viewModel.onTaskDueDateChanged(TODAY, LocalDate.ofYearDay(2, 2));
         String lastLogMessage = viewModel.getLastLogMessage();
 
-        assertTrue(lastLogMessage.matches(".*"+ TODAY.toString() +".*"));
+        assertTrue(lastLogMessage.matches(".*" + TODAY.toString() + ".*"));
     }
 
     @Test
@@ -71,10 +71,29 @@ public class TodoAppViewModelLoggingTest {
         viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
         viewModel.pressAddNewTaskButton();
         viewModel.getTasksViewModels().get(0).clickIsDoneCheckBox();
-        assertTrue(viewModel.getTasksViewModels().get(0).getDoneCheckboxChecked());
 
         String lastLogMessage = viewModel.getLastLogMessage();
-        assertTrue(lastLogMessage.matches(".*" +
-                LogMessages.TASK_FINISHED + TEST_TASK_DESCRIPTION));
+        assertTrue(lastLogMessage.matches(".*"
+                + LogMessages.TASK_FINISHED + TEST_TASK_DESCRIPTION));
+    }
+
+    @Test
+    public void taskDeleteEventIsLogged()  {
+        viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
+        viewModel.pressAddNewTaskButton();
+        viewModel.pressDeleteButton(viewModel.getTasksViewModels().get(0));
+
+        String lastLogMessage = viewModel.getLastLogMessage();
+        assertTrue(lastLogMessage.matches(".*"
+                + LogMessages.TASK_DELETED + TEST_TASK_DESCRIPTION));
+    }
+
+    @Test
+    public void logsStringPropertyUpdatedViaCallback()  {
+        viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
+        viewModel.pressAddNewTaskButton();
+
+        String logsString = viewModel.getLogsString();
+        assertTrue(logsString.matches(".*" + LogMessages.NEW_TASK_PRESSED + "\n.*"));
     }
 }

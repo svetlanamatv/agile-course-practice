@@ -38,7 +38,7 @@ public class TodoAppViewModel {
         return new TaskViewModel(task, logger);
     }
 
-    public void setLogger(ILogger logger)  {
+    public void setLogger(final ILogger logger)  {
         if (logger == null) {
             throw new RuntimeException("Logger parameter can't be null");
         }
@@ -121,14 +121,14 @@ public class TodoAppViewModel {
     }
 
     public void onNewTaskDescriptionChanged(final Boolean oldValue, final Boolean newValue)  {
-        if (oldValue == newValue) {
+        if (!oldValue && newValue) {
             return;
         }
         logger.addToLog(LogMessages.TASK_DESCRIPTION_CHANGED + getNewTaskDescription());
     }
 
-    public void onTaskDueDateChanged(final Boolean oldValue, final Boolean newValue)  {
-        if (!oldValue && newValue) {
+    public void onTaskDueDateChanged(final LocalDate oldValue, final LocalDate newValue)  {
+        if (oldValue == null || oldValue.equals(newValue)) {
             return;
         }
         logger.addToLog(LogMessages.TASK_DUE_DATE_CHANGED + getNewTaskDueDate().toString());
@@ -138,7 +138,7 @@ public class TodoAppViewModel {
         List<String> log = logger.getLog();
         String newLogString = new String();
         ListIterator<String> logIterator = log.listIterator(log.size());
-        while(logIterator.hasPrevious()) {
+        while (logIterator.hasPrevious()) {
             newLogString += logIterator.previous() + "\n";
         }
         logsString.set(newLogString);
@@ -146,7 +146,7 @@ public class TodoAppViewModel {
 }
 
 final class LogMessages {
-    public static final String NEW_TASK_PRESSED = "New task was pressed button.";
+    public static final String NEW_TASK_PRESSED = "New task button was pressed.";
     public static final String TASK_DESCRIPTION_CHANGED = "Task description was changed to: ";
     public static final String TASK_DUE_DATE_CHANGED = "New task dua date changed to ";
     public static final String TASK_FINISHED = "Task is done: ";

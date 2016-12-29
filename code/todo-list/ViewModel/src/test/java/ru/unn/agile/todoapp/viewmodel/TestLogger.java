@@ -5,10 +5,16 @@ import java.util.List;
 
 public class TestLogger implements ILogger {
     private final ArrayList<String> log = new ArrayList<>();
+    private Runnable onLogUpdate;
+
+    public TestLogger() {
+        onLogUpdate = () -> { };
+    }
 
     @Override
     public void addToLog(final String s) {
         log.add(s);
+        onLogUpdate.run();
     }
 
     @Override
@@ -22,9 +28,8 @@ public class TestLogger implements ILogger {
     }
 
     @Override
-    public void setOnLogUpdateAction(Runnable onLogUpdate)  {
-
+    public void setOnLogUpdateAction(final Runnable onLogUpdate)  {
+        this.onLogUpdate = onLogUpdate;
     }
-
 }
 
