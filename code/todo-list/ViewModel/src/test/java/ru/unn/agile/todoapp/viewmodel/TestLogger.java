@@ -20,4 +20,11 @@ public class TestLogger implements ILogger {
     public String getLastLogMessage()  {
         return log.get(log.size() - 1);
     }
+
+    @Override
+    public void setOnLogUpdateAction(Runnable onLogUpdate)  {
+
+    }
+
 }
+

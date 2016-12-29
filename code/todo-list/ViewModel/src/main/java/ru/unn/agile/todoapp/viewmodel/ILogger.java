@@ -7,4 +7,6 @@ public interface ILogger {
 
     List<String> getLog();
     String getLastLogMessage();
+
+    void setOnLogUpdateAction(Runnable onLogUpdate);
 }

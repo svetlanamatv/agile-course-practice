@@ -14,6 +14,7 @@ public class PlainTextLogger implements ILogger {
     private static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
     private final BufferedWriter writer;
     private final ArrayList<String> inMemoryLog = new ArrayList<>();
+    private Runnable onLogUpdate;
 
     private static String getCurrentTime() {
         Calendar cal = Calendar.getInstance();
@@ -36,7 +37,7 @@ public class PlainTextLogger implements ILogger {
         String logMessage = getCurrentTime() + " > " + message;
 
         inMemoryLog.add(logMessage);
-
+        onLogUpdate.run();
         try {
             writer.write(logMessage);
             writer.newLine();
@@ -55,4 +56,9 @@ public class PlainTextLogger implements ILogger {
     public String getLastLogMessage()  {
         return inMemoryLog.get(inMemoryLog.size() - 1);
     };
+
+    @Override
+    public void setOnLogUpdateAction(Runnable onLogUpdate)  {
+        this.onLogUpdate = onLogUpdate;
+    }
 }
