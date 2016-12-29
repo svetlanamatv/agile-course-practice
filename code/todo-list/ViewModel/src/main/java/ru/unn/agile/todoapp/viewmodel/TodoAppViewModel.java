@@ -38,7 +38,7 @@ public class TodoAppViewModel {
         return new TaskViewModel(task, logger);
     }
 
-    public void setLogger(final ILogger logger)  {
+    public final void setLogger(final ILogger logger)  {
         if (logger == null) {
             throw new RuntimeException("Logger parameter can't be null");
         }
