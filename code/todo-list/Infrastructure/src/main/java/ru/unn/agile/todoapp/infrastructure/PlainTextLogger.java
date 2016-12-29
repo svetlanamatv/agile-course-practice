@@ -27,7 +27,7 @@ public class PlainTextLogger implements ILogger {
         try {
             logWriter = new BufferedWriter(new FileWriter(pathToLog));
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         writer = logWriter;
     }

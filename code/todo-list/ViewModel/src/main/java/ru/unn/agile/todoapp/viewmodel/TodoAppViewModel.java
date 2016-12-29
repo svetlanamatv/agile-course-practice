@@ -118,7 +118,7 @@ public class TodoAppViewModel {
         return logger.getLastLogMessage();
     }
 
-    public void onNewTaskDescriptionfocusChanged()  {
+    public void onNewTaskDescriptionFocusChanged()  {
         logger.addToLog(LogMessages.TASK_DESCRIPTION_CHANGED + getNewTaskDescription());
     }
 

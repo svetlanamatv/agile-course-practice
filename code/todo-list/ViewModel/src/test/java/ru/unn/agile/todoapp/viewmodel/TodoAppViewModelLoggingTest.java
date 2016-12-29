@@ -8,6 +8,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class TodoAppViewModelLoggingTest {
     private static final LocalDate TODAY = LocalDate.now();
@@ -24,6 +25,18 @@ public class TodoAppViewModelLoggingTest {
     }
 
     @Test
+    public void viewModelConstructorThrowsExceptionWithNullLogger() {
+        try {
+            new TodoAppViewModel(null);
+            fail("Exception wasn't thrown");
+        } catch (RuntimeException ex) {
+            assertEquals("Logger parameter can't be null", ex.getMessage());
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
+    }
+
+    @Test
     public void logIsEmptyAfterStart() {
         List<String> log = viewModel.getLog();
 
@@ -33,7 +46,7 @@ public class TodoAppViewModelLoggingTest {
     @Test
     public void setNewTaskDescriptionMentionedInTheLog()  {
         viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
-        viewModel.onNewTaskDescriptionfocusChanged();
+        viewModel.onNewTaskDescriptionFocusChanged();
         String lastLogMessage = viewModel.getLastLogMessage();
 
         assertTrue(lastLogMessage.matches(".*" + viewModel.getNewTaskDescription() + ".*"));
@@ -76,6 +89,18 @@ public class TodoAppViewModelLoggingTest {
         String lastLogMessage = viewModel.getLastLogMessage();
         assertTrue(lastLogMessage.matches(".*"
                 + LogMessages.TASK_DELETED + TEST_TASK_DESCRIPTION));
+    }
+
+    @Test
+    public void logTaskDueDateChangeOnlyOnce()  {
+        viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
+        viewModel.onNewTaskDescriptionFocusChanged();
+        viewModel.setNewTaskDueDate(LocalDate.now());
+        viewModel.onTaskDueDateChanged(LocalDate.now(), LocalDate.ofYearDay(2, 2));
+        viewModel.setNewTaskDueDate(LocalDate.now());
+        viewModel.onTaskDueDateChanged(LocalDate.now(), LocalDate.now());
+
+        assertEquals(2, viewModel.getLog().size());
     }
 
     @Test

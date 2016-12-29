@@ -51,7 +51,7 @@ public class TodoApp {
                 if (!oldValue && newValue) {
                     return;
                 } else if (taskDesckStringListener.isChanged())  {
-                    viewModel.onNewTaskDescriptionfocusChanged();
+                    viewModel.onNewTaskDescriptionFocusChanged();
                     taskDesckStringListener.cache();
                 }
             }
