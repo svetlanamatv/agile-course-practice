@@ -27,15 +27,22 @@
                   <Label layoutX="20.0" layoutY="36.0" text="Right point:" />
                   <Label layoutX="20.0" layoutY="64.0" text="Derivative step:" />
                   <Label layoutX="20.0" layoutY="93.0" prefWidth="64.0" text="Accuracy:" />
-                  <TextField fx:id="leftPointText" layoutX="132.0" layoutY="4.0" prefHeight="26.0" prefWidth="88.0"/>
-                  <TextField fx:id="rightPointText" layoutX="132.0" layoutY="31.0" prefHeight="26.0" prefWidth="88.0" />
-                  <TextField fx:id="derivativeStepText" layoutX="132.0" layoutY="59.0" prefHeight="26.0" prefWidth="88.0" />
-                  <TextField fx:id="accuracyText" layoutX="132.0" layoutY="88.0" prefHeight="26.0" prefWidth="88.0" />
+                  <TextField fx:id="leftPointText" layoutX="132.0" layoutY="4.0"
+                             prefHeight="26.0" prefWidth="88.0"
+                             onAction="#finishEdit" />
+                  <TextField fx:id="rightPointText" layoutX="132.0" layoutY="31.0"
+                             prefHeight="26.0" prefWidth="88.0" onAction="#finishEdit" />
+                  <TextField fx:id="derivativeStepText" layoutX="132.0" layoutY="59.0" prefHeight="26.0" prefWidth="88.0"
+                             onAction="#finishEdit" />
+                  <TextField fx:id="accuracyText" layoutX="132.0" layoutY="88.0" prefHeight="26.0" prefWidth="88.0"
+                             onAction="#finishEdit" />
                   <Label layoutX="20.0" layoutY="124.0" text="Function:" />
-                  <TextField fx:id="functionText" layoutX="132.0" layoutY="118.0" prefHeight="26.0" prefWidth="176.0" />
+                  <TextField fx:id="functionText" layoutX="132.0" layoutY="118.0" prefHeight="26.0" prefWidth="176.0"
+                             onAction="#finishEdit" />
                   <Label layoutX="20.0" layoutY="152.0" text="Start point:" />
                   <TextField fx:id="startPointText" layoutX="132.0" layoutY="147.0"
-                             prefHeight="26.0" prefWidth="88.0" />
+                             prefHeight="26.0" prefWidth="88.0"
+                             onAction="#finishEdit" />
                   <Label layoutX="20.0" layoutY="182.0" text="Stop criterion:" />
                   <ChoiceBox fx:id="stopCriterionSelector"
                              items="${viewModelProvider.viewModel.stopCriteria}"

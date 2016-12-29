@@ -34,6 +34,7 @@ public class NewtonRootAppViewModel  {
     private final StringProperty logLines = new SimpleStringProperty("");
 
     private final Logger logger;
+    private final EditTracker<String> editTracker;
 
     public NewtonRootAppViewModel(Logger logger) {
         leftPoint.addListener(
@@ -56,6 +57,7 @@ public class NewtonRootAppViewModel  {
         });
 
         this.logger = logger;
+        editTracker = new EditTracker<>();
     }
 
     public StringProperty leftPointProperty()  {
@@ -182,6 +184,11 @@ public class NewtonRootAppViewModel  {
         return logger.getLastMessage();
     }
 
+
+    public void finishEdit() {
+        editTracker.finishTracking();
+    }
+
     private boolean checkInputFormat()  {
         try {
             Double.parseDouble(leftPoint.get());
@@ -267,9 +274,12 @@ public class NewtonRootAppViewModel  {
             ApplicationStatus status = checkInput();
             applicationStatus.set(status.toString());
             findRootButtonDisable.set(status != ApplicationStatus.READY);
-            if (!newValue.equals(oldValue)) {
-                logMessage(logMessageProducer.apply(newValue));
+
+            if (!editTracker.isTracking()) {
+                editTracker.startTracking(oldValue,
+                        value -> logMessage(logMessageProducer.apply(value)));
             }
+            editTracker.updateValue(newValue);
         }
     }
 

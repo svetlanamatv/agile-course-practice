@@ -26,8 +26,17 @@ public class NewtonRootAppLoggingTests {
     }
 
     @Test
+    public void changeWithoutFinishingOfTrackingIsNotLogged() {
+        viewModel.setAccuracy("1e-5");
+
+        int logSize = viewModel.getLogger().getMessageList().size();
+        assertEquals(0, logSize);
+    }
+
+    @Test
     public void changeOfLeftSegmentPointIsLogged() {
         viewModel.setLeftPoint("-1.0");
+        viewModel.finishEdit();
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
@@ -38,6 +47,7 @@ public class NewtonRootAppLoggingTests {
     @Test
     public void changeOfLeftSegmentThroughPropertyIsLogged() {
         viewModel.leftPointProperty().set("-2.0");
+        viewModel.finishEdit();
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
@@ -48,6 +58,7 @@ public class NewtonRootAppLoggingTests {
     @Test
     public void changeOfRightSegmentPointIsLogged() {
         viewModel.setRightPoint("1.0");
+        viewModel.finishEdit();
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
@@ -58,6 +69,7 @@ public class NewtonRootAppLoggingTests {
     @Test
     public void changeOfDerivativeStepIsLogged() {
         viewModel.setDerivativeStep("1e-4");
+        viewModel.finishEdit();
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
@@ -68,6 +80,7 @@ public class NewtonRootAppLoggingTests {
     @Test
     public void changeOfAccuracyIsLogged() {
         viewModel.setAccuracy("1e-8");
+        viewModel.finishEdit();
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
@@ -78,6 +91,7 @@ public class NewtonRootAppLoggingTests {
     @Test
     public void changeOfFunctionExpressionIsLogged() {
         viewModel.setFunction("e^(x^2) - 0.5");
+        viewModel.finishEdit();
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedPattern = String.format("%s %s\\Q%s\\E", TIMESTAMP_PATTERN,
@@ -88,6 +102,7 @@ public class NewtonRootAppLoggingTests {
     @Test
     public void changeOfStartPointIsLogged() {
         viewModel.setStartPoint("0.1");
+        viewModel.finishEdit();
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
@@ -98,6 +113,7 @@ public class NewtonRootAppLoggingTests {
     @Test
     public void changeOfStopCriterionIsLogged() {
         viewModel.setStopCriterion(StoppingCriterion.DifferenceBetweenApproximates);
+        viewModel.finishEdit();
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedPattern = String.format("%s %s%s", TIMESTAMP_PATTERN,
@@ -107,12 +123,7 @@ public class NewtonRootAppLoggingTests {
 
     @Test
     public void runningSuccessfulRootSearchIsLogged() {
-        viewModel.setLeftPoint("-1.0");
-        viewModel.setRightPoint("1.0");
-        viewModel.setDerivativeStep("1e-5");
-        viewModel.setAccuracy("1e-8");
-        viewModel.setFunction("sin(x-0.1)");
-        viewModel.setStartPoint("-0.2");
+        setupParametersForSuccessfulRootSearch();
 
         viewModel.findRoot();
 
@@ -132,12 +143,9 @@ public class NewtonRootAppLoggingTests {
 
     @Test
     public void runningFailedRootSearchIsLogged() {
-        viewModel.setLeftPoint("-1.0");
-        viewModel.setRightPoint("1.0");
-        viewModel.setDerivativeStep("1e-5");
-        viewModel.setAccuracy("1e-8");
+        setupParametersForSuccessfulRootSearch();
         viewModel.setFunction("x+100");
-        viewModel.setStartPoint("0.1");
+        viewModel.finishEdit();
 
         viewModel.findRoot();
 
@@ -152,5 +160,20 @@ public class NewtonRootAppLoggingTests {
                 viewModel.getStartPoint(),
                 viewModel.getStopCriterion()) + "Root wasn't found";
         assertThat(lastMessage, matchesPattern(expectedPattern));
+    }
+
+    private void setupParametersForSuccessfulRootSearch() {
+        viewModel.setLeftPoint("-1.0");
+        viewModel.finishEdit();
+        viewModel.setRightPoint("1.0");
+        viewModel.finishEdit();
+        viewModel.setDerivativeStep("1e-5");
+        viewModel.finishEdit();
+        viewModel.setAccuracy("1e-8");
+        viewModel.finishEdit();
+        viewModel.setFunction("sin(x-0.1)");
+        viewModel.finishEdit();
+        viewModel.setStartPoint("-0.2");
+        viewModel.finishEdit();
     }
 }
