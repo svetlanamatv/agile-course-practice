@@ -58,7 +58,7 @@ public class PlainTextLogger implements ILogger {
     };
 
     @Override
-    public void setOnLogUpdateAction(Runnable onLogUpdate)  {
+    public void setOnLogUpdateAction(final Runnable onLogUpdate)  {
         this.onLogUpdate = onLogUpdate;
     }
 }

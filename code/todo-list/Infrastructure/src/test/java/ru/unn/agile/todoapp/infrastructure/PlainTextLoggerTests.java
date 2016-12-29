@@ -18,6 +18,7 @@ public class PlainTextLoggerTests {
     @Before
     public void setUp() {
         textLogger = new PlainTextLogger(FILENAME);
+        textLogger.setOnLogUpdateAction(() -> { });
     }
 
     @Test
@@ -47,7 +48,7 @@ public class PlainTextLoggerTests {
 
         List<String> log = textLogger.getLog();
 
-        assertEquals(2,log.size());
+        assertEquals(2, log.size());
     }
 
     @Test
