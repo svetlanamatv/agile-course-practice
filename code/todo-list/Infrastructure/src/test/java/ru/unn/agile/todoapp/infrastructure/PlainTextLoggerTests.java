@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -17,7 +18,11 @@ public class PlainTextLoggerTests {
 
     @Before
     public void setUp() {
-        textLogger = new PlainTextLogger(FILENAME);
+        try  {
+            textLogger = new PlainTextLogger(FILENAME);
+        } catch (IOException e)  {
+            System.out.println(e.getMessage());
+        }
         textLogger.setOnLogUpdateAction(() -> { });
     }
 

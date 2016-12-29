@@ -14,16 +14,12 @@ public class TaskViewModel {
     private Task task;
     private BooleanProperty doneCheckboxChecked;
     private BooleanProperty doneCheckboxDisable;
-    private ILogger logger;
+    private final ILogger logger;
 
     private void initialize(final Task task)  {
         this.task = task;
         doneCheckboxChecked = new SimpleBooleanProperty(task.isDone());
         doneCheckboxDisable = new SimpleBooleanProperty(task.isDone());
-    }
-
-    public TaskViewModel(final Task task) {
-        initialize(task);
     }
 
     public TaskViewModel(final Task task, final ILogger logger) {

@@ -9,6 +9,7 @@ import ru.unn.agile.todoapp.viewmodel.TaskViewModel;
 import ru.unn.agile.todoapp.viewmodel.TodoAppViewModel;
 import ru.unn.agile.todoapp.infrastructure.PlainTextLogger;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -28,7 +29,11 @@ public class TodoApp {
     private TextArea logTextArea;
     @FXML
     private void initialize() {
-        viewModel.setLogger(new PlainTextLogger(LOG_FILE_PATH));
+        try {
+            viewModel.setLogger(new PlainTextLogger(LOG_FILE_PATH));
+        }  catch (IOException e)  {
+            System.out.println(e.getMessage());
+        }
         taskDueDatePicker.setConverter(new StringConverter<LocalDate>() {
             private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 

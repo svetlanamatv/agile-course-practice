@@ -4,6 +4,7 @@ import  ru.unn.agile.todoapp.viewmodel.ILogger;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,13 +23,8 @@ public class PlainTextLogger implements ILogger {
         return sdf.format(cal.getTime());
     }
 
-    public PlainTextLogger(final String pathToLog)  {
-        BufferedWriter logWriter = null;
-        try {
-            logWriter = new BufferedWriter(new FileWriter(pathToLog));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    public PlainTextLogger(final String pathToLog) throws IOException {
+        BufferedWriter logWriter = new BufferedWriter(new FileWriter(pathToLog));
         writer = logWriter;
     }
 
