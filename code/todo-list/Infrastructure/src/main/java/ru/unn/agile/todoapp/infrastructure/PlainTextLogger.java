@@ -26,6 +26,7 @@ public class PlainTextLogger implements ILogger {
     public PlainTextLogger(final String pathToLog) throws IOException {
         BufferedWriter logWriter = new BufferedWriter(new FileWriter(pathToLog));
         writer = logWriter;
+        onLogUpdate = () -> { };
     }
 
     @Override

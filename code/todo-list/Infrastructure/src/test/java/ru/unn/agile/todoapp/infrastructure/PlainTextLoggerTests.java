@@ -23,7 +23,6 @@ public class PlainTextLoggerTests {
         } catch (IOException e)  {
             System.out.println(e.getMessage());
         }
-        textLogger.setOnLogUpdateAction(() -> { });
     }
 
     @Test
