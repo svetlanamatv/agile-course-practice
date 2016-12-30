@@ -1,9 +1,12 @@
 package ru.unn.agile.newtonroots.viewmodel;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FakeLogger implements Logger {
+public class TimestampingInMemoryLogger implements Logger {
+    private static final String TIMESTAMP_FORMAT = "YYYY-MM-dd HH:mm:ss";
     private final ArrayList<String> messageList = new ArrayList<>();
 
     @Override
@@ -14,7 +17,7 @@ public class FakeLogger implements Logger {
     @Override
     public String getLastMessage() {
         if (messageList.isEmpty()) {
-            return null;
+            throw new IndexOutOfBoundsException("Last message of empty log was queried");
         }
 
         return messageList.get(messageList.size() - 1);
@@ -22,6 +25,8 @@ public class FakeLogger implements Logger {
 
     @Override
     public void appendMessage(String message) {
-        messageList.add(message);
+        String timestamp = LocalDateTime.now().format(
+                DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT));
+        messageList.add(timestamp + " > " + message);
     }
 }

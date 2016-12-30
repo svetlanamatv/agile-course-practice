@@ -11,9 +11,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static ru.unn.agile.newtonroots.viewmodel.testutils.StringSuffixMatcher.endsWith;
 
 public class PlainTextLoggerTests {
     private static final String LOG_FILENAME = "newton-method.log";
@@ -51,6 +50,6 @@ public class PlainTextLoggerTests {
 
         BufferedReader logReader = new BufferedReader(new FileReader(LOG_FILENAME));
         String actualMessage = logReader.readLine();
-        assertEquals(expectedMessage, actualMessage);
+        assertThat(actualMessage, endsWith(expectedMessage));
     }
 }

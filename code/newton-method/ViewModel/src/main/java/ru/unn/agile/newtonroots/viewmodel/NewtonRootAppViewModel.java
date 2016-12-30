@@ -9,8 +9,6 @@ import ru.unn.agile.newtonroots.model.MathFunction;
 import ru.unn.agile.newtonroots.model.NewtonMethod;
 import ru.unn.agile.newtonroots.model.NewtonMethod.StoppingCriterion;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.function.Function;
 
 public class NewtonRootAppViewModel  {
@@ -346,45 +344,39 @@ public class NewtonRootAppViewModel  {
         static final String FUNCTION_EXPR_TEXT = "Function expression changed to ";
         static final String START_POINT_TEXT = "Start point changed to ";
         static final String STOP_CRITERION_TEXT = "Stop criterion changed to ";
-        static final String ROOT_SEARCH_TEXT = "%s Root search finished. Parameters: " +
+        static final String ROOT_SEARCH_TEXT = "Root search finished. Parameters: " +
                 "leftEnd: %s  rightEnd: %s  derivativeStep: %s  accuracy: %s  " +
                 "function: \"%s\"  startPoint: %s  stopCriterion: %s. ";
-        private static final DateTimeFormatter TIMESTAMP_FORMATTER =
-                DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss");
 
         private LogMessages() {
         }
 
-        private static String getCurrentTimestamp() {
-            return LocalDateTime.now().format(TIMESTAMP_FORMATTER);
-        }
-
         static String getLeftPointChangeMessage(String value) {
-            return String.format("%s %s%s", getCurrentTimestamp(), LEFT_END_TEXT, value);
+            return LEFT_END_TEXT + value;
         }
 
         static String getRightPointChangeMessage(String value) {
-            return String.format("%s %s%s", getCurrentTimestamp(), RIGHT_END_TEXT, value);
+            return RIGHT_END_TEXT + value;
         }
 
         static String getDerivativeStepChangeMessage(String value) {
-            return String.format("%s %s%s", getCurrentTimestamp(), DERIVATIVE_STEP_TEXT, value);
+            return DERIVATIVE_STEP_TEXT + value;
         }
 
         static String getAccuracyChangeMessage(String value) {
-            return String.format("%s %s%s", getCurrentTimestamp(), ACCURACY_TEXT, value);
+            return ACCURACY_TEXT + value;
         }
 
         static String getFunctionExpressionChangeMessage(String value) {
-            return String.format("%s %s%s", getCurrentTimestamp(), FUNCTION_EXPR_TEXT, value);
+            return FUNCTION_EXPR_TEXT + value;
         }
 
         static String getStartPointChangeMessage(String value) {
-            return String.format("%s %s%s", getCurrentTimestamp(), START_POINT_TEXT, value);
+            return START_POINT_TEXT + value;
         }
 
         static String getStopCriterionChangeMessage(StoppingCriterion value) {
-            return String.format("%s %s%s", getCurrentTimestamp(), STOP_CRITERION_TEXT, value);
+            return STOP_CRITERION_TEXT + value;
         }
 
         static String getSuccessfulRunMessage(
@@ -399,7 +391,7 @@ public class NewtonRootAppViewModel  {
                 double finalAccuracy,
                 int iterationsCounter) {
 
-            return String.format(ROOT_SEARCH_TEXT, getCurrentTimestamp(),
+            return String.format(ROOT_SEARCH_TEXT,
                     leftPoint, rightPoint, derivativeStep, accuracy,
                     function, startPoint, stopCriterion) +
                     String.format("Root was found. Results: x=%f  accuracy=%f  iterations=%d",
@@ -414,7 +406,7 @@ public class NewtonRootAppViewModel  {
                 String function,
                 String startPoint,
                 StoppingCriterion stopCriterion) {
-            return String.format(ROOT_SEARCH_TEXT, getCurrentTimestamp(),
+            return String.format(ROOT_SEARCH_TEXT,
                     leftPoint, rightPoint, derivativeStep, accuracy,
                     function, startPoint, stopCriterion) +
                     "Root wasn't found";
