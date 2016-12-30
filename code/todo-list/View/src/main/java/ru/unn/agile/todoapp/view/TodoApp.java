@@ -48,16 +48,17 @@ public class TodoApp {
             }
         });
 
-        StringPropertyChangeListener taskDescrStringListener = new StringPropertyChangeListener();
+        StateSavingStringChangeListener taskDescrStringListener =
+                new StateSavingStringChangeListener();
         final ChangeListener<Boolean> taskDescrFocusChangeListener = new ChangeListener<Boolean>() {
             @Override
             public void changed(final ObservableValue<? extends Boolean> observable,
                                 final Boolean oldValue, final Boolean newValue) {
                 if (!oldValue && newValue) {
                     return;
-                } else if (taskDescrStringListener.isChanged())  {
+                } else if (taskDescrStringListener.isStringContentChanged())  {
                     viewModel.onNewTaskDescriptionFocusChanged();
-                    taskDescrStringListener.cache();
+                    taskDescrStringListener.saveState();
                 }
             }
         };
