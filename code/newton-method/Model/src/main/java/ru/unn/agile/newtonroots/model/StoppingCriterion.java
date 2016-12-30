@@ -21,7 +21,7 @@ public enum StoppingCriterion {
         return description;
     }
 
-    public double getCriterionValue(final FunctionInterface func, final double x,
+    public double getCriterionValue(final ScalarFunction func, final double x,
                                     final double xPrev) {
         return calculator.getCriterionValue(func, x, xPrev);
     }

@@ -5,7 +5,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import ru.unn.agile.newtonroots.model.MathFunction;
+import ru.unn.agile.newtonroots.model.AnalyticallyDefinedScalarFunction;
 import ru.unn.agile.newtonroots.model.NewtonMethod;
 import ru.unn.agile.newtonroots.model.StoppingCriterion;
 
@@ -245,7 +245,7 @@ public class NewtonRootsViewModel {
             NewtonMethod method = new NewtonMethod(Double.parseDouble(accuracy.get()),
                     Double.parseDouble(derivativeStep.get()));
             method.setStoppingCriterion(stopCriterion.get());
-            MathFunction functionObj = new MathFunction(function.get());
+            AnalyticallyDefinedScalarFunction functionObj = new AnalyticallyDefinedScalarFunction(function.get());
             double left = Double.parseDouble(leftPoint.get());
             double right = Double.parseDouble(rightPoint.get());
             double startPoint = Double.parseDouble(this.startPoint.get());
@@ -278,7 +278,7 @@ public class NewtonRootsViewModel {
             Double.parseDouble(accuracy.get());
             Double.parseDouble(derivativeStep.get());
             Double.parseDouble(startPoint.get());
-            MathFunction testFunction = new MathFunction(function.get());
+            AnalyticallyDefinedScalarFunction testFunction = new AnalyticallyDefinedScalarFunction(function.get());
         } catch (NumberFormatException nfe) {
             return false;
         } catch (Exception e) {
@@ -289,9 +289,9 @@ public class NewtonRootsViewModel {
     }
 
     private boolean checkMonotonic() {
-        MathFunction testFunction;
+        AnalyticallyDefinedScalarFunction testFunction;
         try {
-            testFunction = new MathFunction(function.get());
+            testFunction = new AnalyticallyDefinedScalarFunction(function.get());
         } catch (Exception e) {
             return false;
         }

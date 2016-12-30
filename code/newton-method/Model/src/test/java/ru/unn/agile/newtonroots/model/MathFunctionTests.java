@@ -11,13 +11,13 @@ public class MathFunctionTests {
 
     @Test(expected = Exception.class)
     public void createFunctionFromInvalidExpression() throws Exception {
-        MathFunction func = new MathFunction("-z");
+        AnalyticallyDefinedScalarFunction func = new AnalyticallyDefinedScalarFunction("-z");
     }
 
     @Test
     public void evaluateValidFunction() {
         try  {
-            MathFunction func = new MathFunction("x^2");
+            AnalyticallyDefinedScalarFunction func = new AnalyticallyDefinedScalarFunction("x^2");
             double x = 1.5;
 
             assertTrue(Math.abs(func.compute(x) - x * x) < EPSILON);

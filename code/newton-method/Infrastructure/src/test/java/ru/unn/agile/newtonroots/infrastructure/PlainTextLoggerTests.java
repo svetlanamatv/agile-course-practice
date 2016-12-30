@@ -34,11 +34,6 @@ public class PlainTextLoggerTests {
     }
 
     @Test
-    public void plainTextLoggerCanBeInstantiated() throws IOException {
-        assertNotNull(logger);
-    }
-
-    @Test
     public void uponInstantiationLogFileIsCreated() throws IOException {
         assertTrue(Files.exists(Paths.get(LOG_FILENAME)));
     }

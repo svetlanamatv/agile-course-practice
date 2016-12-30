@@ -17,7 +17,7 @@ public class NewtonMethod {
         stoppingCriterion = StoppingCriterion.FunctionModulus;
     }
 
-    public static boolean isMonotonicFunctionOnInterval(final FunctionInterface func,
+    public static boolean isMonotonicFunctionOnInterval(final ScalarFunction func,
                                                         final double intervalStart,
                                                         final double intervalEnd) {
         double x = intervalStart;
@@ -40,13 +40,13 @@ public class NewtonMethod {
         return true;
     }
 
-    private boolean isMonotonicFunctionHasRoot(final FunctionInterface func,
+    private boolean isMonotonicFunctionHasRoot(final ScalarFunction func,
                                                final double intervalStart,
                                                final double intervalEnd) {
         return func.compute(intervalStart) * func.compute(intervalEnd) <= 0;
     }
 
-    public double findRoot(final FunctionInterface func, final double initialPoint,
+    public double findRoot(final ScalarFunction func, final double initialPoint,
                            final double intervalStart, final double intervalEnd) {
         iterationCounter = 0;
         double x = initialPoint;

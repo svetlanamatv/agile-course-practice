@@ -12,10 +12,10 @@ public class NewtonRootsTests {
     private double derivativeStep = 1e-3;
     private NewtonMethod newtonMethod = new NewtonMethod(eps, derivativeStep);
 
-    private static FunctionInterface createFunction(final String expression)  {
-        FunctionInterface function = null;
+    private static ScalarFunction createFunction(final String expression)  {
+        ScalarFunction function = null;
         try  {
-            function = new MathFunction(expression);
+            function = new AnalyticallyDefinedScalarFunction(expression);
         } catch (Exception e)  {
             fail(e.getMessage());
         }
@@ -25,7 +25,7 @@ public class NewtonRootsTests {
     @Test
     public void findRootIfExistInIntervalWithFunctionModuleStopping() {
         newtonMethod.setStoppingCriterion(StoppingCriterion.FunctionModulus);
-        FunctionInterface func = createFunction("x^2 - 1");
+        ScalarFunction func = createFunction("x^2 - 1");
 
         double root = newtonMethod.findRoot(func, initialPoint, intervalStart, intervalEnd);
 
@@ -35,7 +35,7 @@ public class NewtonRootsTests {
     @Test
     public void findRootIfExistInIntervalWithDifferenceBetweenApproxStopping() {
         newtonMethod.setStoppingCriterion(StoppingCriterion.DifferenceBetweenApproximations);
-        FunctionInterface func = createFunction("x^2 - 1");
+        ScalarFunction func = createFunction("x^2 - 1");
 
         double root = newtonMethod.findRoot(func, initialPoint, intervalStart, intervalEnd);
 
@@ -44,7 +44,7 @@ public class NewtonRootsTests {
 
     @Test
     public void findRootOnTheLeftBorder() {
-        FunctionInterface func = createFunction("x");
+        ScalarFunction func = createFunction("x");
 
         double root = newtonMethod.findRoot(func, initialPoint, intervalStart, intervalEnd);
 
@@ -53,7 +53,7 @@ public class NewtonRootsTests {
 
     @Test
     public void findRootOnTheRightBorder() {
-        FunctionInterface func = createFunction("2 - x");
+        ScalarFunction func = createFunction("2 - x");
 
         double root = newtonMethod.findRoot(func, initialPoint, intervalStart, intervalEnd);
 
@@ -62,7 +62,7 @@ public class NewtonRootsTests {
 
     @Test
     public void findRootIfNotExistInInterval() {
-        FunctionInterface func = createFunction("x + 1");
+        ScalarFunction func = createFunction("x + 1");
 
         double root = newtonMethod.findRoot(func, initialPoint, intervalStart, intervalEnd);
 
@@ -71,7 +71,7 @@ public class NewtonRootsTests {
 
     @Test
     public void findRootIfIncorrectIntervalBoundaries() {
-        FunctionInterface func = createFunction("x + 1");
+        ScalarFunction func = createFunction("x + 1");
 
         double root = newtonMethod.findRoot(func, initialPoint, intervalEnd, intervalStart);
 
@@ -81,7 +81,7 @@ public class NewtonRootsTests {
 
     @Test
     public void findRootIfInitialPointOutsideInterval() {
-        FunctionInterface func = createFunction("x+1");
+        ScalarFunction func = createFunction("x+1");
 
         double root = newtonMethod.findRoot(func, -10, intervalStart, intervalEnd);
 
@@ -91,7 +91,7 @@ public class NewtonRootsTests {
 
     @Test
     public void findRootIfNonmonotonicFunction() {
-        FunctionInterface func = createFunction("(x-1)*(x-1)");
+        ScalarFunction func = createFunction("(x-1)*(x-1)");
 
         double root = newtonMethod.findRoot(func, initialPoint, intervalStart, intervalEnd);
 
@@ -150,7 +150,7 @@ public class NewtonRootsTests {
 
     @Test
     public void iterationsCounterNonZeroAfterSolving() {
-        FunctionInterface func = createFunction("x - 1");
+        ScalarFunction func = createFunction("x - 1");
 
         double root = newtonMethod.findRoot(func, initialPoint, intervalStart, intervalEnd);
         assertTrue(newtonMethod.getIterationsCount() > 0);
@@ -158,7 +158,7 @@ public class NewtonRootsTests {
 
     @Test
     public void achievedAccuracyLessThanInStopCriterion()  {
-        FunctionInterface func = createFunction("x - 1");
+        ScalarFunction func = createFunction("x - 1");
 
         double root = newtonMethod.findRoot(func, initialPoint, intervalStart, intervalEnd);
         assertTrue(newtonMethod.getFinalAccuracy() < newtonMethod.getAccuracyEps());
