@@ -9,6 +9,9 @@ import ru.unn.agile.newtonroots.model.MathFunction;
 import ru.unn.agile.newtonroots.model.NewtonMethod;
 import ru.unn.agile.newtonroots.model.NewtonMethod.StoppingCriterion;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Function;
 
 public class NewtonRootAppViewModel  {
@@ -182,6 +185,10 @@ public class NewtonRootAppViewModel  {
         return logger.getLastMessage();
     }
 
+    public List<String> getLogMessages() {
+        return logger.getMessageList();
+    }
+
 
     public void finishEdit() {
         editTracker.finishTracking();
@@ -333,7 +340,9 @@ public class NewtonRootAppViewModel  {
 
     private void logMessage(String message) {
         logger.appendMessage(message);
-        logLines.set(String.join("\n", logger.getMessageList()));
+        ArrayList<String> reverseMessageList = new ArrayList<>(logger.getMessageList());
+        Collections.reverse(reverseMessageList);
+        logLines.set(String.join("\n", reverseMessageList));
     }
 
     static final class LogMessages {

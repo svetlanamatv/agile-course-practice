@@ -5,6 +5,8 @@ import org.junit.Test;
 import ru.unn.agile.newtonroots.model.NewtonMethod.StoppingCriterion;
 import ru.unn.agile.newtonroots.viewmodel.NewtonRootAppViewModel.LogMessages;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 import static ru.unn.agile.newtonroots.viewmodel.testutils.RegexMatcher.matchesPattern;
 import static ru.unn.agile.newtonroots.viewmodel.testutils.StringSuffixMatcher.endsWith;
@@ -29,7 +31,7 @@ public class NewtonRootAppLoggingTests {
     public void changeWithoutFinishingOfTrackingIsNotLogged() {
         viewModel.setAccuracy("1e-5");
 
-        int logSize = viewModel.getLogger().getMessageList().size();
+        int logSize = viewModel.getLogMessages().size();
         assertEquals(0, logSize);
     }
 
@@ -150,6 +152,24 @@ public class NewtonRootAppLoggingTests {
                 viewModel.getStartPoint(),
                 viewModel.getStopCriterion()) + "Root wasn't found";
         assertThat(lastMessage, matchesPattern(expectedPattern));
+    }
+
+    @Test
+    public void afterInstantiationLogLinesIsEmpty() {
+        assertEquals("", viewModel.getLogLines());
+    }
+
+    @Test
+    public void logLinesContainsLogInReverseOrder() {
+        viewModel.setLeftPoint("-1.0");
+        viewModel.finishEdit();
+        viewModel.setStartPoint("-0.2");
+        viewModel.finishEdit();
+
+        List<String> messages = viewModel.getLogMessages();
+        String expectedLogLines = messages.get(1) + "\n" + messages.get(0);
+        String actualLogLines = viewModel.getLogLines();
+        assertEquals(expectedLogLines, actualLogLines);
     }
 
     private void setupParametersForSuccessfulRootSearch() {
