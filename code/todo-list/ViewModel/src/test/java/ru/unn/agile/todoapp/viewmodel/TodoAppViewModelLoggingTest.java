@@ -66,7 +66,8 @@ public class TodoAppViewModelLoggingTest {
         viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
         viewModel.pressAddNewTaskButton();
         String lastLogMessage = viewModel.getLastLogMessage();
-        assertTrue(lastLogMessage.matches(".*" + LogMessages.NEW_TASK_PRESSED));
+        assertTrue(lastLogMessage.matches(
+                ".*" + LogMessages.NEW_TASK_PRESSED + TEST_TASK_DESCRIPTION));
     }
 
     @Test
@@ -109,6 +110,7 @@ public class TodoAppViewModelLoggingTest {
         viewModel.pressAddNewTaskButton();
 
         String logsString = viewModel.getLogsString();
-        assertTrue(logsString.matches(".*" + LogMessages.NEW_TASK_PRESSED + "\n.*"));
+        assertTrue(logsString.matches(".*" + LogMessages.NEW_TASK_PRESSED
+                + TEST_TASK_DESCRIPTION + "\n.*"));
     }
 }

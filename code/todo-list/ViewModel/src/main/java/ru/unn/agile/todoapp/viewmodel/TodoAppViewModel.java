@@ -101,13 +101,13 @@ public class TodoAppViewModel {
 
         newTaskDescription.set("");
         newTaskDueDate.set(LocalDate.now());
-        logger.addToLog(LogMessages.NEW_TASK_PRESSED);
+        logger.addToLog(LogMessages.NEW_TASK_PRESSED + newTask.getDescription());
     }
 
     public void pressDeleteButton(final TaskViewModel taskViewModel) {
         tasks.remove(taskViewModel.getTask());
         tasksViewModels.remove(taskViewModel);
-        logger.addToLog(LogMessages.TASK_DELETED + taskViewModel.getTask().getDescription());
+        logger.addToLog(LogMessages.TASK_DELETED + taskViewModel.getDescription());
     }
 
     public List<String> getLog()  {
@@ -141,9 +141,9 @@ public class TodoAppViewModel {
 }
 
 final class LogMessages {
-    public static final String NEW_TASK_PRESSED = "New task button was pressed.";
+    public static final String NEW_TASK_PRESSED = "New task added: ";
     public static final String TASK_DESCRIPTION_CHANGED = "Task description was changed to: ";
-    public static final String TASK_DUE_DATE_CHANGED = "New task dua date changed to ";
+    public static final String TASK_DUE_DATE_CHANGED = "New task due date changed to ";
     public static final String TASK_FINISHED = "Task is done: ";
     public static final String TASK_DELETED = "Task deleted: ";
 
