@@ -57,10 +57,32 @@ public class PlainTextLoggerTests {
     }
 
     @Test
-    public void logContainsDataAndTime()  {
+    public void logContainsDateAndTime()  {
         textLogger.addToLog(TEST_MESSAGE);
         String lastMessage = textLogger.getLastLogMessage();
 
         assertTrue(lastMessage.matches("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} > .*"));
+    }
+
+    @Test
+    public void canRunOnLogUpdateAction()  {
+        LoggerOnLogUpdateTestHelper testHelper = new LoggerOnLogUpdateTestHelper();
+        textLogger.setOnLogUpdateAction(testHelper);
+        textLogger.addToLog(TEST_MESSAGE);
+
+        assertTrue(testHelper.wasCalled());
+    }
+}
+
+class LoggerOnLogUpdateTestHelper implements Runnable {
+    private boolean called = false;
+
+    @Override
+    public void run() {
+        called = true;
+    }
+
+    public boolean wasCalled() {
+        return called;
     }
 }
