@@ -11,6 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 public class TodoAppViewModelLoggingTest {
     private static final LocalDate TODAY = LocalDate.now();
+    private static final LocalDate TEST_DATE = LocalDate.of(2016, 12, 1);
     private static final String TEST_TASK_DESCRIPTION = "Test task";
     private TodoAppViewModel viewModel;
 
@@ -46,11 +47,12 @@ public class TodoAppViewModelLoggingTest {
 
     @Test
     public void setNewTaskDueDateMentionedInTheLog()  {
-        viewModel.setNewTaskDueDate(TODAY);
-        viewModel.onTaskDueDateChanged(TODAY, LocalDate.ofYearDay(2, 2));
+        viewModel.setNewTaskDueDate(TEST_DATE);
+        viewModel.onTaskDueDateChanged(TODAY, TEST_DATE);
         String lastLogMessage = viewModel.getLastLogMessage();
 
-        assertTrue(lastLogMessage.matches(".*" + TODAY.toString() + ".*"));
+        assertTrue(lastLogMessage.matches(
+                ".*" + LogMessages.TASK_DUE_DATE_CHANGED + TEST_DATE.toString() + ".*"));
     }
 
     @Test
@@ -88,10 +90,11 @@ public class TodoAppViewModelLoggingTest {
     public void logTaskDueDateChangeOnlyOnce()  {
         viewModel.setNewTaskDescription(TEST_TASK_DESCRIPTION);
         viewModel.onNewTaskDescriptionFocusChanged();
-        viewModel.setNewTaskDueDate(LocalDate.now());
-        viewModel.onTaskDueDateChanged(LocalDate.now(), LocalDate.ofYearDay(2, 2));
-        viewModel.setNewTaskDueDate(LocalDate.now());
-        viewModel.onTaskDueDateChanged(LocalDate.now(), LocalDate.now());
+
+        viewModel.setNewTaskDueDate(TEST_DATE);
+        viewModel.onTaskDueDateChanged(TODAY, TEST_DATE);
+        viewModel.setNewTaskDueDate(TEST_DATE);
+        viewModel.onTaskDueDateChanged(TEST_DATE, TEST_DATE);
 
         assertEquals(2, viewModel.getLog().size());
     }
