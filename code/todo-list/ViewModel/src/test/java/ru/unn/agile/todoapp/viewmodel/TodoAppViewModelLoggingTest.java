@@ -8,7 +8,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class TodoAppViewModelLoggingTest {
     private static final LocalDate TODAY = LocalDate.now();
@@ -24,16 +23,9 @@ public class TodoAppViewModelLoggingTest {
         viewModel = new TodoAppViewModel(new TestLogger());
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void viewModelConstructorThrowsExceptionWithNullLogger() {
-        try {
-            new TodoAppViewModel(null);
-            fail("Exception wasn't thrown");
-        } catch (RuntimeException ex) {
-            assertEquals("Logger parameter can't be null", ex.getMessage());
-        } catch (Exception ex) {
-            fail("Invalid exception type");
-        }
+        new TodoAppViewModel(null);
     }
 
     @Test

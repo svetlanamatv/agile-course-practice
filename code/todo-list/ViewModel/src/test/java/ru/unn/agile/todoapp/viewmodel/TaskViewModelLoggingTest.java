@@ -6,27 +6,17 @@ import ru.unn.agile.todoapp.model.Task;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 public class TaskViewModelLoggingTest {
     private TaskViewModel viewModel;
+    private static final Task TEST_TASK = new Task("Test", LocalDate.now());
 
     @Before
     public void setUp() {
-        Task testTask = new Task("Test", LocalDate.now());
-        viewModel = new TaskViewModel(testTask, new TestLogger());
+        viewModel = new TaskViewModel(TEST_TASK, new TestLogger());
     }
 
-    @Test
+    @Test(expected = RuntimeException.class)
     public void taskViewModelConstructorThrowsExceptionWithNullLogger() {
-        try {
-            new TaskViewModel(null, null);
-            fail("Exception wasn't thrown");
-        } catch (RuntimeException ex) {
-            assertEquals("Logger parameter can't be null", ex.getMessage());
-        } catch (Exception ex) {
-            fail("Invalid exception type");
-        }
+        new TaskViewModel(TEST_TASK, null);
     }
 }
