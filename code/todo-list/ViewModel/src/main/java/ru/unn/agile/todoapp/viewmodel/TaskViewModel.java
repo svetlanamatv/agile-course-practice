@@ -11,23 +11,19 @@ import java.time.format.DateTimeFormatter;
 public class TaskViewModel {
     static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    private Task task;
-    private BooleanProperty doneCheckboxChecked;
-    private BooleanProperty doneCheckboxDisable;
+    private final Task task;
+    private final BooleanProperty doneCheckboxChecked;
+    private final BooleanProperty doneCheckboxDisable;
     private final ILogger logger;
-
-    private void initialize(final Task task)  {
-        this.task = task;
-        doneCheckboxChecked = new SimpleBooleanProperty(task.isDone());
-        doneCheckboxDisable = new SimpleBooleanProperty(task.isDone());
-    }
 
     public TaskViewModel(final Task task, final ILogger logger) {
         if (logger == null) {
             throw new RuntimeException("Logger parameter can't be null");
         }
         this.logger = logger;
-        initialize(task);
+        this.task = task;
+        doneCheckboxChecked = new SimpleBooleanProperty(task.isDone());
+        doneCheckboxDisable = new SimpleBooleanProperty(task.isDone());
     }
 
     public static Observable[] extractor(final TaskViewModel viewModel) {
