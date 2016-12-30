@@ -7,12 +7,12 @@ import ru.unn.agile.newtonroots.model.StoppingCriterion;
 
 import static org.junit.Assert.*;
 
-public class NewtonRootAppViewModelTests {
-    private NewtonRootAppViewModel viewModel;
+public class NewtonRootsViewModelTests {
+    private NewtonRootsViewModel viewModel;
 
     @Before
     public void setUp() {
-        viewModel = new NewtonRootAppViewModel(new TimestampingInMemoryLogger());
+        viewModel = new NewtonRootsViewModel(new TimestampingInMemoryLogger());
     }
 
     @After

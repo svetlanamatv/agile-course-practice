@@ -153,7 +153,7 @@ public class NewtonRootsTests {
         FunctionInterface func = createFunction("x - 1");
 
         double root = newtonMethod.findRoot(func, initialPoint, intervalStart, intervalEnd);
-        assertTrue(newtonMethod.getIterationsCounter() > 0);
+        assertTrue(newtonMethod.getIterationsCount() > 0);
     }
 
     @Test

@@ -9,10 +9,10 @@ import java.io.PrintWriter;
 import java.util.List;
 
 public class PlainTextLogger implements Logger {
-    private PrintWriter logFileWriter;
-    private TimestampingInMemoryLogger memoryBackedLogger = new TimestampingInMemoryLogger();
+    private final PrintWriter logFileWriter;
+    private final TimestampingInMemoryLogger memoryBackedLogger = new TimestampingInMemoryLogger();
 
-    public PlainTextLogger(String filename) throws IOException {
+    public PlainTextLogger(final String filename) throws IOException {
         logFileWriter = new PrintWriter(new FileWriter(filename), true);
     }
 
@@ -27,7 +27,7 @@ public class PlainTextLogger implements Logger {
     }
 
     @Override
-    public void appendMessage(String message) {
+    public void appendMessage(final String message) {
         memoryBackedLogger.appendMessage(message);
         logFileWriter.println(memoryBackedLogger.getLastMessage());
     }

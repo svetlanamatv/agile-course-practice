@@ -4,12 +4,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import ru.unn.agile.newtonroots.viewmodel.NewtonRootAppViewModel;
+import ru.unn.agile.newtonroots.viewmodel.NewtonRootsViewModel;
 import ru.unn.agile.newtonroots.model.StoppingCriterion;
 
 public class NewtonRootsApp  {
     @FXML
-    private NewtonRootsAppViewModelProvider viewModelProvider;
+    private NewtonRootsViewModelProvider viewModelProvider;
     @FXML
     private TextField leftPointText;
     @FXML
@@ -29,7 +29,7 @@ public class NewtonRootsApp  {
 
     @FXML
     private void initialize() {
-        NewtonRootAppViewModel viewModel = viewModelProvider.getViewModel();
+        NewtonRootsViewModel viewModel = viewModelProvider.getViewModel();
 
         leftPointText.textProperty().bindBidirectional(viewModel.leftPointProperty());
         rightPointText.textProperty().bindBidirectional(viewModel.rightPointProperty());
@@ -57,15 +57,15 @@ public class NewtonRootsApp  {
 
 
     private class FocusLossListener implements ChangeListener<Boolean> {
-        private final NewtonRootAppViewModel viewModel;
+        private final NewtonRootsViewModel viewModel;
 
-        FocusLossListener(NewtonRootAppViewModel viewModel) {
+        FocusLossListener(final NewtonRootsViewModel viewModel) {
             this.viewModel = viewModel;
         }
 
         @Override
-        public void changed(ObservableValue<? extends Boolean> observable,
-                            Boolean wasFocused, Boolean nowFocused) {
+        public void changed(final ObservableValue<? extends Boolean> observable,
+                            final Boolean wasFocused, final Boolean nowFocused) {
             if (!nowFocused) {
                 viewModel.finishEdit();
             }

@@ -6,7 +6,7 @@ public class ArgumentSavingConsumer<T> implements Consumer<T> {
     private T argument;
 
     @Override
-    public void accept(T argument) {
+    public void accept(final T argument) {
         this.argument = argument;
     }
 

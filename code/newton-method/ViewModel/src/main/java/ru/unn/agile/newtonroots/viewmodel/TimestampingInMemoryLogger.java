@@ -24,7 +24,7 @@ public class TimestampingInMemoryLogger implements Logger {
     }
 
     @Override
-    public void appendMessage(String message) {
+    public void appendMessage(final String message) {
         String timestamp = LocalDateTime.now().format(
                 DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT));
         messageList.add(timestamp + " > " + message);

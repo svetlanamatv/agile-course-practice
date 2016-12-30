@@ -1,16 +1,16 @@
 package ru.unn.agile.newtonroots.infrastructure;
 
-import ru.unn.agile.newtonroots.viewmodel.NewtonRootAppLoggingTests;
-import ru.unn.agile.newtonroots.viewmodel.NewtonRootAppViewModel;
+import ru.unn.agile.newtonroots.viewmodel.NewtonRootsLoggingTests;
+import ru.unn.agile.newtonroots.viewmodel.NewtonRootsViewModel;
 
 import java.io.IOException;
 
-public class NewtonRootAppLoggingTestsWithPlainTextLogger extends NewtonRootAppLoggingTests {
+public class NewtonRootsLoggingTestsWithPlainTextLogger extends NewtonRootsLoggingTests {
     @Override
     public void setUp() {
         try {
             PlainTextLogger logger = new PlainTextLogger("newton-method.log");
-            viewModel = new NewtonRootAppViewModel(logger);
+            setViewModel(new NewtonRootsViewModel(logger));
         } catch (IOException e) {
             e.printStackTrace();
         }

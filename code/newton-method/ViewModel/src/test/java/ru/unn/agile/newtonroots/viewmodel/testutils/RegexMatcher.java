@@ -11,12 +11,12 @@ public class RegexMatcher extends TypeSafeMatcher<String> {
     }
 
     @Override
-    protected boolean matchesSafely(String item) {
+    protected boolean matchesSafely(final String item) {
         return item.matches(pattern);
     }
 
     @Override
-    public void describeTo(Description description) {
+    public void describeTo(final Description description) {
         description.appendText("string matching pattern=`" + pattern + "`");
     }
 

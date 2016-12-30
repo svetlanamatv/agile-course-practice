@@ -11,12 +11,12 @@ public class StringSuffixMatcher extends TypeSafeMatcher<String> {
     }
 
     @Override
-    protected boolean matchesSafely(String item) {
+    protected boolean matchesSafely(final String item) {
         return item.endsWith(suffix);
     }
 
     @Override
-    public void describeTo(Description description) {
+    public void describeTo(final Description description) {
         description.appendText("string ending with `" + suffix + "`");
     }
 

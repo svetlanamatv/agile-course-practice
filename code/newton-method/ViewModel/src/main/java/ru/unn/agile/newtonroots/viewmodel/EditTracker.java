@@ -12,7 +12,7 @@ public class EditTracker<T> {
         return isTracking;
     }
 
-    public void startTracking(T initialValue, Consumer<T> handler) {
+    public void startTracking(final T initialValue, final Consumer<T> handler) {
         isTracking = true;
         this.initialValue = initialValue;
         this.currentValue = initialValue;
@@ -23,7 +23,7 @@ public class EditTracker<T> {
         return initialValue;
     }
 
-    public void updateValue(T newValue) {
+    public void updateValue(final T newValue) {
         this.currentValue = newValue;
     }
 

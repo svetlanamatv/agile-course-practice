@@ -3,7 +3,7 @@ package ru.unn.agile.newtonroots.viewmodel;
 import org.junit.Before;
 import org.junit.Test;
 import ru.unn.agile.newtonroots.model.StoppingCriterion;
-import ru.unn.agile.newtonroots.viewmodel.NewtonRootAppViewModel.LogMessages;
+import ru.unn.agile.newtonroots.viewmodel.NewtonRootsViewModel.LogMessages;
 
 import java.util.List;
 
@@ -11,15 +11,16 @@ import static org.junit.Assert.*;
 import static ru.unn.agile.newtonroots.viewmodel.testutils.RegexMatcher.matchesPattern;
 import static ru.unn.agile.newtonroots.viewmodel.testutils.StringSuffixMatcher.endsWith;
 
-public class NewtonRootAppLoggingTests {
-    private static String ROOT_SEARCH_PATTERN = "Root search finished. Parameters: " +
-            "leftEnd: %s  rightEnd: %s  derivativeStep: %s  accuracy: %s  " +
-            "function: \\Q\"%s\"\\E  startPoint: %s  stopCriterion: %s. ";
-    protected NewtonRootAppViewModel viewModel;
+public class NewtonRootsLoggingTests {
+    private NewtonRootsViewModel viewModel;
+
+    protected void setViewModel(final NewtonRootsViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
 
     @Before
     public void setUp() {
-        viewModel = new NewtonRootAppViewModel(new TimestampingInMemoryLogger());
+        viewModel = new NewtonRootsViewModel(new TimestampingInMemoryLogger());
     }
 
     @Test
@@ -122,15 +123,8 @@ public class NewtonRootAppLoggingTests {
         viewModel.findRoot();
 
         String lastMessage = viewModel.getLastLogMessage();
-        String expectedPattern = String.format(".*" + ROOT_SEARCH_PATTERN,
-                viewModel.getLeftPoint(),
-                viewModel.getRightPoint(),
-                viewModel.getDerivativeStep(),
-                viewModel.getAccuracy(),
-                viewModel.getFunction(),
-                viewModel.getStartPoint(),
-                viewModel.getStopCriterion().toString()) +
-                "Root was found. Results: x=\\d+\\.\\d+  accuracy=\\d+\\.\\d+  iterations=\\d+";
+        String expectedPattern = getRootSearchResultMessagePrefix()
+                + "Root was found. Results: x=\\d+\\.\\d+  accuracy=\\d+\\.\\d+  iterations=\\d+";
         assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
@@ -143,14 +137,7 @@ public class NewtonRootAppLoggingTests {
         viewModel.findRoot();
 
         String lastMessage = viewModel.getLastLogMessage();
-        String expectedPattern = String.format(".*" + ROOT_SEARCH_PATTERN,
-                viewModel.getLeftPoint(),
-                viewModel.getRightPoint(),
-                viewModel.getDerivativeStep(),
-                viewModel.getAccuracy(),
-                viewModel.getFunction(),
-                viewModel.getStartPoint(),
-                viewModel.getStopCriterion()) + "Root wasn't found";
+        String expectedPattern = getRootSearchResultMessagePrefix() + "Root wasn't found";
         assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
@@ -185,5 +172,20 @@ public class NewtonRootAppLoggingTests {
         viewModel.finishEdit();
         viewModel.setStartPoint("-0.2");
         viewModel.finishEdit();
+    }
+
+    private String getRootSearchResultMessagePrefix() {
+        final String rootSearchPattern = "Root search finished. Parameters: "
+                + "leftEnd: %s  rightEnd: %s  derivativeStep: %s  accuracy: %s  "
+                + "function: \\Q\"%s\"\\E  startPoint: %s  stopCriterion: %s. ";
+
+        return String.format(".*" + rootSearchPattern,
+                viewModel.getLeftPoint(),
+                viewModel.getRightPoint(),
+                viewModel.getDerivativeStep(),
+                viewModel.getAccuracy(),
+                viewModel.getFunction(),
+                viewModel.getStartPoint(),
+                viewModel.getStopCriterion());
     }
 }

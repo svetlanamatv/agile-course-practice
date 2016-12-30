@@ -3,15 +3,13 @@ package ru.unn.agile.newtonroots.model;
 import static java.lang.Double.NaN;
 
 public class NewtonMethod {
-    enum ResultStatus { RootSuccessfullyFound, NoRootInInterval,
-        NonmonotonicFunctionOnInterval, InitialPointOutsideInterval, IncorrectIntervalBoundaries }
+    private static final double MONOTONICITY_CHECK_STEP = 1e-5;
     private StoppingCriterion stoppingCriterion;
     private ResultStatus resultStatus;
     private double accuracyEps;
     private double derivativeStep;
-    private int iterationsCounter;
+    private int iterationCounter;
     private double finalAccuracy;
-    private static final double MONOTONIC_CHECK_STEP = 1e-5;
 
     public NewtonMethod(final double accuracy, final double derivativeComputeStep) {
         accuracyEps = accuracy;
@@ -20,10 +18,10 @@ public class NewtonMethod {
     }
 
     public static boolean isMonotonicFunctionOnInterval(final FunctionInterface func,
-                                                  final double intervalStart,
-                                                  final double intervalEnd) {
+                                                        final double intervalStart,
+                                                        final double intervalEnd) {
         double x = intervalStart;
-        double xStep = MONOTONIC_CHECK_STEP;
+        double xStep = MONOTONICITY_CHECK_STEP;
         double val = func.compute(x + xStep), dif;
         double oldVal = func.compute(x);
         double oldDif = val - oldVal;
@@ -49,8 +47,8 @@ public class NewtonMethod {
     }
 
     public double findRoot(final FunctionInterface func, final double initialPoint,
-                    final double intervalStart, final double intervalEnd) {
-        iterationsCounter = 0;
+                           final double intervalStart, final double intervalEnd) {
+        iterationCounter = 0;
         double x = initialPoint;
         double xPrev;
         double h = derivativeStep;
@@ -78,7 +76,7 @@ public class NewtonMethod {
         }
 
         do {
-            iterationsCounter++;
+            iterationCounter++;
             xPrev = x;
             x = x - func.compute(x) / (func.compute(x + h) - func.compute(x)) * h;
             while (x < intervalStart || x > intervalEnd) {
@@ -90,20 +88,24 @@ public class NewtonMethod {
         return x;
     }
 
-    public int getIterationsCounter()  {
-        return iterationsCounter;
+    public int getIterationsCount() {
+        return iterationCounter;
     }
 
-    public double getFinalAccuracy()  {
+    public double getFinalAccuracy() {
         return finalAccuracy;
+    }
+
+    public StoppingCriterion getStoppingCriterion() {
+        return stoppingCriterion;
     }
 
     public void setStoppingCriterion(final StoppingCriterion newStoppingCriterion) {
         stoppingCriterion = newStoppingCriterion;
     }
 
-    public StoppingCriterion getStoppingCriterion() {
-        return stoppingCriterion;
+    public double getAccuracyEps() {
+        return accuracyEps;
     }
 
     public void setAccuracyEps(final double accuracy) throws Exception {
@@ -114,8 +116,8 @@ public class NewtonMethod {
         }
     }
 
-    public double getAccuracyEps() {
-        return accuracyEps;
+    public double getDerivativeStep() {
+        return derivativeStep;
     }
 
     public void setDerivativeStep(final double derivativeComputeStep) throws Exception {
@@ -126,12 +128,16 @@ public class NewtonMethod {
         }
     }
 
-    public double getDerivativeStep() {
-        return derivativeStep;
-    }
-
     public ResultStatus getResultStatus() {
         return resultStatus;
+    }
+
+    enum ResultStatus {
+        RootSuccessfullyFound,
+        NoRootInInterval,
+        NonmonotonicFunctionOnInterval,
+        InitialPointOutsideInterval,
+        IncorrectIntervalBoundaries
     }
 
 }
