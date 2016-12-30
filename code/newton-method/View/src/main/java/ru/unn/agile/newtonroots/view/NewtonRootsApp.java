@@ -5,7 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import ru.unn.agile.newtonroots.viewmodel.NewtonRootAppViewModel;
-import ru.unn.agile.newtonroots.model.NewtonMethod.StoppingCriterion;
+import ru.unn.agile.newtonroots.model.StoppingCriterion;
 
 public class NewtonRootsApp  {
     @FXML

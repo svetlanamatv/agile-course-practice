@@ -3,8 +3,7 @@ package ru.unn.agile.newtonroots.model;
 import static java.lang.Double.NaN;
 
 public class NewtonMethod {
-    public enum StoppingCriterion { FunctionModule, DifferenceBetweenApproximates }
-    public enum ResultStatus { RootSuccessfullyFound, NoRootInInterval,
+    enum ResultStatus { RootSuccessfullyFound, NoRootInInterval,
         NonmonotonicFunctionOnInterval, InitialPointOutsideInterval, IncorrectIntervalBoundaries }
     private StoppingCriterion stoppingCriterion;
     private ResultStatus resultStatus;
@@ -12,31 +11,12 @@ public class NewtonMethod {
     private double derivativeStep;
     private int iterationsCounter;
     private double finalAccuracy;
-    public static final double DEFAULT_EPS = 1e-10;
-    public static final double DEFAULT_DERIVATIVE_STEP = 1e-10;
-    public static final double MONOTONIC_CHECK_STEP = 1e-5;
-    private final StoppingCriterion defaultStoppingCriterion = StoppingCriterion.FunctionModule;
-
-    private final StoppingCriterionInterface stoppingCriterionAsFunctionModule =
-            (func, x, xPrev, eps) ->  {
-                finalAccuracy = Math.abs(func.compute(x));
-                return finalAccuracy < eps;
-            };
-    private final StoppingCriterionInterface stoppingCriterionAsDiffBetweenApprox =
-            (func, x, xPrev, eps) -> {
-                finalAccuracy = Math.abs(x - xPrev);
-                return finalAccuracy < eps;
-            };
-    private StoppingCriterionInterface currentStoppingCriterionFunction;
-
-    private interface StoppingCriterionInterface {
-        boolean check(FunctionInterface func, double x, double xPrev, double accuracy);
-    }
+    private static final double MONOTONIC_CHECK_STEP = 1e-5;
 
     public NewtonMethod(final double accuracy, final double derivativeComputeStep) {
         accuracyEps = accuracy;
         derivativeStep = derivativeComputeStep;
-        currentStoppingCriterionFunction = stoppingCriterionAsFunctionModule;
+        stoppingCriterion = StoppingCriterion.FunctionModulus;
     }
 
     public static boolean isMonotonicFunctionOnInterval(final FunctionInterface func,
@@ -104,7 +84,8 @@ public class NewtonMethod {
             while (x < intervalStart || x > intervalEnd) {
                 x = (x + xPrev) / 2;
             }
-        } while (!currentStoppingCriterionFunction.check(func, x, xPrev, accuracyEps));
+            finalAccuracy = stoppingCriterion.getCriterionValue(func, x, xPrev);
+        } while (finalAccuracy >= accuracyEps);
         resultStatus = ResultStatus.RootSuccessfullyFound;
         return x;
     }
@@ -119,16 +100,6 @@ public class NewtonMethod {
 
     public void setStoppingCriterion(final StoppingCriterion newStoppingCriterion) {
         stoppingCriterion = newStoppingCriterion;
-        switch (stoppingCriterion) {
-            case FunctionModule:
-                currentStoppingCriterionFunction = stoppingCriterionAsFunctionModule;
-                break;
-            case DifferenceBetweenApproximates:
-                currentStoppingCriterionFunction = stoppingCriterionAsDiffBetweenApprox;
-                break;
-            default:
-                break;
-        }
     }
 
     public StoppingCriterion getStoppingCriterion() {

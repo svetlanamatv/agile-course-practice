@@ -2,7 +2,7 @@ package ru.unn.agile.newtonroots.viewmodel;
 
 import org.junit.Before;
 import org.junit.Test;
-import ru.unn.agile.newtonroots.model.NewtonMethod.StoppingCriterion;
+import ru.unn.agile.newtonroots.model.StoppingCriterion;
 import ru.unn.agile.newtonroots.viewmodel.NewtonRootAppViewModel.LogMessages;
 
 import java.util.List;
@@ -107,7 +107,7 @@ public class NewtonRootAppLoggingTests {
 
     @Test
     public void changeOfStopCriterionIsLogged() {
-        viewModel.setStopCriterion(StoppingCriterion.DifferenceBetweenApproximates);
+        viewModel.setStopCriterion(StoppingCriterion.DifferenceBetweenApproximations);
         viewModel.finishEdit();
 
         String lastMessage = viewModel.getLastLogMessage();
@@ -129,7 +129,7 @@ public class NewtonRootAppLoggingTests {
                 viewModel.getAccuracy(),
                 viewModel.getFunction(),
                 viewModel.getStartPoint(),
-                viewModel.getStopCriterion()) +
+                viewModel.getStopCriterion().toString()) +
                 "Root was found. Results: x=\\d+\\.\\d+  accuracy=\\d+\\.\\d+  iterations=\\d+";
         assertThat(lastMessage, matchesPattern(expectedPattern));
     }

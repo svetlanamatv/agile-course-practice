@@ -3,7 +3,7 @@ package ru.unn.agile.newtonroots.viewmodel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.unn.agile.newtonroots.model.NewtonMethod;
+import ru.unn.agile.newtonroots.model.StoppingCriterion;
 
 import static org.junit.Assert.*;
 
@@ -27,7 +27,7 @@ public class NewtonRootAppViewModelTests {
         viewModel.setFunction("x");
         viewModel.setDerivativeStep("0.001");
         viewModel.setStartPoint("0.1");
-        viewModel.setStopCriterion(NewtonMethod.StoppingCriterion.FunctionModule);
+        viewModel.setStopCriterion(StoppingCriterion.FunctionModulus);
     }
 
     @Test

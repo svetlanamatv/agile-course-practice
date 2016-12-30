@@ -24,7 +24,7 @@ public class NewtonRootsTests {
 
     @Test
     public void findRootIfExistInIntervalWithFunctionModuleStopping() {
-        newtonMethod.setStoppingCriterion(NewtonMethod.StoppingCriterion.FunctionModule);
+        newtonMethod.setStoppingCriterion(StoppingCriterion.FunctionModulus);
         FunctionInterface func = createFunction("x^2 - 1");
 
         double root = newtonMethod.findRoot(func, initialPoint, intervalStart, intervalEnd);
@@ -34,8 +34,7 @@ public class NewtonRootsTests {
 
     @Test
     public void findRootIfExistInIntervalWithDifferenceBetweenApproxStopping() {
-        newtonMethod.setStoppingCriterion(
-                NewtonMethod.StoppingCriterion.DifferenceBetweenApproximates);
+        newtonMethod.setStoppingCriterion(StoppingCriterion.DifferenceBetweenApproximations);
         FunctionInterface func = createFunction("x^2 - 1");
 
         double root = newtonMethod.findRoot(func, initialPoint, intervalStart, intervalEnd);
@@ -102,19 +101,17 @@ public class NewtonRootsTests {
 
     @Test
     public void setStoppingCriterionAsFunctionModule() {
-        newtonMethod.setStoppingCriterion(NewtonMethod.StoppingCriterion.FunctionModule);
+        newtonMethod.setStoppingCriterion(StoppingCriterion.FunctionModulus);
 
-        assertEquals(newtonMethod.getStoppingCriterion(),
-                NewtonMethod.StoppingCriterion.FunctionModule);
+        assertEquals(newtonMethod.getStoppingCriterion(), StoppingCriterion.FunctionModulus);
     }
 
     @Test
     public void setStoppingCriterionAsDifferenceBetweenApproximates() {
-        newtonMethod.setStoppingCriterion(
-                NewtonMethod.StoppingCriterion.DifferenceBetweenApproximates);
+        newtonMethod.setStoppingCriterion(StoppingCriterion.DifferenceBetweenApproximations);
 
         assertEquals(newtonMethod.getStoppingCriterion(),
-                NewtonMethod.StoppingCriterion.DifferenceBetweenApproximates);
+                StoppingCriterion.DifferenceBetweenApproximations);
     }
 
     @Test

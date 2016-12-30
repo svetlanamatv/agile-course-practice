@@ -7,7 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import ru.unn.agile.newtonroots.model.MathFunction;
 import ru.unn.agile.newtonroots.model.NewtonMethod;
-import ru.unn.agile.newtonroots.model.NewtonMethod.StoppingCriterion;
+import ru.unn.agile.newtonroots.model.StoppingCriterion;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +30,7 @@ public class NewtonRootAppViewModel  {
             new SimpleObjectProperty<>(
                     FXCollections.observableArrayList(StoppingCriterion.values()));
     private final ObjectProperty<StoppingCriterion> stopCriterion =
-            new SimpleObjectProperty<>(StoppingCriterion.FunctionModule);
+            new SimpleObjectProperty<>(StoppingCriterion.FunctionModulus);
 
     private final StringProperty logLines = new SimpleStringProperty("");
 
