@@ -9,7 +9,7 @@ import ru.unn.agile.newtonroots.model.NewtonMethod.StoppingCriterion;
 
 public class NewtonRootsApp  {
     @FXML
-    private NewtonRootAppViewModelProvider viewModelProvider;
+    private NewtonRootsAppViewModelProvider viewModelProvider;
     @FXML
     private TextField leftPointText;
     @FXML

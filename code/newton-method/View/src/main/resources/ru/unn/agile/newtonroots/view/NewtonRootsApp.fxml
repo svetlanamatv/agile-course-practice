@@ -3,13 +3,13 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import ru.unn.agile.newtonroots.view.NewtonRootAppViewModelProvider?>
+<?import ru.unn.agile.newtonroots.view.NewtonRootsAppViewModelProvider?>
 
 <GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="ru.unn.agile.newtonroots.view.NewtonRootsApp"
           maxWidth="400" maxHeight="600" hgap="10" vgap="10">
     <fx:define>
-        <NewtonRootAppViewModelProvider fx:id="viewModelProvider"/>
+        <NewtonRootsAppViewModelProvider fx:id="viewModelProvider"/>
     </fx:define>
 
     <padding>
