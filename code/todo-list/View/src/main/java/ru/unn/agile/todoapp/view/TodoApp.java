@@ -48,23 +48,23 @@ public class TodoApp {
             }
         });
 
-        StringPropertyChangeListener taskDesckStringListener = new StringPropertyChangeListener();
+        StringPropertyChangeListener taskDescrStringListener = new StringPropertyChangeListener();
         final ChangeListener<Boolean> taskDescrFocusChangeListener = new ChangeListener<Boolean>() {
             @Override
             public void changed(final ObservableValue<? extends Boolean> observable,
                                 final Boolean oldValue, final Boolean newValue) {
                 if (!oldValue && newValue) {
                     return;
-                } else if (taskDesckStringListener.isChanged())  {
+                } else if (taskDescrStringListener.isChanged())  {
                     viewModel.onNewTaskDescriptionFocusChanged();
-                    taskDesckStringListener.cache();
+                    taskDescrStringListener.cache();
                 }
             }
         };
 
         taskDescriptionTextField.textProperty().bindBidirectional(
                 viewModel.newTaskDescriptionProperty());
-        taskDescriptionTextField.textProperty().addListener(taskDesckStringListener);
+        taskDescriptionTextField.textProperty().addListener(taskDescrStringListener);
         taskDescriptionTextField.focusedProperty().addListener(taskDescrFocusChangeListener);
 
         taskDueDatePicker.valueProperty().bindBidirectional(viewModel.newTaskDueDateProperty());
@@ -80,6 +80,5 @@ public class TodoApp {
 
         taskListView.setItems(viewModel.getSortedTasksViewModels());
         taskListView.setCellFactory(taskListView -> new TaskListCell(viewModel));
-        logTextArea.textProperty().bind(viewModel.logsStringProperty());
     }
 }
