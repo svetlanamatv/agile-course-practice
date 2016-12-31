@@ -17,7 +17,7 @@ public class NewtonMethod {
         stoppingCriterion = StoppingCriterion.FunctionModulus;
     }
 
-    public static boolean isMonotonicFunctionOnInterval(final ScalarFunction func,
+    public static boolean isFunctionMonotonicOnInterval(final ScalarFunction func,
                                                         final double intervalStart,
                                                         final double intervalEnd) {
         double x = intervalStart;
@@ -40,9 +40,9 @@ public class NewtonMethod {
         return true;
     }
 
-    private boolean isMonotonicFunctionHasRoot(final ScalarFunction func,
-                                               final double intervalStart,
-                                               final double intervalEnd) {
+    private boolean doesMonotonicFunctionHasRoot(final ScalarFunction func,
+                                                 final double intervalStart,
+                                                 final double intervalEnd) {
         return func.compute(intervalStart) * func.compute(intervalEnd) <= 0;
     }
 
@@ -63,13 +63,13 @@ public class NewtonMethod {
             return NaN;
         }
 
-        boolean isMonotonic = isMonotonicFunctionOnInterval(func, intervalStart, intervalEnd);
+        boolean isMonotonic = isFunctionMonotonicOnInterval(func, intervalStart, intervalEnd);
         if (!isMonotonic) {
             resultStatus = ResultStatus.NonmonotonicFunctionOnInterval;
             return NaN;
         }
 
-        boolean isHasRoot = isMonotonicFunctionHasRoot(func, intervalStart, intervalEnd);
+        boolean isHasRoot = doesMonotonicFunctionHasRoot(func, intervalStart, intervalEnd);
         if (!isHasRoot) {
             resultStatus = ResultStatus.NoRootInInterval;
             return NaN;
@@ -132,7 +132,7 @@ public class NewtonMethod {
         return resultStatus;
     }
 
-    enum ResultStatus {
+    public enum ResultStatus {
         RootSuccessfullyFound,
         NoRootInInterval,
         NonmonotonicFunctionOnInterval,

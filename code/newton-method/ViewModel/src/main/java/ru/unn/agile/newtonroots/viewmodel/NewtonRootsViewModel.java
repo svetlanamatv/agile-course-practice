@@ -40,7 +40,7 @@ public class NewtonRootsViewModel {
     private final ExplicitlyEditableStringProperty functionExpression;
     private final ExplicitlyEditableStringProperty startPoint;
     private final StringProperty solverReport = new SimpleStringProperty("");
-    private final BooleanProperty findRootButtonDisable = new SimpleBooleanProperty(true);
+    private final BooleanProperty inputDataIsInvalid = new SimpleBooleanProperty(true);
     private final StringProperty applicationStatus =
             new SimpleStringProperty(ApplicationStatus.WAITING.toString());
 
@@ -179,16 +179,12 @@ public class NewtonRootsViewModel {
     }
 
 
-    public BooleanProperty findRootButtonDisableProperty() {
-        return findRootButtonDisable;
+    public BooleanProperty inputDataIsInvalidProperty() {
+        return inputDataIsInvalid;
     }
 
-    public boolean getFindRootButtonDisable() {
-        return findRootButtonDisable.get();
-    }
-
-    public void setFindRootButtonDisable(final boolean value) {
-        findRootButtonDisable.set(value);
+    public boolean getInputDataIsInvalid() {
+        return inputDataIsInvalid.get();
     }
 
 
@@ -211,10 +207,6 @@ public class NewtonRootsViewModel {
 
     public String getApplicationStatus() {
         return applicationStatus.get();
-    }
-
-    public void setApplicationStatus(final String value) {
-        applicationStatus.set(value);
     }
 
 
@@ -277,24 +269,35 @@ public class NewtonRootsViewModel {
 
 
     public void findRoot() {
-        if (findRootButtonDisable.get()) {
+        if (inputDataIsInvalid.get()) {
+            logMessage(LogMessages.getInvalidInputMessage(this));
+            throw new IllegalArgumentException();
+        }
+
+        double leftPointValue = Double.parseDouble(leftPoint.get());
+        double rightPointValue = Double.parseDouble(rightPoint.get());
+        double startPointValue = Double.parseDouble(startPoint.get());
+        double accuracyValue = Double.parseDouble(accuracy.get());
+        double derivativeStepValue = Double.parseDouble(derivativeStep.get());
+        NewtonMethod method = new NewtonMethod(accuracyValue, derivativeStepValue);
+
+        method.setStoppingCriterion(stopCriterion.get());
+
+        AnalyticallyDefinedScalarFunction function;
+        try {
+            function = new AnalyticallyDefinedScalarFunction(functionExpression.get());
+        } catch (AnalyticallyDefinedScalarFunction.InvalidFunctionExpressionException e) {
+            e.printStackTrace();
             return;
         }
 
-        try {
-            NewtonMethod method = new NewtonMethod(Double.parseDouble(accuracy.get()),
-                    Double.parseDouble(derivativeStep.get()));
-            method.setStoppingCriterion(stopCriterion.get());
-            AnalyticallyDefinedScalarFunction function =
-                    new AnalyticallyDefinedScalarFunction(functionExpression.get());
-            double left = Double.parseDouble(leftPoint.get());
-            double right = Double.parseDouble(rightPoint.get());
-            double startPoint = Double.parseDouble(this.startPoint.get());
-            double root = method.findRoot(function, startPoint, left, right);
+        double root = method.findRoot(function, startPointValue, leftPointValue, rightPointValue);
+        NewtonMethod.ResultStatus result = method.getResultStatus();
 
-            if (Double.isNaN(root)) {
-                throw new Exception();
-            } else {
+        RuntimeException unexpectedInvalidInputException =
+                new RuntimeException("Invalid input was supplied and not caught.");
+        switch (result) {
+            case RootSuccessfullyFound:
                 int iterationsCount = method.getIterationsCount();
                 double finalAccuracy = method.getFinalAccuracy();
                 setSolverReport("Root: " + root
@@ -304,11 +307,35 @@ public class NewtonRootsViewModel {
 
                 logMessage(LogMessages.getSuccessfulRunMessage(this,
                         root, finalAccuracy, iterationsCount));
-            }
-        } catch (Exception e) {
-            applicationStatus.set(ApplicationStatus.FAILED.toString());
+                break;
 
-            logMessage(LogMessages.getFailedRunMessage(this));
+
+            case NoRootInInterval:
+                applicationStatus.set(ApplicationStatus.FAILED.toString());
+                logMessage(LogMessages.getNoRootInIntervalMessage(this));
+                break;
+
+
+            case IncorrectIntervalBoundaries:
+                logMessage(LogMessages.getUnexpectedInvalidInputMessage(
+                        "Right point is on the left of the left point."));
+                throw unexpectedInvalidInputException;
+
+
+            case InitialPointOutsideInterval:
+                logMessage(LogMessages.getUnexpectedInvalidInputMessage(
+                        "Start point outside of the interval."));
+                throw unexpectedInvalidInputException;
+
+
+            case NonmonotonicFunctionOnInterval:
+                logMessage(LogMessages.getUnexpectedInvalidInputMessage(
+                        "Supplied function isn't monotonic on the interval."));
+                throw unexpectedInvalidInputException;
+
+            default:
+                logMessage(LogMessages.UNKNOWN_ERROR_TEXT);
+                throw new RuntimeException("Unknown error has occurred.");
         }
     }
 
@@ -338,7 +365,7 @@ public class NewtonRootsViewModel {
             return false;
         }
 
-        return NewtonMethod.isMonotonicFunctionOnInterval(testFunction,
+        return NewtonMethod.isFunctionMonotonicOnInterval(testFunction,
                 Double.parseDouble(leftPoint.get()),
                 Double.parseDouble(rightPoint.get()));
     }
@@ -418,9 +445,13 @@ public class NewtonRootsViewModel {
         static final String FUNCTION_EXPR_TEXT = "Function expression changed to ";
         static final String START_POINT_TEXT = "Start point changed to ";
         static final String STOP_CRITERION_TEXT = "Stop criterion changed to ";
-        static final String ROOT_SEARCH_TEXT = "Root search finished. Parameters: "
+        static final String ROOT_SEARCH_FINISHED_TEXT = "Root search finished. ";
+        static final String ROOT_SEARCH_PARAMETERS_TEXT = "Parameters: "
                 + "leftEnd: %s  rightEnd: %s  derivativeStep: %s  accuracy: %s  "
                 + "function: \"%s\"  startPoint: %s  stopCriterion: %s. ";
+        static final String INVALID_INPUT_TEXT =
+                "Root search didn't start because of invalid input. ";
+        public static final String UNKNOWN_ERROR_TEXT = "Root search failed with unknown error.";
 
         private LogMessages() {
         }
@@ -458,23 +489,33 @@ public class NewtonRootsViewModel {
                 final double finalAccuracy,
                 final int iterationsCounter) {
 
-            return getParametersMessagePrefix(viewModel)
+            return ROOT_SEARCH_FINISHED_TEXT + getParametersMessageBlock(viewModel)
                     + String.format("Root was found. "
-                            + "Results: x=%f  accuracy=%f  "
+                            + "Results: x=%.7g  accuracy=%.7g  "
                             + "iterations=%d",
                             root, finalAccuracy, iterationsCounter);
         }
 
-        static String getFailedRunMessage(final NewtonRootsViewModel viewModel) {
-             return getParametersMessagePrefix(viewModel) + "Root wasn't found";
+        static String getNoRootInIntervalMessage(final NewtonRootsViewModel viewModel) {
+             return ROOT_SEARCH_FINISHED_TEXT + getParametersMessageBlock(viewModel)
+                     + "No root in interval.";
         }
 
         static String getLogSizeLimitExceededMessage() {
             return "... <rest of the log is omitted> ...";
         }
 
-        private static String getParametersMessagePrefix(final NewtonRootsViewModel viewModel) {
-            return String.format(ROOT_SEARCH_TEXT,
+        static String getInvalidInputMessage(final NewtonRootsViewModel viewModel) {
+            return INVALID_INPUT_TEXT + getParametersMessageBlock(viewModel);
+        }
+
+        static String getUnexpectedInvalidInputMessage(final String explanation) {
+            return "Root search failed because of invalid input, which wasn't caught. "
+                    + explanation;
+        }
+
+        private static String getParametersMessageBlock(final NewtonRootsViewModel viewModel) {
+            return String.format(ROOT_SEARCH_PARAMETERS_TEXT,
                     viewModel.getLeftPoint(),
                     viewModel.getRightPoint(),
                     viewModel.getDerivativeStep(),
@@ -492,7 +533,7 @@ public class NewtonRootsViewModel {
                             final String oldValue, final String newValue) {
             ApplicationStatus status = checkInput();
             applicationStatus.set(status.toString());
-            findRootButtonDisable.set(status != ApplicationStatus.READY);
+            inputDataIsInvalid.set(status != ApplicationStatus.READY);
         }
     }
 }

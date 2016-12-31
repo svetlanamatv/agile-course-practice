@@ -55,7 +55,7 @@
         </GridPane>
     </TitledPane>
 
-    <Button fx:id="findRootButton" disable="${viewModelProvider.viewModel.findRootButtonDisable}"
+    <Button fx:id="findRootButton" disable="${viewModelProvider.viewModel.inputDataIsInvalid}"
             text="Find root" prefWidth="100" GridPane.rowIndex="1" GridPane.columnIndex="0">
         <GridPane.margin>
             <Insets left="10"/>

@@ -30,6 +30,11 @@ public class NewtonRootsViewModelTests {
         viewModel.setStopCriterion(StoppingCriterion.FunctionModulus);
     }
 
+    private void setInvalidModelInputState() {
+        setValidViewModelInputState();
+        viewModel.editDerivativeStepTo("z");
+    }
+
     @Test
     public void checkDefaultState() {
         assertEquals("", viewModel.getLeftPoint());
@@ -37,7 +42,7 @@ public class NewtonRootsViewModelTests {
         assertEquals("", viewModel.getDerivativeStep());
         assertEquals("", viewModel.getAccuracy());
         assertEquals("", viewModel.getFunctionExpression());
-        assertEquals(true, viewModel.getFindRootButtonDisable());
+        assertEquals(true, viewModel.getInputDataIsInvalid());
         assertEquals("", viewModel.getSolverReport());
         assertEquals("", viewModel.getStartPoint());
     }
@@ -158,12 +163,10 @@ public class NewtonRootsViewModelTests {
                 viewModel.getApplicationStatus());
     }
 
-    @Test
-    public void findRootDoesNothingIfFindButtonIsDisabled()  {
-      setValidViewModelInputState();
-      viewModel.editDerivativeStepTo("z"); //set illegal value to disable findRoot button
-      viewModel.findRoot();
-      assertTrue(viewModel.getSolverReport().isEmpty());
+    @Test(expected = IllegalArgumentException.class)
+    public void findRootThrowsIfInputIsInvalid() {
+        setInvalidModelInputState();
+        viewModel.findRoot();
     }
 
     @Test(expected = ExplicitlyEditableStringProperty.SetOusideOfEditException.class)

@@ -114,26 +114,43 @@ public class NewtonRootsLoggingTests {
     }
 
     @Test
+    public void findRootLogsFailedRootSearchAttemptIfInputIsInvalid() {
+        setupParametersForSuccessfulRootSearch();
+        viewModel.editFuncitonExpressionTo("z");
+
+        try {
+            viewModel.findRoot();
+        } catch (Exception e) {
+            String lastLogMessage = viewModel.getLastLogMessage();
+            String expectedPattern = ".*" + LogMessages.INVALID_INPUT_TEXT
+                    + getRootSearchResultMessagePrefix();
+            assertThat(lastLogMessage, matchesPattern(expectedPattern));
+        }
+    }
+
+    @Test
     public void runningSuccessfulRootSearchIsLogged() {
         setupParametersForSuccessfulRootSearch();
 
         viewModel.findRoot();
 
         String lastMessage = viewModel.getLastLogMessage();
-        String expectedPattern = getRootSearchResultMessagePrefix()
+        String expectedPattern = ".*" + LogMessages.ROOT_SEARCH_FINISHED_TEXT
+                + getRootSearchResultMessagePrefix()
                 + "Root was found. Results: x=\\d+\\.\\d+  accuracy=\\d+\\.\\d+  iterations=\\d+";
         assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
     @Test
-    public void runningFailedRootSearchIsLogged() {
+    public void runningRootSearchWhenThereIsNoRootInIntervalIsLogged() {
         setupParametersForSuccessfulRootSearch();
         viewModel.editFuncitonExpressionTo("x+100");
 
         viewModel.findRoot();
 
         String lastMessage = viewModel.getLastLogMessage();
-        String expectedPattern = getRootSearchResultMessagePrefix() + "Root wasn't found";
+        String expectedPattern = ".*" + LogMessages.ROOT_SEARCH_FINISHED_TEXT
+                + getRootSearchResultMessagePrefix() + "No root in interval.";
         assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
@@ -217,11 +234,11 @@ public class NewtonRootsLoggingTests {
     }
 
     private String getRootSearchResultMessagePrefix() {
-        final String rootSearchPattern = "Root search finished. Parameters: "
+        final String rootSearchParametersPattern = "Parameters: "
                 + "leftEnd: %s  rightEnd: %s  derivativeStep: %s  accuracy: %s  "
                 + "function: \\Q\"%s\"\\E  startPoint: %s  stopCriterion: %s. ";
 
-        return String.format(".*" + rootSearchPattern,
+        return String.format(rootSearchParametersPattern,
                 viewModel.getLeftPoint(),
                 viewModel.getRightPoint(),
                 viewModel.getDerivativeStep(),
