@@ -31,4 +31,9 @@ public class PlainTextLogger implements Logger {
         memoryBackedLogger.appendMessage(message);
         logFileWriter.println(memoryBackedLogger.getLastMessage());
     }
+
+    @Override
+    public int getMessageCount() {
+        return memoryBackedLogger.getMessageCount();
+    }
 }

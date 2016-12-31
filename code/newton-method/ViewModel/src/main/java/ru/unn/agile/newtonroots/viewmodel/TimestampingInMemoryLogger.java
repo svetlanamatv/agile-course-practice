@@ -29,4 +29,9 @@ public class TimestampingInMemoryLogger implements Logger {
                 DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT));
         messageList.add(timestamp + " > " + message);
     }
+
+    @Override
+    public int getMessageCount() {
+        return messageList.size();
+    }
 }

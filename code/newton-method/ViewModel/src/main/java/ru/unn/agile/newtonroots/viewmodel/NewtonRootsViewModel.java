@@ -9,15 +9,13 @@ import ru.unn.agile.newtonroots.model.AnalyticallyDefinedScalarFunction;
 import ru.unn.agile.newtonroots.model.NewtonMethod;
 import ru.unn.agile.newtonroots.model.StoppingCriterion;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
 enum ApplicationStatus {
     WAITING("Please provide input data"),
     READY("Press 'Find root'"),
-    NON_MONOTONIC_FUNCTION("The function is not monotonic"),
+    NON_MONOTONIC_FUNCTION("The functionExpression is not monotonic"),
     BAD_FORMAT("Bad format"),
     BAD_PARAMETERS("Wrong method parameters"),
     SUCCESS("Root found"),
@@ -35,11 +33,12 @@ enum ApplicationStatus {
 }
 
 public class NewtonRootsViewModel {
+    private static final int MAX_LOGLINES_MESSAGE_COUNT = 500;
     private final StringProperty leftPoint = new SimpleStringProperty("");
     private final StringProperty rightPoint = new SimpleStringProperty("");
     private final StringProperty derivativeStep = new SimpleStringProperty("");
     private final StringProperty accuracy = new SimpleStringProperty("");
-    private final StringProperty function = new SimpleStringProperty("");
+    private final StringProperty functionExpression = new SimpleStringProperty("");
     private final StringProperty solverReport = new SimpleStringProperty("");
     private final BooleanProperty findRootButtonDisable = new SimpleBooleanProperty(true);
     private final StringProperty applicationStatus =
@@ -57,6 +56,10 @@ public class NewtonRootsViewModel {
     private final Logger logger;
     private final EditTracker<String> editTracker;
 
+    public static int getMaxLogLinesMessageCount() {
+        return MAX_LOGLINES_MESSAGE_COUNT;
+    }
+
     public NewtonRootsViewModel(final Logger logger) {
         leftPoint.addListener(
                 new StringValueChangeListener(LogMessages::getLeftPointChangeMessage));
@@ -66,7 +69,7 @@ public class NewtonRootsViewModel {
                 new StringValueChangeListener(LogMessages::getDerivativeStepChangeMessage));
         accuracy.addListener(
                 new StringValueChangeListener(LogMessages::getAccuracyChangeMessage));
-        function.addListener(
+        functionExpression.addListener(
                 new StringValueChangeListener(LogMessages::getFunctionExpressionChangeMessage));
         startPoint.addListener(
                 new StringValueChangeListener(LogMessages::getStartPointChangeMessage));
@@ -81,6 +84,7 @@ public class NewtonRootsViewModel {
         editTracker = new EditTracker<>();
     }
 
+
     public StringProperty leftPointProperty() {
         return leftPoint;
     }
@@ -92,6 +96,7 @@ public class NewtonRootsViewModel {
     public void setLeftPoint(final String value) {
         leftPoint.set(value);
     }
+
 
     public StringProperty rightPointProperty() {
         return rightPoint;
@@ -105,6 +110,7 @@ public class NewtonRootsViewModel {
         rightPoint.set(value);
     }
 
+
     public StringProperty derivativeStepProperty() {
         return derivativeStep;
     }
@@ -116,6 +122,7 @@ public class NewtonRootsViewModel {
     public void setDerivativeStep(final String value) {
         derivativeStep.set(value);
     }
+
 
     public StringProperty accuracyProperty() {
         return accuracy;
@@ -129,17 +136,19 @@ public class NewtonRootsViewModel {
         accuracy.set(value);
     }
 
-    public StringProperty functionProperty() {
-        return function;
+
+    public StringProperty functionExpressionProperty() {
+        return functionExpression;
     }
 
-    public String getFunction() {
-        return function.get();
+    public String getFunctionExpression() {
+        return functionExpression.get();
     }
 
-    public void setFunction(final String value) {
-        function.set(value);
+    public void setFunctionExpression(final String value) {
+        functionExpression.set(value);
     }
+
 
     public BooleanProperty findRootButtonDisableProperty() {
         return findRootButtonDisable;
@@ -153,6 +162,7 @@ public class NewtonRootsViewModel {
         findRootButtonDisable.set(value);
     }
 
+
     public StringProperty solverReportProperty() {
         return solverReport;
     }
@@ -165,6 +175,7 @@ public class NewtonRootsViewModel {
         solverReport.set(value);
     }
 
+
     public StringProperty applicationStatusProperty() {
         return applicationStatus;
     }
@@ -176,6 +187,7 @@ public class NewtonRootsViewModel {
     public void setApplicationStatus(final String value) {
         applicationStatus.set(value);
     }
+
 
     public StringProperty startPointProperty() {
         return startPoint;
@@ -198,6 +210,7 @@ public class NewtonRootsViewModel {
         return stopCriteria.get();
     }
 
+
     public ObjectProperty<StoppingCriterion> stopCriterionProperty() {
         return stopCriterion;
     }
@@ -219,6 +232,7 @@ public class NewtonRootsViewModel {
         return logLines.get();
     }
 
+
     public Logger getLogger() {
         return logger;
     }
@@ -229,6 +243,10 @@ public class NewtonRootsViewModel {
 
     public List<String> getLogMessages() {
         return logger.getMessageList();
+    }
+
+    public int getLogSize() {
+        return logger.getMessageCount();
     }
 
 
@@ -245,11 +263,12 @@ public class NewtonRootsViewModel {
             NewtonMethod method = new NewtonMethod(Double.parseDouble(accuracy.get()),
                     Double.parseDouble(derivativeStep.get()));
             method.setStoppingCriterion(stopCriterion.get());
-            AnalyticallyDefinedScalarFunction functionObj = new AnalyticallyDefinedScalarFunction(function.get());
+            AnalyticallyDefinedScalarFunction function =
+                    new AnalyticallyDefinedScalarFunction(functionExpression.get());
             double left = Double.parseDouble(leftPoint.get());
             double right = Double.parseDouble(rightPoint.get());
             double startPoint = Double.parseDouble(this.startPoint.get());
-            double root = method.findRoot(functionObj, startPoint, left, right);
+            double root = method.findRoot(function, startPoint, left, right);
 
             if (Double.isNaN(root)) {
                 throw new Exception();
@@ -278,7 +297,8 @@ public class NewtonRootsViewModel {
             Double.parseDouble(accuracy.get());
             Double.parseDouble(derivativeStep.get());
             Double.parseDouble(startPoint.get());
-            AnalyticallyDefinedScalarFunction testFunction = new AnalyticallyDefinedScalarFunction(function.get());
+            AnalyticallyDefinedScalarFunction testFunction =
+                    new AnalyticallyDefinedScalarFunction(functionExpression.get());
         } catch (NumberFormatException nfe) {
             return false;
         } catch (Exception e) {
@@ -291,7 +311,7 @@ public class NewtonRootsViewModel {
     private boolean checkMonotonic() {
         AnalyticallyDefinedScalarFunction testFunction;
         try {
-            testFunction = new AnalyticallyDefinedScalarFunction(function.get());
+            testFunction = new AnalyticallyDefinedScalarFunction(functionExpression.get());
         } catch (Exception e) {
             return false;
         }
@@ -323,7 +343,7 @@ public class NewtonRootsViewModel {
     private ApplicationStatus checkInput() {
         if (leftPoint.get().isEmpty() || rightPoint.get().isEmpty()
                 || accuracy.get().isEmpty() || derivativeStep.get().isEmpty()
-                || function.get().isEmpty() || startPoint.get().isEmpty()
+                || functionExpression.get().isEmpty() || startPoint.get().isEmpty()
                 || stopCriterion.get() == null) {
             return ApplicationStatus.WAITING;
         }
@@ -345,9 +365,28 @@ public class NewtonRootsViewModel {
 
     private void logMessage(final String message) {
         logger.appendMessage(message);
-        ArrayList<String> reverseMessageList = new ArrayList<>(logger.getMessageList());
-        Collections.reverse(reverseMessageList);
-        logLines.set(String.join("\n", reverseMessageList));
+
+        updateLogLines();
+    }
+
+    private void updateLogLines() {
+        String logLinesContents = logLines.get();
+
+        if (logLinesContents.isEmpty()) {
+            logLinesContents = logger.getLastMessage();
+        } else {
+            logLinesContents = logger.getLastMessage() + '\n' + logLinesContents;
+        }
+
+        if (logger.getMessageCount() > MAX_LOGLINES_MESSAGE_COUNT) {
+            int lastNewlineIndex = logLinesContents.length()
+                    - LogMessages.getLogSizeLimitExceededMessage().length() - 1;
+            int secondToLastNewlineIndex = logLinesContents.lastIndexOf('\n', lastNewlineIndex);
+            logLinesContents = logLinesContents.substring(0, secondToLastNewlineIndex) + '\n'
+                    + LogMessages.getLogSizeLimitExceededMessage();
+        }
+
+        logLines.set(logLinesContents);
     }
 
     static final class LogMessages {
@@ -409,13 +448,17 @@ public class NewtonRootsViewModel {
              return getParametersMessagePrefix(viewModel) + "Root wasn't found";
         }
 
+        static String getLogSizeLimitExceededMessage() {
+            return "... <rest of the log is omitted> ...";
+        }
+
         private static String getParametersMessagePrefix(final NewtonRootsViewModel viewModel) {
             return String.format(ROOT_SEARCH_TEXT,
                     viewModel.getLeftPoint(),
                     viewModel.getRightPoint(),
                     viewModel.getDerivativeStep(),
                     viewModel.getAccuracy(),
-                    viewModel.getFunction(),
+                    viewModel.getFunctionExpression(),
                     viewModel.getStartPoint(),
                     viewModel.getStopCriterion());
         }

@@ -30,7 +30,7 @@ public class TimestampingInMemoryLoggerTests {
     public void whenAppendingMessageLogSizeIncreases() {
         logger.appendMessage(LOG_MESSAGE);
 
-        assertEquals(1, logger.getMessageList().size());
+        assertEquals(1, logger.getMessageCount());
     }
 
     @Test

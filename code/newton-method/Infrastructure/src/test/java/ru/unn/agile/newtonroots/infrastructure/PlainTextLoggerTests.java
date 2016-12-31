@@ -10,12 +10,14 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static ru.unn.agile.newtonroots.viewmodel.testutils.StringSuffixMatcher.endsWith;
 
 public class PlainTextLoggerTests {
     private static final String LOG_FILENAME = "newton-method.log";
+    private static final String TEST_MESSAGE = "TEST MESSAGE";
     private PlainTextLogger logger;
 
     @Before
@@ -40,11 +42,33 @@ public class PlainTextLoggerTests {
 
     @Test
     public void messageIsAppendedToLogFile() throws IOException {
-        String expectedMessage = "TEST MESSAGE";
-        logger.appendMessage(expectedMessage);
+        logger.appendMessage(TEST_MESSAGE);
 
         BufferedReader logReader = new BufferedReader(new FileReader(LOG_FILENAME));
         String actualMessage = logReader.readLine();
-        assertThat(actualMessage, endsWith(expectedMessage));
+        assertThat(actualMessage, endsWith(TEST_MESSAGE));
+    }
+
+    @Test
+    public void messageCountQueryIsSatisfied() {
+        logger.appendMessage(TEST_MESSAGE);
+
+        assertEquals(1, logger.getMessageCount());
+    }
+
+    @Test
+    public void lastMessageQueryIsSatisfied() {
+        logger.appendMessage(TEST_MESSAGE);
+
+        assertThat(logger.getLastMessage(), endsWith(TEST_MESSAGE));
+    }
+
+    @Test
+    public void messageListQueryIsSatisfied() {
+        logger.appendMessage(TEST_MESSAGE);
+
+        List<String> logMessageList = logger.getMessageList();
+        assertEquals(1, logMessageList.size());
+        assertThat(logMessageList.get(0), endsWith(TEST_MESSAGE));
     }
 }

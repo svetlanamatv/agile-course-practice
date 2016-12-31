@@ -6,4 +6,5 @@ public interface Logger {
     List<String> getMessageList();
     String getLastMessage();
     void appendMessage(String message);
+    int getMessageCount();
 }

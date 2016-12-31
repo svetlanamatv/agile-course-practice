@@ -30,10 +30,12 @@ public class NewtonRootsLoggingTests {
 
     @Test
     public void changeWithoutFinishingOfTrackingIsNotLogged() {
+        int logSizeBefore = viewModel.getLogSize();
+
         viewModel.setAccuracy("1e-5");
 
-        int logSize = viewModel.getLogMessages().size();
-        assertEquals(0, logSize);
+        int logSizeAfter = viewModel.getLogSize();
+        assertEquals(logSizeBefore, logSizeAfter);
     }
 
     @Test
@@ -88,11 +90,11 @@ public class NewtonRootsLoggingTests {
 
     @Test
     public void changeOfFunctionExpressionIsLogged() {
-        viewModel.setFunction("e^(x^2) - 0.5");
+        viewModel.setFunctionExpression("e^(x^2) - 0.5");
         viewModel.finishEdit();
 
         String lastMessage = viewModel.getLastLogMessage();
-        String expectedMessage = LogMessages.FUNCTION_EXPR_TEXT + viewModel.getFunction();
+        String expectedMessage = LogMessages.FUNCTION_EXPR_TEXT + viewModel.getFunctionExpression();
         assertThat(lastMessage, endsWith(expectedMessage));
     }
 
@@ -131,7 +133,7 @@ public class NewtonRootsLoggingTests {
     @Test
     public void runningFailedRootSearchIsLogged() {
         setupParametersForSuccessfulRootSearch();
-        viewModel.setFunction("x+100");
+        viewModel.setFunctionExpression("x+100");
         viewModel.finishEdit();
 
         viewModel.findRoot();
@@ -143,7 +145,7 @@ public class NewtonRootsLoggingTests {
 
     @Test
     public void afterInstantiationLogLinesIsEmpty() {
-        assertEquals("", viewModel.getLogLines());
+        assertTrue(viewModel.getLogLines().isEmpty());
     }
 
     @Test
@@ -159,6 +161,42 @@ public class NewtonRootsLoggingTests {
         assertEquals(expectedLogLines, actualLogLines);
     }
 
+    @Test
+    public void oldestLogLinesWhichAreOutOfLimitAreNotShown() {
+        final int logSizeLimit = NewtonRootsViewModel.getMaxLogLinesMessageCount();
+        final String thrownOutOfLogValue = "sin(x-0.1)";
+        final String retainedInLogValue = "1e-5";
+
+        viewModel.setFunctionExpression(thrownOutOfLogValue);
+        viewModel.finishEdit();
+        viewModel.setAccuracy(retainedInLogValue);
+        viewModel.finishEdit();
+        int messagesLeftToAdd = logSizeLimit - 1;
+        fillLogWithMessages(messagesLeftToAdd);
+
+        String logLines = viewModel.getLogLines();
+        String expectedLogEnd = LogMessages.getAccuracyChangeMessage(retainedInLogValue)
+                + "\n" + LogMessages.getLogSizeLimitExceededMessage();
+        assertThat(logLines, endsWith(expectedLogEnd));
+    }
+
+    private void fillLogWithMessages(final int messagesToAdd) {
+        int messagesLeftToAdd = messagesToAdd;
+
+        while (messagesLeftToAdd > 1) {
+            viewModel.setLeftPoint("-1.0");
+            viewModel.finishEdit();
+            viewModel.setLeftPoint("1.0");
+            viewModel.finishEdit();
+            messagesLeftToAdd -= 2;
+        }
+
+        if (messagesLeftToAdd == 1) {
+            viewModel.setLeftPoint("2.0");
+            viewModel.finishEdit();
+        }
+    }
+
     private void setupParametersForSuccessfulRootSearch() {
         viewModel.setLeftPoint("-1.0");
         viewModel.finishEdit();
@@ -168,7 +206,7 @@ public class NewtonRootsLoggingTests {
         viewModel.finishEdit();
         viewModel.setAccuracy("1e-8");
         viewModel.finishEdit();
-        viewModel.setFunction("sin(x-0.1)");
+        viewModel.setFunctionExpression("sin(x-0.1)");
         viewModel.finishEdit();
         viewModel.setStartPoint("-0.2");
         viewModel.finishEdit();
@@ -184,7 +222,7 @@ public class NewtonRootsLoggingTests {
                 viewModel.getRightPoint(),
                 viewModel.getDerivativeStep(),
                 viewModel.getAccuracy(),
-                viewModel.getFunction(),
+                viewModel.getFunctionExpression(),
                 viewModel.getStartPoint(),
                 viewModel.getStopCriterion());
     }

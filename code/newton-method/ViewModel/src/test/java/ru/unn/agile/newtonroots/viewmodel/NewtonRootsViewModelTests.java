@@ -24,7 +24,7 @@ public class NewtonRootsViewModelTests {
         viewModel.setLeftPoint("-1");
         viewModel.setRightPoint("1");
         viewModel.setAccuracy("0.001");
-        viewModel.setFunction("x");
+        viewModel.setFunctionExpression("x");
         viewModel.setDerivativeStep("0.001");
         viewModel.setStartPoint("0.1");
         viewModel.setStopCriterion(StoppingCriterion.FunctionModulus);
@@ -36,7 +36,7 @@ public class NewtonRootsViewModelTests {
         assertEquals("", viewModel.getRightPoint());
         assertEquals("", viewModel.getDerivativeStep());
         assertEquals("", viewModel.getAccuracy());
-        assertEquals("", viewModel.getFunction());
+        assertEquals("", viewModel.getFunctionExpression());
         assertEquals(true, viewModel.getFindRootButtonDisable());
         assertEquals("", viewModel.getSolverReport());
         assertEquals("", viewModel.getStartPoint());
@@ -67,7 +67,7 @@ public class NewtonRootsViewModelTests {
     @Test
     public void setBadFormattedFunction() {
         setValidViewModelInputState();
-        viewModel.setFunction("a");
+        viewModel.setFunctionExpression("a");
         assertEquals(ApplicationStatus.BAD_FORMAT.toString(), viewModel.getApplicationStatus());
     }
 
@@ -81,7 +81,7 @@ public class NewtonRootsViewModelTests {
     @Test
     public void setNonMonotonicFiction() {
         setValidViewModelInputState();
-        viewModel.setFunction("x^2");
+        viewModel.setFunctionExpression("x^2");
         assertEquals(ApplicationStatus.NON_MONOTONIC_FUNCTION.toString(),
                 viewModel.getApplicationStatus());
     }
@@ -152,7 +152,7 @@ public class NewtonRootsViewModelTests {
     @Test
     public void failedStatusWhenRootNotFound() {
         setValidViewModelInputState();
-        viewModel.setFunction("x+100");
+        viewModel.setFunctionExpression("x+100");
         viewModel.findRoot();
         assertEquals(ApplicationStatus.FAILED.toString(),
                 viewModel.getApplicationStatus());

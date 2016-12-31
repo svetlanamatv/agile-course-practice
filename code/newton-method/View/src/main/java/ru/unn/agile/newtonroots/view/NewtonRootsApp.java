@@ -35,7 +35,7 @@ public class NewtonRootsApp  {
         rightPointText.textProperty().bindBidirectional(viewModel.rightPointProperty());
         derivativeStepText.textProperty().bindBidirectional(viewModel.derivativeStepProperty());
         accuracyText.textProperty().bindBidirectional(viewModel.accuracyProperty());
-        functionText.textProperty().bindBidirectional(viewModel.functionProperty());
+        functionText.textProperty().bindBidirectional(viewModel.functionExpressionProperty());
         startPointText.textProperty().bindBidirectional(viewModel.startPointProperty());
 
         stopCriterionSelector.valueProperty().bindBidirectional(viewModel.stopCriterionProperty());
