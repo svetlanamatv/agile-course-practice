@@ -10,7 +10,6 @@ import ru.unn.agile.newtonroots.model.NewtonMethod;
 import ru.unn.agile.newtonroots.model.StoppingCriterion;
 
 import java.util.List;
-import java.util.function.Function;
 
 enum ApplicationStatus {
     WAITING("Please provide input data"),
@@ -34,16 +33,16 @@ enum ApplicationStatus {
 
 public class NewtonRootsViewModel {
     private static final int MAX_LOGLINES_MESSAGE_COUNT = 500;
-    private final StringProperty leftPoint = new SimpleStringProperty("");
-    private final StringProperty rightPoint = new SimpleStringProperty("");
-    private final StringProperty derivativeStep = new SimpleStringProperty("");
-    private final StringProperty accuracy = new SimpleStringProperty("");
-    private final StringProperty functionExpression = new SimpleStringProperty("");
+    private final ExplicitlyEditableStringProperty leftPoint;
+    private final ExplicitlyEditableStringProperty rightPoint;
+    private final ExplicitlyEditableStringProperty derivativeStep;
+    private final ExplicitlyEditableStringProperty accuracy;
+    private final ExplicitlyEditableStringProperty functionExpression;
+    private final ExplicitlyEditableStringProperty startPoint;
     private final StringProperty solverReport = new SimpleStringProperty("");
     private final BooleanProperty findRootButtonDisable = new SimpleBooleanProperty(true);
     private final StringProperty applicationStatus =
             new SimpleStringProperty(ApplicationStatus.WAITING.toString());
-    private final StringProperty startPoint = new SimpleStringProperty("");
 
     private final ObjectProperty<ObservableList<StoppingCriterion>> stopCriteria =
             new SimpleObjectProperty<>(
@@ -54,25 +53,31 @@ public class NewtonRootsViewModel {
     private final StringProperty logLines = new SimpleStringProperty("");
 
     private final Logger logger;
-    private final EditTracker<String> editTracker;
 
     public static int getMaxLogLinesMessageCount() {
         return MAX_LOGLINES_MESSAGE_COUNT;
     }
 
     public NewtonRootsViewModel(final Logger logger) {
-        leftPoint.addListener(
-                new StringValueChangeListener(LogMessages::getLeftPointChangeMessage));
-        rightPoint.addListener(
-                new StringValueChangeListener(LogMessages::getRightPointChangeMessage));
-        derivativeStep.addListener(
-                new StringValueChangeListener(LogMessages::getDerivativeStepChangeMessage));
-        accuracy.addListener(
-                new StringValueChangeListener(LogMessages::getAccuracyChangeMessage));
-        functionExpression.addListener(
-                new StringValueChangeListener(LogMessages::getFunctionExpressionChangeMessage));
-        startPoint.addListener(
-                new StringValueChangeListener(LogMessages::getStartPointChangeMessage));
+        leftPoint = new ExplicitlyEditableStringProperty("",
+                value -> logMessage(LogMessages.getLeftPointChangeMessage(value)));
+        rightPoint = new ExplicitlyEditableStringProperty("",
+                value -> logMessage(LogMessages.getRightPointChangeMessage(value)));
+        derivativeStep = new ExplicitlyEditableStringProperty("",
+                value -> logMessage(LogMessages.getDerivativeStepChangeMessage(value)));
+        accuracy = new ExplicitlyEditableStringProperty("",
+                value -> logMessage(LogMessages.getAccuracyChangeMessage(value)));
+        functionExpression = new ExplicitlyEditableStringProperty("",
+                value -> logMessage(LogMessages.getFunctionExpressionChangeMessage(value)));
+        startPoint = new ExplicitlyEditableStringProperty("",
+                value -> logMessage(LogMessages.getStartPointChangeMessage(value)));
+
+        leftPoint.addListener(new StringValueChangeListener());
+        rightPoint.addListener(new StringValueChangeListener());
+        derivativeStep.addListener(new StringValueChangeListener());
+        accuracy.addListener(new StringValueChangeListener());
+        functionExpression.addListener(new StringValueChangeListener());
+        startPoint.addListener(new StringValueChangeListener());
 
         stopCriterion.addListener((observable, oldValue, newValue) -> {
             if (!oldValue.equals(newValue)) {
@@ -81,11 +86,10 @@ public class NewtonRootsViewModel {
         });
 
         this.logger = logger;
-        editTracker = new EditTracker<>();
     }
 
 
-    public StringProperty leftPointProperty() {
+    public ExplicitlyEditableStringProperty leftPointProperty() {
         return leftPoint;
     }
 
@@ -93,12 +97,14 @@ public class NewtonRootsViewModel {
         return leftPoint.get();
     }
 
-    public void setLeftPoint(final String value) {
+    void editLeftPointTo(final String value) {
+        leftPoint.startEdit();
         leftPoint.set(value);
+        leftPoint.finishEdit();
     }
 
 
-    public StringProperty rightPointProperty() {
+    public ExplicitlyEditableStringProperty rightPointProperty() {
         return rightPoint;
     }
 
@@ -106,12 +112,14 @@ public class NewtonRootsViewModel {
         return rightPoint.get();
     }
 
-    public void setRightPoint(final String value) {
+    void editRightPointTo(final String value) {
+        rightPoint.startEdit();
         rightPoint.set(value);
+        rightPoint.finishEdit();
     }
 
 
-    public StringProperty derivativeStepProperty() {
+    public ExplicitlyEditableStringProperty derivativeStepProperty() {
         return derivativeStep;
     }
 
@@ -119,12 +127,14 @@ public class NewtonRootsViewModel {
         return derivativeStep.get();
     }
 
-    public void setDerivativeStep(final String value) {
+    void editDerivativeStepTo(final String value) {
+        derivativeStep.startEdit();
         derivativeStep.set(value);
+        derivativeStep.finishEdit();
     }
 
 
-    public StringProperty accuracyProperty() {
+    public ExplicitlyEditableStringProperty accuracyProperty() {
         return accuracy;
     }
 
@@ -132,12 +142,14 @@ public class NewtonRootsViewModel {
         return accuracy.get();
     }
 
-    public void setAccuracy(final String value) {
+    void editAccuracyTo(final String value) {
+        accuracy.startEdit();
         accuracy.set(value);
+        accuracy.finishEdit();
     }
 
 
-    public StringProperty functionExpressionProperty() {
+    public ExplicitlyEditableStringProperty functionExpressionProperty() {
         return functionExpression;
     }
 
@@ -145,8 +157,25 @@ public class NewtonRootsViewModel {
         return functionExpression.get();
     }
 
-    public void setFunctionExpression(final String value) {
+    void editFuncitonExpressionTo(final String value) {
+        functionExpression.startEdit();
         functionExpression.set(value);
+        functionExpression.finishEdit();
+    }
+
+
+    public ExplicitlyEditableStringProperty startPointProperty() {
+        return startPoint;
+    }
+
+    public String getStartPoint() {
+        return startPoint.get();
+    }
+
+    void editStartPointTo(final String value) {
+        startPoint.startEdit();
+        startPoint.set(value);
+        startPoint.finishEdit();
     }
 
 
@@ -186,19 +215,6 @@ public class NewtonRootsViewModel {
 
     public void setApplicationStatus(final String value) {
         applicationStatus.set(value);
-    }
-
-
-    public StringProperty startPointProperty() {
-        return startPoint;
-    }
-
-    public String getStartPoint() {
-        return startPoint.get();
-    }
-
-    public void setStartPoint(final String value) {
-        startPoint.set(value);
     }
 
 
@@ -250,9 +266,15 @@ public class NewtonRootsViewModel {
     }
 
 
-    public void finishEdit() {
-        editTracker.finishTracking();
+    public void finishAllEdits() {
+        leftPoint.finishEdit();
+        rightPoint.finishEdit();
+        derivativeStep.finishEdit();
+        accuracy.finishEdit();
+        functionExpression.finishEdit();
+        startPoint.finishEdit();
     }
+
 
     public void findRoot() {
         if (findRootButtonDisable.get()) {
@@ -388,7 +410,6 @@ public class NewtonRootsViewModel {
 
         logLines.set(logLinesContents);
     }
-
     static final class LogMessages {
         static final String LEFT_END_TEXT = "Left segment end changed to ";
         static final String RIGHT_END_TEXT = "Right segment end changed to ";
@@ -465,11 +486,6 @@ public class NewtonRootsViewModel {
     }
 
     private class StringValueChangeListener implements ChangeListener<String> {
-        private final Function<String, String> logMessageProducer;
-
-        StringValueChangeListener(final Function<String, String> logMessageProducer) {
-            this.logMessageProducer = logMessageProducer;
-        }
 
         @Override
         public void changed(final ObservableValue<? extends String> observable,
@@ -477,12 +493,6 @@ public class NewtonRootsViewModel {
             ApplicationStatus status = checkInput();
             applicationStatus.set(status.toString());
             findRootButtonDisable.set(status != ApplicationStatus.READY);
-
-            if (!editTracker.isTracking()) {
-                editTracker.startTracking(oldValue,
-                        value -> logMessage(logMessageProducer.apply(value)));
-            }
-            editTracker.updateValue(newValue);
         }
     }
 }

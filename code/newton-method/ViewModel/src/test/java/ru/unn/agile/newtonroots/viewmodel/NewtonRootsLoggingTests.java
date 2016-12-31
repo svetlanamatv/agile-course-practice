@@ -29,39 +29,39 @@ public class NewtonRootsLoggingTests {
     }
 
     @Test
-    public void changeWithoutFinishingOfTrackingIsNotLogged() {
+    public void editOfLeftSegmentPointIsLogged() {
+        viewModel.editLeftPointTo("-1.0");
+
+        String lastMessage = viewModel.getLastLogMessage();
+        String expectedMessage = LogMessages.LEFT_END_TEXT + viewModel.getLeftPoint();
+        assertThat(lastMessage, endsWith(expectedMessage));
+    }
+
+    @Test
+    public void settingLeftSegmentThroughPropertyWhileInEditModeIsLogged() {
+        viewModel.leftPointProperty().startEdit();
+        viewModel.leftPointProperty().set("-2.0");
+        viewModel.leftPointProperty().finishEdit();
+
+        String lastMessage = viewModel.getLastLogMessage();
+        String expectedMessage = LogMessages.LEFT_END_TEXT + viewModel.getLeftPoint();
+        assertThat(lastMessage, endsWith(expectedMessage));
+    }
+
+    @Test
+    public void propertySettingWithoutFinishingEditIsNotLogged() {
         int logSizeBefore = viewModel.getLogSize();
 
-        viewModel.setAccuracy("1e-5");
+        viewModel.accuracyProperty().startEdit();
+        viewModel.accuracyProperty().set("1e-5");
 
         int logSizeAfter = viewModel.getLogSize();
         assertEquals(logSizeBefore, logSizeAfter);
     }
 
     @Test
-    public void changeOfLeftSegmentPointIsLogged() {
-        viewModel.setLeftPoint("-1.0");
-        viewModel.finishEdit();
-
-        String lastMessage = viewModel.getLastLogMessage();
-        String expectedMessage = LogMessages.LEFT_END_TEXT + viewModel.getLeftPoint();
-        assertThat(lastMessage, endsWith(expectedMessage));
-    }
-
-    @Test
-    public void changeOfLeftSegmentThroughPropertyIsLogged() {
-        viewModel.leftPointProperty().set("-2.0");
-        viewModel.finishEdit();
-
-        String lastMessage = viewModel.getLastLogMessage();
-        String expectedMessage = LogMessages.LEFT_END_TEXT + viewModel.getLeftPoint();
-        assertThat(lastMessage, endsWith(expectedMessage));
-    }
-
-    @Test
-    public void changeOfRightSegmentPointIsLogged() {
-        viewModel.setRightPoint("1.0");
-        viewModel.finishEdit();
+    public void editOfRightSegmentPointIsLogged() {
+        viewModel.editRightPointTo("1.0");
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedMessage = LogMessages.RIGHT_END_TEXT + viewModel.getRightPoint();
@@ -69,9 +69,8 @@ public class NewtonRootsLoggingTests {
     }
 
     @Test
-    public void changeOfDerivativeStepIsLogged() {
-        viewModel.setDerivativeStep("1e-4");
-        viewModel.finishEdit();
+    public void editOfDerivativeStepIsLogged() {
+        viewModel.editDerivativeStepTo("1e-4");
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedMessage = LogMessages.DERIVATIVE_STEP_TEXT + viewModel.getDerivativeStep();
@@ -79,9 +78,8 @@ public class NewtonRootsLoggingTests {
     }
 
     @Test
-    public void changeOfAccuracyIsLogged() {
-        viewModel.setAccuracy("1e-8");
-        viewModel.finishEdit();
+    public void editOfAccuracyIsLogged() {
+        viewModel.editAccuracyTo("1e-8");
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedMessage = LogMessages.ACCURACY_TEXT + viewModel.getAccuracy();
@@ -89,9 +87,8 @@ public class NewtonRootsLoggingTests {
     }
 
     @Test
-    public void changeOfFunctionExpressionIsLogged() {
-        viewModel.setFunctionExpression("e^(x^2) - 0.5");
-        viewModel.finishEdit();
+    public void editOfFunctionExpressionIsLogged() {
+        viewModel.editFuncitonExpressionTo("e^(x^2) - 0.5");
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedMessage = LogMessages.FUNCTION_EXPR_TEXT + viewModel.getFunctionExpression();
@@ -99,9 +96,8 @@ public class NewtonRootsLoggingTests {
     }
 
     @Test
-    public void changeOfStartPointIsLogged() {
-        viewModel.setStartPoint("0.1");
-        viewModel.finishEdit();
+    public void editOfStartPointIsLogged() {
+        viewModel.editStartPointTo("0.1");
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedMessage = LogMessages.START_POINT_TEXT + viewModel.getStartPoint();
@@ -111,7 +107,6 @@ public class NewtonRootsLoggingTests {
     @Test
     public void changeOfStopCriterionIsLogged() {
         viewModel.setStopCriterion(StoppingCriterion.DifferenceBetweenApproximations);
-        viewModel.finishEdit();
 
         String lastMessage = viewModel.getLastLogMessage();
         String expectedMessage = LogMessages.STOP_CRITERION_TEXT + viewModel.getStopCriterion();
@@ -133,8 +128,7 @@ public class NewtonRootsLoggingTests {
     @Test
     public void runningFailedRootSearchIsLogged() {
         setupParametersForSuccessfulRootSearch();
-        viewModel.setFunctionExpression("x+100");
-        viewModel.finishEdit();
+        viewModel.editFuncitonExpressionTo("x+100");
 
         viewModel.findRoot();
 
@@ -150,10 +144,8 @@ public class NewtonRootsLoggingTests {
 
     @Test
     public void logLinesContainsLogInReverseOrder() {
-        viewModel.setLeftPoint("-1.0");
-        viewModel.finishEdit();
-        viewModel.setStartPoint("-0.2");
-        viewModel.finishEdit();
+        viewModel.editLeftPointTo("-1.0");
+        viewModel.editStartPointTo("-0.2");
 
         List<String> messages = viewModel.getLogMessages();
         String expectedLogLines = messages.get(1) + "\n" + messages.get(0);
@@ -167,10 +159,8 @@ public class NewtonRootsLoggingTests {
         final String thrownOutOfLogValue = "sin(x-0.1)";
         final String retainedInLogValue = "1e-5";
 
-        viewModel.setFunctionExpression(thrownOutOfLogValue);
-        viewModel.finishEdit();
-        viewModel.setAccuracy(retainedInLogValue);
-        viewModel.finishEdit();
+        viewModel.editFuncitonExpressionTo(thrownOutOfLogValue);
+        viewModel.editAccuracyTo(retainedInLogValue);
         int messagesLeftToAdd = logSizeLimit - 1;
         fillLogWithMessages(messagesLeftToAdd);
 
@@ -180,36 +170,50 @@ public class NewtonRootsLoggingTests {
         assertThat(logLines, endsWith(expectedLogEnd));
     }
 
+    @Test
+    public void finishingAllEditsWritesThePendingEditToLog() {
+        viewModel.accuracyProperty().startEdit();
+        viewModel.accuracyProperty().set("1e-10");
+
+        viewModel.finishAllEdits();
+
+        String lastMessage = viewModel.getLastLogMessage();
+        String expectedMessage = LogMessages.getAccuracyChangeMessage(viewModel.getAccuracy());
+        assertThat(lastMessage, endsWith(expectedMessage));
+    }
+
+    @Test
+    public void finishingAllEditsDoesNotWritePendingEditWithoutChangesToLog() {
+        viewModel.functionExpressionProperty().startEdit();
+        viewModel.functionExpressionProperty().set("x^x");
+        viewModel.functionExpressionProperty().set("");
+
+        viewModel.finishAllEdits();
+
+        assertEquals(0, viewModel.getLogSize());
+    }
+
     private void fillLogWithMessages(final int messagesToAdd) {
         int messagesLeftToAdd = messagesToAdd;
 
         while (messagesLeftToAdd > 1) {
-            viewModel.setLeftPoint("-1.0");
-            viewModel.finishEdit();
-            viewModel.setLeftPoint("1.0");
-            viewModel.finishEdit();
+            viewModel.editLeftPointTo("-1.0");
+            viewModel.editLeftPointTo("1.0");
             messagesLeftToAdd -= 2;
         }
 
         if (messagesLeftToAdd == 1) {
-            viewModel.setLeftPoint("2.0");
-            viewModel.finishEdit();
+            viewModel.editLeftPointTo("2.0");
         }
     }
 
     private void setupParametersForSuccessfulRootSearch() {
-        viewModel.setLeftPoint("-1.0");
-        viewModel.finishEdit();
-        viewModel.setRightPoint("1.0");
-        viewModel.finishEdit();
-        viewModel.setDerivativeStep("1e-5");
-        viewModel.finishEdit();
-        viewModel.setAccuracy("1e-8");
-        viewModel.finishEdit();
-        viewModel.setFunctionExpression("sin(x-0.1)");
-        viewModel.finishEdit();
-        viewModel.setStartPoint("-0.2");
-        viewModel.finishEdit();
+        viewModel.editLeftPointTo("-1.0");
+        viewModel.editRightPointTo("1.0");
+        viewModel.editDerivativeStepTo("1e-5");
+        viewModel.editAccuracyTo("1e-8");
+        viewModel.editFuncitonExpressionTo("sin(x-0.1)");
+        viewModel.editStartPointTo("-0.2");
     }
 
     private String getRootSearchResultMessagePrefix() {

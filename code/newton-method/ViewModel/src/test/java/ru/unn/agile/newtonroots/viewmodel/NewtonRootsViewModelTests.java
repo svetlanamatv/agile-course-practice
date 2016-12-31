@@ -21,12 +21,12 @@ public class NewtonRootsViewModelTests {
     }
 
     private void setValidViewModelInputState() {
-        viewModel.setLeftPoint("-1");
-        viewModel.setRightPoint("1");
-        viewModel.setAccuracy("0.001");
-        viewModel.setFunctionExpression("x");
-        viewModel.setDerivativeStep("0.001");
-        viewModel.setStartPoint("0.1");
+        viewModel.editLeftPointTo("-1");
+        viewModel.editRightPointTo("1");
+        viewModel.editAccuracyTo("0.001");
+        viewModel.editFuncitonExpressionTo("x");
+        viewModel.editDerivativeStepTo("0.001");
+        viewModel.editStartPointTo("0.1");
         viewModel.setStopCriterion(StoppingCriterion.FunctionModulus);
     }
 
@@ -45,43 +45,43 @@ public class NewtonRootsViewModelTests {
     @Test
     public void setBadFormattedIntervalBounds() {
         setValidViewModelInputState();
-        viewModel.setRightPoint("-a");
-        viewModel.setLeftPoint("b");
+        viewModel.editRightPointTo("-a");
+        viewModel.editLeftPointTo("b");
         assertEquals(ApplicationStatus.BAD_FORMAT.toString(), viewModel.getApplicationStatus());
     }
 
     @Test
     public void setBadFormattedAccuracy() {
         setValidViewModelInputState();
-        viewModel.setAccuracy("-a");
+        viewModel.editAccuracyTo("-a");
         assertEquals(ApplicationStatus.BAD_FORMAT.toString(), viewModel.getApplicationStatus());
     }
 
     @Test
     public void setBadFormattedDerivativeStep() {
         setValidViewModelInputState();
-        viewModel.setDerivativeStep("-a");
+        viewModel.editDerivativeStepTo("-a");
         assertEquals(ApplicationStatus.BAD_FORMAT.toString(), viewModel.getApplicationStatus());
     }
 
     @Test
     public void setBadFormattedFunction() {
         setValidViewModelInputState();
-        viewModel.setFunctionExpression("a");
+        viewModel.editFuncitonExpressionTo("a");
         assertEquals(ApplicationStatus.BAD_FORMAT.toString(), viewModel.getApplicationStatus());
     }
 
     @Test
     public void setBadFormattedStartPoint() {
         setValidViewModelInputState();
-        viewModel.setStartPoint("a");
+        viewModel.editStartPointTo("a");
         assertEquals(ApplicationStatus.BAD_FORMAT.toString(), viewModel.getApplicationStatus());
     }
 
     @Test
     public void setNonMonotonicFiction() {
         setValidViewModelInputState();
-        viewModel.setFunctionExpression("x^2");
+        viewModel.editFuncitonExpressionTo("x^2");
         assertEquals(ApplicationStatus.NON_MONOTONIC_FUNCTION.toString(),
                 viewModel.getApplicationStatus());
     }
@@ -89,8 +89,8 @@ public class NewtonRootsViewModelTests {
     @Test
     public void setBadInterval() {
         setValidViewModelInputState();
-        viewModel.setLeftPoint("-1");
-        viewModel.setRightPoint("-2");
+        viewModel.editLeftPointTo("-1");
+        viewModel.editRightPointTo("-2");
         assertEquals(ApplicationStatus.BAD_PARAMETERS.toString(),
                 viewModel.getApplicationStatus());
     }
@@ -98,7 +98,7 @@ public class NewtonRootsViewModelTests {
     @Test
     public void setBadAccuracy() {
         setValidViewModelInputState();
-        viewModel.setAccuracy("0");
+        viewModel.editAccuracyTo("0");
         assertEquals(ApplicationStatus.BAD_PARAMETERS.toString(),
                 viewModel.getApplicationStatus());
     }
@@ -106,7 +106,7 @@ public class NewtonRootsViewModelTests {
     @Test
     public void setStartPointOutsideOfInterval() {
         setValidViewModelInputState();
-        viewModel.setStartPoint("1000");
+        viewModel.editStartPointTo("1000");
         assertEquals(ApplicationStatus.BAD_PARAMETERS.toString(),
                 viewModel.getApplicationStatus());
     }
@@ -114,7 +114,7 @@ public class NewtonRootsViewModelTests {
     @Test
     public void setBadDerivativeStep() {
         setValidViewModelInputState();
-        viewModel.setDerivativeStep("0");
+        viewModel.editDerivativeStepTo("0");
         assertEquals(ApplicationStatus.BAD_PARAMETERS.toString(),
                 viewModel.getApplicationStatus());
     }
@@ -122,7 +122,7 @@ public class NewtonRootsViewModelTests {
     @Test
     public void waitingStatusWhenOneFieldIsEmpty() {
         setValidViewModelInputState();
-        viewModel.setAccuracy("");
+        viewModel.editAccuracyTo("");
         assertEquals(ApplicationStatus.WAITING.toString(),
                 viewModel.getApplicationStatus());
     }
@@ -152,7 +152,7 @@ public class NewtonRootsViewModelTests {
     @Test
     public void failedStatusWhenRootNotFound() {
         setValidViewModelInputState();
-        viewModel.setFunctionExpression("x+100");
+        viewModel.editFuncitonExpressionTo("x+100");
         viewModel.findRoot();
         assertEquals(ApplicationStatus.FAILED.toString(),
                 viewModel.getApplicationStatus());
@@ -161,8 +161,23 @@ public class NewtonRootsViewModelTests {
     @Test
     public void findRootDoesNothingIfFindButtonIsDisabled()  {
       setValidViewModelInputState();
-      viewModel.setDerivativeStep("z"); //set illegal value to disable findRoot button
+      viewModel.editDerivativeStepTo("z"); //set illegal value to disable findRoot button
       viewModel.findRoot();
       assertTrue(viewModel.getSolverReport().isEmpty());
+    }
+
+    @Test(expected = ExplicitlyEditableStringProperty.SetOusideOfEditException.class)
+    public void explicitlyEditablePropertiesThrowUponSetIfEditWasNotStarted() {
+        viewModel.functionExpressionProperty().set("e^x");
+    }
+
+    @Test
+    public void finishAllEditsCausesUnfinishedEditToFinish() {
+        viewModel.startPointProperty().startEdit();
+        viewModel.startPointProperty().set("0.01");
+
+        viewModel.finishAllEdits();
+
+        assertFalse(viewModel.startPointProperty().isBeingEdited());
     }
 }

@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import ru.unn.agile.newtonroots.viewmodel.ExplicitlyEditableStringProperty;
 import ru.unn.agile.newtonroots.viewmodel.NewtonRootsViewModel;
 import ru.unn.agile.newtonroots.model.StoppingCriterion;
 
@@ -42,32 +43,42 @@ public class NewtonRootsApp  {
 
         findRootButton.setOnAction(value -> viewModel.findRoot());
 
-        leftPointText.focusedProperty().addListener(new FocusLossListener(viewModel));
-        rightPointText.focusedProperty().addListener(new FocusLossListener(viewModel));
-        derivativeStepText.focusedProperty().addListener(new FocusLossListener(viewModel));
-        accuracyText.focusedProperty().addListener(new FocusLossListener(viewModel));
-        functionText.focusedProperty().addListener(new FocusLossListener(viewModel));
-        startPointText.focusedProperty().addListener(new FocusLossListener(viewModel));
+        leftPointText.focusedProperty().addListener(
+                new TextFieldFocusChangeListener(viewModel.leftPointProperty()));
+        rightPointText.focusedProperty().addListener(
+                new TextFieldFocusChangeListener(viewModel.rightPointProperty()));
+        derivativeStepText.focusedProperty().addListener(
+                new TextFieldFocusChangeListener(viewModel.derivativeStepProperty()));
+        accuracyText.focusedProperty().addListener(
+                new TextFieldFocusChangeListener(viewModel.accuracyProperty()));
+        functionText.focusedProperty().addListener(
+                new TextFieldFocusChangeListener(viewModel.functionExpressionProperty()));
+        startPointText.focusedProperty().addListener(
+                new TextFieldFocusChangeListener(viewModel.startPointProperty()));
     }
 
     @FXML
     private void finishEdit() {
-        viewModelProvider.getViewModel().finishEdit();
+        viewModelProvider.getViewModel().finishAllEdits();
     }
 
 
-    private class FocusLossListener implements ChangeListener<Boolean> {
-        private final NewtonRootsViewModel viewModel;
+    private class TextFieldFocusChangeListener implements ChangeListener<Boolean> {
+        private final ExplicitlyEditableStringProperty property;
 
-        FocusLossListener(final NewtonRootsViewModel viewModel) {
-            this.viewModel = viewModel;
+        TextFieldFocusChangeListener(final ExplicitlyEditableStringProperty property) {
+            this.property = property;
         }
 
         @Override
         public void changed(final ObservableValue<? extends Boolean> observable,
                             final Boolean wasFocused, final Boolean nowFocused) {
-            if (!nowFocused) {
-                viewModel.finishEdit();
+            boolean focusReceived = !wasFocused && nowFocused;
+            boolean focusLost = wasFocused && !nowFocused;
+            if (focusReceived) {
+                property.startEdit();
+            } else if (focusLost) {
+                property.finishEdit();
             }
         }
     }
