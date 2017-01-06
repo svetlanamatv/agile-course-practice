@@ -3,11 +3,10 @@ package ru.unn.agile.Tree.Model;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import static junit.framework.TestCase.assertFalse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class BinaryTreeTests {
     @Test
@@ -27,6 +26,14 @@ public class BinaryTreeTests {
     public void testCreatedTreeIsNotNull() {
         BinaryTree tree = new BinaryTree();
         assertNotNull(tree.getValues());
+    }
+
+    @Test
+    public void testCreateTreeWithOneZeroElement() {
+        BinaryTree tree = new BinaryTree(0);
+        LinkedList<Object> treeValues = new LinkedList<>();
+        treeValues.add(0);
+        assertEquals(treeValues, tree.getValues());
     }
 
     @Test
@@ -102,6 +109,17 @@ public class BinaryTreeTests {
         }
         tree.removeNode(10);
         assertEquals(9, tree.getValues().size());
+    }
+
+    @Test
+    public void testCorrectDelete() {
+        BinaryTree tree = new BinaryTree(5);
+        Integer[] values = {4, 6, 7, 2, 3, 1};
+        for (Integer v : values) {
+            tree.addNode(v);
+        }
+        assertTrue(tree.removeNode(2));
+        assertFalse(tree.removeNode(2));
     }
 
 
