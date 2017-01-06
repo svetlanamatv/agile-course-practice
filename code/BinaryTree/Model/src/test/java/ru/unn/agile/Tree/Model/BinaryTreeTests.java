@@ -9,6 +9,7 @@ import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.*;
 
 public class BinaryTreeTests {
+    private BinaryTreeNode treeNode;
     @Test
     public void testCreateEmptyTree() {
         BinaryTree emptyTree = new BinaryTree();
@@ -112,6 +113,28 @@ public class BinaryTreeTests {
     }
 
     @Test
+    public void testGetNullNode() {
+        BinaryTree tree = new BinaryTree(2);
+        Integer[] values = {1, 2, 3, 4};
+        for (Integer v : values) {
+            tree.addNode(v);
+        }
+        treeNode = tree.getNode(null);
+        assertTrue(treeNode == null);
+    }
+
+    @Test
+    public void testGetFirstRightNode() {
+        BinaryTree tree = new BinaryTree(2);
+        Integer[] values = {4, 3, 1, 2};
+        for (Integer v : values) {
+            tree.addNode(v);
+        }
+        treeNode = tree.getNode(2);
+        assertTrue(treeNode.getRightNode().getKey() == 4);
+    }
+
+    @Test
     public void testCorrectDelete() {
         BinaryTree tree = new BinaryTree(5);
         Integer[] values = {4, 6, 7, 2, 3, 1};
@@ -120,7 +143,20 @@ public class BinaryTreeTests {
         }
         assertTrue(tree.removeNode(2));
         assertFalse(tree.removeNode(2));
+        treeNode = tree.getNode(3);
+        assertTrue(treeNode.getKey() == 3);
+        assertTrue(treeNode.getRightNode() == null);
+        assertTrue(treeNode.getLeftNode().getKey() == 1);
     }
 
-
+    @Test
+    public void testGetLastNodeOnTheLeft() {
+        BinaryTree tree = new BinaryTree(5);
+        Integer[] values = {4, 6, 7, 2, 3, 1};
+        for (Integer v : values) {
+            tree.addNode(v);
+        }
+        treeNode = tree.getNode(5);
+        assertEquals(tree.getNode(1), tree.getLastNodeOnTheLeft(treeNode));
+    }
 }

@@ -122,22 +122,38 @@ public class BinaryTree {
         return true;
     }
 
-    private BinaryTreeNode getLastNodeOnTheLeft(final BinaryTreeNode nodeTree) {
+    public BinaryTreeNode getLastNodeOnTheLeft(final BinaryTreeNode nodeTree) {
         BinaryTreeNode candidate = null;
-        BinaryTreeNode parent = null;
         BinaryTreeNode node = nodeTree;
 
         while (node != null) {
             if (node.getLeftNode() != null) {
-                parent = node;
                 candidate = node.getLeftNode();
             }
 
             node = node.getLeftNode();
         }
-        if (parent != null) {
-            parent.setLeftNode(null);
-        }
         return candidate;
+    }
+
+    public BinaryTreeNode getNode(final Integer key) {
+        if (key == null) {
+            return null;
+        }
+        BinaryTreeNode node = rootNode;
+        int compare;
+        while (rootNode != null) {
+            compare = node.getKey().compareTo(key);
+            if (compare == 0) {
+                return node;
+            }
+            if (compare > 0) {
+                node = node.getLeftNode();
+            } else {
+                node = node.getRightNode();
+            }
+        }
+
+        return node;
     }
 }

@@ -1,16 +1,16 @@
 package ru.unn.agile.Tree.Model;
 
 public class BinaryTreeNode {
-    private final int key;
+    private final Integer key;
     private BinaryTreeNode leftNode;
     private BinaryTreeNode rightNode;
 
 
-    public BinaryTreeNode(final int key) {
+    public BinaryTreeNode(final Integer key) {
         this.key = key;
     }
 
-    public int getKey() {
+    public Integer getKey() {
         return key;
     }
 

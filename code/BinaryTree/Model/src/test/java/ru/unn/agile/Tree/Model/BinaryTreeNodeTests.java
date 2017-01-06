@@ -9,7 +9,7 @@ public class BinaryTreeNodeTests {
     @Test
     public void testCreateNodeWithZeroValue() {
         BinaryTreeNode zeroNode = new BinaryTreeNode(0);
-        assertEquals(0, zeroNode.getKey());
+        assertEquals(Integer.valueOf(0), zeroNode.getKey());
     }
 
     @Test
