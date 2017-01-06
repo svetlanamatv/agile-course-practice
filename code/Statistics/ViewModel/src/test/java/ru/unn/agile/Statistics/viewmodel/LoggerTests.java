@@ -94,11 +94,9 @@ public class LoggerTests extends Core {
         assertTrue(log.get(logIndex++).matches(".*" + Integer.toString(TEST_VALUES.length) + ".*"));
 
         for (int i = 0; i < TEST_VALUES.length; i++) {
-            String setValuePattern = ".*" + Double.toString(TEST_VALUES[i])
-                                   + ".*" + Integer.toString(i) + ".*";
+            String setValuePattern = ".*" + Integer.toString(i) + ".*";
             assertTrue(log.get(logIndex++).matches(setValuePattern));
-            String setPossibilityPattern = ".*" + Double.toString(TEST_POSSIBILITIES[i])
-                                         + ".*" + Integer.toString(i) + ".*";
+            String setPossibilityPattern = ".*" + Integer.toString(i) + ".*";
             assertTrue(log.get(logIndex++).matches(setPossibilityPattern));
         }
     }

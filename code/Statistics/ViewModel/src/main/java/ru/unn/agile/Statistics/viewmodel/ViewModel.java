@@ -44,9 +44,7 @@ public class ViewModel {
     }
 
     public void setValue(final int i, final double value) {
-        logger.log(String.format(LogMessages.VALUES_WERE_CHANGED,
-                   value,
-                   i));
+        logger.log(LogMessages.VALUES_WERE_CHANGED + Integer.toString(i));
 
         values[i] = value;
         updateStatus();
@@ -57,9 +55,7 @@ public class ViewModel {
     }
 
     public void setPossibility(final int i, final double possibility) {
-        logger.log(String.format(LogMessages.POSSIBILITIES_WERE_CHANGED,
-                                 possibility,
-                                 i));
+        logger.log(LogMessages.POSSIBILITIES_WERE_CHANGED + Integer.toString(i));
 
         possibilities[i] = possibility;
         updateStatus();
@@ -135,8 +131,7 @@ public class ViewModel {
             res = op.compute(statistics, order);
         }
         result = String.valueOf(res);
-        logger.log(String.format(LogMessages.RESULT_WAS_CALCULATED,
-                                 result));
+        logger.log(LogMessages.RESULT_WAS_CALCULATED + result);
         status = Status.SUCCESS;
     }
 
@@ -144,7 +139,7 @@ public class ViewModel {
         final int size = max(arraysSize, 0);
 
         if (values.length != size) {
-            logger.log(String.format(LogMessages.COUNT_SAMPLES_WAS_CHANGED, arraysSize));
+            logger.log(LogMessages.COUNT_SAMPLES_WAS_CHANGED + Integer.toString(arraysSize));
 
             double[] v = new double[size];
             double[] p = new double[size];
@@ -160,8 +155,7 @@ public class ViewModel {
     }
     public void setDelta(final String delta) {
         if (!this.delta.equals(delta)) {
-            logger.log(String.format(LogMessages.DELTA_WAS_CHANGED,
-                                     delta));
+            logger.log(LogMessages.DELTA_WAS_CHANGED + delta.toString());
             this.delta = delta;
             updateStatus();
         }
@@ -178,7 +172,7 @@ public class ViewModel {
             throw new IllegalStateException("attempting to set momentOrder when it is disabled");
         }
         if (!this.momentOrder.equals(momentOrder)) {
-            logger.log(String.format(LogMessages.MOMENT_ORDER_WAS_CHANGED, momentOrder));
+            logger.log(LogMessages.MOMENT_ORDER_WAS_CHANGED + momentOrder);
             this.momentOrder = momentOrder;
             updateStatus();
         }
@@ -189,7 +183,7 @@ public class ViewModel {
     }
     public void setOperation(final Operation operation) {
         if (this.operation != operation) {
-            logger.log(String.format(LogMessages.OPERATION_WAS_CHANGED, operation.toString()));
+            logger.log(LogMessages.OPERATION_WAS_CHANGED + operation.toString());
 
             this.operation = operation;
             isMomentOrderEnabled = operation.is(ComputableWithMomentOrder.class);
@@ -227,17 +221,17 @@ public class ViewModel {
             return name;
         }
     }
-}
 
-final class LogMessages {
-    public static final String OPERATION_WAS_CHANGED = "Operation was changed to %s";
-    public static final String DELTA_WAS_CHANGED = "Delta was changed to %s";
-    public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to %d";
-    public static final String VALUES_WERE_CHANGED = "Set value =%f at %d position";
-    public static final String POSSIBILITIES_WERE_CHANGED = "Set possibility=%f at %d position";
-    public static final String RESULT_WAS_CALCULATED = "Result was calculated. It is equal %s";
-    public static final String MOMENT_ORDER_WAS_CHANGED = "Moment order was changed to %s";
+    public final class LogMessages {
+        public static final String OPERATION_WAS_CHANGED = "Operation was changed to ";
+        public static final String DELTA_WAS_CHANGED = "Delta was changed to ";
+        public static final String COUNT_SAMPLES_WAS_CHANGED = "Count of samples was changed to ";
+        public static final String VALUES_WERE_CHANGED = "Change value at position ";
+        public static final String POSSIBILITIES_WERE_CHANGED = "Change possibility at position ";
+        public static final String RESULT_WAS_CALCULATED = "Result was calculated. It is equal to ";
+        public static final String MOMENT_ORDER_WAS_CHANGED = "Moment order was changed to ";
 
-    private LogMessages() { }
+        private LogMessages() { }
+    }
 }
 
