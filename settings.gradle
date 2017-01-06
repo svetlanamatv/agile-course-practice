@@ -46,8 +46,8 @@ project(":code/kornyakov-kirill-lab3/Infrastructure").name = "kornyakov-kirill-l
 // Masunda Nyararai
 
 // Александров Дмитрий
-include "code/aleksandrov-dmitry"
-project(":code/aleksandrov-dmitry").name = "aleksandrov-dmitry-Model"
+include "code/BinaryTree/Model"
+project(":code/BinaryTree/Model").name = "BinaryTree-Model"
 
 // Бабинцева Анна
 // Быкадоров Роман
