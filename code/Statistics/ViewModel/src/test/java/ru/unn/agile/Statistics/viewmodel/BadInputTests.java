@@ -10,7 +10,7 @@ import static ru.unn.agile.Statistics.viewmodel.ViewModel.DEFAULT_OPERATION;
 import static ru.unn.agile.Statistics.viewmodel.ViewModel.Status.BAD_FORMAT;
 
 
-public class BadInputTests extends Core {
+public class BadInputTests extends ViewModelTestBase {
     @After
     public void checkPersistentParameters() {
         assertStatusIs(BAD_FORMAT);

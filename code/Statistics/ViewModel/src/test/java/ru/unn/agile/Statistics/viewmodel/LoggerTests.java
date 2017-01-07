@@ -4,7 +4,7 @@ import org.junit.Test;
 import java.util.List;
 import static org.junit.Assert.*;
 
-public class LoggerTests extends Core {
+public class LoggerTests extends ViewModelTestBase {
     @Test
     public void canCreateViewModelWithLogger() {
         FakeLogger logger = new FakeLogger();
@@ -27,24 +27,36 @@ public class LoggerTests extends Core {
     }
 
     @Test
-    public void isLogContainingProperMessageWhenOperationIsChanged() {
+    public void isLogContainingProperCountOfMessagesWhenOperationIsChangedInSeries() {
         //Operation.EV is default for viewModel, so a message isn't added to log
         vm().setOperation(Operation.EV);
 
-        List<String> log = vm().getLog();
-        assertEquals(0, log.size());
+        vm().setOperation(Operation.VAR);
+        vm().setOperation(Operation.IM);
+        vm().setOperation(Operation.EV);
 
+        List<String> log = vm().getLog();
+        assertEquals(3, log.size());
+    }
+
+    public void isLogContainingProperMessageWhenOperationIsSetToIM() {
+        vm().setOperation(Operation.IM);
+        String message = vm().getLog().get(1);
+        assertTrue(message.matches(".*" + Operation.IM.toString() + ".*"));
+    }
+
+    public void isLogContainingProperMessageWhenOperationIsSetToVAR() {
         vm().setOperation(Operation.VAR);
         String message = vm().getLog().get(0);
         assertTrue(message.matches(".*" + Operation.VAR.toString() + ".*"));
+    }
 
-        vm().setOperation(Operation.IM);
-        message = vm().getLog().get(1);
-        assertTrue(message.matches(".*" + Operation.IM.toString() + ".*"));
-
+    public void isLogContainingProperMessageWhenOperationIsSetToEV() {
+        //Operation.EV is default for viewModel, so initially operation is set to VAR
+        vm().setOperation(Operation.VAR);
         vm().setOperation(Operation.EV);
-        message = vm().getLog().get(2);
-        assertTrue(message.matches(".*" + Operation.EV.toString() + ".*"));
+        String message = vm().getLog().get(1);
+        assertTrue(message.matches(".*" + Operation.VAR.toString() + ".*"));
     }
 
     @Test
@@ -107,10 +119,8 @@ public class LoggerTests extends Core {
         setInputFields();
         vm().calculate();
 
-        List<String> log = vm().getLog();
-        //skip messages about input
-        String message = vm().getLog().get(7);
-        //and check message about result
+        int resultMessageIndex = 7;
+        String message = vm().getLog().get(resultMessageIndex);
         assertTrue(message.matches(".*" + vm().getResult() + ".*"));
     }
 
@@ -120,10 +130,8 @@ public class LoggerTests extends Core {
         vm().setOperation(Operation.IM);
         vm().setMomentOrder("5");
 
-        List<String> log = vm().getLog();
-        //skip messages about input and setting operation
-        String message = vm().getLog().get(8);
-        //and check message about result
+        int momentOrderMessageIndex = 8;
+        String message = vm().getLog().get(momentOrderMessageIndex);
         assertTrue(message.matches(".*" + vm().getMomentOrder() + ".*"));
     }
 }

@@ -11,7 +11,7 @@ import static ru.unn.agile.Statistics.viewmodel.ViewModel.DEFAULT_OPERATION;
 import static ru.unn.agile.Statistics.viewmodel.ViewModel.Status.WAITING;
 
 
-public class DefaultStateTests extends Core {
+public class DefaultStateTests extends ViewModelTestBase {
     @Test
     public void delta() {
         assertEquals(DEFAULT_DELTA, vm().getDelta());

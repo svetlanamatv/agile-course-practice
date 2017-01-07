@@ -6,7 +6,7 @@ import static ru.unn.agile.Statistics.viewmodel.Operation.EV;
 import static ru.unn.agile.Statistics.viewmodel.Operation.VAR;
 
 
-public class ExceptionInputTests extends Core {
+public class ExceptionInputTests extends ViewModelTestBase {
     @Test(expected = IllegalStateException.class)
     public void cannotSetMomentWhenEV() {
         vm().setOperation(EV);

@@ -3,7 +3,7 @@ package ru.unn.agile.Statistics.viewmodel;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-public class ArraysTests extends Core {
+public class ArraysTests extends ViewModelTestBase {
     @Test
     public void canSetAndGetValueUsingIndex() {
         int length = TEST_VALUES.length;

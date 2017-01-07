@@ -12,7 +12,7 @@ import static ru.unn.agile.Statistics.viewmodel.ViewModel.DEFAULT_OPERATION;
 import static ru.unn.agile.Statistics.viewmodel.ViewModel.Status.WAITING;
 
 
-public class NotFullFilledInputTests extends Core {
+public class NotFullFilledInputTests extends ViewModelTestBase {
     @After
     public void checkPersistentParameters() {
         assertStatusIs(WAITING);
@@ -71,5 +71,6 @@ public class NotFullFilledInputTests extends Core {
     public void whenFilledButMomentOrderNotSet() {
         setInputFields();
         vm().setOperation(IM);
+        assertStatusIs(WAITING);
     }
 }

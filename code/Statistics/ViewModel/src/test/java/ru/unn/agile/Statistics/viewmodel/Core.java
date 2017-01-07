@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 import ru.unn.agile.Statistics.viewmodel.ViewModel.Status;
 
 
-abstract class Core {
+abstract class ViewModelTestBase {
     private ViewModel vm;
 
     protected static final String
