@@ -131,7 +131,7 @@ public class BinaryTreeTests {
             tree.addNode(v);
         }
         treeNode = tree.getNode(2);
-        assertTrue(treeNode.getRightNode().getKey() == 4);
+        assertEquals(treeNode.getRightNode(), tree.getNode(4));
     }
 
     @Test
@@ -150,13 +150,52 @@ public class BinaryTreeTests {
     }
 
     @Test
-    public void testGetLastNodeOnTheLeft() {
+    public void testNodeDoNotExists() {
         BinaryTree tree = new BinaryTree(5);
-        Integer[] values = {4, 6, 7, 2, 3, 1};
+        treeNode = tree.getNode(2);
+        assertNull(treeNode);
+    }
+
+    @Test
+    public void testRemoveLastNodeOnTheLeft() {
+        BinaryTree tree = new BinaryTree(6);
+        Integer[] values = {4, 7, 8, 2, 3, 1};
         for (Integer v : values) {
             tree.addNode(v);
         }
-        treeNode = tree.getNode(5);
-        assertEquals(tree.getNode(1), tree.getLastNodeOnTheLeft(treeNode));
+        assertTrue(tree.removeNode(1));
+        treeNode = tree.getNode(2);
+        assertTrue(treeNode.getKey() == 2);
+        assertTrue(treeNode.getRightNode() == tree.getNode(3));
+        assertTrue(treeNode.getLeftNode() == null);
+    }
+
+    @Test
+    public void testRemoveLastNodeOnTheRight() {
+        BinaryTree tree = new BinaryTree(4);
+        Integer[] values = {3, 6, 7, 2, 3, 1};
+        for (Integer v : values) {
+            tree.addNode(v);
+        }
+        assertTrue(tree.removeNode(3));
+        treeNode = tree.getNode(2);
+        assertTrue(treeNode.getKey() == 2);
+        assertTrue(treeNode.getRightNode() == null);
+        assertTrue(treeNode.getLeftNode() == tree.getNode(1));
+    }
+
+    @Test
+    public void testRemoveNodeWithTwoChild() {
+        BinaryTree tree = new BinaryTree(5);
+        Integer[] values = {2, -4, 3, 12, 9, 21, 19, 25};
+        for (Integer v : values) {
+            tree.addNode(v);
+        }
+        assertTrue(tree.removeNode(12));
+        treeNode = tree.getNode(19);
+        assertTrue(treeNode.getKey() == 19);
+        assertTrue(treeNode.getRightNode() == tree.getNode(21));
+        assertTrue(treeNode.getLeftNode() == tree.getNode(9));
+
     }
 }

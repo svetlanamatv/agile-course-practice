@@ -30,7 +30,4 @@ public class BinaryTreeNode {
         return rightNode;
     }
 
-    public boolean isLeaf() {
-        return (leftNode == null && rightNode == null);
-    }
 }

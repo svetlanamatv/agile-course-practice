@@ -64,76 +64,49 @@ public class BinaryTree {
     }
 
     public boolean removeNode(final Integer key) {
-        BinaryTreeNode target = null;
-        BinaryTreeNode parent = null;
-        BinaryTreeNode node = rootNode;
-        while (node != null) {
-            if (key.compareTo(node.getKey()) == 0) {
-                target = node;
-                break;
-            } else if (key.compareTo(node.getKey()) > 0) {
-                parent = node;
-                node = node.getRightNode();
-            } else {
-                parent = node;
-                node = node.getLeftNode();
-            }
-        }
-        if (target == null) {
+        if (search(key) == 0) {
             return false;
-        }
-
-        boolean isLeft = (target == parent.getLeftNode());
-
-        if (target.equals(rootNode)) {
-            node = getLastNodeOnTheLeft(parent.getRightNode());
-            if (node != null) {
-                node.setLeftNode(parent.getLeftNode());
-                node.setRightNode(parent.getRightNode());
-                rootNode = node;
-            }
-        } else if (target.isLeaf()) {
-            if (isLeft) {
-                parent.setLeftNode(null);
-            } else {
-                parent.setRightNode(null);
-            }
-        } else if (target.getLeftNode() == null) {
-            if (isLeft) {
-                parent.setLeftNode(target.getLeftNode());
-            } else {
-                parent.setRightNode((target.getLeftNode()));
-            }
-        } else if (target.getRightNode() == null) {
-            if (isLeft) {
-                parent.setLeftNode(target.getRightNode());
-            } else {
-                parent.setRightNode(target.getRightNode());
-            }
         } else {
-            if (isLeft) {
-                parent.setLeftNode(target.getRightNode());
-                parent.getLeftNode().setLeftNode(target.getLeftNode());
-            } else {
-                parent.setRightNode(target.getRightNode());
-                parent.getRightNode().setLeftNode(target.getLeftNode());
-            }
+            this.rootNode = removeNode(this.rootNode, key);
+            return true;
         }
-        return true;
     }
 
-    public BinaryTreeNode getLastNodeOnTheLeft(final BinaryTreeNode nodeTree) {
-        BinaryTreeNode candidate = null;
-        BinaryTreeNode node = nodeTree;
-
-        while (node != null) {
-            if (node.getLeftNode() != null) {
-                candidate = node.getLeftNode();
+    public BinaryTreeNode removeNode(final BinaryTreeNode node, final Integer key) {
+        BinaryTreeNode treeNode = node;
+        if (treeNode.getKey() < key) {
+            treeNode.setRightNode(removeNode(treeNode.getRightNode(), key));
+        } else if (treeNode.getKey() > key) {
+            treeNode.setLeftNode(removeNode(treeNode.getLeftNode(), key));
+        } else {
+            if (treeNode.getRightNode() == null) {
+                return treeNode.getLeftNode();
             }
-
-            node = node.getLeftNode();
+            if (treeNode.getLeftNode() == null) {
+                return treeNode.getRightNode();
+            }
+            BinaryTreeNode temp = treeNode;
+            treeNode = min(temp.getRightNode());
+            treeNode.setRightNode(deleteMin(temp.getRightNode()));
+            treeNode.setLeftNode(temp.getLeftNode());
         }
-        return candidate;
+        return treeNode;
+    }
+
+    private BinaryTreeNode deleteMin(final BinaryTreeNode node) {
+        if (node.getLeftNode() == null) {
+            return node.getRightNode();
+        }
+        node.setLeftNode(deleteMin(node.getLeftNode()));
+        return node;
+    }
+
+    private BinaryTreeNode min(final BinaryTreeNode node) {
+        if (node.getLeftNode() == null) {
+            return node;
+        } else {
+            return min(node.getLeftNode());
+        }
     }
 
     public BinaryTreeNode getNode(final Integer key) {
@@ -142,7 +115,7 @@ public class BinaryTree {
         }
         BinaryTreeNode node = rootNode;
         int compare;
-        while (rootNode != null) {
+        while (node != null) {
             compare = node.getKey().compareTo(key);
             if (compare == 0) {
                 return node;
