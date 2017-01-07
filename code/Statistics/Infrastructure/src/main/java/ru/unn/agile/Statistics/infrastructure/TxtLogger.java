@@ -24,34 +24,33 @@ public class TxtLogger implements ILogger {
         return sdf.format(calendar.getTime());
     }
 
-    public TxtLogger(final String filename) {
+    public TxtLogger(final String filename) throws Exception {
         this.filename = filename;
 
         BufferedWriter logWriter = null;
-        try {
-            logWriter = new BufferedWriter(new FileWriter(filename));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        FileWriter fileWriter = new FileWriter(filename);
+        logWriter = new BufferedWriter(fileWriter);
 
         writer = logWriter;
     }
 
     @Override
     public List<String> getLog() {
-        BufferedReader reader;
         ArrayList<String> log = new ArrayList<String>();
-        try {
-            reader = new BufferedReader(new FileReader(filename));
-            String message = reader.readLine();
 
-            while (message != null) {
-                log.add(message);
-                message = reader.readLine();
+        try {
+            FileReader fileReader = new FileReader(filename);
+            BufferedReader reader = new BufferedReader(fileReader);
+
+            String msg = reader.readLine();
+            while (msg != null) {
+                log.add(msg);
+                msg = reader.readLine();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
         return log;
     }
 

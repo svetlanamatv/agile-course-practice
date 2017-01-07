@@ -19,7 +19,11 @@ public class TxtLoggerTests extends LoggerTests {
 
     @Before
     public void before() {
-        txtLogger = new TxtLogger(FILENAME);
+        try {
+            txtLogger = new TxtLogger(FILENAME);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         ViewModel vm = new ViewModel(txtLogger);
         setVM(vm);
     }
@@ -40,9 +44,9 @@ public class TxtLoggerTests extends LoggerTests {
 
     @Test
     public void doesLogContainDateAndTime() {
-        String testMessage = "Test message";
+        String msg = "tratata";
 
-        txtLogger.log(testMessage);
+        txtLogger.log(msg);
 
         String message = txtLogger.getLog().get(0);
         assertTrue(message.matches("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} > .*"));
@@ -50,11 +54,11 @@ public class TxtLoggerTests extends LoggerTests {
 
     @Test
     public void canWriteLogMessage() {
-        String testMessage = "Test message";
+        String msg = "tratata";
 
-        txtLogger.log(testMessage);
+        txtLogger.log(msg);
 
         String message = txtLogger.getLog().get(0);
-        assertTrue(message.matches(".*" + testMessage + "$"));
+        assertTrue(message.matches(".*" + msg + "$"));
     }
 }

@@ -15,14 +15,16 @@ public final class Main {
         JFrame frame = new JFrame("Calculator");
         frame.setLocationByPlatform(true);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        TxtLogger logger = new TxtLogger("./Calculator.log");
-        Calculator calculator = new Calculator(new ViewModel(logger));
-        calculator.applyTo(frame);
-
-        frame.pack();
-        frame.setMinimumSize(frame.getSize());
-        frame.setVisible(true);
+        try {
+            TxtLogger logger = new TxtLogger("./Calculator.log");
+            Calculator calculator = new Calculator(new ViewModel(logger));
+            calculator.applyTo(frame);
+            frame.pack();
+            frame.setMinimumSize(frame.getSize());
+            frame.setVisible(true);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private Main() { }
