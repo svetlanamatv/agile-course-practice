@@ -1,8 +1,6 @@
-apply from: rootDir.getAbsolutePath() + '/code/config/scripts/javafx.plugin'
-
 dependencies {
     compile project(':MassConverter-ViewModel')
-    compile project(':MassConverter-Infrastructure')
+    testCompile project(':MassConverter-ViewModel').sourceSets.test.output
 }
 
 sourceSets {

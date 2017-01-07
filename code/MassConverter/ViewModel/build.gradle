@@ -1,5 +1,5 @@
 dependencies {
-	compile project(':shiryaeva-vera-lab2-Model')
+	compile project(':MassConverter-Model')
 }
 
 sourceSets {
