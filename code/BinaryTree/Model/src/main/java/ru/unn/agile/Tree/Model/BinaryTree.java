@@ -72,7 +72,7 @@ public class BinaryTree {
         }
     }
 
-    public BinaryTreeNode removeNode(final BinaryTreeNode node, final Integer key) {
+    private BinaryTreeNode removeNode(final BinaryTreeNode node, final Integer key) {
         BinaryTreeNode treeNode = node;
         if (treeNode.getKey() < key) {
             treeNode.setRightNode(removeNode(treeNode.getRightNode(), key));
