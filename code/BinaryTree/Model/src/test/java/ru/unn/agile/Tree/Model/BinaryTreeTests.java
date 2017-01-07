@@ -18,6 +18,14 @@ public class BinaryTreeTests {
     }
 
     @Test
+    public void testCreateEmptyTreeAndAddValue() {
+        BinaryTree emptyTree = new BinaryTree();
+        emptyTree.addNode(2);
+        Collection<Integer> values = emptyTree.getValues();
+        assertEquals(1, emptyTree.getValues().size());
+    }
+
+    @Test
     public void testCreateTreeWithSingleElement() {
         BinaryTree oneElementTree = new BinaryTree(1);
         assertEquals(1, oneElementTree.getValues().size());
@@ -198,4 +206,31 @@ public class BinaryTreeTests {
         assertTrue(treeNode.getLeftNode() == tree.getNode(9));
 
     }
+
+    @Test
+    public void testPrintTree() {
+        BinaryTree tree = new BinaryTree(40);
+        Integer[] values = {20,10,30,60,50,70};
+        for (Integer v : values) {
+            tree.addNode(v);
+        }
+        treeNode = tree.getNode(40);
+        String strTree = tree.levelOrderPrint(treeNode);
+        assertEquals(strTree, "40,20,60,10,30,50,70");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testTryAddNodeWithNullValue() {
+        BinaryTree tree = new BinaryTree();
+        tree.addNode(null);
+    }
+
+    @Test
+    public void testGetTreeRoot() {
+        BinaryTree tree = new BinaryTree(5);
+        BinaryTreeNode rootNode = tree.getRoot();
+        assertEquals(0, rootNode.getKey().compareTo(5));
+    }
+
+
 }
