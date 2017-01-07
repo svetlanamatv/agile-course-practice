@@ -68,8 +68,9 @@ public class LoggerTests extends Core {
 
     @Test
     public void isLogNotAddingNewlineWhenCountSamplesAreNotChanged() {
-        vm().setArraysSize(10);
-        vm().setArraysSize(10);
+        int size = 10;
+        vm().setArraysSize(size);
+        vm().setArraysSize(size);
 
         List<String> log = vm().getLog();
         assertEquals(1, log.size());
@@ -78,7 +79,7 @@ public class LoggerTests extends Core {
     @Test
     public void isLogContainingProperMessageWhenDeltaAreChanged() {
         String delta = "0.01";
-        vm().setDelta("0.01");
+        vm().setDelta(delta);
 
         String message = vm().getLog().get(0);
 

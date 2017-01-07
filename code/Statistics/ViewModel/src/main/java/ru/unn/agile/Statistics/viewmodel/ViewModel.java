@@ -121,7 +121,7 @@ public class ViewModel {
         }
 
         Statistics statistics = new Statistics(values, possibilities);
-        double res = 0.0;
+        double res = 0.0d;
         if (operation.is(Computable.class)) {
             Computable op = operation.toComputable();
             res = op.compute(statistics);
