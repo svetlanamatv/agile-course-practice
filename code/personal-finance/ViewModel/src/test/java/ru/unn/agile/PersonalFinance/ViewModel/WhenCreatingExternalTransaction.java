@@ -5,8 +5,7 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class WhenCreatingExternalTransaction {
     private ExternalTransactionViewModel transaction;
@@ -111,5 +110,55 @@ public class WhenCreatingExternalTransaction {
         transaction.setDescription("   ");
 
         assertFalse(transaction.isAbleToSave());
+    }
+
+    @Test
+    public void andCategoryPropertyIsNotNull() throws Exception {
+        assertNotNull(transaction.categoryProperty());
+    }
+
+    @Test
+    public void andCounterpartyPropertyIsNotNull() throws Exception {
+        assertNotNull(transaction.counterpartyProperty());
+    }
+
+    @Test
+    public void andDescriptionPropertyIsNotNull() throws Exception {
+        assertNotNull(transaction.descriptionProperty());
+    }
+
+    @Test
+    public void andAmountPropertyIsNotNull() throws Exception {
+        assertNotNull(transaction.amountProperty());
+    }
+
+    @Test
+    public void andCounterpartyMarkedAsDeletedMutablePropertyIsNotNull() throws Exception {
+        assertNotNull(transaction.counterpartyMarkedAsDeletedMutableProperty());
+    }
+
+    @Test
+    public void andCounterpartyMarkedAsDeletedPropertyIsNotNull() throws Exception {
+        assertNotNull(transaction.counterpartyMarkedAsDeletedProperty());
+    }
+
+    @Test
+    public void andSescriptionPropertyIsNotNull() throws Exception {
+        assertNotNull(transaction.descriptionProperty());
+    }
+
+    @Test
+    public void andDatePropertyIsNotNull() throws Exception {
+        assertNotNull(transaction.dateProperty());
+    }
+
+    @Test
+    public void andDisplayCounterpartyMutablePropertyIsNotNull() throws Exception {
+        assertNotNull(transaction.displayCounterpartyMutableProperty());
+    }
+
+    @Test
+    public void andDisplayCounterpartyPropertyIsNotNull() throws Exception {
+        assertNotNull(transaction.displayCounterpartyProperty());
     }
 }

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import ru.unn.agile.triangle.view.services.ViewModelProvider?>
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@styles.css"
+            fx:controller="ru.unn.agile.triangle.view.Triangle">
+    <fx:define>
+        <ViewModelProvider fx:id="viewModelProvider" />
+    </fx:define>
+
+    <GridPane AnchorPane.rightAnchor="10"
+              AnchorPane.bottomAnchor="20"
+              AnchorPane.topAnchor="10"
+              AnchorPane.leftAnchor="10">
+
+        <rowConstraints>
+            <RowConstraints />
+            <RowConstraints minHeight="70" />
+            <RowConstraints />
+            <RowConstraints maxHeight="180" />
+        </rowConstraints>
+
+        <GridPane hgap="5" vgap="10" maxWidth="Infinity"
+                  GridPane.rowIndex="0">
+            <rowConstraints>
+                <RowConstraints vgrow="NEVER" />
+                <RowConstraints vgrow="NEVER" />
+                <RowConstraints vgrow="NEVER" />
+            </rowConstraints>
+
+            <columnConstraints>
+                <ColumnConstraints minWidth="30" hgrow="NEVER" />
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints minWidth="30" hgrow="NEVER" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+
+            <Label text="Ax" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <TextField fx:id="txtAx" maxWidth="Infinity"
+                       GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+            <Label text="Ay" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+            <TextField fx:id="txtAy" maxWidth="Infinity"
+                       GridPane.rowIndex="0" GridPane.columnIndex="3" />
+
+            <Label text="Bx" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <TextField fx:id="txtBx" maxWidth="Infinity"
+                       GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+            <Label text="By" GridPane.rowIndex="1" GridPane.columnIndex="2" />
+            <TextField fx:id="txtBy" maxWidth="Infinity"
+                       GridPane.rowIndex="1" GridPane.columnIndex="3" />
+
+            <Label text="Cx" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <TextField fx:id="txtCx" maxWidth="Infinity"
+                       GridPane.rowIndex="2" GridPane.columnIndex="1" />
+
+            <Label text="Cy" GridPane.rowIndex="2" GridPane.columnIndex="2" />
+            <TextField fx:id="txtCy" maxWidth="Infinity"
+                       GridPane.rowIndex="2" GridPane.columnIndex="3" />
+        </GridPane>
+
+        <VBox GridPane.rowIndex="1" alignment="CENTER">
+            <Button fx:id="btnCalculate" prefHeight="25" prefWidth="185" text="Calculate"
+                    mnemonicParsing="false" disable="${viewModelProvider.viewModel.calculationDisabled}"/>
+        </VBox>
+
+        <GridPane GridPane.rowIndex="2" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150" />
+                <ColumnConstraints minWidth="150" />
+                <ColumnConstraints minWidth="150" />
+            </columnConstraints>
+
+            <VBox GridPane.columnIndex="0" spacing="5">
+                <Label text="Triangle" styleClass="header" />
+                <HBox>
+                    <Label text="Perimeter: " />
+                    <Label text="${viewModelProvider.viewModel.perimeter}" />
+                </HBox>
+                <HBox>
+                    <Label text="Area: " />
+                    <Label text="${viewModelProvider.viewModel.area}" />
+                </HBox>
+            </VBox>
+
+            <VBox GridPane.columnIndex="1" spacing="5">
+                <Label text="Incircle" styleClass="header" />
+                <HBox>
+                    <Label text="Radius: " />
+                    <Label text="${viewModelProvider.viewModel.incircleRadius}" />
+                </HBox>
+                <HBox>
+                    <Label text="X: " />
+                    <Label text="${viewModelProvider.viewModel.incircleCenterX}" />
+                </HBox>
+                <HBox>
+                    <Label text="Y: " />
+                    <Label text="${viewModelProvider.viewModel.incircleCenterY}" />
+                </HBox>
+            </VBox>
+
+            <VBox GridPane.columnIndex="2" spacing="5">
+                <Label text="Circumcircle" styleClass="header" />
+                <HBox>
+                    <Label text="Radius: " />
+                    <Label text="${viewModelProvider.viewModel.circumcircleRadius}" />
+                </HBox>
+                <HBox>
+                    <Label text="X: " />
+                    <Label text="${viewModelProvider.viewModel.circumcircleCenterX}" />
+                </HBox>
+                <HBox>
+                    <Label text="Y: " />
+                    <Label text="${viewModelProvider.viewModel.circumcircleCenterY}" />
+                </HBox>
+            </VBox>
+        </GridPane>
+
+        <GridPane GridPane.rowIndex="3">
+            <padding>
+                <Insets top="15" />
+            </padding>
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+            <ListView fx:id="logList"
+                      items="${viewModelProvider.viewModel.loggerViewModel.records}" />
+        </GridPane>
+
+    </GridPane>
+
+</AnchorPane>

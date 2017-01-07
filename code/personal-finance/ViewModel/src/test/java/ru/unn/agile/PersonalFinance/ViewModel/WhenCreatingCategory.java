@@ -3,8 +3,7 @@ package ru.unn.agile.PersonalFinance.ViewModel;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class WhenCreatingCategory {
     private CategoriesManagerViewModel categoriesManager;
@@ -47,5 +46,25 @@ public class WhenCreatingCategory {
         categoriesManager.setNewCategoryName("Clothes");
 
         assertTrue(categoriesManager.isAbleToAddNewCategory());
+    }
+
+    @Test
+    public void andAbleToAddNewCategoryPropertyIsNotNull() throws Exception {
+        assertNotNull(categoriesManager.ableToAddNewCategoryProperty());
+    }
+
+    @Test
+    public void andCategoriesManagerIsNotNull() throws Exception {
+        assertNotNull(categoriesManager.categoriesProperty());
+    }
+
+    @Test
+    public void andNewCategoryNamePropertyIsNotNull() throws Exception {
+        assertNotNull(categoriesManager.newCategoryNameProperty());
+    }
+
+    @Test
+    public void andSelectedCategoryPropertyIsNotNull() throws Exception {
+        assertNotNull(categoriesManager.selectedCategoryProperty());
     }
 }
