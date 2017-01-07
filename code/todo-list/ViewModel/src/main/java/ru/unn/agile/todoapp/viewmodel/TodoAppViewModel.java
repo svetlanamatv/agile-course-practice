@@ -8,30 +8,42 @@ import ru.unn.agile.todoapp.model.Task;
 import ru.unn.agile.todoapp.model.TaskList;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 public class TodoAppViewModel {
-    private final TaskList tasks;
-    private final StringProperty newTaskDescription;
-    private final ObjectProperty<LocalDate> newTaskDueDate;
-    private final BooleanProperty addNewTaskButtonDisable;
-    private final ObservableList<TaskViewModel> tasksViewModels;
-    private final SortedList<TaskViewModel> sortedTasksViewModels;
+    private final TaskList tasks = new TaskList();
+    private final StringProperty newTaskDescription =
+            new SimpleStringProperty("");
+    private final ObjectProperty<LocalDate> newTaskDueDate =
+            new SimpleObjectProperty<>(LocalDate.now());
+    private final BooleanProperty addNewTaskButtonDisable =
+            new SimpleBooleanProperty(true);
+    private final ObservableList<TaskViewModel> tasksViewModels =
+            FXCollections.observableArrayList(TaskViewModel::extractor);
+    private final SortedList<TaskViewModel> sortedTasksViewModels =
+            new SortedList<>(tasksViewModels, TaskViewModel::comparator);
+    private final StringProperty logsString = new SimpleStringProperty();
+    private ILogger logger;
 
     public TodoAppViewModel() {
-        tasks = new TaskList();
-        newTaskDescription = new SimpleStringProperty("");
-        newTaskDueDate = new SimpleObjectProperty<>(LocalDate.now());
-        addNewTaskButtonDisable = new SimpleBooleanProperty(true);
-        tasksViewModels = FXCollections.observableArrayList(TaskViewModel::extractor);
-        sortedTasksViewModels = new SortedList<>(tasksViewModels,
-                TaskViewModel::comparator);
-
         addNewTaskButtonDisable.bind(newTaskDescription.isEmpty());
     }
 
-    private static TaskViewModel wrapTaskInListCellViewModel(final Task task) {
-        return new TaskViewModel(task);
+    public TodoAppViewModel(final ILogger logger) {
+        setLogger(logger);
+        addNewTaskButtonDisable.bind(newTaskDescription.isEmpty());
+    }
+
+    private TaskViewModel wrapTaskInListCellViewModel(final Task task) {
+        return new TaskViewModel(task, logger);
+    }
+
+    public final void setLogger(final ILogger logger)  {
+        if (logger == null) {
+            throw new RuntimeException("Logger parameter can't be null");
+        }
+        this.logger = logger;
+        this.logger.setOnLogUpdateAction(() -> this.updateLogsString());
     }
 
     public ObjectProperty<LocalDate> newTaskDueDateProperty() {
@@ -74,6 +86,14 @@ public class TodoAppViewModel {
         return tasksViewModels;
     }
 
+    public final String getLogsString() {
+        return logsString.get();
+    }
+
+    public StringProperty logsStringProperty()  {
+        return logsString;
+    }
+
     public void pressAddNewTaskButton() {
         Task newTask = new Task(newTaskDescription.getValue(), newTaskDueDate.getValue());
         tasks.add(newTask);
@@ -81,10 +101,52 @@ public class TodoAppViewModel {
 
         newTaskDescription.set("");
         newTaskDueDate.set(LocalDate.now());
+        logger.addToLog(LogMessages.NEW_TASK_PRESSED + newTask.getDescription());
     }
 
     public void pressDeleteButton(final TaskViewModel taskViewModel) {
         tasks.remove(taskViewModel.getTask());
         tasksViewModels.remove(taskViewModel);
+        logger.addToLog(LogMessages.TASK_DELETED + taskViewModel.getDescription());
+    }
+
+    public List<String> getLog()  {
+        return logger.getLog();
+    }
+
+    public String getLastLogMessage()  {
+        return logger.getLastLogMessage();
+    }
+
+    public void onNewTaskDescriptionFocusChanged()  {
+        logger.addToLog(LogMessages.TASK_DESCRIPTION_CHANGED + getNewTaskDescription());
+    }
+
+    public void onTaskDueDateChanged(final LocalDate oldValue, final LocalDate newValue)  {
+        if (oldValue == null || oldValue.equals(newValue)) {
+            return;
+        }
+        logger.addToLog(LogMessages.TASK_DUE_DATE_CHANGED + getNewTaskDueDate().toString());
+    }
+
+    private void updateLogsString()  {
+        List<String> log = logger.getLog();
+        String newLogString = new String();
+        ListIterator<String> logIterator = log.listIterator(log.size());
+        while (logIterator.hasPrevious()) {
+            newLogString += logIterator.previous() + "\n";
+        }
+        logsString.set(newLogString);
     }
 }
+
+final class LogMessages {
+    public static final String NEW_TASK_PRESSED = "New task added: ";
+    public static final String TASK_DESCRIPTION_CHANGED = "Task description was changed to: ";
+    public static final String TASK_DUE_DATE_CHANGED = "New task due date changed to ";
+    public static final String TASK_FINISHED = "Task is done: ";
+    public static final String TASK_DELETED = "Task deleted: ";
+
+    private LogMessages() { }
+}
+

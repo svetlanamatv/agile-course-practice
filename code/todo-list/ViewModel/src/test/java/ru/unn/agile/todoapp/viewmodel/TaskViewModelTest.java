@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 
 public class TaskViewModelTest {
     private final Task task = new Task("Wash the car", LocalDate.now());
-    private final TaskViewModel viewModel = new TaskViewModel(task);
+    private final TaskViewModel viewModel = new TaskViewModel(task, new TestLogger());
 
     @Test
     public void byDefaultDoneCheckboxIsUnchecked() {

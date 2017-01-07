@@ -1,5 +1,6 @@
 dependencies {
     compile project(":todo-list-viewmodel")
+    compile project(':todo-list-infrastructure')
 }
 
 sourceSets {

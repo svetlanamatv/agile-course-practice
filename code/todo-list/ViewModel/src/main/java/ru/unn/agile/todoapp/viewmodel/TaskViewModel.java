@@ -14,8 +14,13 @@ public class TaskViewModel {
     private final Task task;
     private final BooleanProperty doneCheckboxChecked;
     private final BooleanProperty doneCheckboxDisable;
+    private final ILogger logger;
 
-    public TaskViewModel(final Task task) {
+    public TaskViewModel(final Task task, final ILogger logger) {
+        if (logger == null) {
+            throw new RuntimeException("Logger parameter can't be null");
+        }
+        this.logger = logger;
         this.task = task;
         doneCheckboxChecked = new SimpleBooleanProperty(task.isDone());
         doneCheckboxDisable = new SimpleBooleanProperty(task.isDone());
@@ -78,5 +83,6 @@ public class TaskViewModel {
         task.markAsDone();
         doneCheckboxChecked.set(true);
         doneCheckboxDisable.set(true);
+        logger.addToLog(LogMessages.TASK_FINISHED + task.getDescription());
     }
 }

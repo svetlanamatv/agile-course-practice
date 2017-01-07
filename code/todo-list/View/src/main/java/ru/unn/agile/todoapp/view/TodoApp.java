@@ -1,18 +1,20 @@
 package ru.unn.agile.todoapp.view;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.util.StringConverter;
 import ru.unn.agile.todoapp.viewmodel.TaskViewModel;
 import ru.unn.agile.todoapp.viewmodel.TodoAppViewModel;
+import ru.unn.agile.todoapp.infrastructure.PlainTextLogger;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class TodoApp {
+    static final String LOG_FILE_PATH = "./todoApp_log.log";
     @FXML
     private TodoAppViewModel viewModel;
     @FXML
@@ -23,9 +25,15 @@ public class TodoApp {
     private Button addTaskButton;
     @FXML
     private ListView<TaskViewModel> taskListView;
-
+    @FXML
+    private TextArea logTextArea;
     @FXML
     private void initialize() {
+        try {
+            viewModel.setLogger(new PlainTextLogger(LOG_FILE_PATH));
+        }  catch (IOException e)  {
+            System.out.println(e.getMessage());
+        }
         taskDueDatePicker.setConverter(new StringConverter<LocalDate>() {
             private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -40,9 +48,35 @@ public class TodoApp {
             }
         });
 
+        StateSavingStringChangeListener taskDescrStringListener =
+                new StateSavingStringChangeListener();
+        final ChangeListener<Boolean> taskDescrFocusChangeListener = new ChangeListener<Boolean>() {
+            @Override
+            public void changed(final ObservableValue<? extends Boolean> observable,
+                                final Boolean oldValue, final Boolean newValue) {
+                if (!oldValue && newValue) {
+                    return;
+                } else if (taskDescrStringListener.isStringContentChanged())  {
+                    viewModel.onNewTaskDescriptionFocusChanged();
+                    taskDescrStringListener.saveState();
+                }
+            }
+        };
+
         taskDescriptionTextField.textProperty().bindBidirectional(
                 viewModel.newTaskDescriptionProperty());
+        taskDescriptionTextField.textProperty().addListener(taskDescrStringListener);
+        taskDescriptionTextField.focusedProperty().addListener(taskDescrFocusChangeListener);
+
         taskDueDatePicker.valueProperty().bindBidirectional(viewModel.newTaskDueDateProperty());
+        taskDueDatePicker.valueProperty().addListener(new ChangeListener<LocalDate>() {
+            @Override
+            public void changed(final ObservableValue<? extends LocalDate> observable,
+                                final LocalDate oldValue,
+                                final LocalDate newValue) {
+                viewModel.onTaskDueDateChanged(oldValue, newValue);
+            }
+        });
         addTaskButton.setOnAction(value -> viewModel.pressAddNewTaskButton());
 
         taskListView.setItems(viewModel.getSortedTasksViewModels());

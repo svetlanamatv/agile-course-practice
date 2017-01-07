@@ -112,6 +112,8 @@ include "code/todo-list/View"
 project(":code/todo-list/View").name = "todo-list-view"
 include "code/todo-list/ViewModel"
 project(":code/todo-list/ViewModel").name = "todo-list-viewmodel"
+include "code/todo-list/Infrastructure"
+project(":code/todo-list/Infrastructure").name = "todo-list-infrastructure"
 
 // Карчков Денис
 include "code/matrix-operations/Model"
