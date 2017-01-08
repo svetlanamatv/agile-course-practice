@@ -25,12 +25,8 @@ public class LoggerTests extends ViewModelTestBase {
         List<String> log = vm().getLog();
         assertNotEquals(0, log.size());
     }
-
     @Test
     public void isLogContainingProperCountOfMessagesWhenOperationIsChangedInSeries() {
-        //Operation.EV is default for viewModel, so a message isn't added to log
-        vm().setOperation(Operation.EV);
-
         vm().setOperation(Operation.VAR);
         vm().setOperation(Operation.IM);
         vm().setOperation(Operation.EV);
@@ -39,24 +35,27 @@ public class LoggerTests extends ViewModelTestBase {
         assertEquals(3, log.size());
     }
 
+    @Test
     public void isLogContainingProperMessageWhenOperationIsSetToIM() {
         vm().setOperation(Operation.IM);
-        String message = vm().getLog().get(1);
+        String message = vm().getLog().get(0);
         assertTrue(message.matches(".*" + Operation.IM.toString() + ".*"));
     }
 
+    @Test
     public void isLogContainingProperMessageWhenOperationIsSetToVAR() {
         vm().setOperation(Operation.VAR);
         String message = vm().getLog().get(0);
         assertTrue(message.matches(".*" + Operation.VAR.toString() + ".*"));
     }
 
+    @Test
     public void isLogContainingProperMessageWhenOperationIsSetToEV() {
         //Operation.EV is default for viewModel, so initially operation is set to VAR
         vm().setOperation(Operation.VAR);
         vm().setOperation(Operation.EV);
         String message = vm().getLog().get(1);
-        assertTrue(message.matches(".*" + Operation.VAR.toString() + ".*"));
+        assertTrue(message.matches(".*" + Operation.EV.toString() + ".*"));
     }
 
     @Test
