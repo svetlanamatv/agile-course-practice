@@ -11,7 +11,7 @@ import static ru.unn.agile.Statistics.viewmodel.ViewModel.DEFAULT_OPERATION;
 import static ru.unn.agile.Statistics.viewmodel.ViewModel.Status.READY;
 
 
-public class GoodInputTests extends Core {
+public class GoodInputTests extends ViewModelTestBase {
     @After
     public void checkPersistentParameters() {
         assertStatusIs(READY);
@@ -21,16 +21,14 @@ public class GoodInputTests extends Core {
 
     @Test
     public void whenFieldsAreFilled() {
-        fillInputFields();
+        setInputFields();
 
         assertArraysAreFromTest();
-        assertEquals(DEFAULT_DELTA, vm().getDelta());
-        assertOperationIs(DEFAULT_OPERATION);
     }
 
     @Test
     public void whenFieldsAreFilledAndDeltaSet() {
-        fillInputFields();
+        setInputFields();
         vm().setDelta("1.0");
 
         assertArraysAreFromTest();
@@ -40,7 +38,7 @@ public class GoodInputTests extends Core {
 
     @Test
     public void whenIMAndFieldsAreFilledAndMomentOrderSet() {
-        fillInputFields();
+        setInputFields();
         vm().setOperation(IM);
         vm().setMomentOrder("1");
 

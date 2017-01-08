@@ -1,6 +1,6 @@
 dependencies {
-    compile project(':Statistics-Infrastructure')
     compile project(':Statistics-ViewModel')
+    testCompile project(':Statistics-ViewModel').sourceSets.test.output
 }
 
 sourceSets {

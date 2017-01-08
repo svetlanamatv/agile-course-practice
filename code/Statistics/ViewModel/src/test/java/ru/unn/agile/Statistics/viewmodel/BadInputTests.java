@@ -10,7 +10,7 @@ import static ru.unn.agile.Statistics.viewmodel.ViewModel.DEFAULT_OPERATION;
 import static ru.unn.agile.Statistics.viewmodel.ViewModel.Status.BAD_FORMAT;
 
 
-public class BadInputTests extends Core {
+public class BadInputTests extends ViewModelTestBase {
     @After
     public void checkPersistentParameters() {
         assertStatusIs(BAD_FORMAT);
@@ -35,7 +35,7 @@ public class BadInputTests extends Core {
 
     @Test
     public void whenBadDeltaAndFilled() {
-        fillInputFields();
+        setInputFields();
         vm().setDelta("a");
         assertEquals(false, vm().isCalculateButtonEnabled());
         assertEquals("a", vm().getDelta());
@@ -44,7 +44,7 @@ public class BadInputTests extends Core {
 
     @Test
     public void whenCalculateWithBadDeltaAndFilled() {
-        fillInputFields();
+        setInputFields();
         vm().setDelta("a");
         vm().calculate();
         assertEquals("a", vm().getDelta());

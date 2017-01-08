@@ -9,7 +9,7 @@ import static ru.unn.agile.Statistics.viewmodel.ViewModel.DEFAULT_DELTA;
 import static ru.unn.agile.Statistics.viewmodel.ViewModel.Status.SUCCESS;
 
 
-public class OperationsTests extends Core {
+public class OperationsTests extends ViewModelTestBase {
     @After
     public void checkPersistentParameters() {
         assertEquals(DEFAULT_DELTA, vm().getDelta());
@@ -19,15 +19,14 @@ public class OperationsTests extends Core {
 
     @Test
     public void canCalculateDefaultOperation() {
-        fillInputFields();
+        setInputFields();
         vm().calculate();
+        assertStatusIs(SUCCESS);
     }
-
-
 
     @Test
     public void canCalculateExpectedValue() {
-        fillInputFields();
+        setInputFields();
         vm().setOperation(Operation.EV);
         vm().calculate();
 
@@ -36,7 +35,7 @@ public class OperationsTests extends Core {
 
     @Test
     public void canCalculateVariance() {
-        fillInputFields();
+        setInputFields();
         vm().setOperation(Operation.VAR);
         vm().calculate();
 
@@ -45,7 +44,7 @@ public class OperationsTests extends Core {
 
     @Test
     public void canCalculateFirstInitialMoment() {
-        fillInputFields();
+        setInputFields();
         vm().setOperation(Operation.IM);
         vm().setMomentOrder("1");
         vm().calculate();
@@ -55,7 +54,7 @@ public class OperationsTests extends Core {
 
     @Test
     public void canCalculateSecondInitialMoment() {
-        fillInputFields();
+        setInputFields();
         vm().setOperation(Operation.IM);
         vm().setMomentOrder("2");
         vm().calculate();
