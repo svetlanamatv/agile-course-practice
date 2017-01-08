@@ -9,9 +9,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 
 public class TxtLoggerTests extends LoggerTests {
     private static final String FILENAME = "./TxtLoggerTests.log";
