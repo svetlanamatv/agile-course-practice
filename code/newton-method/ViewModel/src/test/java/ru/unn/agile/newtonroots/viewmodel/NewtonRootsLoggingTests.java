@@ -137,7 +137,8 @@ public class NewtonRootsLoggingTests {
         String lastMessage = viewModel.getLastLogMessage();
         String expectedPattern = ".*" + LogMessages.ROOT_SEARCH_FINISHED_TEXT
                 + getRootSearchResultMessagePrefix()
-                + "Root was found. Results: x=\\d+\\.\\d+  accuracy=\\d+\\.\\d+  iterations=\\d+";
+                + "Root was found. Results: x=\\d+[\\.\\,]\\d+  "
+                + "accuracy=\\d+[\\.\\,]\\d+  iterations=\\d+";
         assertThat(lastMessage, matchesPattern(expectedPattern));
     }
 
