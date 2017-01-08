@@ -142,18 +142,19 @@ public class BinaryTree {
         return node;
     }
 
-    public String levelOrderPrint(BinaryTreeNode treeNode) {
-        Queue<BinaryTreeNode> queue=new LinkedList<>();
+    public String levelOrderPrint(final BinaryTreeNode treeNode) {
+        Queue<BinaryTreeNode> queue = new LinkedList<>();
         queue.add(treeNode);
         String str = new String();
-        while(!queue.isEmpty())
-        {
-            BinaryTreeNode tempNode=queue.poll();
+        while (!queue.isEmpty()) {
+            BinaryTreeNode tempNode = queue.poll();
             str += tempNode.getKey().toString();
-            if(tempNode.getLeftNode()!=null)
+            if (tempNode.getLeftNode() != null) {
                 queue.add(tempNode.getLeftNode());
-            if(tempNode.getRightNode()!=null)
+            }
+            if (tempNode.getRightNode() != null) {
                 queue.add(tempNode.getRightNode());
+            }
             if (!queue.isEmpty()) {
                 str += ',';
             }

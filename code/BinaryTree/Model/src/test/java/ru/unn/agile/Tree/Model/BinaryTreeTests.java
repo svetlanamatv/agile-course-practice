@@ -210,7 +210,7 @@ public class BinaryTreeTests {
     @Test
     public void testPrintTree() {
         BinaryTree tree = new BinaryTree(40);
-        Integer[] values = {20,10,30,60,50,70};
+        Integer[] values = {20, 10, 30, 60, 50, 70};
         for (Integer v : values) {
             tree.addNode(v);
         }

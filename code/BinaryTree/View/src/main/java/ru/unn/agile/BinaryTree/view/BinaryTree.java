@@ -45,7 +45,7 @@ public class BinaryTree {
 
         btnRemNode.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(final ActionEvent event) {
                 viewModel.remNodeFromTree();
                 viewModel.printSourceTree();
             }
@@ -53,7 +53,7 @@ public class BinaryTree {
 
         btnGetNode.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(final ActionEvent event) {
                 viewModel.getNodeFromTree();
                 viewModel.printSourceTree();
             }
@@ -61,7 +61,7 @@ public class BinaryTree {
 
         btnSearch.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event) {
+            public void handle(final ActionEvent event) {
                 viewModel.searchNode();
             }
         });
