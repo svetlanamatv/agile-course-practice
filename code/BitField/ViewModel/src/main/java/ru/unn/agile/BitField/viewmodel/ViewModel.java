@@ -37,12 +37,15 @@ public class ViewModel {
     }
 
     public ViewModel() {
-        bitFieldStringA.set(bitFieldA.toString());
-        bitFieldStringB.set(bitFieldB.toString());
+        init();
     }
 
     public ViewModel(final TheLog someOneLog) {
         setThisOneLog(someOneLog);
+        init();
+    }
+
+    private void init() {
         bitFieldStringA.set(bitFieldA.toString());
         bitFieldStringB.set(bitFieldB.toString());
     }

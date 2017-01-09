@@ -325,11 +325,6 @@ public class ViewModelTests {
         assertTrue(message.matches(".*" + Message.AND_WAS_PRESSED + ".*"));
     }
 
-    @Test
-    public void logContainsProperMessageAfterSetOperation() {
-
-    }
-
     public void setExternalViewModel(final ViewModel viewModel) {
         this.viewModel = viewModel;
     }
