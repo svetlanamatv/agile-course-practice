@@ -313,8 +313,5 @@ final class Message {
     public static final String XOR_WAS_PRESSED = "Xor. ";
     public static final String OR_WAS_PRESSED = "Or. ";
     public static final String AND_WAS_PRESSED = "And. ";
-
-    private Message() {
-    }
 }
 
