@@ -373,6 +373,20 @@ public class ViewModelTests {
         assertNotNull(viewModel.bitFieldStringAProperty());
     }
 
+    @Test
+    public void getMyRealLogsTest() {
+        viewModel.setBitFieldStringA("11111111");
+        viewModel.setBitFieldStringB("00000000");
+
+        assertNull(viewModel.getMyRealLogs());
+    }
+
+    @Test
+    public void canCreateMessageTest() {
+        Message message;
+    }
+
+
     public void setExternalViewModel(final ViewModel viewModel) {
         this.viewModel = viewModel;
     }
