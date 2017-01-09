@@ -2,6 +2,7 @@ package ru.unn.agile.Tree.Model;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class BinaryTree {
@@ -13,6 +14,10 @@ public class BinaryTree {
 
     public BinaryTree() {
         // Constructor for empty tree
+    }
+
+    public BinaryTreeNode getRoot() {
+        return rootNode;
     }
 
     public Collection<Integer> getValues() {
@@ -34,18 +39,25 @@ public class BinaryTree {
     }
 
     public void addNode(final Integer key) {
-        BinaryTreeNode prevNode = null;
-        BinaryTreeNode nextNode = rootNode;
-        int compare = 0;
-        while (nextNode != null) {
-            prevNode = nextNode;
-            compare = key.compareTo(nextNode.getKey());
-            nextNode = (compare < 0) ? nextNode.getLeftNode() : nextNode.getRightNode();
+        if (key == null) {
+            throw new IllegalArgumentException("NULL not supported for Tree node value");
         }
-        if (compare < 0) { // node.key < key
-            prevNode.setLeftNode(new BinaryTreeNode(key));
+        if (rootNode == null) {
+            rootNode = new BinaryTreeNode(key);
         } else {
-            prevNode.setRightNode(new BinaryTreeNode(key));
+            BinaryTreeNode prevNode = null;
+            BinaryTreeNode nextNode = rootNode;
+            int compare = 0;
+            while (nextNode != null) {
+                prevNode = nextNode;
+                compare = key.compareTo(nextNode.getKey());
+                nextNode = (compare < 0) ? nextNode.getLeftNode() : nextNode.getRightNode();
+            }
+            if (compare < 0) { // node.key < key
+                prevNode.setLeftNode(new BinaryTreeNode(key));
+            } else {
+                prevNode.setRightNode(new BinaryTreeNode(key));
+            }
         }
     }
 
@@ -128,5 +140,26 @@ public class BinaryTree {
         }
 
         return node;
+    }
+
+    public String levelOrderPrint(final BinaryTreeNode treeNode) {
+        Queue<BinaryTreeNode> queue = new LinkedList<>();
+        queue.add(treeNode);
+        String str = new String();
+        while (!queue.isEmpty()) {
+            BinaryTreeNode tempNode = queue.poll();
+            str += tempNode.getKey().toString();
+            if (tempNode.getLeftNode() != null) {
+                queue.add(tempNode.getLeftNode());
+            }
+            if (tempNode.getRightNode() != null) {
+                queue.add(tempNode.getRightNode());
+            }
+            if (!queue.isEmpty()) {
+                str += ',';
+            }
+        }
+        return str;
+
     }
 }

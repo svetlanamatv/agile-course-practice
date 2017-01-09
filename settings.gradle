@@ -48,6 +48,10 @@ project(":code/kornyakov-kirill-lab3/Infrastructure").name = "kornyakov-kirill-l
 // Александров Дмитрий
 include "code/BinaryTree/Model"
 project(":code/BinaryTree/Model").name = "BinaryTree-Model"
+include "code/BinaryTree/View"
+project(":code/BinaryTree/View").name = "BinaryTree-View"
+include "code/BinaryTree/ViewModel"
+project(":code/BinaryTree/ViewModel").name = "BinaryTree-ViewModel"
 
 // Бабинцева Анна
 // Быкадоров Роман
