@@ -150,6 +150,10 @@ public class ViewModel {
         }
 
         textErrorCur.set("");
+        StringBuilder message = new StringBuilder(Message.INPUT_WAS_PRESSED);
+        message.append("Input success!").append(".");
+        mainWindowLogger.log(message.toString());
+        logUpdating();
         return true;
     }
 
@@ -171,6 +175,10 @@ public class ViewModel {
         bitFieldCur.clrBit(numOfBitInt);
 
         bitFieldStringCur.set(bitFieldCur.toString());
+        StringBuilder message = new StringBuilder(Message.CLEAR_BIT_WAS_PRESSED);
+        message.append("Clear was pressed").append(".");
+        mainWindowLogger.log(message.toString());
+        logUpdating();
     }
 
     public void getBitFieldBitCur(final String numOfBit, final BitField bitFieldCur,
@@ -179,6 +187,10 @@ public class ViewModel {
         int chooseBit = bitFieldCur.getBit(numOfBitInt);
 
         chooseBitCur.set(Integer.toString(chooseBit));
+        StringBuilder message = new StringBuilder(Message.GET_BIT_WAS_PRESSED);
+        message.append("Get was pressed").append(".");
+        mainWindowLogger.log(message.toString());
+        logUpdating();
     }
 
     public void logicAAndB() {
@@ -328,6 +340,9 @@ final class Message {
     public static final String NOT_A_WAS_PRESSED = "Not A. ";
     public static final String NOT_B_WAS_PRESSED = "Not B. ";
     public static final String SET_BIT_WAS_PRESSED = "Set. ";
+    public static final String GET_BIT_WAS_PRESSED = "Get. ";
+    public static final String CLEAR_BIT_WAS_PRESSED = "Clear. ";
+    public static final String INPUT_WAS_PRESSED = "Input. ";
 
     private Message() {
     }

@@ -3,6 +3,7 @@ package ru.unn.agile.BitField.viewmodel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import ru.unn.agile.BitField.model.BitField;
 
 import java.util.List;
 
@@ -274,9 +275,8 @@ public class ViewModelTests {
         assertEquals("11111111", viewModel.getResultText());
     }
 
-    private void setValues() {
-        viewModel.setBitFieldStringA("11101010");
-        viewModel.setBitFieldStringB("01011101");
+    private void setA() {
+        viewModel.setBitFieldStringA("11001100");
     }
 
     @Test
@@ -300,7 +300,6 @@ public class ViewModelTests {
 
     @Test
     public void logCanCreateMessAfterXorOperation() {
-        setValues();
         viewModel.logicAXorB();
         String message = viewModel.getThisNiceLog().get(0);
 
@@ -309,7 +308,6 @@ public class ViewModelTests {
 
     @Test
     public void logCanCreateMessAfterOrOperation() {
-        setValues();
         viewModel.logicAOrB();
         String message = viewModel.getThisNiceLog().get(0);
 
@@ -318,7 +316,6 @@ public class ViewModelTests {
 
     @Test
     public void logCanCreateMessAfterAndOperation() {
-        setValues();
         viewModel.logicAAndB();
         String message = viewModel.getThisNiceLog().get(0);
 
@@ -378,7 +375,7 @@ public class ViewModelTests {
         viewModel.setBitFieldStringA("11111111");
         viewModel.setBitFieldStringB("00000000");
 
-        assertNull(viewModel.getMyRealLogs());
+        assertNotNull(viewModel.getMyRealLogs());
     }
 
     @Test
@@ -388,7 +385,6 @@ public class ViewModelTests {
 
     @Test
     public void logCanCreateMessAfterNotAOperation() {
-        setValues();
         viewModel.logicNotA();
         String message = viewModel.getThisNiceLog().get(0);
 
@@ -397,11 +393,18 @@ public class ViewModelTests {
 
     @Test
     public void logCanCreateMessAfterNotBOperation() {
-        setValues();
         viewModel.logicNotB();
         String message = viewModel.getThisNiceLog().get(0);
 
         assertTrue(message.matches(".*" + Message.NOT_B_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void logCanCreateMessAfterInputOperation() {
+        setA();
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED + ".*"));
     }
 
     public void setExternalViewModel(final ViewModel viewModel) {
