@@ -406,6 +406,30 @@ public class ViewModelTests {
         assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED + ".*"));
     }
 
+    @Test
+    public void logCanCreateMessAfterIncorrectValueInput() {
+        viewModel.setBitFieldStringA("00000500");
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED_BUT_INCORRECT + ".*"));
+    }
+
+    @Test
+    public void logCanCreateMessAfterIncorrectSizeInput() {
+        viewModel.setBitFieldStringA("0010010011001");
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED_BUT_INCORRECT + ".*"));
+    }
+
+    @Test
+    public void logCanCreateMessAfterNullInput() {
+        viewModel.setBitFieldStringA("");
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED_BUT_INCORRECT + ".*"));
+    }
+
     public void setExternalViewModel(final ViewModel viewModel) {
         this.viewModel = viewModel;
     }

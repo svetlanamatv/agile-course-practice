@@ -135,17 +135,29 @@ public class ViewModel {
     private boolean canInputBitFieldCur(final String bitField, final StringProperty textErrorCur) {
         if ("".equals(bitField)) {
             textErrorCur.set("Text Field is Empty");
+            StringBuilder message = new StringBuilder(Message.INPUT_WAS_PRESSED_BUT_INCORRECT);
+            message.append("Input is incorrect!").append(".");
+            mainWindowLogger.log(message.toString());
+            logUpdating();
             return false;
         }
 
         if (!bitField.matches("[01]+")) {
             textErrorCur.set("Only 0 and 1");
+            StringBuilder message = new StringBuilder(Message.INPUT_WAS_PRESSED_BUT_INCORRECT);
+            message.append("Input is incorrect!").append(".");
+            mainWindowLogger.log(message.toString());
+            logUpdating();
             return false;
         }
 
         int lenBitField = bitField.length();
         if (lenBitField > LENGTH_BIT_FIELD) {
             textErrorCur.set("Length of BitField must be less or equal 8");
+            StringBuilder message = new StringBuilder(Message.INPUT_WAS_PRESSED_BUT_INCORRECT);
+            message.append("Input is incorrect!").append(".");
+            mainWindowLogger.log(message.toString());
+            logUpdating();
             return false;
         }
 
@@ -343,6 +355,7 @@ final class Message {
     public static final String GET_BIT_WAS_PRESSED = "Get. ";
     public static final String CLEAR_BIT_WAS_PRESSED = "Clear. ";
     public static final String INPUT_WAS_PRESSED = "Input. ";
+    public static final String INPUT_WAS_PRESSED_BUT_INCORRECT = "Incorrect input. ";
 
     private Message() {
     }
