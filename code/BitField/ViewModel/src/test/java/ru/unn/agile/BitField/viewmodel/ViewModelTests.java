@@ -3,7 +3,6 @@ package ru.unn.agile.BitField.viewmodel;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.unn.agile.BitField.model.BitField;
 
 import java.util.List;
 
