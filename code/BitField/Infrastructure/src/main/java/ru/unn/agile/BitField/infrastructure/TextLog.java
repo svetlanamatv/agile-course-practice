@@ -36,9 +36,9 @@ public class TextLog implements TheLog {
     }
 
     @Override
-    public void log(final String s) {
+    public void log(final String str) {
         try {
-            writer.write(now() + " > " + s);
+            writer.write(now() + " - " + str);
             writer.newLine();
             writer.flush();
         } catch (Exception e) {
