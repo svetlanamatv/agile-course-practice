@@ -3,9 +3,6 @@ package unn.agile.SolvingQuadraticEquation.infrastructure;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,13 +11,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 
 public class FileLoggerTests {
     private Pattern messageLogPattern;
     private Matcher messageLogMatcher;
     private static final String FILE_NAME_FOR_LOG =
-            "./TxtLogger_Tests-quadraticEquationSolver.makeLog";
+            "./TxtLogger_Tests-quadraticEquationSolver.log";
     private FileQuadraticEquationSolverLogger fileLogger;
 
     @Before
