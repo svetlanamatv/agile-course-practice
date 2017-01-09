@@ -331,6 +331,48 @@ public class ViewModelTests {
         assertNotNull(viewModel.myRealLogsProperty());
     }
 
+    @Test
+    public void resultTextPropertyTest() {
+
+        assertNotNull(viewModel.resultTextProperty());
+    }
+
+    @Test
+    public void textErrorBPropertyTest() {
+
+        assertNotNull(viewModel.textErrorBProperty());
+    }
+
+    @Test
+    public void textErrorAPropertyTest() {
+
+        assertNotNull(viewModel.textErrorAProperty());
+    }
+
+    @Test
+    public void chooseBitAPropertyTest() {
+
+        assertNotNull(viewModel.chooseBitAProperty());
+    }
+
+    @Test
+    public void chooseBitBPropertyTest() {
+
+        assertNotNull(viewModel.chooseBitBProperty());
+    }
+
+    @Test
+    public void bitFieldStringBPropertyTest() {
+
+        assertNotNull(viewModel.bitFieldStringBProperty());
+    }
+
+    @Test
+    public void bitFieldStringAPropertyTest() {
+
+        assertNotNull(viewModel.bitFieldStringAProperty());
+    }
+
     public void setExternalViewModel(final ViewModel viewModel) {
         this.viewModel = viewModel;
     }
