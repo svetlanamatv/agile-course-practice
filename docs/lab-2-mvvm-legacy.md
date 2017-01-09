@@ -130,14 +130,7 @@ MVVM.
         code/kornyakov-kirill-lab2/View/src/main/java/ru/unn/agile/ComplexNumber/view/
         code/kornyakov-kirill-lab2/View/src/test/java/ru/unn/agile/ComplexNumber/view/
 
-  1. Положить в вашу папку `View` файл `build.gradle` следующего содержания:
-
-        sourceSets {
-            main.java.srcDir 'src/main/java'
-            test.java.srcDir 'src/test/java'
-        }
-
-  1. Затем необходимо добавить этот файл в общий проект. Снова идем в
+  1. Затем необходимо добавить эту директорию в общий проект. Снова идем в
      глобальный `settings.gradle` и добавляем две строки в вашей
      секции "регистрирующие" директорию `View` и соответствующий ей проект.
   1. Теперь можно сгенерировать проект для IDEA, чтобы открыть его и
@@ -203,17 +196,11 @@ MVVM.
      есть полное имя выглядит примерно следующим образом:
      `package ru.unn.agile.ComplexNumber.viewmodel;`.
   1. Затем следует создать `build.gradle` файл, и положить его в корень вашей
-     директории `ViewModel`. Этот файл должен указывать системе сборки на
-     исходники ваших классов и тестов, плюс указывать зависимость от вашего
+     директории `ViewModel`. Этот файл должен указывать зависимость от вашего
      проекта `Model`. Вот примерный вид `build.gradle` файла:
 
         dependencies {
             compile project(':kornyakov-kirill-lab2-Model')
-        }
-
-        sourceSets {
-            main.java.srcDir 'src/main/java'
-            test.java.srcDir 'src/test/java'
         }
 
   1. Следующим шагом следует добавить созданный подпроект в систему сборки. Для
@@ -248,15 +235,11 @@ MVVM.
 просто:
 
   1. Первым делом нужно добавить зависимость `View` от `ViewModel`. Для этого
-     открываем `build.gradle` в вашей директории `View` и добавляем информацию
+     создаём `build.gradle` в вашей директории `View` и добавляем информацию
      про зависимость:
 
         dependencies {
             compile project(':kirill-kornyakov-ViewModel')
-        }
-
-        sourceSets {
-            main.java.srcDir 'src/main'
         }
 
   1. Затем перегенерируем IDEA проект (`gradle kirill-kornyakov-View:idea`) и
