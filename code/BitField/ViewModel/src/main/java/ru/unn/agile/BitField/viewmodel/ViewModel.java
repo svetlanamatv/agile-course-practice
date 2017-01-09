@@ -103,6 +103,10 @@ public class ViewModel {
         bitFieldA = field.not();
 
         bitFieldStringA.set(bitFieldA.toString());
+        StringBuilder message = new StringBuilder(Message.NOT_A_WAS_PRESSED);
+        message.append("Not A operation used").append(".");
+        mainWindowLogger.log(message.toString());
+        logUpdating();
     }
 
     public void logicNotB() {
@@ -110,6 +114,10 @@ public class ViewModel {
         bitFieldB = field.not();
 
         bitFieldStringB.set(bitFieldB.toString());
+        StringBuilder message = new StringBuilder(Message.NOT_B_WAS_PRESSED);
+        message.append("Not B operation used").append(".");
+        mainWindowLogger.log(message.toString());
+        logUpdating();
     }
 
     private String correctionBitField(final String bitField) {
@@ -151,6 +159,10 @@ public class ViewModel {
         bitFieldCur.setBit(numOfBitInt);
 
         bitFieldStringCur.set(bitFieldCur.toString());
+        StringBuilder message = new StringBuilder(Message.SET_BIT_WAS_PRESSED);
+        message.append("Set was pressed").append(".");
+        mainWindowLogger.log(message.toString());
+        logUpdating();
     }
 
     public void clearBitFieldBitCur(final String numOfBit, final BitField bitFieldCur,
@@ -313,6 +325,9 @@ final class Message {
     public static final String XOR_WAS_PRESSED = "Xor. ";
     public static final String OR_WAS_PRESSED = "Or. ";
     public static final String AND_WAS_PRESSED = "And. ";
+    public static final String NOT_A_WAS_PRESSED = "Not A. ";
+    public static final String NOT_B_WAS_PRESSED = "Not B. ";
+    public static final String SET_BIT_WAS_PRESSED = "Set. ";
 
     private Message() {
     }

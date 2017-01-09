@@ -386,6 +386,23 @@ public class ViewModelTests {
         Message message;
     }
 
+    @Test
+    public void logCanCreateMessAfterNotAOperation() {
+        setValues();
+        viewModel.logicNotA();
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.NOT_A_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void logCanCreateMessAfterNotBOperation() {
+        setValues();
+        viewModel.logicNotB();
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.NOT_B_WAS_PRESSED + ".*"));
+    }
 
     public void setExternalViewModel(final ViewModel viewModel) {
         this.viewModel = viewModel;
