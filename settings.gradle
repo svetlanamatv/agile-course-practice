@@ -346,6 +346,8 @@ include "code/BitField/View"
 project(":code/BitField/View").name = "BitField-View"
 include "code/BitField/ViewModel"
 project(":code/BitField/ViewModel").name = "BitField-ViewModel"
+include "code/BitField/Infrastructure"
+project(":code/BitField/Infrastructure").name = "BitField-Infrastructure"
 
 include "code/TreeSort/ViewModel"
 project(":code/TreeSort/ViewModel").name = "TreeSort-ViewModel"

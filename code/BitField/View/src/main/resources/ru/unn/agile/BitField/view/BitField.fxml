@@ -6,9 +6,9 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
-<?import ru.unn.agile.BitField.viewmodel.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.unn.agile.BitField.view.Controller">
+<?import ru.unn.agile.BitField.viewmodel.*?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="736.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.unn.agile.BitField.view.Controller">
    <fx:define>
       <ViewModel fx:id="viewModel" />
    </fx:define>
@@ -21,10 +21,10 @@
             <ComboBox fx:id="setBitAComboBox" layoutX="317.0" layoutY="18.0" prefHeight="25.0" prefWidth="103.0" promptText="Choose Bit" />
             <Button fx:id="setBitAButton" layoutX="435.0" layoutY="18.0" mnemonicParsing="false" text="Set Bit" />
             <Button fx:id="getBitAButton" layoutX="500.0" layoutY="18.0" mnemonicParsing="false" text="Get Bit" />
-            <TextField fx:id="showATextField" text="${viewModel.bitFieldStringA}" editable="false" layoutX="70.0" layoutY="50.0" prefHeight="25.0" prefWidth="120.0"  />
-            <TextField fx:id="showChooseBitATextField" text="${viewModel.chooseBitA}" editable="false" layoutX="500.0" layoutY="50.0" prefHeight="25.0" prefWidth="52.0" />
+            <TextField fx:id="showATextField" editable="false" layoutX="70.0" layoutY="50.0" prefHeight="25.0" prefWidth="120.0" text="${viewModel.bitFieldStringA}" />
+            <TextField fx:id="showChooseBitATextField" editable="false" layoutX="500.0" layoutY="50.0" prefHeight="25.0" prefWidth="52.0" text="${viewModel.chooseBitA}" />
             <Button fx:id="notAButton" layoutX="666.0" layoutY="18.0" mnemonicParsing="false" prefWidth="60.0" text="NOT A" />
-            <TextArea fx:id="errorATextArea" text="${viewModel.textErrorA}" editable="false" layoutX="70.0" layoutY="82.0" prefHeight="70.0" prefWidth="200.0" />
+            <TextArea fx:id="errorATextArea" editable="false" layoutX="70.0" layoutY="82.0" prefHeight="70.0" prefWidth="200.0" text="${viewModel.textErrorA}" />
             <Label layoutX="20.0" layoutY="54.0" text="Actual :" />
             <Button fx:id="clearBitAButton" layoutX="567.0" layoutY="18.0" mnemonicParsing="false" text="Clear Bit" />
          </children>
@@ -37,10 +37,10 @@
             <ComboBox fx:id="setBitBComboBox" layoutX="317.0" layoutY="18.0" prefHeight="25.0" prefWidth="103.0" promptText="Choose Bit" />
             <Button fx:id="setBitBButton" layoutX="435.0" layoutY="18.0" mnemonicParsing="false" text="Set Bit" />
             <Button fx:id="getBitBButton" layoutX="500.0" layoutY="18.0" mnemonicParsing="false" text="Get Bit" />
-            <TextField fx:id="showBTextField" text="${viewModel.bitFieldStringB}" editable="false" layoutX="70.0" layoutY="50.0" prefHeight="25.0" prefWidth="120.0" />
-            <TextField fx:id="showChooseBitBTextField" text="${viewModel.chooseBitB}" editable="false" layoutX="500.0" layoutY="50.0" prefHeight="25.0" prefWidth="52.0" />
+            <TextField fx:id="showBTextField" editable="false" layoutX="70.0" layoutY="50.0" prefHeight="25.0" prefWidth="120.0" text="${viewModel.bitFieldStringB}" />
+            <TextField fx:id="showChooseBitBTextField" editable="false" layoutX="500.0" layoutY="50.0" prefHeight="25.0" prefWidth="52.0" text="${viewModel.chooseBitB}" />
             <Button fx:id="notBButton" layoutX="666.0" layoutY="18.0" mnemonicParsing="false" prefWidth="60.0" text="NOT B" />
-            <TextArea fx:id="errorBTextArea" text="${viewModel.textErrorB}" editable="false" layoutX="70.0" layoutY="80.0" prefHeight="70.0" prefWidth="200.0" />
+            <TextArea fx:id="errorBTextArea" editable="false" layoutX="70.0" layoutY="80.0" prefHeight="70.0" prefWidth="200.0" text="${viewModel.textErrorB}" />
             <Label layoutX="22.0" layoutY="56.0" text="Actual :" />
             <Button fx:id="clearBitBButton" layoutX="568.0" layoutY="18.0" mnemonicParsing="false" text="Clear Bit" />
          </children>
@@ -51,8 +51,12 @@
             <Button fx:id="logicOrButton" layoutX="140.0" layoutY="14.0" mnemonicParsing="false" prefWidth="60.0" text="OR" />
             <Button fx:id="logicXorButton" layoutX="213.0" layoutY="14.0" mnemonicParsing="false" prefWidth="60.0" text="XOR" />
             <Label layoutX="14.0" layoutY="58.0" text="Result : " />
-            <TextField fx:id="showResultLogicTextField" text="${viewModel.resultText}" editable="false" layoutX="66.0" layoutY="54.0" prefWidth="120.0" />
+            <TextField fx:id="showResultLogicTextField" editable="false" layoutX="66.0" layoutY="54.0" prefWidth="120.0" text="${viewModel.resultText}" />
          </children>
       </Pane>
+      <Pane layoutX="30.0" layoutY="494.0" prefHeight="200.0" prefWidth="740.0" style="-fx-border-color: black;">
+         <children>
+            <TextArea layoutX="28.0" layoutY="13.0" prefHeight="173.0" prefWidth="685.0" editable="false" text="${viewModel.myRealLogs}" />
+         </children></Pane>
    </children>
 </Pane>
