@@ -19,11 +19,8 @@ public class MatrixDisplay {
     private JLabel value;
     private MatrixDiffViewModel viewModel;
 
-    {
-        viewModel = new MatrixDiffViewModel();
-    }
-
-    public MatrixDisplay() {
+    public MatrixDisplay(MatrixDiffViewModel viewModel) {
+        this.viewModel = new MatrixDiffViewModel();
         toFillOfMatrixButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -36,13 +33,11 @@ public class MatrixDisplay {
                 backBind();
                 bind();
             }
-
             @Override
             public void removeUpdate(final DocumentEvent e) {
                 backBind();
                 bind();
             }
-
             @Override
             public void changedUpdate(final DocumentEvent e) {
                 backBind();
@@ -81,12 +76,10 @@ public class MatrixDisplay {
             }
         });
     }
-
     private void bind() {
         toFillOfMatrixButton.setEnabled(viewModel.isToFillButtonEnabled());
         calculateTheDeterminantButton.setEnabled(viewModel.getIsCalculateButton());
     }
-
     private void backBind() {
         viewModel.setSizeOfMatrix(sizeOfMatrix.getText());
         viewModel.fillStringImgMatrixConvertToArray(matrix.getText());
@@ -94,13 +87,9 @@ public class MatrixDisplay {
 
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Сalculate the determinant");
-
-        frame.setContentPane(new MatrixDisplay().panel1);
+        frame.setContentPane(new MatrixDisplay(new MatrixDiffViewModel()).panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
     }
-
-
-
 }
