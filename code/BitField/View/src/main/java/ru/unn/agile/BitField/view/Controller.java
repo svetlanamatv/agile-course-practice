@@ -9,11 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+
 import java.io.IOException;
 
 import ru.unn.agile.BitField.infrastructure.TextLog;
 import ru.unn.agile.BitField.viewmodel.ViewModel;
-
 
 
 public class Controller {
@@ -114,75 +114,112 @@ public class Controller {
         inputAButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.setBitFieldStringA(inputATextField.getText());
+                try {
+                    viewModel.setBitFieldStringA(inputATextField.getText());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         inputBButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.setBitFieldStringB(inputBTextField.getText());
+                try {
+                    viewModel.setBitFieldStringB(inputBTextField.getText());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         setBitAButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.setBitFieldBitA(setBitAComboBox.getValue());
+                try {
+                    viewModel.setBitFieldBitA(setBitAComboBox.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         setBitBButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.setBitFieldBitB(setBitBComboBox.getValue());
+                try {
+                    viewModel.setBitFieldBitB(setBitBComboBox.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         clearBitAButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.clearBitFieldBitA(setBitAComboBox.getValue());
+                try {
+                    viewModel.clearBitFieldBitA(setBitAComboBox.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         clearBitBButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.clearBitFieldBitB(setBitBComboBox.getValue());
+                try {
+                    viewModel.clearBitFieldBitB(setBitBComboBox.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         getBitAButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.getBitFieldBitA(setBitAComboBox.getValue());
+                try {
+                    viewModel.getBitFieldBitA(setBitAComboBox.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         getBitBButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.getBitFieldBitB(setBitBComboBox.getValue());
+                try {
+                    viewModel.getBitFieldBitB(setBitBComboBox.getValue());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         notAButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.logicNotA();
+                try {
+                    viewModel.logicNotA();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
-
         notBButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.logicNotB();
+                try {
+                    viewModel.logicNotB();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
-
         // Logic operations
-
         logicAndButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
@@ -193,7 +230,6 @@ public class Controller {
                 }
             }
         });
-
         logicOrButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
@@ -204,7 +240,6 @@ public class Controller {
                 }
             }
         });
-
         logicXorButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {

@@ -4,6 +4,7 @@ import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import ru.unn.agile.BitField.model.BitField;
+
 import java.io.IOException;
 
 import java.util.List;
@@ -53,7 +54,7 @@ public class ViewModel {
 
     // Methods
 
-    public void setBitFieldStringA(final String bitField) {
+    public void setBitFieldStringA(final String bitField) throws IOException {
         if (!canInputBitFieldCur(bitField, textErrorA)) {
             return;
         }
@@ -64,7 +65,7 @@ public class ViewModel {
         bitFieldStringA.set(bitFieldA.toString());
     }
 
-    public void setBitFieldStringB(final String bitField) {
+    public void setBitFieldStringB(final String bitField) throws IOException {
         if (!canInputBitFieldCur(bitField, textErrorB)) {
             return;
         }
@@ -75,31 +76,31 @@ public class ViewModel {
         bitFieldStringB.set(bitFieldB.toString());
     }
 
-    public void setBitFieldBitA(final String numOfBit) {
+    public void setBitFieldBitA(final String numOfBit) throws IOException {
         setBitFieldBitCur(numOfBit, bitFieldA, bitFieldStringA);
     }
 
-    public void setBitFieldBitB(final String numOfBit) {
+    public void setBitFieldBitB(final String numOfBit) throws IOException {
         setBitFieldBitCur(numOfBit, bitFieldB, bitFieldStringB);
     }
 
-    public void clearBitFieldBitA(final String numOfBit) {
+    public void clearBitFieldBitA(final String numOfBit) throws IOException {
         clearBitFieldBitCur(numOfBit, bitFieldA, bitFieldStringA);
     }
 
-    public void clearBitFieldBitB(final String numOfBit) {
+    public void clearBitFieldBitB(final String numOfBit) throws IOException {
         clearBitFieldBitCur(numOfBit, bitFieldB, bitFieldStringB);
     }
 
-    public void getBitFieldBitA(final String numOfBit) {
+    public void getBitFieldBitA(final String numOfBit) throws IOException {
         getBitFieldBitCur(numOfBit, bitFieldA, chooseBitA);
     }
 
-    public void getBitFieldBitB(final String numOfBit) {
+    public void getBitFieldBitB(final String numOfBit) throws IOException {
         getBitFieldBitCur(numOfBit, bitFieldB, chooseBitB);
     }
 
-    public void logicNotA() {
+    public void logicNotA() throws IOException {
         BitField field = new BitField(bitFieldA);
         bitFieldA = field.not();
 
@@ -110,7 +111,7 @@ public class ViewModel {
         logUpdating();
     }
 
-    public void logicNotB() {
+    public void logicNotB() throws IOException {
         BitField field = new BitField(bitFieldB);
         bitFieldB = field.not();
 
@@ -121,7 +122,7 @@ public class ViewModel {
         logUpdating();
     }
 
-    private String correctionBitField(final String bitField) {
+    private String correctionBitField(final String bitField) throws IOException {
         String correctBitField = new String();
         int lenBitField = bitField.length();
 
@@ -137,7 +138,8 @@ public class ViewModel {
         return correctBitField;
     }
 
-    private boolean canInputBitFieldCur(final String bitField, final StringProperty textErrorCur) {
+    private boolean canInputBitFieldCur(final String bitField,
+                                        final StringProperty textErrorCur) throws IOException {
         if ("".equals(bitField)) {
             textErrorCur.set("Text Field is Empty");
             StringBuilder message = new StringBuilder(Message.INPUT_WAS_PRESSED_BUT_INCORRECT);
@@ -175,7 +177,7 @@ public class ViewModel {
     }
 
     public void setBitFieldBitCur(final String numOfBit, final BitField bitFieldCur,
-                                  final StringProperty bitFieldStringCur) {
+                                  final StringProperty bitFieldStringCur) throws IOException {
         int numOfBitInt = Integer.parseInt(numOfBit);
         bitFieldCur.setBit(numOfBitInt);
 
@@ -187,7 +189,7 @@ public class ViewModel {
     }
 
     public void clearBitFieldBitCur(final String numOfBit, final BitField bitFieldCur,
-                                    final StringProperty bitFieldStringCur) {
+                                    final StringProperty bitFieldStringCur) throws IOException {
         int numOfBitInt = Integer.parseInt(numOfBit);
         bitFieldCur.clrBit(numOfBitInt);
 
@@ -199,7 +201,7 @@ public class ViewModel {
     }
 
     public void getBitFieldBitCur(final String numOfBit, final BitField bitFieldCur,
-                                  final StringProperty chooseBitCur) {
+                                  final StringProperty chooseBitCur) throws IOException {
         int numOfBitInt = Integer.parseInt(numOfBit);
         int chooseBit = bitFieldCur.getBit(numOfBitInt);
 

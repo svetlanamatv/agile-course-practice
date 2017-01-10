@@ -1,6 +1,7 @@
 package ru.unn.agile.BitField.viewmodel;
 
 import java.io.IOException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,189 +37,285 @@ public class ViewModelTests {
 
     @Test
     public void whenEnterEmptyAErrorText() {
-        viewModel.setBitFieldStringA("");
+        try {
+            viewModel.setBitFieldStringA("");
 
-        assertEquals("Text Field is Empty", viewModel.getTextErrorA());
+            assertEquals("Text Field is Empty", viewModel.getTextErrorA());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void whenEnterEmptyBErrorText() {
-        viewModel.setBitFieldStringB("");
+        try {
+            viewModel.setBitFieldStringB("");
 
-        assertEquals("Text Field is Empty", viewModel.getTextErrorB());
+            assertEquals("Text Field is Empty", viewModel.getTextErrorB());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
     @Test
     public void whenEnterFieldWrongDataAErrorText() {
-        viewModel.setBitFieldStringA("2");
+        try {
+            viewModel.setBitFieldStringA("2");
 
-        assertEquals("Only 0 and 1", viewModel.getTextErrorA());
+            assertEquals("Only 0 and 1", viewModel.getTextErrorA());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void whenEnterFieldWrongDataBErrorText() {
-        viewModel.setBitFieldStringB("a");
+        try {
+            viewModel.setBitFieldStringB("a");
 
-        assertEquals("Only 0 and 1", viewModel.getTextErrorB());
+            assertEquals("Only 0 and 1", viewModel.getTextErrorB());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void inputBitFieldALengthMoreLengthBitFieldErrorText() {
-        viewModel.setBitFieldStringA("111111111");
+        try {
+            viewModel.setBitFieldStringA("111111111");
 
-        assertEquals("Length of BitField must be less or equal 8", viewModel.getTextErrorA());
+            assertEquals("Length of BitField must be less or equal 8", viewModel.getTextErrorA());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void inputBitFieldBLengthMoreLengthBitFieldErrorText() {
-        viewModel.setBitFieldStringB("000000000");
+        try {
+            viewModel.setBitFieldStringB("000000000");
 
-        assertEquals("Length of BitField must be less or equal 8", viewModel.getTextErrorB());
+            assertEquals("Length of BitField must be less or equal 8", viewModel.getTextErrorB());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void setBitFieldALengthEqualLengthBitField() {
-        viewModel.setBitFieldStringA("01010101");
+        try {
+            viewModel.setBitFieldStringA("01010101");
 
-        assertEquals("01010101", viewModel.getBitFieldStringA());
+            assertEquals("01010101", viewModel.getBitFieldStringA());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void setBitFieldBLengthEqualLengthBitField() {
-        viewModel.setBitFieldStringB("10101010");
+        try {
+            viewModel.setBitFieldStringB("10101010");
 
-        assertEquals("10101010", viewModel.getBitFieldStringB());
+            assertEquals("10101010", viewModel.getBitFieldStringB());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void setBitFieldALengthLessLengthBitField() {
-        viewModel.setBitFieldStringA("1111");
+        try {
+            viewModel.setBitFieldStringA("1111");
 
-        assertEquals("00001111", viewModel.getBitFieldStringA());
+            assertEquals("00001111", viewModel.getBitFieldStringA());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void setBitFieldBLengthLessLengthBitField() {
-        viewModel.setBitFieldStringB("111100");
+        try {
+            viewModel.setBitFieldStringB("111100");
 
-        assertEquals("00111100", viewModel.getBitFieldStringB());
+            assertEquals("00111100", viewModel.getBitFieldStringB());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void setBitFieldBitA() {
-        viewModel.setBitFieldBitA("5");
+        try {
+            viewModel.setBitFieldBitA("5");
 
-        assertEquals("00000100", viewModel.getBitFieldStringA());
+            assertEquals("00000100", viewModel.getBitFieldStringA());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void setBitFieldBitB() {
-        viewModel.setBitFieldBitB("3");
+        try {
+            viewModel.setBitFieldBitB("3");
 
-        assertEquals("00010000", viewModel.getBitFieldStringB());
+            assertEquals("00010000", viewModel.getBitFieldStringB());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void setBitFieldBitA3Bits() {
-        viewModel.setBitFieldBitA("1");
-        viewModel.setBitFieldBitA("2");
-        viewModel.setBitFieldBitA("7");
+        try {
+            viewModel.setBitFieldBitA("1");
+            viewModel.setBitFieldBitA("2");
+            viewModel.setBitFieldBitA("7");
 
-        assertEquals("01100001", viewModel.getBitFieldStringA());
+            assertEquals("01100001", viewModel.getBitFieldStringA());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void setBitFieldBitB3Bits() {
-        viewModel.setBitFieldBitB("0");
-        viewModel.setBitFieldBitB("3");
-        viewModel.setBitFieldBitB("6");
+        try {
+            viewModel.setBitFieldBitB("0");
+            viewModel.setBitFieldBitB("3");
+            viewModel.setBitFieldBitB("6");
 
-        assertEquals("10010010", viewModel.getBitFieldStringB());
+            assertEquals("10010010", viewModel.getBitFieldStringB());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void clearBitFieldBitA() {
-        viewModel.setBitFieldStringA("11111111");
-        viewModel.clearBitFieldBitA("5");
+        try {
+            viewModel.setBitFieldStringA("11111111");
+            viewModel.clearBitFieldBitA("5");
 
-        assertEquals("11111011", viewModel.getBitFieldStringA());
+            assertEquals("11111011", viewModel.getBitFieldStringA());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void clearBitFieldBitB() {
-        viewModel.setBitFieldStringB("11111111");
-        viewModel.clearBitFieldBitB("3");
+        try {
+            viewModel.setBitFieldStringB("11111111");
+            viewModel.clearBitFieldBitB("3");
 
-        assertEquals("11101111", viewModel.getBitFieldStringB());
+            assertEquals("11101111", viewModel.getBitFieldStringB());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void clearBitFieldBitA3Bits() {
-        viewModel.setBitFieldStringA("11111111");
-        viewModel.clearBitFieldBitA("1");
-        viewModel.clearBitFieldBitA("2");
-        viewModel.clearBitFieldBitA("7");
+        try {
+            viewModel.setBitFieldStringA("11111111");
+            viewModel.clearBitFieldBitA("1");
+            viewModel.clearBitFieldBitA("2");
+            viewModel.clearBitFieldBitA("7");
 
-        assertEquals("10011110", viewModel.getBitFieldStringA());
+            assertEquals("10011110", viewModel.getBitFieldStringA());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void clearBitFieldBitB3Bits() {
-        viewModel.setBitFieldStringB("11111111");
-        viewModel.clearBitFieldBitB("0");
-        viewModel.clearBitFieldBitB("3");
-        viewModel.clearBitFieldBitB("6");
+        try {
+            viewModel.setBitFieldStringB("11111111");
+            viewModel.clearBitFieldBitB("0");
+            viewModel.clearBitFieldBitB("3");
+            viewModel.clearBitFieldBitB("6");
 
-        assertEquals("01101101", viewModel.getBitFieldStringB());
+            assertEquals("01101101", viewModel.getBitFieldStringB());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void getBitFieldBitAOne() {
-        viewModel.setBitFieldStringA("00001111");
-        viewModel.getBitFieldBitA("4");
+        try {
+            viewModel.setBitFieldStringA("00001111");
+            viewModel.getBitFieldBitA("4");
 
-        assertEquals("1", viewModel.getChooseBitA());
+            assertEquals("1", viewModel.getChooseBitA());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void getBitFieldBitBOne() {
-        viewModel.setBitFieldStringB("00001111");
-        viewModel.getBitFieldBitB("5");
+        try {
+            viewModel.setBitFieldStringB("00001111");
+            viewModel.getBitFieldBitB("5");
 
-        assertEquals("1", viewModel.getChooseBitB());
+            assertEquals("1", viewModel.getChooseBitB());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void getBitFieldBitAZero() {
-        viewModel.setBitFieldStringA("00001111");
-        viewModel.getBitFieldBitA("3");
+        try {
+            viewModel.setBitFieldStringA("00001111");
+            viewModel.getBitFieldBitA("3");
 
-        assertEquals("0", viewModel.getChooseBitA());
+            assertEquals("0", viewModel.getChooseBitA());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void getBitFieldBitBZero() {
-        viewModel.setBitFieldStringB("00001111");
-        viewModel.getBitFieldBitB("2");
+        try {
+            viewModel.setBitFieldStringB("00001111");
+            viewModel.getBitFieldBitB("2");
 
-        assertEquals("0", viewModel.getChooseBitB());
+            assertEquals("0", viewModel.getChooseBitB());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void notA() {
-        viewModel.setBitFieldStringA("00010111");
-        viewModel.logicNotA();
+        try {
+            viewModel.setBitFieldStringA("00010111");
+            viewModel.logicNotA();
 
-        assertEquals("11101000", viewModel.getBitFieldStringA());
+            assertEquals("11101000", viewModel.getBitFieldStringA());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void notB() {
-        viewModel.setBitFieldStringB("10101010");
-        viewModel.logicNotB();
+        try {
+            viewModel.setBitFieldStringB("10101010");
+            viewModel.logicNotB();
 
-        assertEquals("01010101", viewModel.getBitFieldStringB());
+            assertEquals("01010101", viewModel.getBitFieldStringB());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -242,7 +339,7 @@ public class ViewModelTests {
             viewModel.logicAAndB();
 
             assertEquals("00000001", viewModel.getResultText());
-        }   catch (Exception ex) {
+        } catch (Exception ex) {
             fail("Invalid exception type");
         }
     }
@@ -339,7 +436,11 @@ public class ViewModelTests {
     }
 
     private void setA() {
-        viewModel.setBitFieldStringA("11001100");
+        try {
+            viewModel.setBitFieldStringA("11001100");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -447,10 +548,14 @@ public class ViewModelTests {
 
     @Test
     public void getMyRealLogsTest() {
-        viewModel.setBitFieldStringA("11111111");
-        viewModel.setBitFieldStringB("00000000");
+        try {
+            viewModel.setBitFieldStringA("11111111");
+            viewModel.setBitFieldStringB("00000000");
 
-        assertNotNull(viewModel.getMyRealLogs());
+            assertNotNull(viewModel.getMyRealLogs());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -460,18 +565,26 @@ public class ViewModelTests {
 
     @Test
     public void logCanCreateMessAfterNotAOperation() {
-        viewModel.logicNotA();
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.logicNotA();
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.NOT_A_WAS_PRESSED + ".*"));
+            assertTrue(message.matches(".*" + Message.NOT_A_WAS_PRESSED + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void logCanCreateMessAfterNotBOperation() {
-        viewModel.logicNotB();
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.logicNotB();
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.NOT_B_WAS_PRESSED + ".*"));
+            assertTrue(message.matches(".*" + Message.NOT_B_WAS_PRESSED + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -484,82 +597,122 @@ public class ViewModelTests {
 
     @Test
     public void logCanCreateMessAfterIncorrectValueInput() {
-        viewModel.setBitFieldStringA("00000500");
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.setBitFieldStringA("00000500");
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED_BUT_INCORRECT + ".*"));
+            assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED_BUT_INCORRECT + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void logCanCreateMessAfterIncorrectSizeInput() {
-        viewModel.setBitFieldStringA("0010010011001");
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.setBitFieldStringA("0010010011001");
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED_BUT_INCORRECT + ".*"));
+            assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED_BUT_INCORRECT + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void logCanCreateMessAfterNullInput() {
-        viewModel.setBitFieldStringA("");
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.setBitFieldStringA("");
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED_BUT_INCORRECT + ".*"));
+            assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED_BUT_INCORRECT + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void logCanCreateSuccessMessAfterCorrectingBitField() {
-        viewModel.setBitFieldStringA("00101");
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.setBitFieldStringA("00101");
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED + ".*"));
+            assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void logCanCreateSuccessMessAfterClearBitsA() {
-        viewModel.clearBitFieldBitA("1");
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.clearBitFieldBitA("1");
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.CLEAR_BIT_WAS_PRESSED + ".*"));
+            assertTrue(message.matches(".*" + Message.CLEAR_BIT_WAS_PRESSED + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void logCanCreateSuccessMessAfterSettingBitsA() {
-        viewModel.setBitFieldBitA("4");
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.setBitFieldBitA("4");
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.SET_BIT_WAS_PRESSED + ".*"));
+            assertTrue(message.matches(".*" + Message.SET_BIT_WAS_PRESSED + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void logCanCreateSuccessMessAfterGettingBitsA() {
-        viewModel.getBitFieldBitA("2");
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.getBitFieldBitA("2");
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.GET_BIT_WAS_PRESSED + ".*"));
+            assertTrue(message.matches(".*" + Message.GET_BIT_WAS_PRESSED + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void logCanCreateSuccessMessAfterClearBitsB() {
-        viewModel.clearBitFieldBitB("7");
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.clearBitFieldBitB("7");
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.CLEAR_BIT_WAS_PRESSED + ".*"));
+            assertTrue(message.matches(".*" + Message.CLEAR_BIT_WAS_PRESSED + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void logCanCreateSuccessMessAfterSettingBitsB() {
-        viewModel.setBitFieldBitB("5");
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.setBitFieldBitB("5");
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.SET_BIT_WAS_PRESSED + ".*"));
+            assertTrue(message.matches(".*" + Message.SET_BIT_WAS_PRESSED + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void logCanCreateSuccessMessAfterGettingBitsB() {
-        viewModel.getBitFieldBitB("1");
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.getBitFieldBitB("1");
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.GET_BIT_WAS_PRESSED + ".*"));
+            assertTrue(message.matches(".*" + Message.GET_BIT_WAS_PRESSED + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setExternalViewModel(final ViewModel viewModel) {
