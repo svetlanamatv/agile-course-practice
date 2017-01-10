@@ -1,4 +1,4 @@
-package com.github.audice.matrixdiff.view;
+package ru.unn.agile.matrixdiff.view;
 
 import com.github.audice.matrixdiff.viewmodel.MatrixDiffViewModel;
 
