@@ -1,8 +1,6 @@
 package ru.unn.agile.BitField.viewmodel;
 
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import ru.unn.agile.BitField.model.BitField;
 
 import java.io.IOException;
