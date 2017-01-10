@@ -30,7 +30,7 @@ public class SquareMatrix {
     @Override
     public String toString() {
         String arrayText = "";
-        if (this.dimension > 0) {
+        if ((this.dimension > 0) && (arrayOfMatrix != null)) {
             for (int elementNumber = 0; elementNumber < arrayOfMatrix.length; elementNumber++) {
                 arrayText += Float.toString(arrayOfMatrix[elementNumber]) + ",";
             }
