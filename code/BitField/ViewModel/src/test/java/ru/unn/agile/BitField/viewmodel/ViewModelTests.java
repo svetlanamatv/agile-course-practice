@@ -223,56 +223,80 @@ public class ViewModelTests {
 
     @Test
     public void resultAAndB() {
-        viewModel.setBitFieldStringA("10101010");
-        viewModel.setBitFieldStringB("00001111");
-        viewModel.logicAAndB();
+        try {
+            viewModel.setBitFieldStringA("10101010");
+            viewModel.setBitFieldStringB("00001111");
+            viewModel.logicAAndB();
 
-        assertEquals("00001010", viewModel.getResultText());
+            assertEquals("00001010", viewModel.getResultText());
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
     }
 
     @Test
     public void resultAAndB2() {
-        viewModel.setBitFieldStringA("10101011");
-        viewModel.setBitFieldStringB("01010101");
-        viewModel.logicAAndB();
+        try {
+            viewModel.setBitFieldStringA("10101011");
+            viewModel.setBitFieldStringB("01010101");
+            viewModel.logicAAndB();
 
-        assertEquals("00000001", viewModel.getResultText());
+            assertEquals("00000001", viewModel.getResultText());
+        }   catch (Exception ex) {
+            fail("Invalid exception type");
+        }
     }
 
     @Test
     public void resultAAndB3() {
-        viewModel.setBitFieldStringA("10101011");
-        viewModel.setBitFieldStringB("01011100");
-        viewModel.logicAAndB();
+        try {
+            viewModel.setBitFieldStringA("10101011");
+            viewModel.setBitFieldStringB("01011100");
+            viewModel.logicAAndB();
 
-        assertEquals("00001000", viewModel.getResultText());
+            assertEquals("00001000", viewModel.getResultText());
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
     }
 
     @Test
     public void resultAOrB() {
-        viewModel.setBitFieldStringA("10101010");
-        viewModel.setBitFieldStringB("00001111");
-        viewModel.logicAOrB();
+        try {
+            viewModel.setBitFieldStringA("10101010");
+            viewModel.setBitFieldStringB("00001111");
+            viewModel.logicAOrB();
 
-        assertEquals("10101111", viewModel.getResultText());
+            assertEquals("10101111", viewModel.getResultText());
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
     }
 
     @Test
     public void resultAOrB1() {
-        viewModel.setBitFieldStringA("10101010");
-        viewModel.setBitFieldStringB("10011100");
-        viewModel.logicAOrB();
+        try {
+            viewModel.setBitFieldStringA("10101010");
+            viewModel.setBitFieldStringB("10011100");
+            viewModel.logicAOrB();
 
-        assertEquals("10111110", viewModel.getResultText());
+            assertEquals("10111110", viewModel.getResultText());
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
     }
 
     @Test
     public void resultAOrB2() {
-        viewModel.setBitFieldStringA("10101010");
-        viewModel.setBitFieldStringB("01010101");
-        viewModel.logicAOrB();
+        try {
+            viewModel.setBitFieldStringA("10101010");
+            viewModel.setBitFieldStringB("01010101");
+            viewModel.logicAOrB();
 
-        assertEquals("11111111", viewModel.getResultText());
+            assertEquals("11111111", viewModel.getResultText());
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
     }
 
     @Test
@@ -351,18 +375,26 @@ public class ViewModelTests {
 
     @Test
     public void logCanCreateMessAfterOrOperation() {
-        viewModel.logicAOrB();
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.logicAOrB();
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.OR_WAS_PRESSED + ".*"));
+            assertTrue(message.matches(".*" + Message.OR_WAS_PRESSED + ".*"));
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
     }
 
     @Test
     public void logCanCreateMessAfterAndOperation() {
-        viewModel.logicAAndB();
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.logicAAndB();
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.AND_WAS_PRESSED + ".*"));
+            assertTrue(message.matches(".*" + Message.AND_WAS_PRESSED + ".*"));
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
     }
 
     @Test

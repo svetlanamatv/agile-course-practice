@@ -9,9 +9,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import java.io.IOException;
 
 import ru.unn.agile.BitField.infrastructure.TextLog;
 import ru.unn.agile.BitField.viewmodel.ViewModel;
+
+
 
 public class Controller {
     private final ObservableList<String> numBitList =
@@ -183,21 +186,33 @@ public class Controller {
         logicAndButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.logicAAndB();
+                try {
+                    viewModel.logicAAndB();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         logicOrButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.logicAOrB();
+                try {
+                    viewModel.logicAOrB();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         logicXorButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(final ActionEvent event) {
-                viewModel.logicAXorB();
+                try {
+                    viewModel.logicAXorB();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

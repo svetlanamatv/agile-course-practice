@@ -210,7 +210,7 @@ public class ViewModel {
         logUpdating();
     }
 
-    public void logicAAndB() {
+    public void logicAAndB() throws IOException {
         bitFieldResult = new BitField(bitFieldA);
         bitFieldResult = bitFieldA.and(bitFieldB);
 
@@ -225,7 +225,7 @@ public class ViewModel {
         logUpdating();
     }
 
-    public void logicAOrB() {
+    public void logicAOrB() throws IOException {
         bitFieldResult = new BitField(bitFieldA);
         bitFieldResult = bitFieldA.or(bitFieldB);
 
