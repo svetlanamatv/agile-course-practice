@@ -231,11 +231,20 @@ public class ViewModelTests {
 
     @Test
     public void resultAAndB2() {
-        viewModel.setBitFieldStringA("10101010");
+        viewModel.setBitFieldStringA("10101011");
         viewModel.setBitFieldStringB("01010101");
         viewModel.logicAAndB();
 
-        assertEquals("00000000", viewModel.getResultText());
+        assertEquals("00000001", viewModel.getResultText());
+    }
+
+    @Test
+    public void resultAAndB3() {
+        viewModel.setBitFieldStringA("10101011");
+        viewModel.setBitFieldStringB("01011100");
+        viewModel.logicAAndB();
+
+        assertEquals("00001000", viewModel.getResultText());
     }
 
     @Test
@@ -245,6 +254,15 @@ public class ViewModelTests {
         viewModel.logicAOrB();
 
         assertEquals("10101111", viewModel.getResultText());
+    }
+
+    @Test
+    public void resultAOrB1() {
+        viewModel.setBitFieldStringA("10101010");
+        viewModel.setBitFieldStringB("10011100");
+        viewModel.logicAOrB();
+
+        assertEquals("10111110", viewModel.getResultText());
     }
 
     @Test
@@ -263,6 +281,15 @@ public class ViewModelTests {
         viewModel.logicAXorB();
 
         assertEquals("10100101", viewModel.getResultText());
+    }
+
+    @Test
+    public void resultAXorB1() {
+        viewModel.setBitFieldStringA("10111011");
+        viewModel.setBitFieldStringB("01001111");
+        viewModel.logicAXorB();
+
+        assertEquals("11110100", viewModel.getResultText());
     }
 
     @Test
@@ -431,11 +458,59 @@ public class ViewModelTests {
     }
 
     @Test
-    public void logCanCreateMessAfterCorrectingBitField() {
+    public void logCanCreateSuccessMessAfterCorrectingBitField() {
         viewModel.setBitFieldStringA("00101");
         String message = viewModel.getThisNiceLog().get(0);
 
         assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void logCanCreateSuccessMessAfterClearBitsA() {
+        viewModel.clearBitFieldBitA("1");
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.CLEAR_BIT_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void logCanCreateSuccessMessAfterSettingBitsA() {
+        viewModel.setBitFieldBitA("4");
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.SET_BIT_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void logCanCreateSuccessMessAfterGettingBitsA() {
+        viewModel.getBitFieldBitA("2");
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.GET_BIT_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void logCanCreateSuccessMessAfterClearBitsB() {
+        viewModel.clearBitFieldBitB("7");
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.CLEAR_BIT_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void logCanCreateSuccessMessAfterSettingBitsB() {
+        viewModel.setBitFieldBitB("5");
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.SET_BIT_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void logCanCreateSuccessMessAfterGettingBitsB() {
+        viewModel.getBitFieldBitB("1");
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.GET_BIT_WAS_PRESSED + ".*"));
     }
 
     public void setExternalViewModel(final ViewModel viewModel) {
