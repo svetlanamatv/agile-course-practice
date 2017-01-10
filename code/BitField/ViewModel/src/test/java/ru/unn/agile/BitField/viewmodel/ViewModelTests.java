@@ -430,6 +430,14 @@ public class ViewModelTests {
         assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED_BUT_INCORRECT + ".*"));
     }
 
+    @Test
+    public void logCanCreateMessAfterCorrectingBitField() {
+        viewModel.setBitFieldStringA("00101");
+        String message = viewModel.getThisNiceLog().get(0);
+
+        assertTrue(message.matches(".*" + Message.INPUT_WAS_PRESSED + ".*"));
+    }
+
     public void setExternalViewModel(final ViewModel viewModel) {
         this.viewModel = viewModel;
     }

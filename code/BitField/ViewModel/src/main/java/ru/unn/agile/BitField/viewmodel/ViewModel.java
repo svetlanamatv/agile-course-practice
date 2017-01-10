@@ -129,6 +129,10 @@ public class ViewModel {
         }
 
         correctBitField += bitField;
+        StringBuilder message = new StringBuilder(Message.CORRECTING_BIT_FIELD);
+        message.append("BitField was correced!").append(".");
+        mainWindowLogger.log(message.toString());
+        logUpdating();
         return correctBitField;
     }
 
@@ -356,6 +360,7 @@ final class Message {
     public static final String CLEAR_BIT_WAS_PRESSED = "Clear. ";
     public static final String INPUT_WAS_PRESSED = "Input. ";
     public static final String INPUT_WAS_PRESSED_BUT_INCORRECT = "Incorrect input. ";
+    public static final String CORRECTING_BIT_FIELD = "Correcting BitField. ";
 
     private Message() {
     }
