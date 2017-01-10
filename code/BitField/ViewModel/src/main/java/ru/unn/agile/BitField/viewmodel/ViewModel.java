@@ -4,6 +4,7 @@ import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import ru.unn.agile.BitField.model.BitField;
+import java.io.IOException;
 
 import java.util.List;
 
@@ -239,7 +240,7 @@ public class ViewModel {
         logUpdating();
     }
 
-    public void logicAXorB() {
+    public void logicAXorB() throws IOException {
         bitFieldResult = new BitField(bitFieldA);
         bitFieldResult = bitFieldA.xor(bitFieldB);
 

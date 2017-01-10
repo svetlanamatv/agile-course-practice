@@ -1,5 +1,6 @@
 package ru.unn.agile.BitField.viewmodel;
 
+import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -276,29 +277,41 @@ public class ViewModelTests {
 
     @Test
     public void resultAXorB() {
-        viewModel.setBitFieldStringA("10101010");
-        viewModel.setBitFieldStringB("00001111");
-        viewModel.logicAXorB();
+        try {
+            viewModel.setBitFieldStringA("10101010");
+            viewModel.setBitFieldStringB("00001111");
+            viewModel.logicAXorB();
 
-        assertEquals("10100101", viewModel.getResultText());
+            assertEquals("10100101", viewModel.getResultText());
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
     }
 
     @Test
     public void resultAXorB1() {
-        viewModel.setBitFieldStringA("10111011");
-        viewModel.setBitFieldStringB("01001111");
-        viewModel.logicAXorB();
+        try {
+            viewModel.setBitFieldStringA("10111011");
+            viewModel.setBitFieldStringB("01001111");
+            viewModel.logicAXorB();
 
-        assertEquals("11110100", viewModel.getResultText());
+            assertEquals("11110100", viewModel.getResultText());
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
     }
 
     @Test
     public void resultAXorB2() {
-        viewModel.setBitFieldStringA("10101010");
-        viewModel.setBitFieldStringB("01010101");
-        viewModel.logicAXorB();
+        try {
+            viewModel.setBitFieldStringA("10101010");
+            viewModel.setBitFieldStringB("01010101");
+            viewModel.logicAXorB();
 
-        assertEquals("11111111", viewModel.getResultText());
+            assertEquals("11111111", viewModel.getResultText());
+        } catch (Exception ex) {
+            fail("Invalid exception type");
+        }
     }
 
     private void setA() {
@@ -326,10 +339,14 @@ public class ViewModelTests {
 
     @Test
     public void logCanCreateMessAfterXorOperation() {
-        viewModel.logicAXorB();
-        String message = viewModel.getThisNiceLog().get(0);
+        try {
+            viewModel.logicAXorB();
+            String message = viewModel.getThisNiceLog().get(0);
 
-        assertTrue(message.matches(".*" + Message.XOR_WAS_PRESSED + ".*"));
+            assertTrue(message.matches(".*" + Message.XOR_WAS_PRESSED + ".*"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
