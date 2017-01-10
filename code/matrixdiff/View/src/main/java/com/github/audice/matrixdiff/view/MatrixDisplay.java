@@ -17,9 +17,9 @@ public class MatrixDisplay {
     private JTextArea matrix;
     private JButton calculateTheDeterminantButton;
     private JLabel value;
-    private MatrixDiffViewModel viewModel;
+    private final MatrixDiffViewModel viewModel;
 
-    public MatrixDisplay(MatrixDiffViewModel viewModel) {
+    public MatrixDisplay(final MatrixDiffViewModel viewModel) {
         this.viewModel = new MatrixDiffViewModel();
         toFillOfMatrixButton.addActionListener(new ActionListener() {
             @Override
