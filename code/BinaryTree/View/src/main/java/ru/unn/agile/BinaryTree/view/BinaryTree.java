@@ -4,7 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import ru.unn.agile.BinaryTree.infrastructure.FileTxtLogger;
 import ru.unn.agile.BinaryTree.viewmodel.BinaryTreeViewModel;
 
 
@@ -27,13 +29,17 @@ public class BinaryTree {
     private Button btnGetNode;
     @FXML
     private Button btnSearch;
+    @FXML
+    private TextArea areaLog;
 
     @FXML
     void initialize() {
+        viewModel.setLogger(new FileTxtLogger("./treeFile.log"));
         txtAddNode.textProperty().bindBidirectional(viewModel.addNodeProperty());
         txtRemNode.textProperty().bindBidirectional(viewModel.remNodeProperty());
         txtGetNode.textProperty().bindBidirectional(viewModel.getNodeProperty());
         txtSearch.textProperty().bindBidirectional(viewModel.searchProperty());
+        areaLog.textProperty().bindBidirectional(viewModel.getLogsProperty());
 
         btnAddNode.setOnAction(new EventHandler<ActionEvent>() {
             @Override

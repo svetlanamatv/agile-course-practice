@@ -2,64 +2,64 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.*?>
+
 <?import ru.unn.agile.BinaryTree.viewmodel.*?>
 
-<AnchorPane prefHeight="312.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.unn.agile.BinaryTree.view.BinaryTree">
-  <fx:define>
-    <BinaryTreeViewModel fx:id="viewModel"/>
-  </fx:define>
-  <children>
-    <Pane layoutX="16.0" layoutY="143.0" prefHeight="83.0" prefWidth="381.0" style="-fx-border-width: 1; -fx-border-style: solid;">
-      <children>
+<AnchorPane prefHeight="514.0" prefWidth="636.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.unn.agile.BinaryTree.view.BinaryTree">
+    <fx:define>
+        <BinaryTreeViewModel fx:id="viewModel"/>
+    </fx:define>
+    <Pane layoutX="16.0" layoutY="143.0" prefHeight="83.0" prefWidth="381.0"
+          style="-fx-border-width: 1; -fx-border-style: solid;">
         <Label layoutX="14.0" layoutY="10.0" prefHeight="32.0" prefWidth="126.0" text="Search Result:">
-          <font>
-            <Font size="16.0" />
-          </font>
+            <font>
+                <Font size="16.0"/>
+            </font>
         </Label>
         <Label layoutX="259.0" layoutY="42.0" prefHeight="32.0" prefWidth="95.0" text="nodes found">
-          <font>
-            <Font size="16.0" />
-          </font>
+            <font>
+                <Font size="16.0"/>
+            </font>
         </Label>
-        <Label fx:id="lbSearchResult" layoutX="14.0" layoutY="42.0" prefHeight="32.0" prefWidth="226.0" textAlignment="CENTER" wrapText="true" text="${viewModel.searchResult}">
-          <font>
-            <Font size="16.0" />
-          </font>
+        <Label layoutX="14.0" layoutY="42.0" prefHeight="32.0" prefWidth="226.0" text="${viewModel.searchResult}" textAlignment="CENTER" wrapText="true">
+            <font>
+                <Font size="16.0"/>
+            </font>
         </Label>
-      </children>
     </Pane>
     <Pane layoutX="16.0" layoutY="239.0" prefHeight="47.0" prefWidth="606.0" style="-fx-border-width: 1; -fx-border-style: solid;">
-      <children>
-        <Label layoutX="14.0" layoutY="8.0" prefHeight="32.0" prefWidth="51.0" text="Status:" />
-        <Label fx:id="lbStatus" layoutX="69.0" layoutY="8.0" prefHeight="32.0" prefWidth="526.0" textAlignment="CENTER" wrapText="true" text="${viewModel.status}"/>
-      </children>
+        <Label layoutX="14.0" layoutY="8.0" prefHeight="32.0" prefWidth="51.0" text="Status:"/>
+        <Label layoutX="69.0" layoutY="8.0" prefHeight="32.0" prefWidth="526.0" text="${viewModel.status}" textAlignment="CENTER" wrapText="true"/>
     </Pane>
     <Pane layoutX="414.0" layoutY="21.0" prefHeight="205.0" prefWidth="207.0" style="-fx-border-width: 1; -fx-border-style: solid;">
-      <children>
-        <Button fx:id="btnAddNode" layoutX="84.0" layoutY="21.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="104.0" text="Add node" />
-        <TextField fx:id="txtSearch" layoutX="22.0" layoutY="153.0" prefHeight="32.0" prefWidth="51.0" />
-        <TextField fx:id="txtGetNode" layoutX="22.0" layoutY="109.0" prefHeight="32.0" prefWidth="51.0" />
-        <Button fx:id="btnRemNode" layoutX="84.0" layoutY="65.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="104.0" text="Remove node" />
-        <TextField fx:id="txtRemNode" layoutX="22.0" layoutY="65.0" prefHeight="32.0" prefWidth="51.0" />
-        <Button fx:id="btnSearch" layoutX="84.0" layoutY="153.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="104.0" text="Search" />
-        <TextField fx:id="txtAddNode" layoutX="22.0" layoutY="21.0" prefHeight="32.0" prefWidth="51.0" />
-        <Button fx:id="btnGetNode" layoutX="84.0" layoutY="109.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="104.0" text="Get Node" />
-      </children>
+        <Button fx:id="btnAddNode" layoutX="84.0" layoutY="21.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="104.0" text="Add node"/>
+        <TextField fx:id="txtSearch" layoutX="22.0" layoutY="153.0" prefHeight="32.0" prefWidth="51.0"/>
+        <TextField fx:id="txtGetNode" layoutX="22.0" layoutY="109.0" prefHeight="32.0" prefWidth="51.0"/>
+        <Button fx:id="btnRemNode" layoutX="84.0" layoutY="65.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="104.0" text="Remove node"/>
+        <TextField fx:id="txtRemNode" layoutX="22.0" layoutY="65.0" prefHeight="32.0" prefWidth="51.0"/>
+        <Button fx:id="btnSearch" layoutX="84.0" layoutY="153.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="104.0" text="Search"/>
+        <TextField fx:id="txtAddNode" layoutX="22.0" layoutY="21.0" prefHeight="32.0" prefWidth="51.0"/>
+        <Button fx:id="btnGetNode" layoutX="84.0" layoutY="109.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="104.0" text="Get Node"/>
     </Pane>
-      <Pane layoutX="16.0" layoutY="21.0" prefHeight="103.0" prefWidth="381.0" style="-fx-border-width: 1; -fx-border-style: solid;">
-        <children>
-          <Label layoutX="14.0" layoutY="10.0" prefHeight="32.0" prefWidth="126.0" text="Source Tree:">
+    <Pane layoutX="16.0" layoutY="21.0" prefHeight="103.0" prefWidth="381.0" style="-fx-border-width: 1; -fx-border-style: solid;">
+        <Label layoutX="14.0" layoutY="10.0" prefHeight="32.0" prefWidth="126.0" text="Source Tree:">
             <font>
-              <Font size="16.0" />
+                <Font size="16.0"/>
             </font>
-          </Label>
-          <Label fx:id="lbSourceTree" layoutX="14.0" layoutY="42.0" prefHeight="47.0" prefWidth="350.0" textAlignment="CENTER" wrapText="true" text="${viewModel.sourceTree}">
+        </Label>
+        <Label layoutX="14.0" layoutY="42.0" prefHeight="47.0" prefWidth="350.0" text="${viewModel.sourceTree}" textAlignment="CENTER" wrapText="true">
             <font>
-              <Font size="16.0" />
+                <Font size="16.0"/>
             </font>
-          </Label>
-        </children>
-      </Pane>
-  </children>
+        </Label>
+    </Pane>
+    <Pane layoutX="16.0" layoutY="299.0" prefHeight="199.0" prefWidth="606.0" style="-fx-border-width: 1; -fx-border-style: solid;">
+        <TextArea fx:id="areaLog" editable="false" layoutX="14.0" layoutY="38.0" prefHeight="147.0" prefWidth="577.0"/>
+        <Label layoutX="14.0" layoutY="11.0" text="Log messages:">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+    </Pane>
 </AnchorPane>
