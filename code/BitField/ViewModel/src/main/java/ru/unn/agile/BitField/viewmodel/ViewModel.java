@@ -29,7 +29,6 @@ public class ViewModel {
     private final StringProperty myRealLogs = new SimpleStringProperty();
 
     private TheLog mainWindowLogger;
-    private List<ListenerForCachChangesInValue> valueChangedListeners;
 
     public final void setThisOneLog(final TheLog someLogger) {
         if (someLogger == null) {
@@ -336,19 +335,6 @@ public class ViewModel {
 
     public final String getMyRealLogs() {
         return myRealLogs.get();
-    }
-
-    private class ListenerForCachChangesInValue implements ChangeListener<String> {
-        private String curVal = new String();
-
-        @Override
-        public void changed(final ObservableValue<? extends String> obs,
-                            final String valueolding, final String newState) {
-            if (valueolding.equals(newState)) {
-                return;
-            }
-            curVal = newState;
-        }
     }
 }
 
