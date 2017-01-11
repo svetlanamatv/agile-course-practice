@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ru.unn.agile.matrixdiff.view.MatrixDisplay">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+    <constraints>
+      <xy x="20" y="20" width="666" height="486"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="31ea2" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="Enter size of matrix"/>
+        </properties>
+      </component>
+      <component id="8826b" class="javax.swing.JTextField" binding="sizeOfMatrix">
+        <constraints/>
+        <properties>
+          <columns value="3"/>
+        </properties>
+      </component>
+      <component id="8bbac" class="javax.swing.JButton" binding="toFillOfMatrixButton" default-binding="true">
+        <constraints/>
+        <properties>
+          <text value="To fill of matrix"/>
+        </properties>
+      </component>
+      <component id="f1274" class="javax.swing.JTextArea" binding="matrix">
+        <constraints/>
+        <properties>
+          <columns value="50"/>
+        </properties>
+      </component>
+      <component id="f2208" class="javax.swing.JButton" binding="calculateTheDeterminantButton">
+        <constraints/>
+        <properties>
+          <text value="Calculate the determinant"/>
+        </properties>
+      </component>
+      <component id="eadd2" class="javax.swing.JLabel" binding="value">
+        <constraints/>
+        <properties>
+          <text value="Result"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

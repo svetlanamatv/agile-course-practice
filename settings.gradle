@@ -133,6 +133,14 @@ project(":code/todo-list/Infrastructure").name = "todo-list-infrastructure"
 // Карчков Денис
 include "code/matrix-operations/Model"
 project(":code/matrix-operations/Model").name = "matrix-operations-Model"
+include "code/matrixdiff/Model"
+project(":code/matrixdiff/Model").name = "matrixdiff-Model"
+include "code/matrixdiff/View"
+project(":code/matrixdiff/View").name = "matrixdiff-View"
+include "code/matrixdiff/ViewModel"
+project(":code/matrixdiff/ViewModel").name = "matrixdiff-ViewModel"
+
+
 // Кокошников Алексей
 
 // Колистратова Дарья
