@@ -15,12 +15,20 @@ public class BinaryTreeViewModelTest {
 
     @Before
     public void setUp() {
-        viewModel = new BinaryTreeViewModel();
+        if (viewModel == null) {
+            viewModel = new BinaryTreeViewModel(new FakeLogger());
+        }
     }
 
     @After
     public void tearDown() {
         viewModel = null;
+    }
+
+    @Test
+    public void testCanInitEmptyModel() {
+        BinaryTreeViewModel testViewModel = new BinaryTreeViewModel();
+        assertEquals("", testViewModel.addNodeProperty().get());
     }
 
     @Test
@@ -31,6 +39,8 @@ public class BinaryTreeViewModelTest {
         assertEquals("", viewModel.searchProperty().get());
         assertEquals("", viewModel.searchResultProperty().get());
         assertEquals("", viewModel.sourceTreeProperty().get());
+        assertEquals("", viewModel.getLogs());
+        assertEquals("", viewModel.getLogsProperty().get());
         assertEquals(Status.WAITING.toString(), viewModel.statusProperty().get());
     }
 
