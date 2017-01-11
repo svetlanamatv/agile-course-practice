@@ -198,6 +198,4 @@ public class MatrixDiffViewModelTest {
         viewModel.setSizeOfMatrix("3");
         assertFalse(viewModel.fillStringImgMatrixConvertToArray("{1,2,3,4,5,,,8,9}"));
     }
-
-
 }

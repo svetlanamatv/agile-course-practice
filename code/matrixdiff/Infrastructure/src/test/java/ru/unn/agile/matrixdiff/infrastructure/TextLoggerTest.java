@@ -37,6 +37,12 @@ public class TextLoggerTest {
     }
 
     @Test
+    public void cantCreateTextLogger() {
+        logger = new TextLogger();
+        assertNotNull(logger);
+    }
+
+    @Test
     public void canGetLogFromLogfile() {
         logger.getLog();
     }
@@ -72,5 +78,46 @@ public class TextLoggerTest {
         logger = new TextLogger(filenameTime);
         assertNotNull(logger);
     }
+
+    @Test
+    public void canCreateDefaultConstructor() {
+        TextLogger loger = new TextLogger();
+        assertNotNull(logger);
+    }
+
+    @Test
+    public void checkMessageSaveLigal() {
+        String message = "first message";
+        logger.log(message);
+        String messageList = logger.getLog().get(0);
+        assertNotEquals(messageList.indexOf(message), -1);
+    }
+
+    @Test
+    public void checkNotOneStrokeSavingCorrect() {
+        String[] messagesArray = new String[]{
+                "first message", "second message", "fird message"};
+
+        for (int stroke = 0; stroke < messagesArray.length; stroke++) {
+            logger.log(messagesArray[stroke]);
+        }
+        List<String> messagesList = logger.getLog();
+        boolean isRight = true;
+
+        for (int i = 0; i < messagesList.size(); i++) {
+            if (messagesList.get(i).indexOf(messagesArray[i]) == -1) {
+                isRight = false;
+                break;
+            }
+        }
+        assertTrue(isRight);
+    }
+
+
+
+
+
+
+
 
 }
