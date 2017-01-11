@@ -16,7 +16,11 @@ public class TextLoggerTest {
 
     @Before
     public void enteringDateForInterface() {
-        logger = new TextLogger(NAME_OF_FILE_LOG);
+        try {
+            logger = new TextLogger(NAME_OF_FILE_LOG);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @After
@@ -69,13 +73,21 @@ public class TextLoggerTest {
     @Test
     public void canCreateLoggerAnotherFilename() {
         String filenameTime = "timlesLog.log";
-        logger = new TextLogger(filenameTime);
+        try {
+            logger = new TextLogger(filenameTime);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertNotNull(logger);
     }
 
     @Test
     public void canCreateDefaultConstructor() {
-        TextLogger loger = new TextLogger();
+        try {
+            TextLogger loger = new TextLogger();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         assertNotNull(logger);
     }
 

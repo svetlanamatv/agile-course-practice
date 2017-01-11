@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -101,7 +102,12 @@ public class MatrixDisplay {
 
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Сalculate the determinant");
-        TextLogger logger = new TextLogger();
+        TextLogger logger = null;
+        try {
+            logger = new TextLogger();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         frame.setContentPane(new MatrixDisplay(new MatrixDiffViewModel(logger)).panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();

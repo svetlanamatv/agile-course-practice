@@ -15,19 +15,15 @@ public class TextLogger implements ILogger {
     private static final String DATE_STAMP = "yyyy-MM-dd HH:mm:ss";
     private final File currentFile;
 
-    public TextLogger(final String filename) {
+    public TextLogger(final String filename) throws IOException {
         currentFile = new File(filename);
-        try {
             FileWriter fstream = new FileWriter(filename);
             BufferedWriter outCurrentBuffer = new BufferedWriter(fstream);
             outCurrentBuffer.write("");
             outCurrentBuffer.close();
-        } catch (Exception e) {
-            //
-        }
     }
 
-    public TextLogger() {
+    public TextLogger() throws IOException {
       this(DEFAULT_FILENAME);
     }
 
