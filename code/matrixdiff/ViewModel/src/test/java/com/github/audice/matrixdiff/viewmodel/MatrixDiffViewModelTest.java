@@ -117,14 +117,14 @@ public class MatrixDiffViewModelTest {
         viewModel.setSizeOfMatrix("3");
         String message = viewModel.getLog().get(0);
         assertNotEquals(
-                message.indexOf(MatrixDiffViewModel.LogMessages.GOOD_CHANGE_SIZE_MATRIX), -1);
+                message.indexOf(MatrixDiffViewModel.GOOD_CHANGE_SIZE_MATRIX), -1);
     }
 
     @Test
     public void isLogContainsNotRightMessage() {
         viewModel.setSizeOfMatrix("3h");
         String message = viewModel.getLog().get(0);
-        assertNotEquals(message, MatrixDiffViewModel.LogMessages.GOOD_CHANGE_SIZE_MATRIX);
+        assertNotEquals(message, MatrixDiffViewModel.GOOD_CHANGE_SIZE_MATRIX);
     }
 
     @Test
@@ -134,7 +134,7 @@ public class MatrixDiffViewModelTest {
         String message = viewModel.getLog().get(1);
         assertNotEquals(
                 message.indexOf(
-                        MatrixDiffViewModel.LogMessages.ENTERED_BUTTON_OF_PUT_EMPTY_MATRIX), -1);
+                        MatrixDiffViewModel.ENTERED_BUTTON_OF_PUT_EMPTY_MATRIX), -1);
     }
 
     @Test
@@ -142,7 +142,7 @@ public class MatrixDiffViewModelTest {
         viewModel.setSizeOfMatrix("3");
         viewModel.fillStringImgMatrixConvertToArray("{1,2,3,4,5,6,7,8,9}");
         String message = viewModel.getLog().get(9);
-        assertNotEquals(message.indexOf(MatrixDiffViewModel.LogMessages.ENTERED_CORRECT_ELEMENT
+        assertNotEquals(message.indexOf(MatrixDiffViewModel.ENTERED_CORRECT_ELEMENT
                 + " in element of matrix "
                 + Integer.toString(9)), -1);
     }
@@ -153,7 +153,7 @@ public class MatrixDiffViewModelTest {
         viewModel.fillStringImgMatrixConvertToArray("{1,2,3,h,5,6,7,8,9}");
         String message = viewModel.getLog().get(4);
         assertNotEquals(message.indexOf(
-                MatrixDiffViewModel.LogMessages.ENTERED_NOT_CORRECT_ELEMENT), -1);
+                MatrixDiffViewModel.ENTERED_NOT_CORRECT_ELEMENT), -1);
     }
 
     @Test
@@ -162,7 +162,7 @@ public class MatrixDiffViewModelTest {
         viewModel.fillStringImgMatrixConvertToArray("{1,2,3,4,5,6,7,8,9}");
         viewModel.calculateMatrixDiff();
         String message = viewModel.getLog().get(10);
-        assertNotEquals(message.indexOf(MatrixDiffViewModel.LogMessages.RESULT_IS_CALCULATE), -1);
+        assertNotEquals(message.indexOf(MatrixDiffViewModel.RESULT_IS_CALCULATE), -1);
     }
 
     @Test
@@ -172,7 +172,7 @@ public class MatrixDiffViewModelTest {
         viewModel.calculateMatrixDiff();
         String message = viewModel.getLog().get(5);
         assertNotEquals(message.indexOf(
-                MatrixDiffViewModel.LogMessages.RESULT_IS_NOT_CALCULATE), -1);
+                MatrixDiffViewModel.RESULT_IS_NOT_CALCULATE), -1);
     }
 
     @Test

@@ -15,6 +15,16 @@ public class MatrixDiffViewModel {
     private float result = 0;
     private SquareMatrix squareMatrix;
     private final ILogger logger;
+    public static final String CHANGE_SIZE_OF_MATRIX_WITH_MATRIX = "Delete current "
+            + "matrix in response change size of matrix";
+    public static final String ENTERED_BUTTON_OF_PUT_EMPTY_MATRIX = "Got an empty matrix";
+    public static final String BAD_CHANGE_SIZE_MATRIX = "Entered bad size of matrix";
+    public static final String GOOD_CHANGE_SIZE_MATRIX = "Entered viable size of matrix";
+    public static final String ENTERED_NOT_CORRECT_ELEMENT = "Entered not correct"
+            + " element of matrix";
+    public static final String ENTERED_CORRECT_ELEMENT = "Entered correct element of matrix";
+    public static final String RESULT_IS_CALCULATE = "Result is calculate";
+    public static final String RESULT_IS_NOT_CALCULATE = "Result isn't calculate";
 
     public boolean isToFillButtonEnabled() {
         return toFillButtonEnabled;
@@ -36,12 +46,12 @@ public class MatrixDiffViewModel {
             toFillButtonEnabled = false;
             sizeOfMatrixInInteger = 0;
             isCalculateButton = false;
-            logger.log(LogMessages.BAD_CHANGE_SIZE_MATRIX);
+            logger.log(BAD_CHANGE_SIZE_MATRIX);
             return;
         }
         sizeOfMatrixInInteger = Integer.parseInt(sizeOfMatrix);
         toFillButtonEnabled = true;
-        logger.log(LogMessages.GOOD_CHANGE_SIZE_MATRIX);
+        logger.log(GOOD_CHANGE_SIZE_MATRIX);
     }
 
     public boolean fillStringImgMatrixConvertToArray(final String strImgMatrix) {
@@ -61,7 +71,7 @@ public class MatrixDiffViewModel {
                 timeValueForConvert = String.valueOf(chArray[index]);
                 if (timeValueForConvert.matches("[0-9]*") || ".".equals(timeValueForConvert)) {
                     lenglyStringValue += timeValueForConvert;
-                    logger.log(LogMessages.ENTERED_CORRECT_ELEMENT
+                    logger.log(ENTERED_CORRECT_ELEMENT
                             + " in element of matrix "
                             + Integer.toString(indexOfArraysElements + 1));
                 } else {
@@ -72,7 +82,7 @@ public class MatrixDiffViewModel {
                     } else {
                         isCalculateButton = false;
                         result = 0;
-                        logger.log(LogMessages.ENTERED_NOT_CORRECT_ELEMENT);
+                        logger.log(ENTERED_NOT_CORRECT_ELEMENT);
                         return false;
                     }
                 }
@@ -92,7 +102,7 @@ public class MatrixDiffViewModel {
                     simpleMatrix += "0,";
             }
             simpleMatrix += "0}";
-            logger.log(LogMessages.ENTERED_BUTTON_OF_PUT_EMPTY_MATRIX);
+            logger.log(ENTERED_BUTTON_OF_PUT_EMPTY_MATRIX);
             return simpleMatrix;
         }
         return "";
@@ -106,11 +116,11 @@ public class MatrixDiffViewModel {
         if (isCalculateButton) {
             squareMatrix = new SquareMatrix(sizeOfMatrixInInteger, arrayOfElement);
             result = squareMatrix.determinant();
-            logger.log(LogMessages.RESULT_IS_CALCULATE);
+            logger.log(RESULT_IS_CALCULATE);
             return true;
         }
         result = 0;
-        logger.log(LogMessages.RESULT_IS_NOT_CALCULATE);
+        logger.log(RESULT_IS_NOT_CALCULATE);
         return false;
     }
 
@@ -118,17 +128,4 @@ public class MatrixDiffViewModel {
         return result;
     }
 
-    public final class LogMessages {
-        public static final String CHANGE_SIZE_OF_MATRIX_WITH_MATRIX = "Delete current "
-                + "matrix in response change size of matrix";
-        public static final String ENTERED_BUTTON_OF_PUT_EMPTY_MATRIX = "Got an empty matrix";
-        public static final String BAD_CHANGE_SIZE_MATRIX = "Entered bad size of matrix";
-        public static final String GOOD_CHANGE_SIZE_MATRIX = "Entered viable size of matrix";
-        public static final String ENTERED_NOT_CORRECT_ELEMENT = "Entered not correct"
-                + " element of matrix";
-        public static final String ENTERED_CORRECT_ELEMENT = "Entered correct element of matrix";
-        public static final String RESULT_IS_CALCULATE = "Result is calculate";
-        public static final String RESULT_IS_NOT_CALCULATE = "Result isn't calculate";
-        private LogMessages() { }
-    }
 }
