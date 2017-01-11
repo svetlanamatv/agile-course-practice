@@ -23,7 +23,7 @@ public class TextLogger implements ILogger {
             outCurrentBuffer.write("");
             outCurrentBuffer.close();
         } catch (Exception e) {
-            System.err.println("Error in file cleaning: " + e.getMessage());
+            //
         }
     }
 
@@ -42,7 +42,7 @@ public class TextLogger implements ILogger {
             try {
                 Files.createFile(currentFile.toPath());
             } catch (IOException e) {
-                System.err.println("Error in file making: " + e.getMessage());
+                //
             }
         }
         if (currentFile.isFile()) {
@@ -52,7 +52,7 @@ public class TextLogger implements ILogger {
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
-                System.err.println("Error in file making: " + e.getMessage());
+                //
             }
         }
     }
@@ -64,7 +64,7 @@ public class TextLogger implements ILogger {
             try {
                 out = Files.readAllLines(currentFile.toPath());
             } catch (IOException e) {
-                System.err.println("Error in filelist making: " + e.getMessage());
+                //
             }
         }
         return out;

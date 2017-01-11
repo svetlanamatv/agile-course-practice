@@ -3,8 +3,8 @@ package ru.unn.agile.matrixdiff.infrastructure;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.io.File;
-import java.io.IOException;
+
+import java.io.*;
 import java.nio.file.Files;
 import java.util.List;
 
@@ -34,12 +34,6 @@ public class TextLoggerTest {
     @Test
     public void canLogMessageToLogfile() {
         logger.log("Hello world!");
-    }
-
-    @Test
-    public void cantCreateTextLogger() {
-        logger = new TextLogger();
-        assertNotNull(logger);
     }
 
     @Test
@@ -112,12 +106,4 @@ public class TextLoggerTest {
         }
         assertTrue(isRight);
     }
-
-
-
-
-
-
-
-
 }
