@@ -38,13 +38,6 @@ public class TextLogger implements ILogger {
 
     @Override
     public void log(final String message) {
-        if (!currentFile.exists()) {
-            try {
-                Files.createFile(currentFile.toPath());
-            } catch (IOException e) {
-                //
-            }
-        }
         if (currentFile.isFile()) {
             try {
                 FileWriter writer = new FileWriter(currentFile.getPath(), true);
