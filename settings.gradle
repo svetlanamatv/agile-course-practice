@@ -139,7 +139,8 @@ include "code/matrixdiff/View"
 project(":code/matrixdiff/View").name = "matrixdiff-View"
 include "code/matrixdiff/ViewModel"
 project(":code/matrixdiff/ViewModel").name = "matrixdiff-ViewModel"
-
+include "code/matrixdiff/Infrastructure"
+project(":code/matrixdiff/Infrastructure").name = "matrixdiff-Infrastructure"
 
 // Кокошников Алексей
 

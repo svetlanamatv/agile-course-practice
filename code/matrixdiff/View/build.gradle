@@ -1,3 +1,4 @@
 dependencies {
     compile project(':matrixdiff-ViewModel')
+    compile project(':matrixdiff-Infrastructure')
 }

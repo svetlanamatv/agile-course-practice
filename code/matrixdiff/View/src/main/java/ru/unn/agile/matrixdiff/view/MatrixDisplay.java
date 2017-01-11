@@ -1,11 +1,13 @@
 package ru.unn.agile.matrixdiff.view;
 
 import com.github.audice.matrixdiff.viewmodel.MatrixDiffViewModel;
+import ru.unn.agile.matrixdiff.infrastructure.TextLogger;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.*;
+import java.util.List;
 
 /**
  * Created by Denis on 23.12.2016.
@@ -17,10 +19,15 @@ public class MatrixDisplay {
     private JTextArea matrix;
     private JButton calculateTheDeterminantButton;
     private JLabel value;
+    private JTextArea textArea1;
+    private JTextPane textPane1;
+    private JList<String> loggerAction;
     private final MatrixDiffViewModel viewModel;
 
+
     public MatrixDisplay(final MatrixDiffViewModel viewModel) {
-        this.viewModel = new MatrixDiffViewModel();
+        this.viewModel = viewModel;
+
         toFillOfMatrixButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
@@ -33,11 +40,13 @@ public class MatrixDisplay {
                 backBind();
                 bind();
             }
+
             @Override
             public void removeUpdate(final DocumentEvent e) {
                 backBind();
                 bind();
             }
+
             @Override
             public void changedUpdate(final DocumentEvent e) {
                 backBind();
@@ -76,18 +85,24 @@ public class MatrixDisplay {
             }
         });
     }
+
     private void bind() {
         toFillOfMatrixButton.setEnabled(viewModel.isToFillButtonEnabled());
         calculateTheDeterminantButton.setEnabled(viewModel.getIsCalculateButton());
     }
+
     private void backBind() {
         viewModel.setSizeOfMatrix(sizeOfMatrix.getText());
         viewModel.fillStringImgMatrixConvertToArray(matrix.getText());
+        List<String> log = viewModel.getLog();
+        String[] items = log.toArray(new String[log.size()]);
+        loggerAction.setListData(items);
     }
 
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Сalculate the determinant");
-        frame.setContentPane(new MatrixDisplay(new MatrixDiffViewModel()).panel1);
+        TextLogger logger = new TextLogger();
+        frame.setContentPane(new MatrixDisplay(new MatrixDiffViewModel(logger)).panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
