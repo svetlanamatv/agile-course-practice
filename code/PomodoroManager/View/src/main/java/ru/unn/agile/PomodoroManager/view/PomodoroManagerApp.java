@@ -22,7 +22,6 @@ public final class PomodoroManagerApp {
     private static final int MILLISEC_IN_MINUTE = 60000;
     private PomodoroManagerApp() {
     }
-
     private PomodoroManagerApp(final PomodoroManagerAppViewModel viewModel) {
         this.viewModel = viewModel;
 
