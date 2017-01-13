@@ -100,8 +100,9 @@ public class PomodoroManagerAppViewModel {
                 "Bad format of durations. Please, enter a integer values";
         public static final String UNACCEPTABLE_DURATIONS =
                 "Such duration unacceptable in Pomodoro";
+        private Status() {
 
-        private Status() { }
+        }
     }
 
     public final class StateLabels {
@@ -109,8 +110,9 @@ public class PomodoroManagerAppViewModel {
         public static final String POMODORO_LABEL = "Pomodoro, work!";
         public static final String POMODORO_SHORT_BREAK_LABEL = "Short break!";
         public static final String POMODORO_LONG_BREAK_LABEL = "Long break!";
+        private StateLabels() {
 
-        private StateLabels() { }
+        }
     }
 
     public String getPomodoroDuration() {
@@ -177,5 +179,9 @@ public class PomodoroManagerAppViewModel {
 
     public boolean isTimeSettingsFieldsEnabled() {
         return isTimeSettingsFieldsEnabled;
+    }
+
+    public int getMinutesToNextState() {
+        return pomodoroManager.getMinutesToNextState();
     }
 }

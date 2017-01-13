@@ -44,6 +44,35 @@ public class ViewModelTests {
     }
 
     @Test
+    public void isPomodoroEnableWhenEnterPress() {
+        fillInputFieldsWithAcceptDurations();
+
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ENTER);
+
+        assertEquals(PomodoroState.Pomodoro, viewModel.getPomodoroState());
+    }
+
+    @Test
+    public void isPomodoroNotEnableWhenBadInput() {
+        fillInputFieldsWithBadFormat();
+
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ENTER);
+
+        assertEquals(PomodoroState.Off, viewModel.getPomodoroState());
+    }
+
+    @Test
+    public void isMinutesToNextStateDecreaseWhenTimeEventHappen() {
+        fillInputFieldsWithAcceptDurations();
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ENTER);
+        int minutes = viewModel.getMinutesToNextState();
+        viewModel.minuteLastEvent();
+
+
+        assertEquals(1, minutes - viewModel.getMinutesToNextState());
+    }
+
+    @Test
     public void isStatusBadDurationsWhenFieldsAreFilled() {
         fillInputFieldsWithUnacceptableDurations();
 
@@ -142,6 +171,28 @@ public class ViewModelTests {
     }
 
     @Test
+    public void isShortBreakLabelAfterPomodoro() {
+        fillInputFieldsWithAcceptDurations();
+
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ENTER);
+        skipState(1);
+
+        assertEquals(PomodoroManagerAppViewModel.StateLabels.POMODORO_SHORT_BREAK_LABEL,
+                viewModel.getPomodoroStateLabel());
+    }
+
+    @Test
+    public void isLongBreakLabelAfterFourPomodoros() {
+        fillInputFieldsWithAcceptDurations();
+
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ENTER);
+        skipState(7);
+
+        assertEquals(PomodoroManagerAppViewModel.StateLabels.POMODORO_LONG_BREAK_LABEL,
+                viewModel.getPomodoroStateLabel());
+    }
+
+    @Test
     public void isPomodoroOffStateLabelAfterStop() {
         fillInputFieldsWithAcceptDurations();
 
@@ -156,9 +207,9 @@ public class ViewModelTests {
     }
 
     private void fillInputFieldsWithAcceptDurations() {
-        viewModel.setPomodoroDuration("30");
+        viewModel.setPomodoroDuration("25");
         viewModel.setShortBreakDuration("5");
-        viewModel.setLongBreakDuration("20");
+        viewModel.setLongBreakDuration("15");
     }
 
     private void fillInputFieldsWithUnacceptableDurations() {
@@ -171,5 +222,24 @@ public class ViewModelTests {
         viewModel.setPomodoroDuration("a");
         viewModel.setShortBreakDuration("(");
         viewModel.setLongBreakDuration("20");
+    }
+
+    private void skipState(final int times)  {
+        for (int i = 0; i < times; i++)  {
+            nextState();
+        }
+    }
+
+    private void forceTime(final int minutes) {
+        for (int i = 0; i < minutes; i++) {
+            viewModel.minuteLastEvent();
+        }
+    }
+
+    private void nextState() {
+        PomodoroState state = viewModel.getPomodoroState();
+        while (state == viewModel.getPomodoroState()) {
+            viewModel.minuteLastEvent();
+        }
     }
 }

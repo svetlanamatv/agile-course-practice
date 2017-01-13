@@ -140,4 +140,8 @@ public class PomodoroManager {
     public int getLongBreakDuration() {
         return longBreakDurationMin;
     }
+
+    public int getMinutesToNextState() {
+        return minutesToNextState;
+    }
 }
