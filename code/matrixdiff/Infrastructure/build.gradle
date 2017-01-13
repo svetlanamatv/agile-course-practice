@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':matrixdiff-ViewModel')
+    testCompile project(':matrixdiff-ViewModel').sourceSets.test.output
+}
