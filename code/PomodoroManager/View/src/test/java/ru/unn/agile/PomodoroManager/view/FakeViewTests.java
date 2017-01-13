@@ -1,4 +1,4 @@
-package ru.unn.agile.ComplexNumber.view.legacy;
+package ru.unn.agile.PomodoroManager.view;
 
 import org.junit.Ignore;
 import org.junit.Test;
