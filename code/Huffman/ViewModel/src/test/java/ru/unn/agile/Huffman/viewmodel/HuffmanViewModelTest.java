@@ -32,14 +32,14 @@ public class HuffmanViewModelTest {
     @Test
     public void testCanInitEmptyModel() {
         HuffmanViewModel testViewModel = new HuffmanViewModel();
-        assertEquals("", testViewModel.getStatus());
+        assertEquals(Status.WAITING.toString(), testViewModel.getStatus());
+        assertEquals("", viewModel.getLogsProperty().get());
     }
 
     @Test
     public void testCanSetDefaultValues() {
         assertEquals("", viewModel.enterStringProperty().get());
         assertEquals("", viewModel.getLogs());
-        assertEquals("", viewModel.getLogsProperty().get());
         assertEquals(Status.WAITING.toString(), viewModel.statusProperty().get());
     }
 

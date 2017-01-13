@@ -14,7 +14,7 @@ import java.util.Locale;
 
 public class FileTextLogger implements ILogger {
     private static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
-    private final BufferedWriter bufferedFileWriter;
+    private final BufferedWriter buffLogWriter;
     private final String filename;
 
     private static String currentTime() {
@@ -32,34 +32,34 @@ public class FileTextLogger implements ILogger {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        bufferedFileWriter = logWriter;
+        buffLogWriter = logWriter;
     }
 
     @Override
     public void log(final String str) {
         try {
-            bufferedFileWriter.write("< " + currentTime() + " >: " + str);
-            bufferedFileWriter.newLine();
-            bufferedFileWriter.flush();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            buffLogWriter.write("< " + currentTime() + " >: " + str);
+            buffLogWriter.newLine();
+            buffLogWriter.flush();
+        } catch (Exception log_exception) {
+            System.out.println(log_exception.getMessage());
         }
     }
 
     @Override
     public List<String> getLog() {
-        BufferedReader bufferedLogReader;
+        BufferedReader bufferedLogMessageReader;
         ArrayList<String> log = new ArrayList<String>();
         try {
-            bufferedLogReader = new BufferedReader(new FileReader(filename));
-            String line = bufferedLogReader.readLine();
+            bufferedLogMessageReader = new BufferedReader(new FileReader(filename));
+            String line = bufferedLogMessageReader.readLine();
 
             while (line != null) {
                 log.add(line);
-                line = bufferedLogReader.readLine();
+                line = bufferedLogMessageReader.readLine();
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (Exception log_exception) {
+            System.out.println(log_exception.getMessage());
         }
 
         return log;
