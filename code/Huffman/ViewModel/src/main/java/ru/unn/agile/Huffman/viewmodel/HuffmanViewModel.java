@@ -4,8 +4,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import ru.unn.agile.Huffman.HuffmanAlg;
 
-import java.util.List;
-
 public class HuffmanViewModel {
     private final StringProperty enterString = new SimpleStringProperty();
     private final StringProperty status = new SimpleStringProperty();

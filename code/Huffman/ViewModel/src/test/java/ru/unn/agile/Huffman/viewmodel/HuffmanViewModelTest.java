@@ -37,7 +37,7 @@ public class HuffmanViewModelTest {
     public void testFailedDecodedResult() {
         viewModel.enterStringProperty().set(null);
         viewModel.decodeString();
-        assertEquals(Status.BAD_FORMAT.toString(),viewModel.getStatus());
+        assertEquals(Status.BAD_FORMAT.toString(), viewModel.getStatus());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class HuffmanViewModelTest {
     public void testGetFailedStatusIfEncodedStringIsNotAddedBefore() {
         viewModel.enterStringProperty().set("abcde");
         viewModel.decodeString();
-        viewModel.enterStringProperty().set(viewModel.getDecodeResult()+"0111");
+        viewModel.enterStringProperty().set(viewModel.getDecodeResult() + "0111");
         viewModel.encodeString();
         assertEquals(Status.BAD_FORMAT.toString(), viewModel.getStatus());
     }
