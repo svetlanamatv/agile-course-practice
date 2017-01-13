@@ -3,6 +3,7 @@ package ru.unn.agile.PomodoroManager.view;
 import ru.unn.agile.PomodoroManager.viewmodel.PomodoroManagerAppViewModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -20,6 +21,8 @@ public final class PomodoroManagerApp {
     private JLabel settingsStatusLabel;
     private Timer timer;
     private static final int MILLISEC_IN_MINUTE = 60000;
+    private static final int FRAME_MINIMUM_WIDTH = 420;
+    private static final int FRAME_MINIMUM_HEIGHT = 250;
     private PomodoroManagerApp() {
     }
     private PomodoroManagerApp(final PomodoroManagerAppViewModel viewModel) {
@@ -69,8 +72,11 @@ public final class PomodoroManagerApp {
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Pomodoro manager");
 
-        frame.setContentPane(new PomodoroManagerApp(new PomodoroManagerAppViewModel()).mainPanel);
+        PomodoroManagerAppViewModel viewModel = new PomodoroManagerAppViewModel();
+        PomodoroManagerApp pomodoroManApp = new PomodoroManagerApp(viewModel);
+        frame.setContentPane(pomodoroManApp.mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setMinimumSize(new Dimension(FRAME_MINIMUM_WIDTH, FRAME_MINIMUM_HEIGHT));
         frame.pack();
         frame.setVisible(true);
     }
@@ -90,6 +96,4 @@ public final class PomodoroManagerApp {
         stateLabel.setText(viewModel.getPomodoroStateLabel());
         settingsStatusLabel.setText(viewModel.getStatus());
     }
-
-
 }

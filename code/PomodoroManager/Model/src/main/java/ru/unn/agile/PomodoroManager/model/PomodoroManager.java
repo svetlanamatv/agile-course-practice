@@ -1,7 +1,5 @@
 package ru.unn.agile.PomodoroManager.model;
 
-import javax.management.RuntimeErrorException;
-
 public class PomodoroManager {
     private PomodoroState state;
     private int checkmarksCounter;
@@ -45,14 +43,14 @@ public class PomodoroManager {
 
     public void startCycle()  {
         if (state != PomodoroState.Off) {
-            throw new RuntimeErrorException(new Error("Cycle already started"));
+            throw new RuntimeException("Cycle already started");
         }
         state = PomodoroState.Pomodoro;
         minutesToNextState = pomodoroDurationMin;
         checkmarksCounter = 0;
     }
 
-    public void minuteLastEvent() throws RuntimeErrorException {
+    public void minuteLastEvent() throws RuntimeException {
         if (state != PomodoroState.Off) {
             if (minutesToNextState == 0) {
                 nextState();
@@ -83,7 +81,7 @@ public class PomodoroManager {
                 minutesToNextState = pomodoroDurationMin;
                 break;
             default:
-                throw new RuntimeErrorException(new Error("Manager is in Off state"));
+                throw new RuntimeException("Manager is in Off state");
         }
     }
 
@@ -97,8 +95,7 @@ public class PomodoroManager {
 
     private void checkOffState() {
         if (state != PomodoroState.Off) {
-            throw new RuntimeErrorException(
-                    new Error("Can't change parameters, manager is in On state"));
+            throw new RuntimeException("Can't change parameters, manager is in On state");
         }
     }
 
@@ -108,8 +105,7 @@ public class PomodoroManager {
                 && minutes <= POMODORO_MAX_DURATION) {
             pomodoroDurationMin = minutes;
         } else {
-            throw new RuntimeErrorException(
-                    new Error("This pomodoro duration don't support"));
+            throw new RuntimeException("This pomodoro duration don't support");
         }
     }
 
@@ -119,8 +115,7 @@ public class PomodoroManager {
                 && minutes <= SHORT_BREAK_MAX_DURATION) {
             shortBreakDurationMin = minutes;
         } else {
-            throw new RuntimeErrorException(
-                    new Error("This short break duration don't support"));
+            throw new RuntimeException("This short break duration don't support");
         }
     }
 
@@ -130,8 +125,7 @@ public class PomodoroManager {
                 && minutes <= LONG_BREAK_MAX_DURATION) {
             longBreakDurationMin = minutes;
         } else {
-            throw new RuntimeErrorException(
-                    new Error("This long break duration don't support"));
+            throw new RuntimeException("This long break duration don't support");
         }
     }
 

@@ -2,8 +2,6 @@ package ru.unn.agile.PomodoroManager.viewmodel;
 
 import ru.unn.agile.PomodoroManager.model.*;
 
-import javax.management.RuntimeErrorException;
-
 public class PomodoroManagerAppViewModel {
 
     private String pomodoroDuration;
@@ -14,6 +12,9 @@ public class PomodoroManagerAppViewModel {
     private boolean isSwitchOnOffButtonEnabled;
     private final PomodoroManager pomodoroManager;
     private String status;
+
+    public static final int KEYBOARD_KEY_ENTER = 10;
+    public static final int KEYBOARD_KEY_ANY = 7777;
 
     public PomodoroManagerAppViewModel() {
         isTimeSettingsFieldsEnabled = true;
@@ -29,7 +30,7 @@ public class PomodoroManagerAppViewModel {
     public void processKeyInTextField(final int keyCode) {
         parseInput();
 
-        if (keyCode == KeyboardKeys.ENTER) {
+        if (keyCode == KEYBOARD_KEY_ENTER) {
             enterPressed();
         }
     }
@@ -66,7 +67,7 @@ public class PomodoroManagerAppViewModel {
             pomodoroManager.setPomodoroDuration(pomodoroDurationMin);
             pomodoroManager.setShortBreakDuration(shortBreakDurationMin);
             pomodoroManager.setLongBreakDuration(longBreakDurationMin);
-        } catch (RuntimeErrorException e) {
+        } catch (RuntimeException e) {
             status = Status.UNACCEPTABLE_DURATIONS;
             isSwitchOnOffButtonEnabled = false;
             return false;
@@ -166,7 +167,7 @@ public class PomodoroManagerAppViewModel {
             case LongBreak:
                 return StateLabels.POMODORO_LONG_BREAK_LABEL;
             default:
-                throw new RuntimeErrorException(new Error("Manager is in unknown state"));
+                throw new RuntimeException("Manager is in unknown state");
         }
     }
 

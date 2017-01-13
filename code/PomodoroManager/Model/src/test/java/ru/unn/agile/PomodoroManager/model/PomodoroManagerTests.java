@@ -1,7 +1,6 @@
 package ru.unn.agile.PomodoroManager.model;
 
 import org.junit.Test;
-import javax.management.RuntimeErrorException;
 
 import static org.junit.Assert.*;
 
@@ -46,7 +45,7 @@ public class PomodoroManagerTests {
         assertEquals(0, manager.getCheckmarksCounter());
     }
 
-    @Test(expected = RuntimeErrorException.class)
+    @Test(expected = RuntimeException.class)
     public void throwWhenDoubleStartCycle()  {
         manager.startCycle();
         manager.startCycle();
@@ -97,12 +96,12 @@ public class PomodoroManagerTests {
         assertEquals(30, manager.getPomodoroDuration());
     }
 
-    @Test(expected = RuntimeErrorException.class)
+    @Test(expected = RuntimeException.class)
     public void setIncorrectUserPomodoroDurationBeforeStart() {
         manager.setPomodoroDuration(0);
     }
 
-    @Test(expected = RuntimeErrorException.class)
+    @Test(expected = RuntimeException.class)
     public void setCorrectUserPomodoroDurationAfterStart() {
         manager.startCycle();
         manager.setPomodoroDuration(30);
@@ -114,12 +113,12 @@ public class PomodoroManagerTests {
         assertEquals(10, manager.getShortBreakDuration());
     }
 
-    @Test(expected = RuntimeErrorException.class)
+    @Test(expected = RuntimeException.class)
     public void setIncorrectUserShortBreakDurationBeforeStart() {
         manager.setShortBreakDuration(100);
     }
 
-    @Test(expected = RuntimeErrorException.class)
+    @Test(expected = RuntimeException.class)
     public void setCorrectUserShortBreakDurationAfterStart() {
         manager.startCycle();
         manager.setShortBreakDuration(8);
@@ -131,12 +130,12 @@ public class PomodoroManagerTests {
         assertEquals(25, manager.getLongBreakDuration());
     }
 
-    @Test(expected = RuntimeErrorException.class)
+    @Test(expected = RuntimeException.class)
     public void setIncorrectUserLongBreakDurationBeforeStart() {
         manager.setLongBreakDuration(5);
     }
 
-    @Test(expected = RuntimeErrorException.class)
+    @Test(expected = RuntimeException.class)
     public void setCorrectUserLongBreakDurationAfterStart() {
         manager.startCycle();
         manager.setLongBreakDuration(20);

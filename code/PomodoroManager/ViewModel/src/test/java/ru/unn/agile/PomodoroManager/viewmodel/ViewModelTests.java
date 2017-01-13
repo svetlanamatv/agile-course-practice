@@ -35,21 +35,124 @@ public class ViewModelTests {
     }
 
     @Test
-    public void isStatusReadyWhenFieldsAreFill() {
+    public void isStatusReadyWhenFieldsAreFilled() {
         fillInputFieldsWithAcceptDurations();
 
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
 
         assertEquals(Status.READY, viewModel.getStatus());
     }
 
     @Test
-    public void isStatusBadDurationsWhenFieldsAreFill() {
+    public void isStatusBadDurationsWhenFieldsAreFilled() {
         fillInputFieldsWithUnacceptableDurations();
 
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
 
         assertEquals(Status.UNACCEPTABLE_DURATIONS, viewModel.getStatus());
+    }
+
+    @Test
+    public void canReportBadFormat() {
+        viewModel.setPomodoroDuration("r");
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
+        assertEquals(Status.BAD_FORMAT, viewModel.getStatus());
+    }
+
+    @Test
+    public void canCleanStatusIfParseIsOK() {
+        viewModel.setShortBreakDuration("a");
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
+        viewModel.setShortBreakDuration("5");
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
+
+        assertEquals(Status.READY, viewModel.getStatus());
+    }
+
+    @Test
+    public void isSwitchOnOffButtonEnabledInitially() {
+
+        assertEquals(true, viewModel.isSwitchOnOffButtonEnabled());
+    }
+
+    @Test
+    public void isFieldsEnabledInitially() {
+
+        assertEquals(true, viewModel.isTimeSettingsFieldsEnabled());
+    }
+
+    @Test
+    public void isSwitchOnOffButtonDisabledWhenFormatIsBad() {
+        fillInputFieldsWithAcceptDurations();
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
+        assertEquals(true, viewModel.isSwitchOnOffButtonEnabled());
+
+        viewModel.setPomodoroDuration("bad");
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
+
+        assertEquals(false, viewModel.isSwitchOnOffButtonEnabled());
+    }
+
+    @Test
+    public void isSwitchOnOffButtonDisabledWithIncompleteInput() {
+        viewModel.setPomodoroDuration("30");
+        viewModel.setShortBreakDuration("5");
+        viewModel.setLongBreakDuration("");
+
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
+
+        assertEquals(false, viewModel.isSwitchOnOffButtonEnabled());
+    }
+
+
+    @Test
+    public void isSettingsFieldsDisabledWhenStarted() {
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
+        viewModel.switchOnOff();
+        assertEquals(false, viewModel.isTimeSettingsFieldsEnabled());
+    }
+
+    @Test
+    public void isSettingsFieldsEnabledAfterStop() {
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
+        viewModel.switchOnOff();
+        viewModel.switchOnOff();
+        assertEquals(true, viewModel.isTimeSettingsFieldsEnabled());
+    }
+
+    @Test
+    public void isSwitchOnOffButtonEnabledWithCorrectInput() {
+        fillInputFieldsWithAcceptDurations();
+
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
+
+        assertEquals(true, viewModel.isSwitchOnOffButtonEnabled());
+    }
+
+
+    @Test
+    public void isPomodoroStateLabelAfterStart() {
+        fillInputFieldsWithAcceptDurations();
+
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
+        viewModel.switchOnOff();
+
+        assertEquals(PomodoroManagerAppViewModel.StateLabels.POMODORO_LABEL,
+                viewModel.getPomodoroStateLabel());
+    }
+
+    @Test
+    public void isPomodoroOffStateLabelAfterStop() {
+        fillInputFieldsWithAcceptDurations();
+
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ANY);
+        viewModel.switchOnOff();
+        assertEquals(PomodoroManagerAppViewModel.StateLabels.POMODORO_LABEL,
+                viewModel.getPomodoroStateLabel());
+
+        viewModel.switchOnOff();
+        assertEquals(PomodoroManagerAppViewModel.StateLabels.POMODORO_OFF_LABEL,
+                viewModel.getPomodoroStateLabel());
     }
 
     private void fillInputFieldsWithAcceptDurations() {
@@ -68,108 +171,5 @@ public class ViewModelTests {
         viewModel.setPomodoroDuration("a");
         viewModel.setShortBreakDuration("(");
         viewModel.setLongBreakDuration("20");
-    }
-
-    @Test
-    public void canReportBadFormat() {
-        viewModel.setPomodoroDuration("r");
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
-        assertEquals(Status.BAD_FORMAT, viewModel.getStatus());
-    }
-
-    @Test
-    public void canCleanStatusIfParseIsOK() {
-        viewModel.setShortBreakDuration("a");
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
-        viewModel.setShortBreakDuration("5");
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
-
-        assertEquals(Status.READY, viewModel.getStatus());
-    }
-
-    @Test
-    public void isCalculateButtonEnabledInitially() {
-
-        assertEquals(true, viewModel.isSwitchOnOffButtonEnabled());
-    }
-
-    @Test
-    public void isFieldsEnabledInitially() {
-
-        assertEquals(true, viewModel.isTimeSettingsFieldsEnabled());
-    }
-
-    @Test
-    public void isSwitchOnOffButtonDisabledWhenFormatIsBad() {
-        fillInputFieldsWithAcceptDurations();
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
-        assertEquals(true, viewModel.isSwitchOnOffButtonEnabled());
-
-        viewModel.setPomodoroDuration("bad");
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
-
-        assertEquals(false, viewModel.isSwitchOnOffButtonEnabled());
-    }
-
-    @Test
-    public void isSwitchOnOffButtonDisabledWithIncompleteInput() {
-        viewModel.setPomodoroDuration("30");
-        viewModel.setShortBreakDuration("5");
-        viewModel.setLongBreakDuration("");
-
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
-
-        assertEquals(false, viewModel.isSwitchOnOffButtonEnabled());
-    }
-
-
-    @Test
-    public void isSettingsFieldsDisabledWhenStarted() {
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
-        viewModel.switchOnOff();
-        assertEquals(false, viewModel.isTimeSettingsFieldsEnabled());
-    }
-
-    @Test
-    public void isSettingsFieldsEnabledAfterStop() {
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
-        viewModel.switchOnOff();
-        viewModel.switchOnOff();
-        assertEquals(true, viewModel.isTimeSettingsFieldsEnabled());
-    }
-
-    @Test
-    public void isSwitchOnOffButtonEnabledWithCorrectInput() {
-        fillInputFieldsWithAcceptDurations();
-
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
-
-        assertEquals(true, viewModel.isSwitchOnOffButtonEnabled());
-    }
-
-
-    @Test
-    public void isPomodoroStateLabelAfterStart() {
-        fillInputFieldsWithAcceptDurations();
-
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
-        viewModel.switchOnOff();
-
-        assertEquals(PomodoroManagerAppViewModel.StateLabels.POMODORO_LABEL,
-                viewModel.getPomodoroStateLabel());
-    }
-
-    @Test
-    public void isPomodoroOffStateLabelAfterStop() {
-        fillInputFieldsWithAcceptDurations();
-
-        viewModel.processKeyInTextField(KeyboardKeys.ANY);
-        viewModel.switchOnOff();
-        assertEquals(PomodoroManagerAppViewModel.StateLabels.POMODORO_LABEL,
-                viewModel.getPomodoroStateLabel());
-
-        viewModel.switchOnOff();
-        assertEquals(PomodoroManagerAppViewModel.StateLabels.POMODORO_OFF_LABEL,
-                viewModel.getPomodoroStateLabel());
     }
 }
