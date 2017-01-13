@@ -269,8 +269,12 @@ include "code/TemperatureConverter/Infrastructure"
 project(":code/TemperatureConverter/Infrastructure").name = "Temperature-Converter-Infrastructure"
 
 // Соврасов Владислав
-include "code/sovrasov-vlad"
-project(":code/sovrasov-vlad").name = "sovrasov-vlad"
+include "code/PomodoroManager/Model"
+project(":code/PomodoroManager/Model").name = "Pomodoro-Manager-Model"
+include "code/PomodoroManager/View"
+project(":code/PomodoroManager/View").name = "Pomodoro-Manager-View"
+include "code/PomodoroManager/ViewModel"
+project(":code/PomodoroManager/ViewModel").name = "Pomodoro-Manager-ViewModel"
 
 // Соловьев Дмитрий
 include "code/FractionWithLogger/Model"

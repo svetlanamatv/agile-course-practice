@@ -1,0 +1,9 @@
+apply from:   rootDir.getAbsolutePath() + '/code/config/scripts/javafx.plugin'
+
+javafx {
+    mainClass 'ru.unn.agile.PomodoroManager.viewmodel.PomodoroManagerAppViewModel'
+}
+
+dependencies {
+    compile project(':Pomodoro-Manager-Model')
+}
