@@ -2,6 +2,7 @@ apply from:   rootDir.getAbsolutePath() + '/code/config/scripts/javafx.plugin'
 
 dependencies {
     compile project(':Huffman-ViewModel')
+    compile project(':Huffman-Infrastructure')
 }
 
 sourceSets {

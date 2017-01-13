@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':Huffman-ViewModel')
+    testCompile project(':Huffman-ViewModel').sourceSets.test.output
+}
