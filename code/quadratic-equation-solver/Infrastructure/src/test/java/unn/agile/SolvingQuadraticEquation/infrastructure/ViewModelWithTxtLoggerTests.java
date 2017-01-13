@@ -9,7 +9,7 @@ public class ViewModelWithTxtLoggerTests extends ViewModelTests {
     public void setUp() {
         FileQuadraticEquationSolverLogger logger =
                 new FileQuadraticEquationSolverLogger(
-                        "./ViewModel_with_FileLogger_Tests-quadraticEquationSolver.makeLog");
+                        "./ViewModel_with_FileLogger_Tests-quadraticEquationSolver.log");
         super.setExteriorlViewModel(new ViewModel(logger));
     }
 }
