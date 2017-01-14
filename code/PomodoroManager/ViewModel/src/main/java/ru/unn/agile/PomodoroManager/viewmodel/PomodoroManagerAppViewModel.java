@@ -2,6 +2,8 @@ package ru.unn.agile.PomodoroManager.viewmodel;
 
 import ru.unn.agile.PomodoroManager.model.*;
 
+import java.util.List;
+
 public class PomodoroManagerAppViewModel {
 
     private String pomodoroDuration;
@@ -12,11 +14,16 @@ public class PomodoroManagerAppViewModel {
     private boolean isSwitchOnOffButtonEnabled;
     private final PomodoroManager pomodoroManager;
     private String status;
-
+    private final ILogger logger;
     public static final int KEYBOARD_KEY_ENTER = 10;
     public static final int KEYBOARD_KEY_ANY = 7777;
+    private boolean isInputChanged;
 
-    public PomodoroManagerAppViewModel() {
+    public PomodoroManagerAppViewModel(final ILogger logger) {
+        if (logger == null) {
+            throw new IllegalArgumentException("Logger parameter can't be null");
+        }
+        this.logger = logger;
         isTimeSettingsFieldsEnabled = true;
         isSwitchOnOffButtonEnabled = true;
         pomodoroManager = new PomodoroManager();
@@ -25,6 +32,11 @@ public class PomodoroManagerAppViewModel {
         longBreakDuration = String.valueOf(PomodoroManager.LONG_BREAK_DEFAULT_DURATION);
         pomodoroState = PomodoroState.Off;
         status = Status.READY;
+        isInputChanged = true;
+    }
+
+    public boolean isInputChanged() {
+        return isInputChanged;
     }
 
     public void processKeyInTextField(final int keyCode) {
@@ -36,10 +48,44 @@ public class PomodoroManagerAppViewModel {
     }
 
     private void enterPressed() {
-
+        logInputParams();
         if (isSwitchOnOffButtonEnabled()) {
             switchOnOff();
         }
+    }
+
+    private void logInputParams() {
+        if (!isInputChanged) {
+            return;
+        }
+        logger.log(editingFinishedLogMessage());
+        isInputChanged = false;
+    }
+
+    public void focusLost() {
+        logInputParams();
+    }
+
+    private String editingFinishedLogMessage() {
+        String message = LogMessages.EDITING_FINISHED
+                + "Input durations are: ["
+                + pomodoroDuration + "; "
+                + shortBreakDuration + "; "
+                + longBreakDuration + "]";
+        return message;
+    }
+
+    private String pomodoroStartLogMessage() {
+        String message = LogMessages.SWITCH_BTN_WAS_PRESSED + "Pomodoro start. Durations"
+                + ": pomodoro = " + pomodoroDuration
+                + "; short break = " + shortBreakDuration
+                + "; long break = " + longBreakDuration + ".";
+
+        return message;
+    }
+
+    private String pomodoroOffLogMessage() {
+        return LogMessages.SWITCH_BTN_WAS_PRESSED + "Pomodoro OFF.";
     }
 
     private boolean parseInput() {
@@ -79,12 +125,14 @@ public class PomodoroManagerAppViewModel {
 
     public void switchOnOff() {
         if (pomodoroManager.getState() == PomodoroState.Off) {
+            logger.log(pomodoroStartLogMessage());
             if (!parseInput()) {
                 return;
             }
             pomodoroManager.startCycle();
             isTimeSettingsFieldsEnabled = false;
         } else {
+            logger.log(pomodoroOffLogMessage());
             isTimeSettingsFieldsEnabled = true;
             pomodoroManager.resetState();
         }
@@ -100,6 +148,7 @@ public class PomodoroManagerAppViewModel {
                 "Bad format of durations. Please, enter a integer values";
         public static final String UNACCEPTABLE_DURATIONS =
                 "Such duration unacceptable in Pomodoro";
+
         private Status() {
 
         }
@@ -110,8 +159,17 @@ public class PomodoroManagerAppViewModel {
         public static final String POMODORO_LABEL = "Pomodoro, work!";
         public static final String POMODORO_SHORT_BREAK_LABEL = "Short break!";
         public static final String POMODORO_LONG_BREAK_LABEL = "Long break!";
+
         private StateLabels() {
 
+        }
+    }
+
+    public final class LogMessages {
+        public static final String SWITCH_BTN_WAS_PRESSED = "Pomodoro switch on/off. ";
+        public static final String EDITING_FINISHED = "Updated input. ";
+
+        private LogMessages() {
         }
     }
 
@@ -124,6 +182,7 @@ public class PomodoroManagerAppViewModel {
             return;
         }
         pomodoroDuration = input;
+        isInputChanged = true;
     }
 
     public String getShortBreakDuration() {
@@ -135,6 +194,7 @@ public class PomodoroManagerAppViewModel {
             return;
         }
         shortBreakDuration = input;
+        isInputChanged = true;
     }
 
     public String getLongBreakDuration() {
@@ -146,6 +206,7 @@ public class PomodoroManagerAppViewModel {
             return;
         }
         longBreakDuration = input;
+        isInputChanged = true;
     }
 
     public String getStatus() {
@@ -183,5 +244,9 @@ public class PomodoroManagerAppViewModel {
 
     public int getMinutesToNextState() {
         return pomodoroManager.getMinutesToNextState();
+    }
+
+    public List<String> getLog() {
+        return logger.getLog();
     }
 }

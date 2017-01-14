@@ -7,14 +7,23 @@ import ru.unn.agile.PomodoroManager.model.PomodoroManager;
 import ru.unn.agile.PomodoroManager.model.PomodoroState;
 import ru.unn.agile.PomodoroManager.viewmodel.PomodoroManagerAppViewModel.Status;
 
+import static ru.unn.agile.PomodoroManager.viewmodel.RgxMatcher.matchesPattern;
+
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class ViewModelTests {
     private PomodoroManagerAppViewModel viewModel;
 
+    public void setViewModel(final PomodoroManagerAppViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
     @Before
     public void setUp() {
-        viewModel = new PomodoroManagerAppViewModel();
+        FakeLogger logger = new FakeLogger();
+        viewModel = new PomodoroManagerAppViewModel(logger);
     }
 
     @After
@@ -32,6 +41,7 @@ public class ViewModelTests {
                 viewModel.getLongBreakDuration());
         assertEquals(Status.READY, viewModel.getStatus());
         assertEquals(PomodoroState.Off, viewModel.getPomodoroState());
+        assertEquals(true, viewModel.isInputChanged());
     }
 
     @Test
@@ -105,7 +115,7 @@ public class ViewModelTests {
     }
 
     @Test
-    public void isFieldsEnabledInitially() {
+    public void isDurationsFieldsEnabledInitially() {
 
         assertEquals(true, viewModel.isTimeSettingsFieldsEnabled());
     }
@@ -224,8 +234,8 @@ public class ViewModelTests {
         viewModel.setLongBreakDuration("20");
     }
 
-    private void skipState(final int times)  {
-        for (int i = 0; i < times; i++)  {
+    private void skipState(final int times) {
+        for (int i = 0; i < times; i++) {
             nextState();
         }
     }
@@ -242,4 +252,158 @@ public class ViewModelTests {
             viewModel.minuteLastEvent();
         }
     }
+
+    @Test
+    public void canCreatePomodoroViewModelWithLogger() {
+        FakeLogger logger = new FakeLogger();
+        PomodoroManagerAppViewModel viewModelLogged =
+                new PomodoroManagerAppViewModel(logger);
+
+        assertNotNull(viewModelLogged);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void viewModelThrowsExceptionWithNullLogger() {
+        new PomodoroManagerAppViewModel(null);
+    }
+
+    @Test
+    public void isSwitchOnOffPuttingSomething() {
+        fillInputFieldsWithAcceptDurations();
+
+        viewModel.switchOnOff();
+
+        List<String> log = viewModel.getLog();
+        assertNotEquals(log.size(), 0);
+    }
+
+    @Test
+    public void isLogEmptyOnStart() {
+        List<String> log = viewModel.getLog();
+
+        assertEquals(log.size(), 0);
+    }
+
+    @Test
+    public void isLogContainsNeedMessage() {
+        fillInputFieldsWithAcceptDurations();
+        viewModel.switchOnOff();
+
+        String message = viewModel.getLog().get(0);
+
+        assertThat(message, matchesPattern(".*"
+                + PomodoroManagerAppViewModel.LogMessages.SWITCH_BTN_WAS_PRESSED + ".*"));
+    }
+
+    @Test
+    public void isProperlyFormattingInfoAboutDurations() {
+        fillInputFieldsWithAcceptDurations();
+        viewModel.switchOnOff();
+
+        String message = viewModel.getLog().get(0);
+
+        assertThat(message, matchesPattern(".*Pomodoro start. Durations"
+                + ": pomodoro = " + viewModel.getPomodoroDuration()
+                + "; short break = " + viewModel.getShortBreakDuration()
+                + "; long break = " + viewModel.getLongBreakDuration() + ".*"
+        ));
+    }
+
+    @Test
+    public void isLogContainsInputDurations() {
+        fillInputFieldsWithAcceptDurations();
+        viewModel.switchOnOff();
+
+        String message = viewModel.getLog().get(0);
+        assertThat(message, matchesPattern(".*" + viewModel.getPomodoroDuration()
+                + ".*" + viewModel.getShortBreakDuration()
+                + ".*" + viewModel.getLongBreakDuration() + ".*"
+        ));
+    }
+
+    @Test
+    public void canPutThreeLogMessages() {
+        fillInputFieldsWithAcceptDurations();
+
+        viewModel.switchOnOff();
+        viewModel.switchOnOff();
+        viewModel.switchOnOff();
+
+        assertEquals(3, viewModel.getLog().size());
+    }
+
+    @Test
+    public void isLogInputsCalledOnEnterKey() {
+        fillInputFieldsWithAcceptDurations();
+
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ENTER);
+
+        String message = viewModel.getLog().get(0);
+        assertThat(message, matchesPattern(".*"
+                + PomodoroManagerAppViewModel.LogMessages.EDITING_FINISHED + ".*"));
+    }
+
+    @Test
+    public void areDurationsCorrectlyLoggedOnEditingFinish() {
+        fillInputFieldsWithUnacceptableDurations();
+        viewModel.focusLost();
+        String message = viewModel.getLog().get(0);
+        assertThat(message, matchesPattern(".*"
+                + PomodoroManagerAppViewModel.LogMessages.EDITING_FINISHED
+                + "Input durations are: \\["
+                + viewModel.getPomodoroDuration() + "; "
+                + viewModel.getShortBreakDuration() + "; "
+                + viewModel.getLongBreakDuration() + "\\]"));
+    }
+
+    @Test
+    public void isEditingFinishLogExist() {
+        fillInputFieldsWithAcceptDurations();
+
+        viewModel.focusLost();
+
+        String message = viewModel.getLog().get(0);
+        assertThat(message, matchesPattern(".*"
+                + PomodoroManagerAppViewModel.LogMessages.EDITING_FINISHED + ".*"));
+    }
+
+    @Test
+    public void doNotLogSameDurationsTwice() {
+        fillInputFieldsWithAcceptDurations();
+        fillInputFieldsWithAcceptDurations();
+
+        viewModel.focusLost();
+        viewModel.focusLost();
+
+        String message = viewModel.getLog().get(0);
+        assertThat(message, matchesPattern(".*"
+                + PomodoroManagerAppViewModel.LogMessages.EDITING_FINISHED + ".*"));
+        assertEquals(viewModel.getLog().size(), 1);
+    }
+
+    @Test
+    public void isSwitchOnOffNotCalledWhenButtonIsDisabled() {
+        fillInputFieldsWithBadFormat();
+        viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ENTER);
+
+        String message = viewModel.getLog().get(0);
+
+        assertThat(message, matchesPattern(".*"
+                + PomodoroManagerAppViewModel.LogMessages.EDITING_FINISHED + ".*"));
+        assertEquals(1, viewModel.getLog().size());
+    }
+
+    @Test
+    public void doNotLogSameDurationsTwiceWithPartialInput() {
+        viewModel.setPomodoroDuration("30");
+        viewModel.setPomodoroDuration("25");
+        viewModel.setPomodoroDuration("70");
+
+        viewModel.focusLost();
+        viewModel.focusLost();
+        viewModel.focusLost();
+
+        assertEquals(viewModel.getLog().size(), 1);
+    }
+
 }

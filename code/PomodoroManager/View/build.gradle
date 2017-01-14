@@ -1,5 +1,6 @@
 dependencies {
     compile project(':Pomodoro-Manager-ViewModel')
+	compile project(':Pomodoro-Manager-Infrastructure')
 }
 
 sourceSets {

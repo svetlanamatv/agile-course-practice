@@ -1,13 +1,13 @@
 package ru.unn.agile.PomodoroManager.view;
 
 import ru.unn.agile.PomodoroManager.viewmodel.PomodoroManagerAppViewModel;
+import ru.unn.agile.PomodoroManager.infrastructure.TextLogger;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
+import java.util.*;
 
 public final class PomodoroManagerApp {
 
@@ -19,12 +19,15 @@ public final class PomodoroManagerApp {
     private JTextField pomodoroDurationTextField;
     private JTextField longBreakDurationTextField;
     private JLabel settingsStatusLabel;
+    private JList<String> listLog;
     private Timer timer;
     private static final int MILLISEC_IN_MINUTE = 60000;
     private static final int FRAME_MINIMUM_WIDTH = 420;
-    private static final int FRAME_MINIMUM_HEIGHT = 250;
+    private static final int FRAME_MINIMUM_HEIGHT = 450;
+
     private PomodoroManagerApp() {
     }
+
     private PomodoroManagerApp(final PomodoroManagerAppViewModel viewModel) {
         this.viewModel = viewModel;
 
@@ -61,6 +64,17 @@ public final class PomodoroManagerApp {
         shortBreakDurationTextField.setText(viewModel.getShortBreakDuration());
         longBreakDurationTextField.setText(viewModel.getLongBreakDuration());
 
+        FocusAdapter focusLostListener = new FocusAdapter() {
+            public void focusLost(final FocusEvent e) {
+                bind();
+                PomodoroManagerApp.this.viewModel.focusLost();
+                backBind();
+            }
+        };
+        pomodoroDurationTextField.addFocusListener(focusLostListener);
+        shortBreakDurationTextField.addFocusListener(focusLostListener);
+        longBreakDurationTextField.addFocusListener(focusLostListener);
+
         timer = new Timer(MILLISEC_IN_MINUTE, timerListener);
         timer.setInitialDelay(0);
         timer.setRepeats(true);
@@ -68,11 +82,11 @@ public final class PomodoroManagerApp {
     }
 
 
-
     public static void main(final String[] args) {
         JFrame frame = new JFrame("Pomodoro manager");
+        TextLogger logger = new TextLogger("./Pomodoro.log");
 
-        PomodoroManagerAppViewModel viewModel = new PomodoroManagerAppViewModel();
+        PomodoroManagerAppViewModel viewModel = new PomodoroManagerAppViewModel(logger);
         PomodoroManagerApp pomodoroManApp = new PomodoroManagerApp(viewModel);
         frame.setContentPane(pomodoroManApp.mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -95,5 +109,9 @@ public final class PomodoroManagerApp {
 
         stateLabel.setText(viewModel.getPomodoroStateLabel());
         settingsStatusLabel.setText(viewModel.getStatus());
+
+        java.util.List<String> log = viewModel.getLog();
+        String[] items = log.toArray(new String[log.size()]);
+        listLog.setListData(items);
     }
 }
