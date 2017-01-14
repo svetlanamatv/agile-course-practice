@@ -40,6 +40,12 @@ public class TextLoggerTests {
     }
 
     @Test
+    public void catchExceptionWhenCreateTextLoggerWithEmptyFilename() {
+        textLogger = new TextLogger("");
+        assertNotNull(textLogger);
+    }
+
+    @Test
     public void canConstructLoggerWithFileName() {
         assertNotNull(textLogger);
     }
