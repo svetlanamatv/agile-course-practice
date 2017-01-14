@@ -5,7 +5,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import ru.unn.agile.Huffman.infrastructure.FileTextLogger;
 import ru.unn.agile.Huffman.viewmodel.HuffmanViewModel;
 
 public class Huffman {
@@ -23,9 +25,13 @@ public class Huffman {
     private Button btnDecode;
     @FXML
     private Button btnEncode;
+    @FXML
+    private TextArea logs;
 
     @FXML
     void initialize() {
+        viewModel.setLogCreator(new FileTextLogger("./huffman.log"));
+        logs.textProperty().bindBidirectional(viewModel.getLogsProperty());
         textString.textProperty().bindBidirectional(viewModel.enterStringProperty());
         textEncodeResult.textProperty().bindBidirectional(viewModel.encodeResultProperty());
         textDecodeResult.textProperty().bindBidirectional(viewModel.decodeResultProperty());
@@ -44,6 +50,5 @@ public class Huffman {
                 viewModel.encodeString();
             }
         });
-
     }
 }
