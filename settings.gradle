@@ -57,9 +57,6 @@ project(":code/BinaryTree/Infrastructure").name = "BinaryTree-Infrastructure"
 
 // Бабинцева Анна
 // Быкадоров Роман
-// Веселов Илья
-include "code/veselov-ilya"
-project(":code/veselov-ilya").name = "veselov-ilya-Model"
 
 // Волков Денис
 include "code/quadratic-equation-solver/View"
@@ -71,9 +68,18 @@ project(":code/quadratic-equation-solver/Model").name = "quadratic-equation-solv
 include "code/quadratic-equation-solver/Infrastructure"
 project(":code/quadratic-equation-solver/Infrastructure").name = "quadratic-equation-solver-Infrastructure"
 
+// Веселов Илья
 // Воронин Дмитрий
-include "code/voronin-dmitry"
-project(":code/voronin-dmitry").name = "voronin-dmitry-Model1"
+include "code/Huffman/Model"
+project(":code/Huffman/Model").name = "Huffman-Model"
+include "code/Huffman/ViewModel"
+project(":code/Huffman/ViewModel").name = "Huffman-ViewModel"
+include "code/Huffman/View"
+project(":code/Huffman/View").name = "Huffman-View"
+
+
+
+
 // Грошева Людмила
 include "code/Statistics/Model"
 project(":code/Statistics/Model").name = "Statistics-Model"
