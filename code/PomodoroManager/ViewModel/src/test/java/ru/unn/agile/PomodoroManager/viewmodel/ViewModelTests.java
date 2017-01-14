@@ -7,8 +7,6 @@ import ru.unn.agile.PomodoroManager.model.PomodoroManager;
 import ru.unn.agile.PomodoroManager.model.PomodoroState;
 import ru.unn.agile.PomodoroManager.viewmodel.PomodoroManagerAppViewModel.Status;
 
-import static ru.unn.agile.PomodoroManager.viewmodel.RgxMatcher.matchesPattern;
-
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -289,9 +287,9 @@ public class ViewModelTests {
         fillInputFieldsWithAcceptDurations();
         viewModel.switchOnOff();
 
-        String message = viewModel.getLog().get(0);
+        String message = viewModel.getLastLogMsg();
 
-        assertThat(message, matchesPattern(".*"
+        assertTrue(message.matches(".*"
                 + PomodoroManagerAppViewModel.LogMessages.SWITCH_BTN_WAS_PRESSED + ".*"));
     }
 
@@ -300,9 +298,9 @@ public class ViewModelTests {
         fillInputFieldsWithAcceptDurations();
         viewModel.switchOnOff();
 
-        String message = viewModel.getLog().get(0);
+        String message = viewModel.getLastLogMsg();
 
-        assertThat(message, matchesPattern(".*Pomodoro start. Durations"
+        assertTrue(message.matches(".*Pomodoro start. Durations"
                 + ": pomodoro = " + viewModel.getPomodoroDuration()
                 + "; short break = " + viewModel.getShortBreakDuration()
                 + "; long break = " + viewModel.getLongBreakDuration() + ".*"
@@ -314,8 +312,8 @@ public class ViewModelTests {
         fillInputFieldsWithAcceptDurations();
         viewModel.switchOnOff();
 
-        String message = viewModel.getLog().get(0);
-        assertThat(message, matchesPattern(".*" + viewModel.getPomodoroDuration()
+        String message = viewModel.getLastLogMsg();
+        assertTrue(message.matches(".*" + viewModel.getPomodoroDuration()
                 + ".*" + viewModel.getShortBreakDuration()
                 + ".*" + viewModel.getLongBreakDuration() + ".*"
         ));
@@ -338,8 +336,8 @@ public class ViewModelTests {
 
         viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ENTER);
 
-        String message = viewModel.getLog().get(0);
-        assertThat(message, matchesPattern(".*"
+        String message = viewModel.getLastLogMsg();
+        assertTrue(message.matches(".*"
                 + PomodoroManagerAppViewModel.LogMessages.EDITING_FINISHED + ".*"));
     }
 
@@ -347,8 +345,8 @@ public class ViewModelTests {
     public void areDurationsCorrectlyLoggedOnEditingFinish() {
         fillInputFieldsWithUnacceptableDurations();
         viewModel.focusLost();
-        String message = viewModel.getLog().get(0);
-        assertThat(message, matchesPattern(".*"
+        String message = viewModel.getLastLogMsg();
+        assertTrue(message.matches(".*"
                 + PomodoroManagerAppViewModel.LogMessages.EDITING_FINISHED
                 + "Input durations are: \\["
                 + viewModel.getPomodoroDuration() + "; "
@@ -362,8 +360,8 @@ public class ViewModelTests {
 
         viewModel.focusLost();
 
-        String message = viewModel.getLog().get(0);
-        assertThat(message, matchesPattern(".*"
+        String message = viewModel.getLastLogMsg();
+        assertTrue(message.matches(".*"
                 + PomodoroManagerAppViewModel.LogMessages.EDITING_FINISHED + ".*"));
     }
 
@@ -375,8 +373,8 @@ public class ViewModelTests {
         viewModel.focusLost();
         viewModel.focusLost();
 
-        String message = viewModel.getLog().get(0);
-        assertThat(message, matchesPattern(".*"
+        String message = viewModel.getLastLogMsg();
+        assertTrue(message.matches(".*"
                 + PomodoroManagerAppViewModel.LogMessages.EDITING_FINISHED + ".*"));
         assertEquals(viewModel.getLog().size(), 1);
     }
@@ -386,9 +384,9 @@ public class ViewModelTests {
         fillInputFieldsWithBadFormat();
         viewModel.processKeyInTextField(viewModel.KEYBOARD_KEY_ENTER);
 
-        String message = viewModel.getLog().get(0);
+        String message = viewModel.getLastLogMsg();
 
-        assertThat(message, matchesPattern(".*"
+        assertTrue(message.matches(".*"
                 + PomodoroManagerAppViewModel.LogMessages.EDITING_FINISHED + ".*"));
         assertEquals(1, viewModel.getLog().size());
     }

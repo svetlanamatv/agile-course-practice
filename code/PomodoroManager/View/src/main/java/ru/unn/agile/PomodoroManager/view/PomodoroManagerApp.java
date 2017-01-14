@@ -7,7 +7,8 @@ import javax.swing.*;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 public final class PomodoroManagerApp {
 
@@ -110,7 +111,8 @@ public final class PomodoroManagerApp {
         stateLabel.setText(viewModel.getPomodoroStateLabel());
         settingsStatusLabel.setText(viewModel.getStatus());
 
-        java.util.List<String> log = viewModel.getLog();
+        List<String> log = viewModel.getLog();
+        Collections.reverse(log);
         String[] items = log.toArray(new String[log.size()]);
         listLog.setListData(items);
     }

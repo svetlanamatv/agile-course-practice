@@ -247,4 +247,8 @@ public class PomodoroManagerAppViewModel {
     public List<String> getLog() {
         return logger.getLog();
     }
+
+    public String getLastLogMsg() {
+        return logger.getLog().get(0);
+    }
 }

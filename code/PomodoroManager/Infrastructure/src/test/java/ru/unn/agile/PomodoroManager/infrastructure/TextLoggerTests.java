@@ -8,10 +8,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static ru.unn.agile.PomodoroManager.viewmodel.RgxMatcher.matchesPattern;
 
 public class TextLoggerTests {
     private static final String FILENAME = "./PomodorotextLoggerTests.log";
@@ -27,7 +26,7 @@ public class TextLoggerTests {
         String testMessage = "Message";
         textLogger.log(testMessage);
         String message = textLogger.getLog().get(0);
-        assertThat(message, matchesPattern(".*" + testMessage + "$"));
+        assertTrue(message.matches(".*" + testMessage + "$"));
     }
 
     @Test
@@ -62,7 +61,7 @@ public class TextLoggerTests {
 
         List<String> actualMessages = textLogger.getLog();
         for (int i = 0; i < actualMessages.size(); i++) {
-            assertThat(actualMessages.get(i), matchesPattern(".*" + messages[i] + "$"));
+            assertTrue(actualMessages.get(i).matches(".*" + messages[i] + "$"));
         }
     }
 
@@ -73,6 +72,6 @@ public class TextLoggerTests {
         textLogger.log(testMessage);
 
         String message = textLogger.getLog().get(0);
-        assertThat(message, matchesPattern("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} > .*"));
+        assertTrue(message.matches("^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2} > .*"));
     }
 }
