@@ -21,21 +21,16 @@ public class Functions {
             default:throw new IllegalArgumentException("Incorrect function number");
         }
     }
-    // Функция 1/(1+x^2)
-    private double F1(double x)
-    {
+
+    private double F1(double x) {
         return 1 / (1 + x * x);
     }
 
-    // Функция 1/(1+x^2) + cos(10x)
-    private double F2(double x)
-    {
-        return 1 / (1 + x * x) + Math.cos(10*x);
+    private double F2(double x) {
+        return 1 / (1 + x * x) + Math.cos(10 * x);
     }
 
-    // Функция 1/(1+x^2) + cos(100x)
-    private double F3(double x)
-    {
+    private double F3(double x) {
         return 1 / (1 + x * x) + Math.cos(100 * x);
     }
 }
