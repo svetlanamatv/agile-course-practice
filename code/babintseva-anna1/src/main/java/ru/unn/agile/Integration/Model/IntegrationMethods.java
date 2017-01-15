@@ -1,9 +1,9 @@
 package ru.unn.agile.Integration.Model;
 
 public class IntegrationMethods {
-    public int N;
-    public double A;
-    public double B;
+    private int N;
+    private double A;
+    private double B;
 
     public IntegrationMethods(int n, double a, double b) {
         N = n;
@@ -15,7 +15,7 @@ public class IntegrationMethods {
         Functions func = new Functions(functionType);
         double res = 0, h = (B - A) / N;
 
-        for (double i = 0; i < N; i++) {
+        for (int i = 0; i < N; i++) {
             res += (func.getResult((2 * A + 2 * i * h + h) / 2));
         }
         res *= h;
@@ -26,7 +26,7 @@ public class IntegrationMethods {
         Functions func = new Functions(functionType);
         double res = 0, h = (B - A) / N;
 
-        for (double i = 1; i < N; i++) {
+        for (int i = 1; i < N; i++) {
             res += func.getResult(i * h);
         }
         res += (func.getResult(A) + func.getResult(B)) / 2;
@@ -41,10 +41,10 @@ public class IntegrationMethods {
         double res = 0;
         int n = N / 2;
 
-        for (double i = 1; i < 2 * n; i += 2) {
+        for (int i = 1; i < 2 * n; i += 2) {
             res += 4 * func.getResult(A + ((B - A) * i / (2 * n)));
         }
-        for (double i = 2; i < 2 * n - 1; i += 2) {
+        for (int i = 2; i < 2 * n - 1; i += 2) {
             res += 2 * func.getResult(A + ((B - A) * i / (2 * n)));
         }
 

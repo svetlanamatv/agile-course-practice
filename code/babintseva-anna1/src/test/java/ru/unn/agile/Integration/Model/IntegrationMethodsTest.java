@@ -6,19 +6,10 @@ import static org.junit.Assert.*;
 
 public class IntegrationMethodsTest {
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void isIncorrectFunctionNumber() {
-
-        try
-        {
-            IntegrationMethods integration = new IntegrationMethods(100,0,1);
-            integration.Rectangle(0);
-        }
-        catch(Exception e)
-        {
-            final String msg = "Incorrect function number";
-            assertEquals(msg, e.getMessage());
-        }
+        IntegrationMethods integration = new IntegrationMethods(100, 0, 1);
+        integration.Rectangle(0);
     }
 
     @Test
@@ -27,7 +18,7 @@ public class IntegrationMethodsTest {
 
         double solve1 = integration.Rectangle(1);
         double solve2 = integration.Rectangle(1);
-        double delta = 0.0000001;
+        double delta = 0;
 
         assertEquals(solve1, solve2, delta);
     }
