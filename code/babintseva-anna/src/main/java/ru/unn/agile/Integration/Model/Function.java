@@ -22,9 +22,7 @@ public class Function {
             case 3:{
                 return F3(x);
             }
-            default:{
-                return 0;
-            }
+            default:throw new IllegalArgumentException("Incorrect function number");
         }
     }
     // Функция 1/(1+x^2)

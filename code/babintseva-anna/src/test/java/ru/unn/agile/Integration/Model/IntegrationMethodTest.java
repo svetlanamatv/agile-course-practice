@@ -7,6 +7,21 @@ import static org.junit.Assert.*;
 public class IntegrationMethodTest {
 
     @Test
+    public void isIncorrectFunctionNumber() {
+
+        try
+        {
+            IntegrationMethod integration = new IntegrationMethod(100,0,1);
+            integration.Rectangle(0);
+        }
+        catch(Exception e)
+        {
+            final String msg = "Incorrect function number";
+            assertEquals(msg, e.getMessage());
+        }
+    }
+
+    @Test
     public void isSolutionsEqualFunctionsEqual() {
         IntegrationMethod integration = new IntegrationMethod(100,0,1);
 
