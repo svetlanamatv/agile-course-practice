@@ -1,13 +1,9 @@
 package ru.unn.agile.Integration.Model;
 
-/**
- * Created by Annet on 09.01.2017.
- */
-public class Function {
-    
+public class Functions {
     private int number;
 
-    public Function(int number) {
+    public Functions(int number) {
         this.number = number;
     }
     
