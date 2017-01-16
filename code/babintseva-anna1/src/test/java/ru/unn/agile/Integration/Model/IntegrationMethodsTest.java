@@ -18,7 +18,7 @@ public class IntegrationMethodsTest {
 
         double solve1 = integration.Rectangle(1);
         double solve2 = integration.Rectangle(1);
-        double delta = 0.000001;
+        double delta = 0.00001;
 
         assertEquals(solve1, solve2, delta);
     }
