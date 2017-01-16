@@ -13,12 +13,12 @@ public class IntegrationMethodsTest {
     }
 
     @Test
-    public void isSolutionsEqualFunctionsEqual() {
+    public void isSolutionsEqualMethodsFunctionsEqual() {
         IntegrationMethods integration = new IntegrationMethods(100,0,1);
 
         double solve1 = integration.Rectangle(1);
         double solve2 = integration.Rectangle(1);
-        double delta = 0;
+        double delta = 0.000001;
 
         assertEquals(solve1, solve2, delta);
     }
@@ -46,7 +46,7 @@ public class IntegrationMethodsTest {
     }
 
     @Test
-    public void isAppropriateIntegrationErrorRectangleMethodFunction1() {
+    public void exactAndNumericalAreEqualWhenRectangleMethodFunction1() {
         IntegrationMethods integration = new IntegrationMethods(100,0,1);
         double exactSolution = Math.PI / 4;
         double delta = 0.00001;
@@ -54,7 +54,7 @@ public class IntegrationMethodsTest {
     }
 
     @Test
-    public void isAppropriateIntegrationErrorRectangleMethodFunction2() {
+    public void exactAndNumericalAreEqualWhenRectangleMethodFunction2() {
         IntegrationMethods integration = new IntegrationMethods(100,0,1);
         double exactSolution = Math.PI / 4 + Math.sin(10)/10;
         double delta = 0.0001;
@@ -62,7 +62,7 @@ public class IntegrationMethodsTest {
     }
 
     @Test
-    public void isAppropriateIntegrationErrorRectangleMethodFunction3() {
+    public void exactAndNumericalAreEqualWhenRectangleMethodFunction3() {
         IntegrationMethods integration = new IntegrationMethods(100,0,1);
         double exactSolution = Math.PI / 4 + Math.sin(100)/100;
         double delta = 0.001;
@@ -70,7 +70,7 @@ public class IntegrationMethodsTest {
     }
 
     @Test
-    public void isAppropriateIntegrationErrorTrapezoidMethodFunction1() {
+    public void exactAndNumericalAreEqualWhenTrapezoidMethodFunction1() {
         IntegrationMethods integration = new IntegrationMethods(100,0,1);
         double exactSolution = Math.PI / 4;
         double delta = 0.00001;
@@ -78,7 +78,7 @@ public class IntegrationMethodsTest {
     }
 
     @Test
-    public void isAppropriateIntegrationErrorTrapezoidMethodFunction2() {
+    public void exactAndNumericalAreEqualWhenTrapezoidMethodFunction2() {
         IntegrationMethods integration = new IntegrationMethods(100,0,1);
         double exactSolution = Math.PI / 4 + Math.sin(10)/10;
         double delta = 0.0001;
@@ -86,7 +86,7 @@ public class IntegrationMethodsTest {
     }
 
     @Test
-    public void isAppropriateIntegrationErrorTrapezoidMethodFunction3() {
+    public void exactAndNumericalAreEqualWhenTrapezoidMethodFunction3() {
         IntegrationMethods integration = new IntegrationMethods(100,0,1);
         double exactSolution = Math.PI / 4 + Math.sin(100)/100;
         double delta = 0.001;
@@ -94,7 +94,7 @@ public class IntegrationMethodsTest {
     }
 
     @Test
-    public void isAppropriateIntegrationErrorSimpsonMethodFunction1() {
+    public void exactAndNumericalAreEqualWhenSimpsonMethodFunction1() {
         IntegrationMethods integration = new IntegrationMethods(100,0,1);
         double exactSolution = Math.PI / 4;
         double delta = 0.000001;
@@ -102,7 +102,7 @@ public class IntegrationMethodsTest {
     }
 
     @Test
-    public void isAppropriateIntegrationErrorSimpsonMethodFunction2() {
+    public void exactAndNumericalAreEqualWhenSimpsonMethodFunction2() {
         IntegrationMethods integration = new IntegrationMethods(100,0,1);
         double exactSolution = Math.PI / 4 + Math.sin(10)/10;
         double delta = 0.00001;
@@ -110,7 +110,7 @@ public class IntegrationMethodsTest {
     }
 
     @Test
-    public void isAppropriateIntegrationErrorSimpsonMethodFunction3() {
+    public void exactAndNumericalAreEqualWhenSimpsonMethodFunction3() {
         IntegrationMethods integration = new IntegrationMethods(100,0,1);
         double exactSolution = Math.PI / 4 + Math.sin(100)/100;
         double delta = 0.0001;
