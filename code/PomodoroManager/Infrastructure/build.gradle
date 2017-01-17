@@ -1,0 +1,4 @@
+dependencies {
+    compile project(':Pomodoro-Manager-ViewModel')
+    testCompile project(':Pomodoro-Manager-ViewModel').sourceSets.test.output
+}
